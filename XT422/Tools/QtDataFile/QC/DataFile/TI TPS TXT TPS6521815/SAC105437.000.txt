@@ -1,0 +1,107 @@
+"name": "CHIPID",
+"addr": 0x00,
+"value": 0x15,
+
+"name": "INT1",
+"addr": 0x01,
+"value": 0x00,
+
+"name": "INT2",
+"addr": 0x02,
+"value": 0x00,
+
+"name": "INT_MASK1",
+"addr": 0x03,
+"value": 0x00,
+
+"name": "INT_MASK2",
+"addr": 0x04,     
+"value": 0x00,
+
+"name": "STATUS",
+"addr": 0x05,
+"value": 0x08,
+
+"name": "CONTROL",
+"addr": 0x06,
+"value": 0x00,
+
+"name": "FLAG",
+"addr": 0x07,
+"value": 0x00,
+
+"name": "PASSWORD",
+"addr": 0x10,
+"value": 0x00,
+
+"name": "ENABLE1",
+"addr": 0x11,
+"value": 0x00,
+
+"name": "ENABLE2",
+"addr": 0x12,
+"value": 0x00,
+
+"name": "CONFIG1",
+"addr": 0x13,
+"value": 0x48,
+
+"name": "CONFIG2",
+"addr": 0x14,
+"value": 0xC0,
+
+"name": "CONFIG3",
+"addr": 0x15,
+"value": 0x00,
+
+"name": "DCDC1",
+"addr": 0x16,
+"value": 0x99,
+
+"name": "DCDC2",
+"addr": 0x17,
+"value": 0x99,
+
+"name": "DCDC3",
+"addr": 0x18,
+"value": 0x8C,
+
+"name": "DCDC4",
+"addr": 0x19,
+"value": 0xB2,
+
+"name": "SLEW",
+"addr": 0x1A,
+"value": 0x06,
+
+"name": "LDO1",
+"addr": 0x1B,
+"value": 0x1F,
+
+"name": "SEQ1",
+"addr": 0x20,
+"value": 0x00,"
+
+"name": "SEQ2",
+"addr": 0x21,
+"value": 0x00,
+
+"name": "SEQ3",
+"addr": 0x22,
+"value": 0x98,
+
+"name": "SEQ4",
+"addr": 0x23,
+"value": 0x75,
+
+"name": "SEQ5",
+"addr": 0x24,
+"value": 0x12,
+
+"name": "SEQ6",
+"addr": 0x25,
+"value": 0x63,
+
+"name": "SEQ7",
+"addr": 0x26,
+"value": 0x03,

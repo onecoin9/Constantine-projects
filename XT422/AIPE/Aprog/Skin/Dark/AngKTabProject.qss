@@ -1,0 +1,75 @@
+QMessageBox QLabel
+{ 
+	color: rgba(0, 0, 0, 1);
+}
+
+QLabel
+{
+    color: rgba(255, 255, 255, 1);
+    text-align: left;
+    vertical-align: middle;
+    background: transparent;
+    font:14px "HarmonyOS Sans SC";
+    font-weight: 500;
+}
+
+QLineEdit
+{
+    font:14px "HarmonyOS Sans SC";
+    color: rgba(255, 255, 255, 1);
+    font-weight: 500;
+    border-radius: 3px;
+    padding: 0 8px;
+    background: rgba(37, 37, 37, 1);
+    border: 1px solid rgba(70, 70, 70, 1);
+}
+
+QLineEdit:read-only
+{
+    border: 1px solid rgba(70, 70, 70, 1);
+    color: rgba(255, 255, 255, 1);
+    border-radius: 3px;
+    padding: 0 8px;
+    background: rgba(50, 50, 50, 1);
+}
+
+QPushButton#otherBtn1,
+QPushButton#otherBtn2,
+QPushButton#otherBtn3
+{
+    image:url(:/Skin/Dark/PushButton/otherButton.svg);
+}
+
+QPushButton#addPushButton,
+QPushButton#savePushButton
+{
+    font-weight: 500;
+    font:14px "HarmonyOS Sans SC";
+    color: rgba(255, 255, 255, 1);
+    text-align: center;
+    vertical-align: middle;
+    width: 118px;
+    height: 33px;
+    border-radius: 16px;
+    background-color: rgba(70, 70, 70, 1);
+    border: 1px solid rgba(40, 40, 40, 1);
+}
+
+QPushButton#addPushButton:hover,
+QPushButton#savePushButton:hover
+{
+    background-color: rgba(75, 75, 75, 1);
+}
+
+QPushButton#addPushButton:pressed,
+QPushButton#savePushButton:pressed
+{
+    background-color: rgba(80, 80, 80, 1);
+}
+
+QFrame#line
+{
+	 border:none;
+	 background: rgba(40, 40, 40, 1);
+	 max-height : 1px;
+}

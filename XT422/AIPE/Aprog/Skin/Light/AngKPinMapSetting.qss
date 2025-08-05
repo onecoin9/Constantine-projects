@@ -1,0 +1,39 @@
+QWidget#bgWidget
+{
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 1);
+}
+
+QLabel
+{
+    font: 14px "HarmonyOS Sans SC";
+    font-weight: 400;
+    color: rgba(95, 99, 104, 1);
+    text-align: left;
+    vertical-align: middle;
+    background: transparent;
+}
+
+QLabel#Title
+{
+    font:20px "HarmonyOS Sans SC";
+    font-weight: 400;
+}
+
+QLineEdit
+{
+    font:14px "HarmonyOS Sans SC";
+    font-weight: 500;
+    border-radius: 3px;
+    padding: 0 8px;
+    color: rgba(47, 49, 51, 1);
+    background: rgba(235, 235, 235, 1);
+}
+
+QLineEdit:read-only
+{
+    border: 1px solid rgba(95, 99, 104, 1);
+    border-radius: 3px;
+    padding: 0 8px;
+    background: transparent;
+}

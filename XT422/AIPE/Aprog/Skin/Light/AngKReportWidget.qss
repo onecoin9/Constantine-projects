@@ -1,0 +1,12 @@
+QWidget#bgWidget
+{
+    background:#ffffff;
+}
+
+QLabel
+{
+    font:24px "HarmonyOS Sans SC";
+    color: rgba(95, 99, 104, 1);
+    font-weight: 400;
+    background:#ffffff;
+}

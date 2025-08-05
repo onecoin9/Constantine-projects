@@ -1,0 +1,99 @@
+Comment,Format=CSV; Hex=CoderUpper; BreakOutBytes=False; PEC=False; IncludeBlockLength=True; HasAddress=False [DO NOT REMOVE THIS LINE IF YOU WANT TO IMPORT USING A FUSION TOOL]
+Comment,"SMBus Fields are Request,Address,Command,Data"
+Comment,"For reads, the last field is what is expected back from the device"
+Comment,Creator: Texas Instruments Fusion Digital Power Designer v2.0.50
+Comment,"Date: Thursday, December 03, 2015"
+Comment,"Verifying DEVICE_CODE is ID: 0x015 (TPS544C20), Revision: 0x3"
+ReadWord,0xFC,0x5301
+Comment,Write configuration to volatile memory
+Comment,Write VIN_OFF 4.00 V: Minimum allowed value for VIN_OFF
+WriteWord,0x36,0x10F0
+Comment,Write VIN_ON 4.25 V
+WriteWord,0x35,0x11F0
+Comment,Write VIN_OFF 4.00 V
+WriteWord,0x36,0x10F0
+Comment,Write IOUT_OC_WARN_LIMIT 4.0 A: Minimum allowed value for IOUT_OC_WARN_LIMIT
+WriteWord,0x4A,0x08F8
+Comment,Write IOUT_OC_FAULT_LIMIT 27.5 A
+WriteWord,0x46,0x37F8
+Comment,Write IOUT_OC_WARN_LIMIT 21.0 A
+WriteWord,0x4A,0x2AF8
+Comment,Write OT_WARN_LIMIT 100 C: Minimum allowed value for OT_WARN_LIMIT
+WriteWord,0x51,0x6400
+Comment,Write OT_FAULT_LIMIT 150 C
+WriteWord,0x4F,0x9600
+Comment,Write OT_WARN_LIMIT 125 C
+WriteWord,0x51,0x7D00
+Comment,"Write ON_OFF_CONFIG Mode: CONTROL Pin Only; Control: Active High, Use TOFF_DELAY/TOFF_FALL"
+WriteByte,0x02,0x16
+Comment,Write IOUT_CAL_OFFSET 0.0000 A
+WriteWord,0x39,0x00E0
+Comment,Write IOUT_OC_FAULT_RESPONSE Disable Until Fault is Cleared
+WriteByte,0x47,0x07
+Comment,Write MFR_00 (FOR_USER) 0000000000000000b
+WriteWord,0xD0,0x0000
+Comment,Write MFR_04 (VREF_TRIM) 0.000 V
+WriteWord,0xD4,0x0000
+Comment,Write MFR_05 (STEP_VREF_MARGIN_HIGH) 0.059 V
+WriteWord,0xD5,0x1E00
+Comment,Write MFR_06 (STEP_VREF_MARGIN_LOW) -0.059 V
+WriteWord,0xD6,0xE2FF
+Comment,Write MFR_07 (PCT_VOUT_FAULT_PG_LIMIT) PGL: 00b
+WriteByte,0xD7,0x00
+Comment,Write MFR_08 (SEQUENCE_TON_TOFF_DELAY) TON_DEL:000b; TON_DEL:000b
+WriteByte,0xD8,0x00
+Comment,Write MFR_21 (OPTIONS) EN_ADC_CNTL:1
+WriteWord,0xE5,0x0400
+Comment,Write MFR_23 (MASK_SMBALERT) VIN_UV: False; GOOD_Z: False; UVF: False; OVF: False; OCW: False; OCF: False; OTW: False; OTF: False; EN_AUTO_ARA: True; MEM: False; PEC: False; IVD: False; IVC: False; SMB_TO_ERR: False; PRTCL_ERR: False; OTFI: False;
+WriteWord,0xE7,0x0001
+Comment,Write TON_RISE 2.7 ms
+WriteWord,0x61,0x2BE0
+Comment,Write WRITE_PROTECT 0
+WriteByte,0x10,0x00
+Comment,Store configuration to non-volatile memory
+Comment,Execute STORE_USER_ALL
+SendByte,0x15
+Pause,100,Pausing 100.00 ms for STORE_USER_ALL hold time
+Comment,Reset power to the device
+Reset
+Pause,10,Wait 10.00 ms for device I2C interface to become available
+Comment,Validate configuration through read back
+Comment,Read VIN_ON 4.25 V
+ReadWord,0x35,0x11F0
+Comment,Read IOUT_OC_FAULT_LIMIT 27.5 A
+ReadWord,0x46,0x37F8
+Comment,Read IOUT_OC_WARN_LIMIT 21.0 A
+ReadWord,0x4A,0x2AF8
+Comment,Read OT_FAULT_LIMIT 150 C
+ReadWord,0x4F,0x9600
+Comment,Read OT_WARN_LIMIT 125 C
+ReadWord,0x51,0x7D00
+Comment,"Read ON_OFF_CONFIG Mode: CONTROL Pin Only; Control: Active High, Use TOFF_DELAY/TOFF_FALL"
+ReadByte,0x02,0x16
+Comment,Read IOUT_CAL_OFFSET 0.0000 A
+ReadWord,0x39,0x00E0
+Comment,Read IOUT_OC_FAULT_RESPONSE Disable Until Fault is Cleared
+ReadByte,0x47,0x07
+Comment,Read MFR_00 (FOR_USER) 0000000000000000b
+ReadWord,0xD0,0x0000
+Comment,Read MFR_04 (VREF_TRIM) 0.000 V
+ReadWord,0xD4,0x0000
+Comment,Read MFR_05 (STEP_VREF_MARGIN_HIGH) 0.059 V
+ReadWord,0xD5,0x1E00
+Comment,Read MFR_06 (STEP_VREF_MARGIN_LOW) -0.059 V
+ReadWord,0xD6,0xE2FF
+Comment,Read MFR_07 (PCT_VOUT_FAULT_PG_LIMIT) PGL: 00b
+ReadByte,0xD7,0x00
+Comment,Read MFR_08 (SEQUENCE_TON_TOFF_DELAY) TON_DEL:000b; TON_DEL:000b
+ReadByte,0xD8,0x00
+Comment,Read MFR_21 (OPTIONS) EN_ADC_CNTL:1
+ReadWord,0xE5,0x0400
+Comment,Read MFR_23 (MASK_SMBALERT) VIN_UV: False; GOOD_Z: False; UVF: False; OVF: False; OCW: False; OCF: False; OTW: False; OTF: False; EN_AUTO_ARA: True; MEM: False; PEC: False; IVD: False; IVC: False; SMB_TO_ERR: False; PRTCL_ERR: False; OTFI: False;
+ReadWord,0xE7,0x0001
+Comment,Read TON_RISE 2.7 ms
+ReadWord,0x61,0x2BE0
+Comment,Read VIN_OFF 4.00 V
+ReadWord,0x36,0x10F0
+Comment,Read WRITE_PROTECT 0
+ReadByte,0x10,0x00
+Comment,Script end

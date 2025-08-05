@@ -1,0 +1,170 @@
+{
+    "sitesAutoMap": [
+        {
+            "siteAlias": "Site01",
+            "siteIndex": 1
+        },
+        {
+            "siteAlias": "Site02",
+            "siteIndex": 2
+        },
+        {
+            "siteAlias": "Site03",
+            "siteIndex": 3
+        },
+        {
+            "siteAlias": "Site04",
+            "siteIndex": 4
+        },
+        {
+            "siteAlias": "Site05",
+            "siteIndex": 5
+        },
+        {
+            "siteAlias": "Site06",
+            "siteIndex": 6
+        },
+        {
+            "siteAlias": "Site07",
+            "siteIndex": 7
+        },
+        {
+            "siteAlias": "Site08",
+            "siteIndex": 8
+        },
+        {
+            "siteAlias": "Site09",
+            "siteIndex": 9
+        }
+    ],
+    "sites": [
+        {
+            "siteIndex": 1,
+            "siteAlias": "Site01",
+            "siteSN": "SN001",
+            "autoAlias": "Auto01",
+            "socketCount": 16,
+            "socketEnable": "0x000F",
+            "siteEnvInit": true,
+            "socketReady": "0x00",
+            "chipReady": false,
+            "chipEnable": "0x00",
+            "description": "主站点1 - 8 Socket"
+        },
+        {
+            "siteIndex": 2,
+            "siteAlias": "Site02",
+            "siteSN": "SN002",
+            "autoAlias": "Auto02",
+            "socketCount": 16,
+            "socketEnable": "0x000F",
+            "siteEnvInit": true,
+            "socketReady": "0x00",
+            "chipReady": false,
+            "chipEnable": "0x00",
+            "description": "主站点2 - 8 Socket"
+        },
+        {
+            "siteIndex": 3,
+            "siteAlias": "Site03",
+            "siteSN": "SN003",
+            "autoAlias": "Auto03",
+            "socketCount": 16,
+            "socketEnable": "0x000F",
+            "siteEnvInit": true,
+            "socketReady": "0x00",
+            "chipReady": false,
+            "chipEnable": "0x00",
+            "description": "主站点3 - 16 Socket"
+        },
+        {
+            "siteIndex": 4,
+            "siteAlias": "Site04",
+            "siteSN": "SN004",
+            "autoAlias": "Auto04",
+            "socketCount": 16,
+            "socketEnable": "0x000F",
+            "siteEnvInit": true,
+            "socketReady": "0x00",
+            "chipReady": false,
+            "chipEnable": "0x00",
+            "description": "主站点4 - 16 Socket"
+        },
+        {
+            "siteIndex": 5,
+            "siteAlias": "Site05",
+            "siteSN": "SN005",
+            "autoAlias": "Auto05",
+            "socketCount": 16,
+            "socketEnable": "0x000F",
+            "siteEnvInit": true,
+            "socketReady": "0x00",
+            "chipReady": false,
+            "chipEnable": "0x00",
+            "description": "主站点5 - 16 Socket"
+        },
+        {
+            "siteIndex": 6,
+            "siteAlias": "Site06",
+            "siteSN": "SN006",
+            "autoAlias": "Auto06",
+            "socketCount": 16,
+            "socketEnable": "0x000F",
+            "siteEnvInit": true,
+            "socketReady": "0x00",
+            "chipReady": false,
+            "chipEnable": "0x00",
+            "description": "主站点6 - 16 Socket"
+        },
+        {
+            "siteIndex": 7,
+            "siteAlias": "Site07",
+            "siteSN": "SN007",
+            "autoAlias": "Auto07",
+            "socketCount": 16,
+            "socketEnable": "0x000F",
+            "siteEnvInit": true,
+            "socketReady": "0x00",
+            "chipReady": false,
+            "chipEnable": "0x00",
+            "description": "主站点7 - 16 Socket"
+        },
+        {
+            "siteIndex": 8,
+            "siteAlias": "Site08",
+            "siteSN": "SN008",
+            "autoAlias": "Auto08",
+            "socketCount": 16,
+            "socketEnable": "0x000F",
+            "siteEnvInit": true,
+            "socketReady": "0x00",
+            "chipReady": false,
+            "chipEnable": "0x00",
+            "description": "主站点8 - 16 Socket"
+        },
+        {
+            "siteIndex": 9,
+            "siteAlias": "Site09",
+            "siteSN": "SN009",
+            "autoAlias": "Auto09",
+            "socketCount": 16,
+            "socketEnable": "0x000F",
+            "siteEnvInit": true,
+            "socketReady": "0x00",
+            "chipReady": false,
+            "chipEnable": "0x00",
+            "description": "特殊站点9 - 转台测试站点 (4 Socket)"
+        }
+    ],
+    "globalSocketSettings": {
+        "maxSocketsPerSite": 16,
+        "defaultSocketCount": 16,
+        "socketTypes": [
+            "8",
+            "16",
+            "64"
+        ],
+        "pdu63Support": true,
+        "autoEnableDetection": true
+    }
+}

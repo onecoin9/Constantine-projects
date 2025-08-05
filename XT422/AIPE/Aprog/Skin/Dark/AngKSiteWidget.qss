@@ -1,0 +1,99 @@
+QWidget#rightWidget[customProperty="Normal"]
+{
+    border-top-right-radius:8px;
+    border-bottom-right-radius:8px;
+    background: rgba(50, 50, 50, 1);
+}
+
+QWidget#rightWidget[customProperty="Success"]
+{
+    border-top-right-radius:8px;
+    border-bottom-right-radius:8px;
+    background: qlineargradient(spread:pad,x1:0,y1:0,x2:1,y2:0,stop:0 rgba(14, 186, 220, 1),stop:0.5 rgba(29, 219, 181, 1), stop:1 rgba(40, 241, 157, 1));
+}
+
+QWidget#rightWidget[customProperty="Failed"]
+{
+    border-top-right-radius:8px;
+    border-bottom-right-radius:8px;
+    background: qlineargradient(spread:pad,x1:0,y1:0,x2:1,y2:0,stop:0 rgba(255, 143, 138, 1),stop:1 rgba(255, 109, 136, 1));
+}
+
+QWidget#rightWidget[customProperty="Busy"]
+{
+    border-top-right-radius:8px;
+    border-bottom-right-radius:8px;
+    background: qlineargradient(spread:pad,x1:0,y1:0,x2:1,y2:0,stop:0 rgba(248,215,110, 1),stop:0.5 rgba(245,207,79, 1), stop:1 rgba(244,201,61, 1));
+}
+
+QMessageBox QLabel
+{ 
+	color: rgba(0, 0, 0, 1);
+}
+
+QLabel
+{
+    color: rgba(255, 255, 255, 1);
+    text-align: left;
+    vertical-align: top;
+    background: transparent;
+
+}
+
+QLabel#rateLabel
+{
+    font:24px "HarmonyOS Sans SC";
+    font-weight: 500;
+    color: rgba(232, 232, 232, 1);
+}
+
+QLabel#successLabel
+{
+    width: 42px;
+    height: 33px;
+    image: url(:/Skin/Dark/Common/checkMark.svg);
+}
+
+QLabel#failedLabel
+{
+    image: url(:/Skin/Dark/Common/exclamationMark.svg);
+}
+
+QPushButton#siteButton
+{
+    border-top-left-radius:8px;
+    border-bottom-left-radius:8px;
+    font:24px "HarmonyOS Sans SC";
+    font-weight: 500;
+    color: rgba(255, 255, 255, 1);
+    background-color: rgba(50, 50, 50, 1);
+}
+
+QPushButton#siteButton:hover
+{
+    background-color: rgba(75, 75, 75, 1);
+}
+
+QPushButton#siteButton:checked
+{
+    background-color: rgba(28, 92, 255, 1);
+}
+
+
+QProgressBar#siteProgressBar::chunk
+{
+    border-top-right-radius:3px;
+    border-bottom-right-radius:3px;
+    background-color: qlineargradient(spread:pad,x1:0,y1:0,x2:1,y2:0,stop:0 rgba(193, 216, 227, 1),stop:1 rgba(39, 205, 253, 1));
+}
+
+QProgressBar#siteProgressBar
+{
+    border-top-right-radius:3px;
+    border-bottom-right-radius:3px;
+    background-color: rgba(50, 50, 50, 1);
+    border-top: 1px solid qlineargradient(y0:0, y1:1,stop: 0 #323232, stop: 1 #4b4b4b);
+    border-left: 1px solid qlineargradient(x0:0, x1:1,stop: 0 #323232, stop: 1 #4b4b4b);
+    border-bottom: 1px solid qlineargradient(y0:0, y1:1,stop: 0 #4b4b4b, stop: 1  #323232);
+    border-right: 1px solid qlineargradient(x0:0, x1:1,stop:  0 #4b4b4b, stop: 1 #323232);
+}

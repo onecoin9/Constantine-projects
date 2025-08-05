@@ -1,0 +1,191 @@
+QWidget#bgWidget
+{
+    border-radius: 8px;
+    background: rgba(50, 50, 50, 1);
+}
+
+QMessageBox QLabel
+{ 
+	color: rgba(0, 0, 0, 1);
+}
+
+QLabel
+{
+    color: rgba(255, 255, 255, 1);
+    text-align: left;
+    vertical-align: middle;
+    background: transparent;
+    font:14px "HarmonyOS Sans SC";
+    font-weight: 500;
+}
+
+QPushButton#addButton,
+QPushButton#modifyButton,
+QPushButton#deleteButton,
+QPushButton#batchAddButton,
+QPushButton#RPMBconfigButton,
+QPushButton#ExtendedCSDButton
+{
+    font:14px "HarmonyOS Sans SC";
+    font-weight: 500;
+    color: rgba(95, 99, 104, 1);
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 1);
+    border: 1px solid rgba(255, 255, 255, 1);
+}
+
+QPushButton#addButton:hover,
+QPushButton#modifyButton:hover,
+QPushButton#deleteButton:hover,
+QPushButton#batchAddButton:hover,
+QPushButton#RPMBconfigButton:hover,
+QPushButton#ExtendedCSDButton:hover
+{
+    background-color: rgba(250, 250, 250, 1);
+}
+
+QPushButton#addButton:pressed,
+QPushButton#modifyButton:pressed,
+QPushButton#deleteButton:pressed,
+QPushButton#batchAddButton:pressed,
+QPushButton#RPMBconfigButton:pressed,
+QPushButton#ExtendedCSDButton:pressed
+{
+    background-color: rgba(235, 235, 235, 1);
+}
+
+QCheckBox#userPartition,
+QCheckBox#Boot1Partition,
+QCheckBox#Boot2Partition,
+QCheckBox#RPMBPartition,
+QCheckBox#GPP1Partition,
+QCheckBox#GPP2Partition,
+QCheckBox#GPP3Partition,
+QCheckBox#GPP4Partition,
+QCheckBox#Ext_CSD
+{
+    color: rgba(255, 255, 255, 1);
+    font:14px "HarmonyOS Sans SC";
+    font-weight: 500;
+}
+
+QCheckBox#userPartition::indicator::unchecked,
+QCheckBox#Boot1Partition::indicator::unchecked,
+QCheckBox#Boot2Partition::indicator::unchecked,
+QCheckBox#RPMBPartition::indicator::unchecked,
+QCheckBox#GPP1Partition::indicator::unchecked,
+QCheckBox#GPP2Partition::indicator::unchecked,
+QCheckBox#GPP3Partition::indicator::unchecked,
+QCheckBox#GPP4Partition::indicator::unchecked,
+QCheckBox#Ext_CSD::indicator::unchecked
+{
+    width:13px;
+    height:13px;
+    image: url(:/Skin/Dark/CheckBox/rectCheckNormal.svg);
+}
+
+QCheckBox#userPartition::indicator::hover,
+QCheckBox#Boot1Partition::indicator::hover,
+QCheckBox#Boot2Partition::indicator::hover,
+QCheckBox#RPMBPartition::indicator::hover,
+QCheckBox#GPP1Partition::indicator::hover,
+QCheckBox#GPP2Partition::indicator::hover,
+QCheckBox#GPP3Partition::indicator::hover,
+QCheckBox#GPP4Partition::indicator::hover,
+QCheckBox#Ext_CSD::indicator::hover
+{
+    width:13px;
+    height:13px;
+    image: url(:/Skin/Dark/CheckBox/rectCheckHover.svg);
+}
+
+QCheckBox#userPartition::indicator::checked,
+QCheckBox#Boot1Partition::indicator:checked,
+QCheckBox#Boot2Partition::indicator:checked,
+QCheckBox#RPMBPartition::indicator::checked,
+QCheckBox#GPP1Partition::indicator::checked,
+QCheckBox#GPP2Partition::indicator::checked,
+QCheckBox#GPP3Partition::indicator::checked,
+QCheckBox#GPP4Partition::indicator::checked,
+QCheckBox#Ext_CSD::indicator::checked
+{
+    width:13px;
+    height:13px;
+    image: url(:/Skin/Dark/CheckBox/rectCheckSelect.svg);
+}
+
+QCheckBox#Ext_CSD:!enabled
+{
+	color: rgb(160, 160, 160);
+}
+
+QComboBox
+{
+    color: rgba(255, 255, 255, 1);
+    font:16px "HarmonyOS Sans SC Light";
+    border-radius: 4px;
+    background: rgba(37, 37, 37, 1);
+    border: 1px solid rgba(58, 58, 58,1);
+}
+
+QComboBox::drop-down
+{
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 15px;
+    border-radius: 4px;
+    background : rgba(37, 37, 37, 1);
+}
+
+QComboBox::down-arrow
+{
+    width: 10px;
+    height: 10px;
+    image: url(:/Skin/Dark/ComboBox/downarrow.svg);
+}
+
+QComboBox::QAbstractItemView
+{
+    background: rgba(37, 37, 37, 1);
+    border: 1px solid rgba(58, 58, 58, 1);
+    border-radius:0px 0px 5px 5px;
+    color: rgba(255, 255, 255, 1);
+    outline: 0px;
+}
+
+QComboBox QAbstractItemView::item
+{
+  	height:27px;
+    font:15px "HarmonyOS Sans SC Light";
+    background: rgba(255, 255, 255, 1);
+    color:rgba(37, 37, 37, 1);
+}
+
+QComboBox QAbstractItemView::item:hover
+{
+    background:#409CE1;
+    color:#ffffff;
+}
+
+QComboBox QAbstractItemView::item:selected
+{
+    background:#409CE1;
+    color:#ffffff;
+}
+
+QGroupBox
+{
+    margin-top: 2.3ex;
+    border-radius: 10px;
+    border: 2px solid rgba(40, 40, 40, 1);
+    font:14px "HarmonyOS Sans SC";
+    font-weight: 700;
+    color: rgba(255, 255, 255, 1);
+}
+
+QGroupBox::title
+{
+    left:10px;
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+}

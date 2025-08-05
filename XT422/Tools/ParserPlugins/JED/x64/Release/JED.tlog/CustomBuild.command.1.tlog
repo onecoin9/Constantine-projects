@@ -1,0 +1,4 @@
+^C:\JWL\AG06\CODE\TOOLS\PARSERPLUGINS\PARSER_GLOBAL.H
+"C:\Qt\5.15.2\msvc2019_64\bin\moc.exe"  "C:\JWL\AG06\code\Tools\ParserPlugins\parser_global.h" -o ".\GeneratedFiles\Release\moc_parser_global.cpp"  -DUNICODE -D_UNICODE -DWIN32 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DWIN64 -DQT_DLL -DABSTRACTPARSER_LIB -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DJED_LIB -D "-I.\GeneratedFiles" "-I." "-IC:\Qt\5.15.2\msvc2019_64\include" "-I.\GeneratedFiles\Release" "-IC:\Qt\5.15.2\msvc2019_64\include\QtCore"
+^C:\JWL\AG06\CODE\TOOLS\PARSERPLUGINS\JED\JEDPARSER.H
+"C:\Qt\5.15.2\msvc2019_64\bin\moc.exe"  "C:\JWL\AG06\code\Tools\ParserPlugins\JED\JedParser.h" -o ".\GeneratedFiles\Release\moc_JedParser.cpp"  -DUNICODE -D_UNICODE -DWIN32 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DWIN64 -DQT_DLL -DABSTRACTPARSER_LIB -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DJED_LIB -D "-I.\GeneratedFiles" "-I." "-IC:\Qt\5.15.2\msvc2019_64\include" "-I.\GeneratedFiles\Release" "-IC:\Qt\5.15.2\msvc2019_64\include\QtCore"

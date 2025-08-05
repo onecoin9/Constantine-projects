@@ -1,0 +1,105 @@
+QLabel#labelID,
+QLabel#labelPwd,
+QLabel#labelUserMode
+{
+    font-weight: 300;
+    font:26px "HarmonyOS Sans SC";
+    color: rgba(95, 99, 104, 1);
+}
+
+QLabel#inputlogoTitle
+{
+    background-position:center;
+    background-repeat:no-repeat;
+    background-image:url(:/Skin/Light/Background/loginAngke.svg);
+}
+
+QPushButton
+{
+    font:22px "HarmonyOS Sans SC";
+    font-weight: 500;
+    text-align: center;
+    color: rgba(95, 99, 104, 1);
+}
+
+QPushButton#pushbutton
+{
+    width: 128px;
+    height: 39px;
+    border-radius: 3px;
+    background-color: rgba(255, 255, 255, 1);
+    border: 1px solid rgba(255, 255, 255, 1);
+}
+
+QPushButton#pushbutton:hover
+{
+    background-color: rgba(250, 250, 250, 1);
+}
+
+QPushButton#pushbutton:pressed
+{
+    background-color: rgba(235, 235, 235, 1);
+}
+
+QLineEdit#IDEdit,
+QLineEdit#pwdEdit
+{
+    font:20px "HarmonyOS Sans SC Light";
+    font-weight: 500;
+    border-radius: 3px;
+    padding: 0 8px;
+    background: rgba(235, 235, 235, 1);
+}
+
+QComboBox
+{
+    font:15px "HarmonyOS Sans SC Light";
+    border-radius: 4px;
+    border-top-left-radius: 4x;
+    border-bottom-left-radius: 4px;
+    background: rgba(235, 235, 235, 1);
+}
+
+QComboBox::drop-down
+{
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 15px;
+    border-radius: 4px;
+    background : rgba(235, 235, 235, 1);
+}
+
+QComboBox::down-arrow
+{
+    width: 10px;
+    height: 10px;
+    image: url(:/Skin/Light/ComboBox/downarrow.svg);
+}
+
+QComboBox::QAbstractItemView
+{
+    background:rgba(255,255,255,1);
+    border:1px solid rgba(228,228,228,1);
+    border-radius:0px 0px 5px 5px;
+    color: rgba(0, 0, 0, 1);
+    outline: 0px;
+}
+
+QComboBox QAbstractItemView::item
+{
+  	height:27px;
+    font:15px "HarmonyOS Sans SC Light";
+  	background: rgba(0, 0, 0, 1);
+}
+
+QComboBox QAbstractItemView::item:hover
+{
+    background:#409CE1;
+    color:#ffffff;
+}
+
+QComboBox QAbstractItemView::item:selected
+{
+    background:#409CE1;
+    color:#ffffff;
+}

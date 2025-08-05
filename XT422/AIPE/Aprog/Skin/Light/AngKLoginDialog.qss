@@ -1,0 +1,29 @@
+QWidget#AngKLoginDialog
+{
+    border-image:url(:/Skin/Light/Background/background.png);
+}
+
+QLabel#logoTitle
+{
+    background-position:center;
+    background-repeat:no-repeat;
+    background-image:url(:/Skin/Light/Background/angke.svg);
+}
+
+QLabel#labelTitle
+{
+    font:72px "HarmonyOS Sans SC Light";
+    color: rgba(0, 0, 0, 1);
+}
+
+QLabel#loginTitle
+{
+    font-weight: 300;
+    font:72px "HarmonyOS Sans SC Light";
+    color: rgba(95, 99, 104, 1);
+}
+
+QWidget#loginWidget
+{
+    border-image:url(:/Skin/Light/Background/background.png);
+}

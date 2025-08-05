@@ -1,0 +1,95 @@
+QWidget#bgWidget
+{
+    border-radius: 8px;
+    background: rgba(70, 70, 70, 1);
+}
+
+QWidget#centralWidget
+{
+    border-radius: 8px;
+    background: rgba(50, 50, 50, 1);
+}
+
+QPushButton#closeButton
+{
+    image: url(:/Skin/Dark/Common/close.svg);
+}
+
+QLabel
+{
+    font: 14px "HarmonyOS Sans SC";
+    font-weight: 400;
+    color: rgba(255, 255, 255, 1);
+    text-align: left;
+    vertical-align: middle;
+    background: transparent;
+}
+
+QLabel#Title
+{
+    font:16px "HarmonyOS Sans SC";
+    font-weight: 400;
+}
+
+QLineEdit
+{
+    font:14px "HarmonyOS Sans SC";
+    color: rgba(255, 255, 255, 1);
+    font-weight: 500;
+    border-radius: 3px;
+    padding: 0 8px;
+    background: rgba(37, 37, 37, 1);
+    border: 1px solid rgba(70, 70, 70, 1);
+}
+
+QLineEdit:read-only
+{
+    border: 1px solid rgba(70, 70, 70, 1);
+    color: rgba(255, 255, 255, 1);
+    border-radius: 3px;
+    padding: 0 8px;
+    background: rgba(50, 50, 50, 1);
+}
+
+QPushButton#exitButton,
+QPushButton#okButton,
+QPushButton#defaultButton
+{
+    font:14px "HarmonyOS Sans SC";
+    font-weight: 500;
+    color: rgba(95, 99, 104, 1);
+    border-radius: 3px;
+    background-color: rgba(255, 255, 255, 1);
+    border: 1px solid rgba(247, 247, 247, 1);
+}
+
+QPushButton#exitButton:hover,
+QPushButton#okButton:hover,
+QPushButton#defaultButton:hover
+{
+    background-color: rgba(250, 250, 250, 1);
+}
+
+QPushButton#exitButton:pressed,
+QPushButton#okButton:pressed,
+QPushButton#defaultButton:pressed
+{
+    background-color: rgba(235, 235, 235, 1);
+}
+
+QGroupBox
+{
+    margin-top: 2.3ex;
+    border-radius: 10px;
+    border: 2px solid rgba(40, 40, 40, 1);
+    font:14px "HarmonyOS Sans SC";
+    font-weight: 700;
+    color: rgba(255, 255, 255, 1);
+}
+
+QGroupBox::title
+{
+    left:10px;
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+}

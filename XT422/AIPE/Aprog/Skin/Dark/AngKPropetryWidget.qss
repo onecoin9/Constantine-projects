@@ -1,0 +1,32 @@
+QWidget#bgWidget
+{
+    background: rgba(27, 27, 27, 1);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+QTabWidget::pane
+{
+    border:none;
+    background-color: rgba(50, 50, 50, 1);
+}
+
+QTabBar::tab
+{
+    background-color: rgba(40, 40, 40, 1);
+    border-bottom-color: #C2C7CB;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    max-width: 94px;
+    min-width: 94px;
+    min-height: 43px;
+    font:14px "HarmonyOS Sans SC";
+    color: rgba(255, 255, 255, 1);
+    font-weight: 500;
+    padding: 0px;
+}
+
+QTabBar::tab:selected
+{
+    background-color: rgba(50, 50, 50, 1);
+}

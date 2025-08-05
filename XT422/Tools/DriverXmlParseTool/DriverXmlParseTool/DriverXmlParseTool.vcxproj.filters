@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Translation Files">
+      <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
+      <Extensions>ts</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Source Files\CommonControl">
+      <UniqueIdentifier>{dac3313b-bb9c-4d51-8efb-a216cffca415}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\tinyxml2">
+      <UniqueIdentifier>{f3d28a26-53a4-46a6-8dd5-6dacf4ed7a32}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DriverXmlParseTool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DragListWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DriverParseWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EditShowWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SetWinSize.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonControl\ACheckBox.cpp">
+      <Filter>Source Files\CommonControl</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonControl\AComboBox.cpp">
+      <Filter>Source Files\CommonControl</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonControl\AEditText.cpp">
+      <Filter>Source Files\CommonControl</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonControl\AGroupBox.cpp">
+      <Filter>Source Files\CommonControl</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonControl\ALabel.cpp">
+      <Filter>Source Files\CommonControl</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonControl\ATabWidget.cpp">
+      <Filter>Source Files\CommonControl</Filter>
+    </ClCompile>
+    <ClCompile Include="Depend\tinyxml2\tinyxml2.cpp">
+      <Filter>Source Files\tinyxml2</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="DriverXmlParseTool.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="DragListWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="DriverParseWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="EditShowWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="SetWinSize.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="ViewWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="CommonControl\ACheckBox.h">
+      <Filter>Source Files\CommonControl</Filter>
+    </QtMoc>
+    <QtMoc Include="CommonControl\AComboBox.h">
+      <Filter>Source Files\CommonControl</Filter>
+    </QtMoc>
+    <QtMoc Include="CommonControl\AEditText.h">
+      <Filter>Source Files\CommonControl</Filter>
+    </QtMoc>
+    <QtMoc Include="CommonControl\AGroupBox.h">
+      <Filter>Source Files\CommonControl</Filter>
+    </QtMoc>
+    <QtMoc Include="CommonControl\ALabel.h">
+      <Filter>Source Files\CommonControl</Filter>
+    </QtMoc>
+    <QtMoc Include="CommonControl\ATabWidget.h">
+      <Filter>Source Files\CommonControl</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="DriverXmlParseTool.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="DriverParseWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="SetWinSize.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ViewWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="DriverXmlParseTool.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="driverxmlparsetool_zh.ts">
+      <Filter>Translation Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GlobalDefine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonControl\ComTool.h">
+      <Filter>Source Files\CommonControl</Filter>
+    </ClInclude>
+    <ClInclude Include="Depend\tinyxml2\tinyxml2.h">
+      <Filter>Source Files\tinyxml2</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

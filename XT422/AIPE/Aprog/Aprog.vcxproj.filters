@@ -1,0 +1,1493 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Translation Files">
+      <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
+      <Extensions>ts</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Model">
+      <UniqueIdentifier>{97371d40-725c-44bd-9de9-7aca3cc76957}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controller">
+      <UniqueIdentifier>{43e72640-92c4-4360-9df9-9b746ec18d77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Model\DataBase">
+      <UniqueIdentifier>{9dab5b37-7aac-4fe1-b6b4-38fe50b1a540}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Model\DataTransform">
+      <UniqueIdentifier>{7959da25-f8a8-4725-bc17-38a1d6dcd5f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Model\DataJsonSerial">
+      <UniqueIdentifier>{3a51b1ef-7796-4942-8bf9-475eb8e13898}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Model\ProjDataset">
+      <UniqueIdentifier>{80335b8a-2225-4eb0-957d-05c185eb571b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Model\DataBuffer">
+      <UniqueIdentifier>{41648a3d-c11c-4195-a5c6-c656532299b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Model\eMMC">
+      <UniqueIdentifier>{59d38590-0f20-47ff-843e-943954ee8480}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Model\IOHeap">
+      <UniqueIdentifier>{0eaa4fc1-ef2d-41df-84b6-0a2603238ab0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Model\ParserPlugins">
+      <UniqueIdentifier>{1da0e428-f3d1-4b5a-a578-e645b08f2da4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
+    <Filter Include="View">
+      <UniqueIdentifier>{f5bc23b1-156b-417e-88be-088a7558e08e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="View\MainFrame">
+      <UniqueIdentifier>{33df672d-8164-4851-93e3-446658e92b82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="View\MainFrame\Login">
+      <UniqueIdentifier>{6567c1e0-2283-4da6-aee9-ee2dd39c8970}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="View\MainFrame\MainWindow">
+      <UniqueIdentifier>{585ec14a-b31c-4eea-90cc-b9da5b2f6f47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="View\MainFrame\WindowComponents">
+      <UniqueIdentifier>{b509060d-2c7e-4f22-949e-5b5ed9a9fc7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="View\Components">
+      <UniqueIdentifier>{b54fd2f1-c011-4929-b17e-69d3a427dbf3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="View\Components\MessageNotify">
+      <UniqueIdentifier>{ccce984e-0e8b-4991-a52a-bc472c06f4bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="View\Components\ProgressComponents">
+      <UniqueIdentifier>{568d733d-3348-4aba-8e83-776f82c046b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="View\Components\ModelComponents">
+      <UniqueIdentifier>{ea45c922-7c82-43a9-bdcc-2b9850567fe4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="View\Components\InterfaceComponents">
+      <UniqueIdentifier>{0376f359-e94e-4c1c-9c3a-592d2b9e38b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="View\DlgComponents">
+      <UniqueIdentifier>{f81bc21e-e147-49e4-b2ee-5afe755c4f99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="View\DlgComponents\eMMCComponents">
+      <UniqueIdentifier>{87d6702b-8241-4e52-a109-a64dc585ec8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="View\DlgComponents\ProjectComponents">
+      <UniqueIdentifier>{53cf36d2-084d-46fe-a968-0cba722e38ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="View\DlgComponents\BufferMapDlg">
+      <UniqueIdentifier>{aa41c4f1-5f89-42a4-9184-a7e4e8868287}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="View\DlgComponents\ChipComponents">
+      <UniqueIdentifier>{e2a9f343-0c23-4dec-bbba-fe744753c7b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="View\DlgComponents\MenuBarComponents">
+      <UniqueIdentifier>{8ea18081-ae8d-4a27-b639-ca988829c40b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="View\DlgComponents\SettingComponents">
+      <UniqueIdentifier>{862cec9d-24b3-4a0a-bb08-cc28807b9209}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="View\GlobalInit">
+      <UniqueIdentifier>{2a881bfb-8fd2-407f-b671-f5960cf89d8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Model\Device">
+      <UniqueIdentifier>{99fa0458-539a-4d9a-8b12-1b7c033a02b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controller\ChipManager">
+      <UniqueIdentifier>{8e76b9dd-e323-4af2-a123-298da6521c90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controller\ACCmdHandler">
+      <UniqueIdentifier>{0dd90022-fc84-42b3-aabd-a4da970eb7d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controller\ACCmdHandler\CRC">
+      <UniqueIdentifier>{b009670b-7752-469d-83c0-0a15094e49cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controller\ChkManager">
+      <UniqueIdentifier>{ee290d3d-f97b-4f9a-9f33-4dc92bf8586a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controller\eMMC">
+      <UniqueIdentifier>{802d7550-3c1b-4971-8b9d-73a7795fd7fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controller\EventManager">
+      <UniqueIdentifier>{86196a17-bcc6-49c2-bb31-34277621dd3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controller\IOHeapManager">
+      <UniqueIdentifier>{2851aaf7-a31b-4ac1-9970-f794719f3b45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controller\LogManager">
+      <UniqueIdentifier>{16c92dea-d58b-4625-bfeb-c394d4d7028b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controller\MessageQueuePool">
+      <UniqueIdentifier>{3f437e97-b573-4cf2-b6ad-f0c649cdfd52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controller\ScanManager">
+      <UniqueIdentifier>{0a70518f-992a-4b29-af52-99d3b932833c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controller\TransmitSignalsInstance">
+      <UniqueIdentifier>{63c4841e-14fd-4ac0-84c8-2b2efb78c436}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controller\Utils">
+      <UniqueIdentifier>{1fc9b1c9-dd58-454f-b218-2fe06e504ba0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="View\DlgComponents\MessageBox">
+      <UniqueIdentifier>{ebd0916d-b05e-4dc8-baac-5c9e2a8ec336}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controller\DeviceManager">
+      <UniqueIdentifier>{3e720e17-ee91-44a8-b181-524d01500a49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controller\ProjectManager">
+      <UniqueIdentifier>{ab88f642-4e29-4d7b-a612-69db7233597c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controller\TaskManager">
+      <UniqueIdentifier>{0a3c2a0e-e24c-4969-a501-e859e4d1b3f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controller\AutomaticManager">
+      <UniqueIdentifier>{a2a2539d-d8be-4fc7-9ac8-cd6249d46468}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controller\ReportManager">
+      <UniqueIdentifier>{80215e77-92cf-4f49-8c51-be44d96585fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controller\RemoteServer">
+      <UniqueIdentifier>{e4131b62-2d10-485e-92e1-d21070a0a076}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controller\ACCmdHandler\UUID">
+      <UniqueIdentifier>{46fde24b-ec58-4a9c-b73a-fb640d8317ea}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Model\DataBase\AngKDBStandardItemModel.cpp">
+      <Filter>Model\DataBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Model\DataBase\ISQList.cpp">
+      <Filter>Model\DataBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\Utils\AngKHelper.cpp">
+      <Filter>Controller\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\Utils\AngKMisc.cpp">
+      <Filter>Controller\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\Utils\AngKPathResolve.cpp">
+      <Filter>Controller\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Model\DataTransform\DataTransform.cpp">
+      <Filter>Model\DataTransform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\Utils\AngKProjFile.cpp">
+      <Filter>Controller\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\Utils\crc32.c">
+      <Filter>Controller\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\Utils\sha256.c">
+      <Filter>Controller\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\TransmitSignalsInstance\AngKTransmitSignals.cpp">
+      <Filter>Controller\TransmitSignalsInstance</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\MessageQueuePool\AngKMessageHandler.cpp">
+      <Filter>Controller\MessageQueuePool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\ACCmdHandler\ACCmdHandler.cpp">
+      <Filter>Controller\ACCmdHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\ACCmdHandler\CRC\Crc32_Comm.cpp">
+      <Filter>Controller\ACCmdHandler\CRC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\ACCmdHandler\CRC\Crc32_Std.cpp">
+      <Filter>Controller\ACCmdHandler\CRC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\ACCmdHandler\UplinkDataReceiver.cpp">
+      <Filter>Controller\ACCmdHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\ACCmdHandler\CmdHandler.cpp">
+      <Filter>Controller\ACCmdHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\ACCmdHandler\ICD.cpp">
+      <Filter>Controller\ACCmdHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\ACCmdHandler\AppConfigModel.cpp">
+      <Filter>Controller\ACCmdHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\ACCmdHandler\AppModels.cpp">
+      <Filter>Controller\ACCmdHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\ACCmdHandler\BufferModel.cpp">
+      <Filter>Controller\ACCmdHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\ACCmdHandler\ACNetComm.cpp">
+      <Filter>Controller\ACCmdHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Model\ProjDataset\AngKProjDataset.cpp">
+      <Filter>Model\ProjDataset</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Model\DataBuffer\AngKDataBuffer.cpp">
+      <Filter>Model\DataBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\Utils\AngKCommonTools.cpp">
+      <Filter>Controller\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\Utils\crc16.cpp">
+      <Filter>Controller\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Model\IOHeap\AngKIOHeapDevice.cpp">
+      <Filter>Model\IOHeap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\IOHeapManager\AngKIOHeapManager.cpp">
+      <Filter>Controller\IOHeapManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Model\ParserPlugins\parser_global.cpp">
+      <Filter>Model\ParserPlugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\eMMCComponents\AngKAddeMMCFile.cpp">
+      <Filter>View\DlgComponents\eMMCComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\eMMCComponents\AngKemmcOption.cpp">
+      <Filter>View\DlgComponents\eMMCComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\eMMCComponents\AngKExtendCSD.cpp">
+      <Filter>View\DlgComponents\eMMCComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\ProjectComponents\AngKFilesImport.cpp">
+      <Filter>View\DlgComponents\ProjectComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\ProjectComponents\AngKOperationTag.cpp">
+      <Filter>View\DlgComponents\ProjectComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\ProjectComponents\AngKProjectOperation.cpp">
+      <Filter>View\DlgComponents\ProjectComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\BufferMapDlg\AngKFillSetting.cpp">
+      <Filter>View\DlgComponents\BufferMapDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\BufferMapDlg\AngKGotoSetting.cpp">
+      <Filter>View\DlgComponents\BufferMapDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\BufferMapDlg\AngKBufferHexEdit.cpp">
+      <Filter>View\DlgComponents\BufferMapDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\BufferMapDlg\AngKHexViewEdit.cpp">
+      <Filter>View\DlgComponents\BufferMapDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\ChipComponents\AngKChipDialog.cpp">
+      <Filter>View\DlgComponents\ChipComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\ChipComponents\AngKChipSelectWidget.cpp">
+      <Filter>View\DlgComponents\ChipComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\ProjectComponents\AngKProjectChipSelect.cpp">
+      <Filter>View\DlgComponents\ProjectComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\MenuBarComponents\AngKAdapterInformation.cpp">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\MenuBarComponents\AngKCodeGeneratorDlg.cpp">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\MenuBarComponents\AngKDriverParam.cpp">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\MenuBarComponents\AngKNandImageDlg.cpp">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\MenuBarComponents\AngKProgrammerInfoDlg.cpp">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\MenuBarComponents\AngKSerialNumberDlg.cpp">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\MenuBarComponents\AngKSNCreator.cpp">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\MenuBarComponents\AngKSNCreatorDlg.cpp">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\MenuBarComponents\AngKUpdateFirmware.cpp">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\SettingComponents\AngKConnetDialog.cpp">
+      <Filter>View\DlgComponents\SettingComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\SettingComponents\ACEthernetConfigWidget.cpp">
+      <Filter>View\DlgComponents\SettingComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\SettingComponents\AngKSettingDlg.cpp">
+      <Filter>View\DlgComponents\SettingComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\AngKDialog.cpp">
+      <Filter>View\DlgComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\Components\ProgressComponents\AngKProcessPathWidget.cpp">
+      <Filter>View\Components\ProgressComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\Components\ProgressComponents\AngKProgressBar.cpp">
+      <Filter>View\Components\ProgressComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\Components\ProgressComponents\AngKRoundProgressBar.cpp">
+      <Filter>View\Components\ProgressComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\Components\ProgressComponents\AngKRoundProgressBarEx.cpp">
+      <Filter>View\Components\ProgressComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\Components\ProgressComponents\CurrentProgressWgt.cpp">
+      <Filter>View\Components\ProgressComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\Components\ProgressComponents\ProgressDialogSingleton.cpp">
+      <Filter>View\Components\ProgressComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\Components\ProgressComponents\WarningNum.cpp">
+      <Filter>View\Components\ProgressComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\Components\ProgressComponents\WarningWgt.cpp">
+      <Filter>View\Components\ProgressComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\Components\ProgressComponents\YieldRateWgt.cpp">
+      <Filter>View\Components\ProgressComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\MenuBarComponents\AngKPinMapSetting.cpp">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\Components\ModelComponents\AngKCustomDelegate.cpp">
+      <Filter>View\Components\ModelComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\Components\ModelComponents\AngKDBStandardItemModelEx.cpp">
+      <Filter>View\Components\ModelComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\Components\ModelComponents\AngKItemDelegate.cpp">
+      <Filter>View\Components\ModelComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\Components\ModelComponents\AngKSortFilterProxyModel.cpp">
+      <Filter>View\Components\ModelComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\Components\ModelComponents\AngKTableView.cpp">
+      <Filter>View\Components\ModelComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\Components\InterfaceComponents\AngKControlWidget.cpp">
+      <Filter>View\Components\InterfaceComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\Components\InterfaceComponents\AngKShowLogArea.cpp">
+      <Filter>View\Components\InterfaceComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\Components\InterfaceComponents\AngKSiteWidget.cpp">
+      <Filter>View\Components\InterfaceComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\Components\InterfaceComponents\AngKTabProgram.cpp">
+      <Filter>View\Components\InterfaceComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\Components\InterfaceComponents\AngKTabProject.cpp">
+      <Filter>View\Components\InterfaceComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\Components\InterfaceComponents\AngKTabSite.cpp">
+      <Filter>View\Components\InterfaceComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\Components\InterfaceComponents\AngKTitleImg.cpp">
+      <Filter>View\Components\InterfaceComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\Components\InterfaceComponents\AngKTranslateSelect.cpp">
+      <Filter>View\Components\InterfaceComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\Components\MessageNotify\notify.cpp">
+      <Filter>View\Components\MessageNotify</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\Components\MessageNotify\notifymanager.cpp">
+      <Filter>View\Components\MessageNotify</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\mainFrame\Login\AngKLoginChoose.cpp">
+      <Filter>View\MainFrame\Login</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\mainFrame\Login\AngKLoginDialog.cpp">
+      <Filter>View\MainFrame\Login</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\mainFrame\Login\AngKLoginInput.cpp">
+      <Filter>View\MainFrame\Login</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\mainFrame\MainWindow\AngKMainFrame.cpp">
+      <Filter>View\MainFrame\MainWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\mainFrame\MainWindow\AngKShadowWidget.cpp">
+      <Filter>View\MainFrame\MainWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\mainFrame\MainWindow\AngKWindowTitleBar.cpp">
+      <Filter>View\MainFrame\MainWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\mainFrame\MainWindow\AngKSkinGridImage.cpp">
+      <Filter>View\MainFrame\MainWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\mainFrame\WindowComponents\AngKCustomTab.cpp">
+      <Filter>View\MainFrame\WindowComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\mainFrame\WindowComponents\AngKProgrammerWidget.cpp">
+      <Filter>View\MainFrame\WindowComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\mainFrame\WindowComponents\AngKPropetryWidget.cpp">
+      <Filter>View\MainFrame\WindowComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\mainFrame\WindowComponents\AngKReportWidget.cpp">
+      <Filter>View\MainFrame\WindowComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\mainFrame\WindowComponents\AngKToolWidget.cpp">
+      <Filter>View\MainFrame\WindowComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\mainFrame\WindowComponents\AnimWidgetManager.cpp">
+      <Filter>View\MainFrame\WindowComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\mainFrame\agclient.cpp">
+      <Filter>View\MainFrame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\mainFrame\AngKGlobalInstance.cpp">
+      <Filter>View\MainFrame</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>View</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\eMMCComponents\AngKAddeMMCHuaweiFile.cpp">
+      <Filter>View\DlgComponents\eMMCComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\eMMCComponents\eMMCParserManager.cpp">
+      <Filter>View\DlgComponents\eMMCComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\eMMCComponents\AngKemmCDriverPara.cpp">
+      <Filter>View\DlgComponents\eMMCComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\ProjectComponents\AngKProjectDrvParaSetting.cpp">
+      <Filter>View\DlgComponents\ProjectComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\LogManager\AngKLogManager.cpp">
+      <Filter>Controller\LogManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\ACCmdHandler\AngKRemoteCmdManager.cpp">
+      <Filter>Controller\ACCmdHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\Components\ModelComponents\AngKProgressDelegate.cpp">
+      <Filter>View\Components\ProgressComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\ProjectComponents\AngKProjectChipConfigWidget.cpp">
+      <Filter>View\DlgComponents\ProjectComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\ChipComponents\AngKDeviceInfoDlg.cpp">
+      <Filter>View\DlgComponents\ChipComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\SettingComponents\AngKAdvanceSetting.cpp">
+      <Filter>View\DlgComponents\SettingComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\SettingComponents\AngKSwapSetting.cpp">
+      <Filter>View\DlgComponents\SettingComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\ScanManager\AngKScanManager.cpp">
+      <Filter>Controller\ScanManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\ACCmdHandler\ACDeviceModel.cpp">
+      <Filter>Model\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\SettingComponents\AngKChainSelectDlg.cpp">
+      <Filter>View\DlgComponents\SettingComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Model\Device\AngKDeviceModel.cpp">
+      <Filter>Model\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\ChkManager\AngKChkManager.cpp">
+      <Filter>Controller\ChkManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\SettingComponents\AngKDebugSetting.cpp">
+      <Filter>View\DlgComponents\SettingComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\MenuBarComponents\AngKDeviceInfoTable.cpp">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\MenuBarComponents\AngKAboutDlg.cpp">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\EventManager\ACEventManager.cpp">
+      <Filter>Controller\EventManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\EventManager\ACEventBuild.cpp">
+      <Filter>Controller\EventManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\EventManager\ACEventLogger.cpp">
+      <Filter>Controller\EventManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\SettingComponents\AngKDemoWidget.cpp">
+      <Filter>View\DlgComponents\SettingComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\GlobalInit\AppModeType.cpp">
+      <Filter>View\GlobalInit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\MenuBarComponents\ACAdapterCountInfomation.cpp">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\ChipManager\ACChipManager.cpp">
+      <Filter>Controller\ChipManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\MessageBox\ACMessageBox.cpp">
+      <Filter>View\DlgComponents\MessageBox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\Utils\AngkLogger.cpp">
+      <Filter>Controller\LogManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\DeviceManager\ACDeviceManager.cpp">
+      <Filter>Controller\DeviceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\MenuBarComponents\ACDeviceManagerList.cpp">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\ProjectManager\ACProjManager.cpp">
+      <Filter>Controller\ProjectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\ProjectComponents\ACProjectProperty.cpp">
+      <Filter>View\DlgComponents\ProjectComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\eMMCComponents\ACeMMCSolution.cpp">
+      <Filter>View\DlgComponents\eMMCComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\ProjectComponents\ACProjectCreateDlg.cpp">
+      <Filter>View\DlgComponents\ProjectComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\ProjectComponents\ACTaskCreateDlg.cpp">
+      <Filter>View\DlgComponents\ProjectComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\TaskManager\ACTaskManager.cpp">
+      <Filter>Controller\TaskManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\ProjectComponents\ACTaskDownload.cpp">
+      <Filter>View\DlgComponents\ProjectComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\MenuBarComponents\ACProgrammerTestDlg.cpp">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\AutomaticManager\ACAutomaticManager.cpp">
+      <Filter>Controller\AutomaticManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\eMMC\ACeMMCAnalyzeManager.cpp">
+      <Filter>Controller\eMMC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\eMMC\CAcMbn.cpp">
+      <Filter>Controller\eMMC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\MenuBarComponents\ACAutomaticSetting.cpp">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\ReportManager\ACReportRecord.cpp">
+      <Filter>Controller\ReportManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\ReportManager\ACHtmlLogWriter.cpp">
+      <Filter>Controller\ReportManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\GlobalInit\DevErrCode.cpp">
+      <Filter>View\GlobalInit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\AutomaticManager\AutoMessageServer.cpp">
+      <Filter>Controller\AutomaticManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\DlgComponents\MenuBarComponents\ACMasterChipAnalyzeDlg.cpp">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\eMMC\ACMasterChipAnalyzeManager.cpp">
+      <Filter>Controller\eMMC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\View\Components\ModelComponents\AngKCheckBoxHeader.cpp">
+      <Filter>View\Components\ModelComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\AutomaticManager\AuthUtils.cpp">
+      <Filter>Controller\AutomaticManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\AutomaticManager\ExternalServer.cpp">
+      <Filter>Controller\AutomaticManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\TaskManager\ACSSDProjManager.cpp">
+      <Filter>Controller\TaskManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\ACCmdHandler\CustomMessageHandler.cpp">
+      <Filter>Controller\ACCmdHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\ACCmdHandler\MT422DllHandler.cpp">
+      <Filter>Controller\ACCmdHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\RemoteServer\JsonRpcServer.cpp">
+      <Filter>Controller\RemoteServer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\ACCmdHandler\MT422SerialHandler.cpp">
+      <Filter>Controller\ACCmdHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\ACCmdHandler\SerialPortManager.cpp">
+      <Filter>Controller\ACCmdHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\ACCmdHandler\SerialPortWorker.cpp">
+      <Filter>Controller\ACCmdHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\ACCmdHandler\UUID\mtuidgenerator.cpp">
+      <Filter>Controller\ACCmdHandler\UUID</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\TaskManager\TaskManagerSingleton.cpp">
+      <Filter>Controller\TaskManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Controller\ProjectManager\ProjectManagerSingleton.cpp">
+      <Filter>Controller\ProjectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ACSSDProjManager.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_AngKCheckBoxHeader.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ACSSDProjManager.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_AngKCheckBoxHeader.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="agclient.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Translations\agclient_zh.ts">
+      <Filter>Translation Files</Filter>
+    </None>
+    <None Include="Translations\agclient_en.ts">
+      <Filter>Translation Files</Filter>
+    </None>
+    <None Include="Translations\agclient_ja.ts">
+      <Filter>Translation Files</Filter>
+    </None>
+    <None Include="BackupFiles\icon.svg" />
+    <None Include="cpp.hint" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="..\View\DlgComponents\eMMCComponents\AngKAddeMMCFile.ui">
+      <Filter>View\DlgComponents\eMMCComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\eMMCComponents\AngKemmcOption.ui">
+      <Filter>View\DlgComponents\eMMCComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\eMMCComponents\AngKExtendCSD.ui">
+      <Filter>View\DlgComponents\eMMCComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\ProjectComponents\AngKFilesImport.ui">
+      <Filter>View\DlgComponents\ProjectComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\ProjectComponents\AngKOperationTag.ui">
+      <Filter>View\DlgComponents\ProjectComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\ProjectComponents\AngKProjectOperation.ui">
+      <Filter>View\DlgComponents\ProjectComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\BufferMapDlg\AngKFillSetting.ui">
+      <Filter>View\DlgComponents\BufferMapDlg</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\BufferMapDlg\AngKGotoSetting.ui">
+      <Filter>View\DlgComponents\BufferMapDlg</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\BufferMapDlg\AngKBufferHexEdit.ui">
+      <Filter>View\DlgComponents\BufferMapDlg</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\BufferMapDlg\AngKHexViewEdit.ui">
+      <Filter>View\DlgComponents\BufferMapDlg</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\ChipComponents\AngKChipDialog.ui">
+      <Filter>View\DlgComponents\ChipComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\ChipComponents\AngKChipSelectWidget.ui">
+      <Filter>View\DlgComponents\ChipComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\ProjectComponents\AngKProjectChipSelect.ui">
+      <Filter>View\DlgComponents\ProjectComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\MenuBarComponents\AngKAdapterInformation.ui">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\MenuBarComponents\AngKCodeGeneratorDlg.ui">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\MenuBarComponents\AngKDriverParam.ui">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\MenuBarComponents\AngKNandImageDlg.ui">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\MenuBarComponents\AngKProgrammerInfoDlg.ui">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\MenuBarComponents\AngKSerialNumberDlg.ui">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\MenuBarComponents\AngKSNCreator.ui">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\MenuBarComponents\AngKSNCreatorDlg.ui">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\MenuBarComponents\AngKUpdateFirmware.ui">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\SettingComponents\AngKConnetDialog.ui">
+      <Filter>View\DlgComponents\SettingComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\SettingComponents\AngKSettingDlg.ui">
+      <Filter>View\DlgComponents\SettingComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\AngKDialog.ui">
+      <Filter>View\DlgComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\Components\ProgressComponents\AngKProcessPathWidget.ui">
+      <Filter>View\Components\ProgressComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\Components\ProgressComponents\CurrentProgressWgt.ui">
+      <Filter>View\Components\ProgressComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\Components\ProgressComponents\WarningNum.ui">
+      <Filter>View\Components\ProgressComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\Components\ProgressComponents\WarningWgt.ui">
+      <Filter>View\Components\ProgressComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\Components\ProgressComponents\YieldRateWgt.ui">
+      <Filter>View\Components\ProgressComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\MenuBarComponents\AngKPinMapSetting.ui">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\Components\InterfaceComponents\AngKControlWidget.ui">
+      <Filter>View\Components\InterfaceComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\Components\InterfaceComponents\AngKShowLogArea.ui">
+      <Filter>View\Components\InterfaceComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\Components\InterfaceComponents\AngKSiteWidget.ui">
+      <Filter>View\Components\InterfaceComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\Components\InterfaceComponents\AngKTabProgram.ui">
+      <Filter>View\Components\InterfaceComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\Components\InterfaceComponents\AngKTabProject.ui">
+      <Filter>View\Components\InterfaceComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\Components\InterfaceComponents\AngKTabSite.ui">
+      <Filter>View\Components\InterfaceComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\Components\InterfaceComponents\AngKTitleImg.ui">
+      <Filter>View\Components\InterfaceComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\Components\InterfaceComponents\AngKTranslateSelect.ui">
+      <Filter>View\Components\InterfaceComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\mainFrame\Login\AngKLoginChoose.ui">
+      <Filter>View\MainFrame\Login</Filter>
+    </QtUic>
+    <QtUic Include="..\View\mainFrame\Login\AngKLoginDialog.ui">
+      <Filter>View\MainFrame\Login</Filter>
+    </QtUic>
+    <QtUic Include="..\View\mainFrame\Login\AngKLoginInput.ui">
+      <Filter>View\MainFrame\Login</Filter>
+    </QtUic>
+    <QtUic Include="..\View\mainFrame\MainWindow\AngKMainFrame.ui">
+      <Filter>View\MainFrame\MainWindow</Filter>
+    </QtUic>
+    <QtUic Include="..\View\mainFrame\WindowComponents\AngKProgrammerWidget.ui">
+      <Filter>View\MainFrame\WindowComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\mainFrame\WindowComponents\AngKPropetryWidget.ui">
+      <Filter>View\MainFrame\WindowComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\mainFrame\WindowComponents\AngKReportWidget.ui">
+      <Filter>View\MainFrame\WindowComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\mainFrame\WindowComponents\AngKToolWidget.ui">
+      <Filter>View\MainFrame\WindowComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\mainFrame\agclient.ui">
+      <Filter>View\MainFrame</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\eMMCComponents\AngKAddeMMCHuaweiFile.ui">
+      <Filter>View\DlgComponents\eMMCComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\eMMCComponents\AngKemmCDriverPara.ui">
+      <Filter>View\DlgComponents\eMMCComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\ProjectComponents\AngKProjectDrvParaSetting.ui">
+      <Filter>View\DlgComponents\ProjectComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\ChipComponents\AngKDeviceInfoDlg.ui">
+      <Filter>View\DlgComponents\ChipComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\SettingComponents\AngKAdvanceSetting.ui">
+      <Filter>View\DlgComponents\SettingComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\SettingComponents\AngKSwapSetting.ui">
+      <Filter>View\DlgComponents\SettingComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\SettingComponents\AngKChainSelectDlg.ui">
+      <Filter>View\DlgComponents\SettingComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\SettingComponents\AngKDebugSetting.ui">
+      <Filter>View\DlgComponents\SettingComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\MenuBarComponents\AngKDeviceInfoTable.ui">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\MenuBarComponents\AngKAboutDlg.ui">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\SettingComponents\AngKDemoWidget.ui">
+      <Filter>View\DlgComponents\SettingComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\MenuBarComponents\ACAdapterCountInfomation.ui">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\MessageBox\ACMessageBox.ui">
+      <Filter>View\DlgComponents\MessageBox</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\MenuBarComponents\ACDeviceManagerList.ui">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\ProjectComponents\ACProjectProperty.ui">
+      <Filter>View\DlgComponents\ProjectComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\eMMCComponents\ACeMMCSolution.ui">
+      <Filter>View\DlgComponents\eMMCComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\ProjectComponents\ACProjectCreateDlg.ui">
+      <Filter>View\DlgComponents\ProjectComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\ProjectComponents\ACTaskCreateDlg.ui">
+      <Filter>View\DlgComponents\ProjectComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\ProjectComponents\ACTaskDownload.ui">
+      <Filter>View\DlgComponents\ProjectComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\MenuBarComponents\ACProgrammerTestDlg.ui">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\MenuBarComponents\ACAutomaticSetting.ui">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\MenuBarComponents\ACMasterChipAnalyzeDlg.ui">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\SettingComponents\ACEthernetConfigWidget.ui">
+      <Filter>View\DlgComponents\SettingComponents</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="..\View\mainFrame\agclient.h">
+      <Filter>View\MainFrame</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\mainFrame\AngKGlobalInstance.h">
+      <Filter>View\MainFrame</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Model\DataBase\AngKDBStandardItemModel.h">
+      <Filter>Model\DataBase</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Model\DataTransform\DataTransform.h">
+      <Filter>Model\DataTransform</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Model\ProjDataset\AngKProjDataset.h">
+      <Filter>Model\ProjDataset</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Model\DataBuffer\IDataBuffer.h">
+      <Filter>Model\DataBuffer</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Model\IOHeap\AngKIOHeapDevice.h">
+      <Filter>Model\IOHeap</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Model\ParserPlugins\parser_global.h">
+      <Filter>Model\ParserPlugins</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\Components\MessageNotify\notify.h">
+      <Filter>View\Components\MessageNotify</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\Components\MessageNotify\notifymanager.h">
+      <Filter>View\Components\MessageNotify</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\eMMCComponents\AngKemmcOption.h">
+      <Filter>View\DlgComponents\eMMCComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\eMMCComponents\AngKAddeMMCFile.h">
+      <Filter>View\DlgComponents\eMMCComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\eMMCComponents\AngKExtendCSD.h">
+      <Filter>View\DlgComponents\eMMCComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\ProjectComponents\AngKFilesImport.h">
+      <Filter>View\DlgComponents\ProjectComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\ProjectComponents\AngKOperationTag.h">
+      <Filter>View\DlgComponents\ProjectComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\ProjectComponents\AngKProjectOperation.h">
+      <Filter>View\DlgComponents\ProjectComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\BufferMapDlg\AngKFillSetting.h">
+      <Filter>View\DlgComponents\BufferMapDlg</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\BufferMapDlg\AngKGotoSetting.h">
+      <Filter>View\DlgComponents\BufferMapDlg</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\BufferMapDlg\AngKBufferHexEdit.h">
+      <Filter>View\DlgComponents\BufferMapDlg</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\BufferMapDlg\AngKHexViewEdit.h">
+      <Filter>View\DlgComponents\BufferMapDlg</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\ChipComponents\AngKChipDialog.h">
+      <Filter>View\DlgComponents\ChipComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\ChipComponents\AngKChipSelectWidget.h">
+      <Filter>View\DlgComponents\ChipComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\ProjectComponents\AngKProjectChipSelect.h">
+      <Filter>View\DlgComponents\ProjectComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\MenuBarComponents\AngKAdapterInformation.h">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\MenuBarComponents\AngKCodeGeneratorDlg.h">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\MenuBarComponents\AngKDriverParam.h">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\MenuBarComponents\AngKNandImageDlg.h">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\MenuBarComponents\AngKProgrammerInfoDlg.h">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\MenuBarComponents\AngKSerialNumberDlg.h">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\MenuBarComponents\AngKSNCreator.h">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\MenuBarComponents\AngKSNCreatorDlg.h">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\MenuBarComponents\AngKUpdateFirmware.h">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\SettingComponents\AngKConnetDialog.h">
+      <Filter>View\DlgComponents\SettingComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\SettingComponents\ACEthernetConfigWidget.h">
+      <Filter>View\DlgComponents\SettingComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\SettingComponents\AngKSettingDlg.h">
+      <Filter>View\DlgComponents\SettingComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\AngKDialog.h">
+      <Filter>View\DlgComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\Components\ProgressComponents\AngKProcessPathWidget.h">
+      <Filter>View\Components\ProgressComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\Components\ProgressComponents\AngKProgressBar.h">
+      <Filter>View\Components\ProgressComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\Components\ProgressComponents\AngKRoundProgressBar.h">
+      <Filter>View\Components\ProgressComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\Components\ProgressComponents\AngKRoundProgressBarEx.h">
+      <Filter>View\Components\ProgressComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\Components\ProgressComponents\CurrentProgressWgt.h">
+      <Filter>View\Components\ProgressComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\Components\ProgressComponents\ProgressDialogSingleton.h">
+      <Filter>View\Components\ProgressComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\Components\ProgressComponents\WarningNum.h">
+      <Filter>View\Components\ProgressComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\Components\ProgressComponents\WarningWgt.h">
+      <Filter>View\Components\ProgressComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\Components\ProgressComponents\YieldRateWgt.h">
+      <Filter>View\Components\ProgressComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\MenuBarComponents\AngKPinMapSetting.h">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\Components\ModelComponents\AngKCustomDelegate.h">
+      <Filter>View\Components\ModelComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\Components\ModelComponents\AngKDBStandardItemModelEx.h">
+      <Filter>View\Components\ModelComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\Components\ModelComponents\AngKItemDelegate.h">
+      <Filter>View\Components\ModelComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\Components\ModelComponents\AngKSortFilterProxyModel.h">
+      <Filter>View\Components\ModelComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\Components\ModelComponents\AngKTableView.h">
+      <Filter>View\Components\ModelComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\Components\InterfaceComponents\AngKControlWidget.h">
+      <Filter>View\Components\InterfaceComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\Components\InterfaceComponents\AngKShowLogArea.h">
+      <Filter>View\Components\InterfaceComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\Components\InterfaceComponents\AngKSiteWidget.h">
+      <Filter>View\Components\InterfaceComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\Components\InterfaceComponents\AngKTabSite.h">
+      <Filter>View\Components\InterfaceComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\Components\InterfaceComponents\AngKTitleImg.h">
+      <Filter>View\Components\InterfaceComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\Components\InterfaceComponents\AngKTranslateSelect.h">
+      <Filter>View\Components\InterfaceComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\mainFrame\Login\AngKLoginChoose.h">
+      <Filter>View\MainFrame\Login</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\mainFrame\Login\AngKLoginDialog.h">
+      <Filter>View\MainFrame\Login</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\mainFrame\Login\AngKLoginInput.h">
+      <Filter>View\MainFrame\Login</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\mainFrame\MainWindow\AngKMainFrame.h">
+      <Filter>View\MainFrame\MainWindow</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\mainFrame\MainWindow\AngKWindowTitleBar.h">
+      <Filter>View\MainFrame\MainWindow</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\mainFrame\WindowComponents\AngKCustomTab.h">
+      <Filter>View\MainFrame\WindowComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\mainFrame\WindowComponents\AngKProgrammerWidget.h">
+      <Filter>View\MainFrame\WindowComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\mainFrame\WindowComponents\AngKPropetryWidget.h">
+      <Filter>View\MainFrame\WindowComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\mainFrame\WindowComponents\AngKReportWidget.h">
+      <Filter>View\MainFrame\WindowComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\mainFrame\WindowComponents\AngKToolWidget.h">
+      <Filter>View\MainFrame\WindowComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\mainFrame\WindowComponents\AnimWidgetManager.h">
+      <Filter>View\MainFrame\WindowComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Controller\IOHeapManager\AngKIOHeapManager.h">
+      <Filter>Controller\IOHeapManager</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Controller\MessageQueuePool\AngKMessageHandler.h">
+      <Filter>Controller\MessageQueuePool</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Controller\TransmitSignalsInstance\AngKTransmitSignals.h">
+      <Filter>Controller\TransmitSignalsInstance</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Controller\Utils\AngKProjFile.h">
+      <Filter>Controller\Utils</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\eMMCComponents\AngKAddeMMCHuaweiFile.h">
+      <Filter>View\DlgComponents\eMMCComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\eMMCComponents\eMMCParserManager.h">
+      <Filter>View\DlgComponents\eMMCComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\eMMCComponents\AngKemmCDriverPara.h">
+      <Filter>View\DlgComponents\eMMCComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\ProjectComponents\AngKProjectDrvParaSetting.h">
+      <Filter>View\DlgComponents\ProjectComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Controller\LogManager\AngKLogManager.h">
+      <Filter>Controller\LogManager</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\Components\ModelComponents\AngKProgressDelegate.h">
+      <Filter>View\Components\ProgressComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\ProjectComponents\AngKProjectChipConfigWidget.h">
+      <Filter>View\DlgComponents\ProjectComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\ChipComponents\AngKDeviceInfoDlg.h">
+      <Filter>View\DlgComponents\ChipComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\SettingComponents\AngKAdvanceSetting.h">
+      <Filter>View\DlgComponents\SettingComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\SettingComponents\AngKSwapSetting.h">
+      <Filter>View\DlgComponents\SettingComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Controller\ScanManager\AngKScanManager.h">
+      <Filter>Controller\ScanManager</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Controller\ACCmdHandler\ACDeviceModel.h">
+      <Filter>Model\Device</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\SettingComponents\AngKChainSelectDlg.h">
+      <Filter>View\DlgComponents\SettingComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Model\Device\AngKDeviceModel.h">
+      <Filter>Model\Device</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Controller\ChkManager\AngKChkManager.h">
+      <Filter>Controller\ChkManager</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\SettingComponents\AngKDebugSetting.h">
+      <Filter>View\DlgComponents\SettingComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\MenuBarComponents\AngKDeviceInfoTable.h">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\MenuBarComponents\AngKAboutDlg.h">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\Components\InterfaceComponents\AngKTabProgram.h">
+      <Filter>View\Components\InterfaceComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\Components\InterfaceComponents\AngKTabProject.h">
+      <Filter>View\Components\InterfaceComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Controller\EventManager\ACEventManager.h">
+      <Filter>Controller\EventManager</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Controller\EventManager\ACEventLogger.h">
+      <Filter>Controller\EventManager</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Controller\EventManager\ACEventBuild.h">
+      <Filter>Controller\EventManager</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\SettingComponents\AngKDemoWidget.h">
+      <Filter>View\DlgComponents\SettingComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\MenuBarComponents\ACAdapterCountInfomation.h">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Controller\ACCmdHandler\ACCmdHandler.h">
+      <Filter>Controller\ACCmdHandler</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Controller\ACCmdHandler\ACNetComm.h">
+      <Filter>Controller\ACCmdHandler</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Controller\ACCmdHandler\AngKRemoteCmdManager.h">
+      <Filter>Controller\ACCmdHandler</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Controller\ACCmdHandler\AppConfigModel.h">
+      <Filter>Controller\ACCmdHandler</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Controller\ACCmdHandler\AppModels.h">
+      <Filter>Controller\ACCmdHandler</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Controller\ACCmdHandler\BufferModel.h">
+      <Filter>Controller\ACCmdHandler</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Controller\ACCmdHandler\CmdHandler.h">
+      <Filter>Controller\ACCmdHandler</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Controller\ACCmdHandler\UplinkDataReceiver.h">
+      <Filter>Controller\ACCmdHandler</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\MessageBox\ACMessageBox.h">
+      <Filter>View\DlgComponents\MessageBox</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Controller\Utils\AngkLogger.h">
+      <Filter>Controller\LogManager</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Controller\DeviceManager\ACDeviceManager.h">
+      <Filter>Controller\DeviceManager</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\MenuBarComponents\ACDeviceManagerList.h">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Controller\ProjectManager\ACProjManager.h">
+      <Filter>Controller\ProjectManager</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\ProjectComponents\ACProjectProperty.h">
+      <Filter>View\DlgComponents\ProjectComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\eMMCComponents\ACeMMCSolution.h">
+      <Filter>View\DlgComponents\eMMCComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\ProjectComponents\ACProjectCreateDlg.h">
+      <Filter>View\DlgComponents\ProjectComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\ProjectComponents\ACTaskCreateDlg.h">
+      <Filter>View\DlgComponents\ProjectComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Controller\TaskManager\ACTaskManager.h">
+      <Filter>Controller\TaskManager</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\ProjectComponents\ACTaskDownload.h">
+      <Filter>View\DlgComponents\ProjectComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\MenuBarComponents\ACProgrammerTestDlg.h">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Controller\eMMC\ACeMMCAnalyzeManager.h">
+      <Filter>Controller\eMMC</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\MenuBarComponents\ACAutomaticSetting.h">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Controller\AutomaticManager\AutoInterface.h">
+      <Filter>Controller\AutomaticManager</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Controller\AutomaticManager\automaticplugin_global.h">
+      <Filter>Controller\AutomaticManager</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Controller\ReportManager\ACReportRecord.h">
+      <Filter>Controller\ReportManager</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Controller\ReportManager\ACHtmlLogWriter.h">
+      <Filter>Controller\ReportManager</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Controller\AutomaticManager\AutoMessageServer.h">
+      <Filter>Controller\AutomaticManager</Filter>
+    </QtMoc>
+    <QtMoc Include="..\View\DlgComponents\MenuBarComponents\ACMasterChipAnalyzeDlg.h">
+      <Filter>View\DlgComponents\MenuBarComponents</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Controller\eMMC\ACMasterChipAnalyzeManager.h">
+      <Filter>Controller\eMMC</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Controller\AutomaticManager\AuthUtils.h">
+      <Filter>Controller\AutomaticManager</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Controller\AutomaticManager\ExternalServer.h">
+      <Filter>Controller\AutomaticManager</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Controller\ACCmdHandler\CustomMessageHandler.h">
+      <Filter>Controller\ACCmdHandler</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Controller\RemoteServer\JsonRpcServer.h">
+      <Filter>Controller\RemoteServer</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Controller\ACCmdHandler\MT422SerialHandler.h">
+      <Filter>Controller\ACCmdHandler</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Controller\ACCmdHandler\SerialPortManager.h">
+      <Filter>Controller\ACCmdHandler</Filter>
+    </QtMoc>
+    <QtMoc Include="..\Controller\ACCmdHandler\SerialPortWorker.h">
+      <Filter>Controller\ACCmdHandler</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\View\Components\AngKMessageQueue.h">
+      <Filter>View\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\View\GlobalInit\GlobalDefine.h">
+      <Filter>View\GlobalInit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\View\GlobalInit\MessageType.h">
+      <Filter>View\GlobalInit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\View\GlobalInit\StyleInit.h">
+      <Filter>View\GlobalInit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\View\GlobalInit\XmlDefine.h">
+      <Filter>View\GlobalInit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Model\DataBase\ChipModel.h">
+      <Filter>Model\DataBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Model\DataBase\DBController.hpp">
+      <Filter>Model\DataBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Model\DataBase\ISQList.h">
+      <Filter>Model\DataBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Model\DataBase\reflection.hpp">
+      <Filter>Model\DataBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Model\DataBase\SQLBuilder.hpp">
+      <Filter>Model\DataBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Model\DataBase\SQLStatement.hpp">
+      <Filter>Model\DataBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\View\GlobalInit\Tag_Proj.h">
+      <Filter>View\GlobalInit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Model\SerializeData\DataJsonSerial.hpp">
+      <Filter>Model\DataJsonSerial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Model\DataBuffer\AngKDataBuffer.h">
+      <Filter>Model\DataBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\View\GlobalInit\DataBufferDefine.h">
+      <Filter>View\GlobalInit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Model\eMMC\eMMCCom.h">
+      <Filter>Model\eMMC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\View\GlobalInit\ChipOperatorCfgDefine.h">
+      <Filter>View\GlobalInit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\View\GlobalInit\IOHeapDeviceDefine.h">
+      <Filter>View\GlobalInit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\View\mainFrame\MainWindow\AngKShadowWidget.h">
+      <Filter>View\MainFrame\MainWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\View\mainFrame\MainWindow\AngKShadowWindow.h">
+      <Filter>View\MainFrame\MainWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\View\mainFrame\MainWindow\AngKSkinGridImage.h">
+      <Filter>View\MainFrame\MainWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Controller\MessageQueuePool\thread_pool.h">
+      <Filter>Controller\MessageQueuePool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Controller\MessageQueuePool\safe_queue_base.h">
+      <Filter>Controller\MessageQueuePool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Controller\Utils\AngKCommonTools.h">
+      <Filter>Controller\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Controller\Utils\AngKHelper.h">
+      <Filter>Controller\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Controller\Utils\AngKMisc.h">
+      <Filter>Controller\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Controller\Utils\AngKPathResolve.h">
+      <Filter>Controller\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Controller\Utils\ChkSum.h">
+      <Filter>Controller\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\View\GlobalInit\PropertyDefine.h">
+      <Filter>View\GlobalInit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Controller\ChkManager\ChecksumDef.h">
+      <Filter>Controller\ChkManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Controller\LogManager\IOutput.h">
+      <Filter>Controller\LogManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\View\GlobalInit\AppModeType.h">
+      <Filter>View\GlobalInit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\View\GlobalInit\errorcode.h">
+      <Filter>View\GlobalInit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Controller\ACCmdHandler\CRC\Crc32_Std.h">
+      <Filter>Controller\ACCmdHandler\CRC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Controller\ACCmdHandler\CRC\Crc32_Comm.h">
+      <Filter>Controller\ACCmdHandler\CRC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Controller\ACCmdHandler\ACCmdPacket.h">
+      <Filter>Controller\ACCmdHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Controller\ACCmdHandler\ACError.h">
+      <Filter>Controller\ACCmdHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Controller\ACCmdHandler\ACTypes.h">
+      <Filter>Controller\ACCmdHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Controller\ACCmdHandler\IACComm.h">
+      <Filter>Controller\ACCmdHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Controller\ACCmdHandler\ICD.h">
+      <Filter>Controller\ACCmdHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Controller\ACCmdHandler\ICmdHandler.h">
+      <Filter>Controller\ACCmdHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Controller\ACCmdHandler\ICrcCheck.h">
+      <Filter>Controller\ACCmdHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Controller\ACCmdHandler\IDataWriter.h">
+      <Filter>Controller\ACCmdHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Controller\ACCmdHandler\Platform.h">
+      <Filter>Controller\ACCmdHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Controller\ChipManager\ACChipManager.h">
+      <Filter>Controller\ChipManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Model\Device\DeviceModel.h">
+      <Filter>Model\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Controller\AutomaticManager\ACAutomaticManager.h">
+      <Filter>Controller\AutomaticManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Controller\eMMC\CAcMbn.h">
+      <Filter>Controller\eMMC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Controller\eMMC\eMMCDef.h">
+      <Filter>Controller\eMMC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\View\GlobalInit\ErrTypes.h">
+      <Filter>View\GlobalInit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\View\GlobalInit\DevErrCode.h">
+      <Filter>View\GlobalInit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Controller\ACCmdHandler\ICustomDllHandler.h">
+      <Filter>Controller\ACCmdHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Controller\ACCmdHandler\MT422DllHandler.h">
+      <Filter>Controller\ACCmdHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Controller\ACCmdHandler\UUID\iuidgenerator.h">
+      <Filter>Controller\ACCmdHandler\UUID</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Controller\ACCmdHandler\UUID\itimeprovider.h">
+      <Filter>Controller\ACCmdHandler\UUID</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Controller\ACCmdHandler\UUID\mtuidgenerator.h">
+      <Filter>Controller\ACCmdHandler\UUID</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Controller\TaskManager\TaskManagerSingleton.h">
+      <Filter>Controller\TaskManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Controller\ProjectManager\ProjectManagerSingleton.h">
+      <Filter>Controller\ProjectManager</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="AG06Client.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="BackupFiles\AprogExe.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\View\Components\ModelComponents\AngKCheckBoxHeader.h">
+      <Filter>View\Components\ModelComponents</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\Controller\TaskManager\ACSSDProjManager.h">
+      <Filter>Controller\TaskManager</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,31 @@
+QWidget#bgWidget
+{
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 1);
+}
+
+QWidget#chipWidget,
+QWidget#connectWidget
+{
+    border-radius: 8px;
+    background: rgba(247, 247, 247, 1);
+}
+
+QPushButton#closeButton
+{
+    image: url(:/Skin/Light/Common/close.svg);
+}
+
+QLabel
+{
+    color: rgba(95, 99, 104, 1);
+    text-align: left;
+    vertical-align: middle;
+    background: transparent;
+}
+
+QLabel#Title
+{
+    font:20px "HarmonyOS Sans SC";
+    font-weight: 400;
+}

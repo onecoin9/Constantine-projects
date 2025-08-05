@@ -1,0 +1,106 @@
+QWidget
+{
+    background-position:center;
+    background-repeat:no-repeat;
+    border-radius:20px;
+    border-color: #0997f7;
+}
+
+QWidget#backgroundWidget[customProperty="AP9900"]
+{
+    border-image:url(:/Skin/Light/Background/AP8000.png);
+}
+
+QWidget#backgroundWidget[customProperty="IPS3000"]
+{
+    border-image:url(:/Skin/Light/Background/IPS3000.png);
+}
+
+QLabel#title[customProperty="maxWgtFont"]
+{
+    font:72px "HarmonyOS Sans SC Light";
+    color:  rgba(95, 99, 104, 1);
+}
+
+QLabel#title[customProperty="minWgtFont"]
+{
+    font:42px "HarmonyOS Sans SC Light";
+    color:  rgba(95, 99, 104, 1);
+}
+
+QLabel#introLabel1[customProperty="maxWgtFont"]
+{
+    font:26px "HarmonyOS Sans SC Light";
+    color: rgba(95, 99, 104, 1);
+}
+
+QLabel#introLabel2[customProperty="maxWgtFont"]
+{
+    font:26px "HarmonyOS Sans SC Light";
+    color: rgba(95, 99, 104, 1);
+}
+
+QLabel#introLabel1[customProperty="minWgtFont"]
+{
+    font:14px "HarmonyOS Sans SC Light";
+    color: rgba(95, 99, 104, 1);
+}
+
+QLabel#introLabel2[customProperty="minWgtFont"]
+{
+    font:14px "HarmonyOS Sans SC Light";
+    color: rgba(95, 99, 104, 1);
+}
+
+QComboBox
+{
+    color:#666666;
+    font-size:20px;
+    padding: 1px 15px 1px 3px;
+    border:0px solid rgba(228,228,228,1);
+    border-radius: 8px;
+    background: rgba(241, 243, 244, 1);
+}
+
+QComboBox::drop-down
+{
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 32px;
+    border:none;
+    background : white;
+}
+
+QComboBox::down-arrow
+{
+    image: url(:/Skin/Light/ComboBox/downarrow.svg);
+}
+
+QComboBox::QAbstractItemView
+{
+    background:rgba(255,255,255,1);
+    border:1px solid rgba(228,228,228,1);
+    border-radius:0px 0px 5px 5px;
+    color: rgba(0, 0, 0, 1);
+    outline: 0px;
+}
+
+QComboBox QAbstractItemView::item
+{
+  	height:32px;
+    font:20px "HarmonyOS Sans SC Light";
+  	padding-left:9px;
+  	background:#FFFFFF;
+}
+
+QComboBox QAbstractItemView::item:hover
+{
+    background:#409CE1;
+    color:#ffffff;
+}
+
+QComboBox QAbstractItemView::item:selected
+{
+    background:#409CE1;
+    color:#ffffff;
+}

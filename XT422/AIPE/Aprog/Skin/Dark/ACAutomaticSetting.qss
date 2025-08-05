@@ -1,0 +1,136 @@
+QWidget#bgWidget
+{
+    border-radius: 8px;
+    background: rgba(70, 70, 70, 1);
+}
+
+QWidget#backgroundWidget
+{
+    border-radius: 8px;
+    background: rgba(50, 50, 50, 1);
+}
+
+QPushButton#closeButton
+{
+    image: url(:/Skin/Dark/Common/close.svg);
+}
+
+QPushButton#tskPathButton
+{
+    image:url(:/Skin/Dark/PushButton/otherButton.png);
+}
+
+QPushButton#saveButton,
+QPushButton#loadButton,
+QPushButton#okButton
+{
+    font:14px "HarmonyOS Sans SC";
+    font-weight: 500;
+    color: rgba(95, 99, 104, 1);
+    border-radius: 3px;
+    background-color: rgba(255, 255, 255, 1);
+    border: 1px solid rgba(247, 247, 247, 1);
+}
+
+QPushButton#saveButton:hover,
+QPushButton#loadButton:hover,
+QPushButton#okButton:hover
+{
+    background-color: rgba(250, 250, 250, 1);
+}
+
+QPushButton#saveButton:pressed,
+QPushButton#loadButton:pressed,
+QPushButton#okButton:pressed
+{
+    background-color: rgba(235, 235, 235, 1);
+}
+
+QLabel
+{
+    color: rgba(255, 255, 255, 1);
+    text-align: left;
+    vertical-align: middle;
+    background: transparent;
+    font:14px "HarmonyOS Sans SC";
+    font-weight: 500;
+}
+
+QLabel#Title
+{
+    font:20px "HarmonyOS Sans SC";
+    font-weight: 400;
+}
+
+QCheckBox#supplyStartPosCheck,
+QCheckBox#okStartPosCheck,
+QCheckBox#ngStartPosCheck
+{
+    color: rgba(255, 255, 255, 1);
+    font:14px "HarmonyOS Sans SC";
+    font-weight: 500;
+}
+
+QCheckBox#supplyStartPosCheck::indicator::unchecked,
+QCheckBox#okStartPosCheck::indicator::unchecked,
+QCheckBox#ngStartPosCheck::indicator::unchecked
+{
+    width:13px;
+    height:13px;
+    image: url(:/Skin/Dark/CheckBox/rectCheckNormal.svg);
+}
+
+QCheckBox#supplyStartPosCheck::indicator::hover,
+QCheckBox#okStartPosCheck::indicator::hover,
+QCheckBox#ngStartPosCheck::indicator::hover
+{
+    width:13px;
+    height:13px;
+    image: url(:/Skin/Dark/CheckBox/rectCheckHover.svg);
+}
+
+QCheckBox#supplyStartPosCheck::indicator::checked,
+QCheckBox#okStartPosCheck::indicator::checked,
+QCheckBox#ngStartPosCheck::indicator::checked
+{
+    width:13px;
+    height:13px;
+    image: url(:/Skin/Dark/CheckBox/rectCheckSelect.svg);
+}
+
+QLineEdit
+{
+    font:14px "HarmonyOS Sans SC";
+    color: rgba(255, 255, 255, 1);
+    font-weight: 500;
+    border-radius: 3px;
+    padding: 0 8px;
+    background: rgba(37, 37, 37, 1);
+    border: 1px solid rgba(70, 70, 70, 1);
+}
+
+QLineEdit:read-only
+{
+    border: 1px solid rgba(70, 70, 70, 1);
+    color: rgba(255, 255, 255, 1);
+    border-radius: 3px;
+    padding: 0 8px;
+    background: rgba(50, 50, 50, 1);
+}
+
+QGroupBox
+{
+    margin-top: 2.3ex;
+    border-radius: 10px;
+    border: 2px solid rgba(40, 40, 40, 1);
+    font:14px "HarmonyOS Sans SC";
+    font-weight: 700;
+    color: rgba(255, 255, 255, 1);
+}
+
+QGroupBox::title
+{
+    left:10px;
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+}

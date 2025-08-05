@@ -1,0 +1,25 @@
+SW Version,1.38j1,,,,,,,,
+Function,Program,,,,,,,,
+Manufacture,NXP,,,,,,,,
+Part Number,MC33PF8200A0ES,,,,,,,,
+Socket Board name,MLF56-PF8200-OT-T4,,,,,,,,
+Data File,[Chip Data],,,,,,,,
+Checksum, 00000957 [Byte Sum],,,,,,,,
+Session start time,Wednesday March 25 2020 13:26:33,,,,,,,,
+Programmer SN,Site 5: 1469,,,,,,,,
+Socket Board SN,#5: 1234567,,,,,,,,
+,,,,,,,,,
+#,Wafer X,Wafer Y,Wafer ID,Unique ID,Device ID,FStatus,Pass/Fail,Site#,SKT#
+1,18,32,41,183241,72,0,Pass,1,1
+2,18,32,41,183241,18,32,Pass,1,1
+3,18,32,41,183241,18,32,Pass,1,1
+4,18,32,41,183241,72,0,Pass,1,1
+5,18,32,41,183241,72,0,Pass,1,1
+6,18,32,41,183241,72,0,Pass,1,1
+7,18,32,41,183241,72,0,Pass,1,1
+,,,,,,,,,
+Total,7,,,,,,,,
+Total Pass,7,,,,,,,,
+Total Fail,0,,,,,,,,
+Yield Rate,100.00%,,,,,,,,
+Session end time,Wednesday March 25 2020 13:27:16,,,,,,,,

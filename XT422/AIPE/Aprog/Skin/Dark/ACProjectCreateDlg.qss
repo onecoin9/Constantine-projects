@@ -1,0 +1,55 @@
+QWidget#bgWidget
+{
+    border-radius: 8px;
+    background: rgba(50, 50, 50, 1);
+}
+
+QWidget#backgroundWidget
+{
+    border-radius: 8px;
+    background: rgba(50, 50, 50, 1);
+}
+
+QPushButton#closeButton
+{
+    image: url(:/Skin/Dark/Common/close.svg);
+}
+
+QLabel
+{
+    color: rgba(255, 255, 255, 1);
+    text-align: left;
+    vertical-align: middle;
+    background: transparent;
+    font:14px "HarmonyOS Sans SC";
+    font-weight: 500;
+}
+
+QLabel#Title
+{
+    font:20px "HarmonyOS Sans SC";
+    font-weight: 400;
+}
+
+QTabWidget::pane
+{
+    border:none;
+    background-color: rgba(50, 50, 50, 1);
+}
+
+QTabBar::tab
+{
+    font:14px "HarmonyOS Sans SC";
+    background-color: rgba(40, 40, 40, 1);
+}
+
+QTabBar::tab:selected
+{
+    background-color: rgba(60, 60, 60, 1);
+}
+
+QTabBar::tab:hover
+{
+    background-color: rgba(70, 70, 70, 1);
+}
+

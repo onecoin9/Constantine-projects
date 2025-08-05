@@ -1,0 +1,28 @@
+QWidget#bgWidget
+{
+    border-radius: 16px;
+    background: rgba(37, 37, 37, 1);
+    border-top-left-radius: 16px;
+    border-bottom-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+}
+
+QPushButton#enButton,
+QPushButton#chButton,
+QPushButton#jpButton
+{
+    font:14px "HarmonyOS Sans SC";
+    font-weight: 500;
+    color: rgba(121, 121, 121, 1);
+    background-color: transparent;
+}
+
+QPushButton#enButton:checked,
+QPushButton#chButton:checked,
+QPushButton#jpButton:checked
+{
+    background: rgba(70, 70, 70, 1);
+    color: rgba(255, 255, 255, 1);
+    border-radius: 15px;
+}

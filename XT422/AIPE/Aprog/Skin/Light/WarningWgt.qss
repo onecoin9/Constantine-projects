@@ -1,0 +1,53 @@
+QWidget#bgWidget[customProperty="SUCCESS"]
+{
+    border-radius: 8px;
+    background: qlineargradient(spread:pad,x1:0,y1:0,x2:1,y2:0,stop:0 rgba(14, 186, 220, 1),stop:0.5 rgba(29, 219, 181, 1), stop:1 rgba(40, 241, 157, 1));
+}
+
+QWidget#bgWidget[customProperty="WARNING"]
+{
+    border-radius: 8px;
+    background: qlineargradient(spread:pad,x1:0,y1:0,x2:1,y2:0,stop:0 rgba(255, 143, 138, 1),stop:1 rgba(255, 109, 136, 1));
+}
+
+QWidget#widget
+{
+    background: transparent;
+}
+
+QLabel
+{
+    color: rgba(255, 255, 255, 1);
+    text-align: left;
+    vertical-align: top;
+    background: transparent;
+
+}
+
+QLabel#bigTitle
+{
+    font:22px "HarmonyOS Sans SC";
+    font-weight: 700;
+}
+
+QLabel#littleTitle
+{
+    font:15px "HarmonyOS Sans SC";
+    font-weight: 400;
+}
+
+QLabel#outputLabel,
+QLabel#outputNum,
+QLabel#allLabel,
+QLabel#allNum
+{
+    font:16px "HarmonyOS Sans SC";
+    font-weight: 400;
+}
+
+QFrame#line
+{
+	 border:none;
+	 background: rgba(255, 255, 255, 1);
+	 max-height : 1px;
+}

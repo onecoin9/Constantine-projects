@@ -1,0 +1,23 @@
+QWidget#bgWidget
+{
+    border-radius: 8px;
+    background: rgba(37, 37, 37, 1);
+    border-top-left-radius: 17px;
+    border-bottom-left-radius: 17px;
+    border-top-right-radius: 17px;
+    border-bottom-right-radius: 17px;
+}
+
+QWidget#horizontalWidget
+{
+    background: rgba(37, 37, 37, 1);
+    border-top-right-radius: 14px;
+    border-bottom-right-radius: 14px;
+}
+
+QLabel#userName
+{
+    font:16px "HarmonyOS Sans SC";
+    font-weight: 500;
+    color: rgba(255, 255, 255, 1);
+}

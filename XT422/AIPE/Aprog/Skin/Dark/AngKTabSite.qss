@@ -1,0 +1,67 @@
+QMessageBox QLabel
+{ 
+	color: rgba(0, 0, 0, 1);
+}
+
+QLabel
+{
+    color: rgba(255, 255, 255, 1);
+    text-align: left;
+    vertical-align: middle;
+    background: transparent;
+    font:14px "HarmonyOS Sans SC";
+    font-weight: 500;
+}
+
+QLabel#moreInfoLabel
+{
+    color: rgba(79, 129, 255, 1);
+    text-align: left;
+    vertical-align: middle;
+    background: transparent;
+    font:14px "HarmonyOS Sans SC";
+    font-weight: 500;
+    text-decoration:underline;
+}
+
+QLineEdit
+{
+    font:14px "HarmonyOS Sans SC";
+    color: rgba(255, 255, 255, 1);
+    font-weight: 500;
+    border-radius: 3px;
+    padding: 0 8px;
+    background: rgba(37, 37, 37, 1);
+    border: 1px solid rgba(70, 70, 70, 1);
+}
+
+QLineEdit:read-only
+{
+    border: 1px solid rgba(70, 70, 70, 1);
+    color: rgba(255, 255, 255, 1);
+    border-radius: 3px;
+    padding: 0 8px;
+    background: rgba(50, 50, 50, 1);
+}
+
+QLabel#passSymbol
+{
+    image: url(:/Skin/Dark/Common/passCnt.svg);
+}
+
+QLabel#failSymbol
+{
+    image: url(:/Skin/Dark/Common/failCnt.svg);
+}
+
+QLabel#socketSymbolLabel
+{
+    image: url(:/Skin/Dark/Common/socketSymbol.svg);
+}
+
+QFrame#line
+{
+	 border:none;
+	 background: rgba(40, 40, 40, 1);
+	 max-height : 1px;
+}

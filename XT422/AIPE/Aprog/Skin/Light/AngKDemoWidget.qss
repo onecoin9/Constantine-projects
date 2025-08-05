@@ -1,0 +1,18 @@
+QPushButton#okButton
+{
+    font:14px "HarmonyOS Sans SC";
+    font-weight: 500;
+    color: rgba(255, 255, 255, 1);
+    border-radius: 3px;
+    background-color: rgba(28, 92, 255, 1);
+}
+
+QPushButton#okButton:hover
+{
+    background-color: rgba(28, 105, 255, 1);
+}
+
+QPushButton#okButton:pressed
+{
+    background-color: rgba(41, 95, 230, 1);
+}

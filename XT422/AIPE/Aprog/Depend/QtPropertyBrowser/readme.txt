@@ -1,0 +1,4 @@
+QtSolutions_PropertyBrowser-headd.dll
+该动态库是调用Qt属性库工程，需要拷贝到和应用执行程序一个目录下
+
+文件名xxxd.dll为Debug版本，需要自行编译Debug的exe才可调用

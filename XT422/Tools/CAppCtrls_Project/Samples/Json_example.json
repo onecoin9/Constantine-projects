@@ -1,0 +1,9 @@
+{
+	"jsonrpc":"2.0",
+	"id":"1",
+	"method":"SendData",
+	"params":{
+		"FileName":"C:\\Test.bin",
+		"Param2":1
+	}
+}

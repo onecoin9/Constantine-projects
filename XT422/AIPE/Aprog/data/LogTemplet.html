@@ -1,0 +1,66 @@
+<html>
+<head>
+<style type = 'text/css'>
+h1{ margin-bottom:20; margin-top:10; }
+div#wrapper{margin: 0 auto; padding: 0; border: 0; width: 1024px; text-align: left; }
+div#header{}
+div#header h1{margin-top: 20px;margin-right: 0px;margin-bottom: 0px;font-size: 26px;font-weight: 400,bold;font-family:verdana;text-align:left;}
+div#maincontent{float: left;margin: 0;padding: 0;border: 0;width: 1024px;min-height:550px;background: transparent;}
+
+div#configinfo{float: left;margin: 0;padding: 0;border: 0;width: 1024px;background: transparent;}
+div#configinfo table{font: 9pt  Consolas; border:0; cellspacing:0; cellpadding:0; width:100% ;}
+div#configinfo th{align:left; valign:top; font: 9pt  Consolas; font-weight:bold; vertical-align: bottom; text-align: left;}
+div#configinfo td{valign:top; font: 9pt  Consolas; text-align: left;}
+div#configinfo hr{background: #000000; height: 4px; width: 100% ; text-align: left;}
+div#configinfo p.lognormal{font:9pt   Consolas New;display:inline; color:black; }
+
+div#programmerinfo{float: left;margin: 0;padding: 0;border: 0;width: 1024px;background: transparent;}
+div#programmerinfo p{font: 12pt Consolas;display:inline;}
+div#programmerinfo table{font: 9pt  Consolas; border:0; cellspacing:0; cellpadding:0; width:100% ;}
+div#programmerinfo th{align:left; valign:top; font: 9pt  Consolas; font-weight:bold; vertical-align: bottom; text-align: left;}
+div#programmerinfo td{valign:top; font: 9pt  Consolas; text-align: left;}
+div#programmerinfo hr{background: #000000; height: 4px; width: 100% ; text-align: left;}
+
+div#projectreport{float: left;margin: 0;padding: 0;border: 0;width: 1024px;background: transparent;}
+div#projectreport table{font: 9pt  Consolas; border:0; cellspacing:0; cellpadding:0; width:100% ;}
+div#projectreport table.subtbl{font: 9pt  Consolas; border:0; cellspacing:0; cellpadding:0; width:60% ;}
+div#projectreport th{align:left; valign:top; font: 9pt  Consolas; font-weight:bold; vertical-align: bottom; text-align: left;}
+div#projectreport td{valign:top; font: 9pt  Consolas; text-align: left;}
+div#projectreport hr{background: #000000; height: 4px; width: 100% ; text-align: left;}
+
+div#footer{clear: both;margin: 0;padding: 0;width: 1024px;height: 23px;background: #fff;border-top:solid #fff;border-bottom:solid #fff;font-family: arial;font-size: 11px;}
+div#footer p{margin: 5px 10px 0 10px;}
+p.logtime{font:8pt   Consolas New;display:inline; color:black; }
+p.lognormal{font:8pt   Consolas;display:inline; color:black; }
+p.logerror{font:8pt   Consolas;display:inline; color:white; background-color:red; }
+p.logsuccess{font:8pt   Consolas;display:inline; color:white; background-color:green; }
+p.logwarning{font:8pt   Consolas;      display:inline; color:black; background-color:yellow; }
+.sectionHeader{font:8pt   Consolas; display:inline; text-decoration:underline; font-weight: bold; cursor: pointer; }
+</style>
+<script type="text/javascript">
+window.onload = function() {
+	var button = getClass('p', 'SectionHeader button');
+	for (var i = 0; i < button.length; i++) {
+		button[i].onclick = function() {
+			var infoDiv = this.parentNode.getElementsByTagName("div")[0];
+			var noteMark = this.parentNode.getElementsByTagName("span")[0];
+			var styleDisplay = infoDiv.style.display;
+			if (styleDisplay == "none") {infoDiv.style.display = "block";noteMark.innerHTML = "-";}
+			else {infoDiv.style.display = "none";noteMark.innerHTML = "+";}
+}}}
+
+function getClass(tagName, className){
+	if (document.getElementsByClassName) return document.getElementsByClassName(className);
+	else {var tags = document.getElementsByTagName(tagName);var tagArr = [];
+		for (var i = 0; i < tags.length; i++) {if (tags[i].className == className) {tagArr[tagArr.length] = tags[i];}}return tagArr;
+}}
+</script>
+</head>
+
+<body>
+<div id = "wrapper">
+<div id = "header"><h1><center>Acroview Client Log</center></h1></div><br/><hr/>
+<hr/>
+</div>
+</body>
+</html>

@@ -1,0 +1,11 @@
+    {
+	"jsonrpc":"2.0",
+	"method":"SendPTCmd2MU",
+	"id":"1004",
+ 	"params":{
+ 		"CmdID":"0x01"
+ 		"CmdData":"C:\Test\CustomID01.bin",
+ 		"HopNum":0,
+ 		"PortID":"0x0"
+ 	}	
+}

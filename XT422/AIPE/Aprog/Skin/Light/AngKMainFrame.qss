@@ -1,0 +1,4 @@
+QWidget#bgWidget
+{
+    background:#fafafa;
+}

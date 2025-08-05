@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ChipData>
+
+<!--
+VlotageSet 电压集，包含多个电压表
+    VoltageTable子项： 电压表
+        Name属性 电压表对应的名称
+        Voltage子项： 电压项
+            Name属性：该电压的名称
+            Range属性：该电压的可选范围
+            Unit属性： 电压的单位
+            内容：为电压值
+-->
+<VlotageSet>
+    <VoltageTable Name="Normal">
+        <Voltage Name="VCCP" Range="2700-3300" Unit="mV">
+            <Value>3000</Value>
+        </Voltage>
+        <Voltage Name="VPP1" Range="2700-3600" Unit="mV"><Value>3300</Value></Voltage>
+        <Voltage Name="VPP2" Range="2700-3600" Unit="mV"><Value>3300</Value></Voltage>
+    </VoltageTable>
+</VlotageSet>
+
+ <!--
+DrvParaSet 驱动参数集 包含多个驱动参数表
+    DrvParaTable子项： 驱动参数表
+        Name属性： 驱动参数表名称
+        Struct子项： 结构体信息
+            Name属性：结构体名称
+            Property 子项： 一个结构体有多个成员，每个成员为一个属性项
+                Name属性： 成员属性名称
+                Type属性： 成员类型，Dec表示10进制，Hex表示16进制，Str表示字符串，程序可以用这个类型来判断用户修改之后的有效性
+                Max属性：如果有Max属性，则表示该参数有指定最大值，只有非Str类型才可能具有该属性
+                Min属性：如果有该属性，则表示该参数有指定最小值，只有非Str类型才可能具有该属性
+                内容：成员值，统一为字符串，驱动内部执行转化为对应的值
+-->
+<DrvParaSet>
+    <DrvParaTable Name="N25Q032">
+    </DrvParaTable>
+    <DrvParaTable Name="N25Q064">
+        <!-- 对参数进行分组，方便驱动工程师结构化查看，就像定义了结构体 -->
+        <Struct Name="Delay">
+            <Property Name="ProgramDelay" Type="Dec" Max="800" Min="100">400</Property>
+        </Struct>
+        <Struct Name="Setting">
+            <Property Name="ProgSetting" Type="Dec">1</Property>
+        </Struct>
+    </DrvParaTable>
+</DrvParaSet>
+
+<!--
+PinMapSet : 引脚映射集
+    PinMapTable子项： 引脚映射表
+        Pin子项：引脚信息
+          Type属性：引脚类型，可为TTL_CLOCK，TTL_DATA，TTL_Z,VCCP,VPP1,VPP2
+          Group子项：引脚类型分组
+                Name属性：引脚分组名称
+                内容: 引脚位置，多个用，隔开，或者用-可表示闭区间，比如10-14表示，10,11,12,13,14 这5个脚
+-->
+<PinMapSet>
+    <PinMapTable Name="N25Q032">
+		<Pin Type="TTL_CLOCK">
+		    <!-- 对引脚进行分组，方便驱动工程师直接同步控制引脚 -->
+			<Group Name="1">2</Group>
+			<Group Name="2">5,6</Group>
+		  <Group Name="3">10-14</Group>
+		</Pin>
+    </PinMapTable>
+</PinMapSet>
+
+<!--
+BlocksSet 块集合
+    BlocksTable块表信息
+       Partition：分区
+            Name属性：分区名称，最好是和BufferMap中定义的一致
+            AddrRange属性：地址范围
+            DevWidth ：器件宽度，为Word或Byte
+            Block 子项：块信息
+                Name属性：Block名称，必填，而且不能重复，方便后续定位
+                AddrRange属性：Block的地址范围
+                SumMask：校验值计算采用的Mask值，16进制
+                OrgValue： 空白值，16进制
+-->
+<BlocksSet>
+    <BlocksTable Name="N25Q032">
+        <!-- 分区表和缓冲区映射表可以相同也可以不同，分区一般是芯片对应的区域，而映射表可能包含驱动工程师需要用到的额外的数据区域 -->
+        <Partition Name="Flash" AddrRange="0-FFFF" DevWidth="Word">
+            <Block Name="B1" AddrRange="0-FFF" SumMask="7F" OrgValue="0"/>
+            <Block Name="B2" AddrRange="4000-6FFF" SumMask="7F" OrgValue="FF"/>
+            <Block Name="B3" AddrRange="7000-FFFF" SumMask="3F" OrgValue="FF"/>
+        </Partition>
+        <Partition Name="EEPROM" AddrRange="0-7FFFF" Default="FF" SumMask="0xFF">
+            <Block Name="B1" AddrRange="0-FFF"/>
+            <Block Name="B2" AddrRange="40000-5FFFF"/>
+        </Partition>
+    </BlocksTable>
+</BlocksSet>
+
+ <!--
+BufferMapSet: 缓冲区映射表集合
+    BufferMapTable子项：缓冲区表
+        Partition子项： 分区表
+            Name属性：分区表名称
+            Index属性：当前分区索引，后续驱动发起数据读取的时候会切换分区索引，从1开始往上递增
+            AddrRange属性：地址范围
+            ViewSelect属性：视窗默认选择索引,需要和View->Index中的一个值相等
+            Visible属性：确定当前分区是否可见，如果不可见，则不可编辑，分区不可见，所有该分区下的View都会不可见
+            View子项：视窗
+                Name属性：视窗名称，一定要有
+                Index属性：视图选择索引，从1开始，一定要指定
+                AddrRange属性：地址范围
+                ShowStyle属性: 视窗的默认显示方式，Word还是Byte
+                OrgValue属性：初始化时的默认值
+                Visible属性：视窗是否可见，TRUE可见，FALSE不可见,
+约束条件
+	 每个Partition下必须有至少一个的View，View的覆盖范围不能超过Partition的范围
+   分区表FileInfo必须有，为保存客户档案信息使用，内部如何定义，参看另外档案
+   分区表ConfigData必须有，为保存客户芯片配置信息使用，内部字节续如何定义，由ConfigXML决定，驱动工程师自行配置
+ -->
+<BufferMapSet>
+    <BufferMapTable Name="All">
+        <Partition Name="UserArea" Index="1" AddrRange="0-FFFF" ViewSelect="2" Visible="TRUE">
+            <View Name="Flash1" Index="1" AddrRange="0-FFF" ShowStyle="Byte" OrgValue="0" Visible="FALSE"/>
+            <View Name="Flash2" Index="2" AddrRange="4000-7FFF" ShowStyle="Word" OrgValue="0" Visible="TRUE"/>
+        </Partition>
+        <Partition Name="BootArea" Index="2" AddrRange="0-7FFFF" ViewSelect="1" Visible="TRUE">
+            <View Name="Boot" Index="1" AddrRange="0-FFF" OrgValue="0" Visible="TRUE"/>
+        </Partition>
+        <!-- 固定存放分区数据信息 大小由驱动工程师定义 -->
+        <Partition Name="FileInfo" Index="3" AddrRange="0-FFF">
+        		<View Name="FileInfo" Index="1" AddrRange="0-FFF" OrgValue="0" Visible="FALSE"/>
+       	</Partition>
+        <!-- 固定存放芯片配置数据信息 大小由驱动工程师定义 -->
+        <Partition Name="ConfigData" Index="4" AddrRange="0-FFF" OrgValue="0" Visible="FALSE">
+        		<View Name="ConfigData" Index="1" AddrRange="0-FFF" OrgValue="0" Visible="FALSE"/>
+        </Partition>
+    </BufferMapTable>
+</BufferMapSet>
+
+
+<!--
+DataRemapSet: 数据写入时的映射集合，有些时候档案加载或数据写入的时候，按照芯片手册要求，需要被映射到其他位置
+	DataRemapTable子项： 数据写入映射表
+		Name属性：数据映射表名称
+		DataMap子项：数据映射
+			Name属性：数据映射项
+			OrgAddr属性：数据原始写入位置
+			MapAddr属性：被映射到的位置
+			Size属性：映射范围，
+
+-->
+<DataRemapSet>
+	<DataRemapTable Name="All">
+		<!--如果数据被写入到80000000开始的100000范围内，则自动被实际写入到A0000000开始的100000范围内 -->
+		<DataMap Name="Map1" OrgAddr="80000000" MapAddr="A0000000" Size="100000" />
+		<DataMap Name="Map2" OrgAddr="80100000" MapAddr="A0100000" Size="180000" />
+	</DataRemapTable>
+</DataRemapSet>
+
+<!--
+FileRelocationSet: 档案被加载的时候自动指定的Relocation信息
+	FileRelocationTable子项：Relocation表
+		Relocation子项：重定向信息
+				FileType属性：希望重定向的档案类型
+				FileAddr属性：文件加载位置
+				BufferAddr属性：缓冲区位置，
+				Length属性：为0表示全部档案范围被重定向
+
+备注：
+	实际该功能是将档案解析时得到的数据位置进行偏移处理，如果是Bin档案默认是从0开始加载到Buffer，但如果BufferAddr被设置为其他值，则直接加上该值。
+-->
+<FileRelocationSet>
+	<FileRelocationTable Name="All">
+		<Relocation FileType="Binary" FileAddr="0" BufferAddr="A0000000" Length="0" />
+	</FileRelocationTable>
+</FileRelocationSet>
+
+<!--
+Device
+      DrvName属性：该XML所属驱动名称
+      Version ：该XML版本
+      Date：该XML编辑日期
+      ChipList子项：器件列表
+            Chip 子项：器件信息
+                    Algo属性：当前Chip对应的芯片算法ID
+                    BufferMapTable子项：指定缓冲区表名称
+                    PartitionTable子项：指定分区表名称
+                    PinMapTable子项：指定引脚映射表名称
+                    VoltageTable子项：指定驱动参数表名称
+                    ChecksumType子项：指定校验值类型，用于客户选择，内容来源于支持列表
+                    FileTypeSupport子项：锁定只能支持的文件类型，内容来源支持列表
+      TimeSpan子项：时间损耗信息
+            Chip 子项：器件信息
+                Algo属性：当前Chip对应的芯片算法ID
+                Function子项：
+                    Name属性：当前命令名称
+                    Unit属性：时间单位
+                    内容：时间值
+
+-->
+<Device DrvName="N25Qxx" Version="1.0" Date="20200302">
+    <ChipList>
+      <Chip Algo="1-10">
+          <BufferMapTable>All</BufferMapTable>
+          <PartitionTable>N25Q032</PartitionTable>
+          <PinMapTable>N25Q032</PinMapTable>
+          <VoltageTable>Normal</VoltageTable>
+          <DrvParaTable>N25Q032</DrvParaTable>
+          <!-- 校验值的自动计算只针对分区表列出的Block信息地址范围，按照客户选择的校验值类型得到，可选择的校验值类型由ChecksumType给出 -->
+          <ChecksumType>Byte,Word,CRC16,CRC32</ChecksumType>
+          <FileTypeSupport>Binary,IntelHex</FileTypeSupport>
+          <DataWriteMapTable>All</DataWriteMapTable>
+          <FileRelocationTable>All</FileRelocationTable>
+      </Chip>
+    </ChipList>
+    <TimeSpan>
+    	<Chip Algo="1">
+    		<Function Name="Program" Unit="ms">3000</Function>
+    		<Function Name="Verify"  Unit="ms">3000</Function>
+    		<Function Name="Erase"  Unit="ms">1000</Function>
+    	</Chip>
+    </TimeSpan>
+</Device>
+
+</ChipData>

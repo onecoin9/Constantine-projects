@@ -1,0 +1,35 @@
+QWidget#bgWidget
+{
+    border-radius: 12px;
+    background: rgba(245, 245, 245, 1);
+}
+
+QCheckBox#expandCheckBox::indicator::unchecked
+{
+    image: url(:/Skin/Light/CheckBox/logCheckNormalUp.svg);
+}
+
+QCheckBox#expandCheckBox::indicator::checked
+{
+    image: url(:/Skin/Light/CheckBox/logCheckSelect.svg);
+}
+
+QLabel
+{
+    color: rgba(95, 99, 104, 1);
+    text-align: left;
+    vertical-align: middle;
+    background: transparent;
+    font:24px "HarmonyOS Sans SC";
+    font-weight: 400;
+}
+
+QTextEdit
+{
+    color: rgba(77, 77, 77, 1);
+    text-align: left;
+    vertical-align: middle;
+    background: transparent;
+    font:18px;
+    font-weight: 400;
+}

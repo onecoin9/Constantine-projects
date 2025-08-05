@@ -1,0 +1,9 @@
+QWidget#bgWidget
+{
+    background: rgba(27, 27, 27, 1);
+}
+
+QWidget#operateWidget
+{
+    background: rgba(27, 27, 27, 1);
+}

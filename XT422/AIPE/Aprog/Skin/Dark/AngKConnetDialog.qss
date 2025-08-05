@@ -1,0 +1,113 @@
+QWidget#bgWidget
+{
+    border-radius: 8px;
+    background: rgba(70, 70, 70, 1);
+}
+
+QWidget#connectWidget
+{
+    border-radius: 8px;
+    background: rgba(50, 50, 50, 1);
+}
+
+QPushButton#closeButton
+{
+    image: url(:/Skin/Dark/Common/close.svg);
+}
+
+QMessageBox QLabel
+{ 
+	color: rgba(0, 0, 0, 1);
+}
+
+QLabel
+{
+    color: rgba(255, 255, 255, 1);
+    text-align: left;
+    vertical-align: middle;
+    background: transparent;
+}
+
+QLabel#conText
+{
+    font:20px "HarmonyOS Sans SC";
+    font-weight: 400;
+}
+
+QLabel#conTypeText
+{
+    font:14px "HarmonyOS Sans SC";
+    font-weight: 500;
+    color: rgba(47, 49, 51, 1);
+}
+
+QLabel#conSymbol
+{
+    image: url(:/Skin/Dark/Common/connectSymbol.svg);
+}
+
+QFrame#line
+{
+	 border:none;
+	 background: rgba(43, 43, 43, 1);
+	 max-height : 1px;
+}
+
+QPushButton#usbButton
+{
+    font:14px "HarmonyOS Sans SC Light";
+    font-weight: 500;
+    border: none;
+    border: 2px solid rgba(40, 40, 40, 1);
+    background-color: rgba(50, 50, 50, 1);
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-right: 1px solid rgba(40, 40, 40, 1);
+    color: rgba(255, 255, 255, 1);
+}
+
+QPushButton#netButton
+{
+    font:14px "HarmonyOS Sans SC Light";
+    font-weight: 500;
+    border: none;
+    border: 2px solid rgba(40, 40, 40, 1);
+    background-color: rgba(50, 50, 50, 1);
+    border-right: 1px solid rgba(40, 40, 40, 1);
+    color: rgba(255, 255, 255, 1);
+}
+
+QPushButton#demoButton
+{
+    font:14px "HarmonyOS Sans SC Light";
+    font-weight: 500;
+    border: none;
+    border: 2px solid rgba(40, 40, 40, 1);
+    background-color: rgba(50, 50, 50, 1);
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-left: 1px solid rgba(40, 40, 40, 1);
+    color: rgba(255, 255, 255, 1);
+}
+
+QPushButton#usbButton:hover,
+QPushButton#netButton:hover,
+QPushButton#demoButton:hover
+{
+    background-color: rgba(40, 40, 40, 1);
+}
+
+QPushButton#usbButton:pressed,
+QPushButton#netButton:pressed,
+QPushButton#demoButton:pressed
+{
+    background-color: rgba(37, 37, 37, 1);
+}
+
+QPushButton#usbButton:checked,
+QPushButton#netButton:checked,
+QPushButton#demoButton:checked
+{
+    background-color: rgba(37, 37, 37, 1);
+    color: rgba(255, 255, 255, 1);
+}

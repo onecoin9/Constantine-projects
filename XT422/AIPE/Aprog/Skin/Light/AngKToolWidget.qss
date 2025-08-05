@@ -1,0 +1,84 @@
+QWidget#widget
+{
+    background:#ffffff;
+}
+
+QToolButton
+{
+    font:14px "HarmonyOS Sans SC";
+    font-weight: 430;
+    text-align: center;
+    border: none;
+    background-color: #ffffff;
+    padding-top: 16px;
+    padding-bottom: 10px;
+}
+
+QToolButton#defineToolButton
+{
+    qproperty-icon:url(:/Skin/Light/PushButton/defineButtonNormal.svg) center;
+}
+
+QToolButton:checked
+{
+    background-color: rgba(250, 250, 250, 1);
+}
+
+QToolButton#eraseToolButton
+{
+    qproperty-icon:url(:/Skin/Light/PushButton/eraseButtonNormal.svg) center;
+}
+
+QToolButton#blankToolButton
+{
+    qproperty-icon:url(:/Skin/Light/PushButton/blankButtonNormal.svg) center;
+}
+
+QToolButton#programToolButton
+{
+    qproperty-icon:url(:/Skin/Light/PushButton/programButtonNormal.svg) center;
+}
+
+QToolButton#verifyToolButton
+{
+    qproperty-icon:url(:/Skin/Light/PushButton/verifyButtonNormal.svg) center;
+}
+
+QToolButton#readToolButton
+{
+    qproperty-icon:url(:/Skin/Light/PushButton/readButtonNormal.svg) center;
+}
+
+QToolButton#secureToolButton
+{
+    qproperty-icon:url(:/Skin/Light/PushButton/secureButtonNormal.svg) center;
+}
+
+QToolButton#illegalToolButton
+{
+    qproperty-icon:url(:/Skin/Light/PushButton/illegalButtonNormal.svg) center;
+}
+
+QToolButton#protectToolButton
+{
+    qproperty-icon:url(:/Skin/Light/PushButton/protectButtonNormal.svg) center;
+}
+
+QToolButton#bufferToolButton
+{
+    qproperty-icon:url(:/Skin/Light/PushButton/bufferButtonNormal.svg) center;
+}
+
+QToolButton#chipSelectToolButton
+{
+    qproperty-icon:url(:/Skin/Light/PushButton/chipSelectNormal.svg) center;
+}
+
+QFrame#line
+{
+	 border:none;
+	 background: rgba(212, 212, 212, 1);
+	 max-height : 1px;
+   margin-left: 9px;
+   margin-right: 9px;
+}

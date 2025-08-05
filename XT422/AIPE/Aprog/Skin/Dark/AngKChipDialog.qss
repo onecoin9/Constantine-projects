@@ -1,0 +1,115 @@
+QWidget#bgWidget
+{
+    border-radius: 8px;
+    background: rgba(70, 70, 70, 1);
+}
+
+QWidget#chipWidget,
+QWidget#connectWidget
+{
+    border-radius: 8px;
+    background: rgba(50, 50, 50, 1);
+}
+
+QPushButton#closeButton
+{
+    image: url(:/Skin/Dark/Common/close.svg);
+}
+
+QMessageBox QLabel
+{ 
+	color: rgba(0, 0, 0, 1);
+}
+
+QLabel
+{
+    color: rgba(255, 255, 255, 1);
+    text-align: left;
+    vertical-align: middle;
+    background: transparent;
+}
+
+QLabel#Title
+{
+    font:20px "HarmonyOS Sans SC";
+    font-weight: 400;
+}
+
+QListView
+{
+    background: rgba(255, 255, 255, 1);
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 1px;
+}
+
+QListView::item
+{
+    font:18px "HarmonyOS Sans SC";
+    font-weight: 700;
+    color: rgba(95, 99, 104, 1);
+}
+
+QListView::item:hover
+{
+    background:#b3d9ff;
+}
+
+QListView::item:selected
+{
+    background: #91C8FF;
+}
+
+QComboBox
+{
+    color: rgba(255, 255, 255, 1);
+    font:16px "HarmonyOS Sans SC Light";
+    border-radius: 4px;
+    background: rgba(37, 37, 37, 1);
+    border: 1px solid rgba(58, 58, 58,1);
+}
+
+QComboBox::drop-down
+{
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 15px;
+    border-radius: 4px;
+    background : rgba(37, 37, 37, 1);
+}
+
+QComboBox::down-arrow
+{
+    width: 10px;
+    height: 10px;
+    image: url(:/Skin/Dark/ComboBox/downarrow.svg);
+}
+
+QComboBox::QAbstractItemView
+{
+    background: rgba(37, 37, 37, 1);
+    border: 1px solid rgba(58, 58, 58, 1);
+    border-radius:0px 0px 5px 5px;
+    color: rgba(255, 255, 255, 1);
+    outline: 0px;
+}
+
+QComboBox QAbstractItemView::item
+{
+  	height:27px;
+    font:15px "HarmonyOS Sans SC Light";
+    background: rgba(255, 255, 255, 1);
+    color:rgba(37, 37, 37, 1);
+}
+
+QComboBox QAbstractItemView::item:hover
+{
+    background:#409CE1;
+    color:#ffffff;
+}
+
+QComboBox QAbstractItemView::item:selected
+{
+    background:#409CE1;
+    color:#ffffff;
+}

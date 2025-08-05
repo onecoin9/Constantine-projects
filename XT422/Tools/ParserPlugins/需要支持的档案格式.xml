@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="GBK" ?>
+<FileParserCom Manufacturer="Default">
+	<!-- ok --> <Parser Name="Binary"/> 
+	<!-- ok --> <Parser Name="Intel Hex"/>
+	<!-- ok --> <Parser Name="Motorola S"/>
+	<Parser Name="Nand Image"/>
+	<!-- AP8000生成的示例buffer貌似不对，内容全为0xFF --><Parser Name="C2000 Out"/>
+	<!-- 无可测试档案 --><Parser Name="MC200 Hex"/>
+	<!-- ok --><Parser Name="CHIL"/>
+	<!-- ok --><Parser Name="JBC"/>
+	<!-- 异常 --><Parser Name="ActelSTPParser"/>
+	<!-- 异常 结构体OUTPUTFILEINFO比AP8000短4个字节  --><Parser Name="XSVF"/>
+	<!-- 无可测试档案 --><Parser Name="DAT"/>
+	<!-- 异常 结构体OUTPUTFILEINFO比AP8000短4个字节 --><Parser Name="VME"/>
+	<!-- ok --><Parser Name="POF"/>
+	<!-- 无可测试档案 --><Parser Name="ACT"/>
+	<!-- ok --><Parser Name="PSF"/>
+	<!-- ok --><Parser Name="Intersil Hex"/>
+	<!-- ok --><Parser Name="JED"/>
+	<!-- ok --><Parser Name="PMF"/>
+	<!-- ok --><Parser Name="MIC"/>
+	<!-- 无可测试档案 --><Parser Name="TIARM Out"/>
+	<!-- ok 新添加 --><Parser Name="MicrochipINHX"/>
+	<!-- ok 新添加 --><Parser Name="ExtendedTekHex"/>
+	<!-- ok 新添加 --><Parser Name="SigneticsHex"/>
+	<!-- ok 新添加 --><Parser Name="TektronixHex"/>
+	<Parser Name="TI PMBUS CSV"/>
+	<Parser Name="RPI"/>
+	<Parser Name="NVM"/>
+	<Parser Name="TI TXT"/>
+	<Parser Name="ROM"/>
+	<Parser Name="TI PowerTXT"/>
+	<Parser Name="TI TCS"/>
+	<Parser Name="XSF"/>
+	<Parser Name="ADP105xHex"/>
+	<Parser Name="AURAPY"/>
+	<Parser Name="TIHXT"/>
+	<Parser Name="Infineon Ahex"/>
+	<Parser Name="Microchip MaxTouch Raw"/>
+	<Parser Name="ABOV HPO"/>
+	<Parser Name="Infineon LDF"/>
+	<Parser Name="WES"/>
+	<Parser Name="MIF"/>
+	<Parser Name="STPMXX"/>
+	<Parser Name="TI PMBUS XML"/>
+	<Parser Name="MPTxt"/>
+	<Parser Name="Realtek BT Pack Bin"/>
+	<Parser Name="FS8XTxt"/>
+	<Parser Name="FCB"/>
+	<Parser Name="XDPE152xx"/>
+	<Parser Name="TIFSParser"/>
+	<!-- ok --><Parser Name="MPSParser"/>
+	<Parser Name="ATSHAParser"/>
+	<Parser Name="RICHTEKCSVParser"/>
+	<Parser Name="SOCX"/>
+	<Parser Name="FEA"/>
+	<Parser Name="SVFParser"/>
+	<Parser Name="JamParser"/>
+	<Parser Name="Microchip MaxTouch xcfg"/>
+	<Parser Name="GoWin FS"/>
+	<Parser Name="ROHM Bin"/>
+	<Parser Name="ATE XML"/>
+	<!-- 无可测试档案 --><Parser Name="MPS XLSX"/>
+	<Parser Name="ATExx XML"/>
+	<Parser Name="SH32NOPFParser"/>
+	<Parser Name="HEDIniParser"/>
+	<Parser Name="FS56xTxtPraser"/>
+	<Parser Name="MP5920Parser"/>
+	<Parser Name="MP5990Parser"/>
+	<Parser Name="Hynetek TXT"/>
+	<Parser Name="EX TI HEX(X0)"/>
+	<Parser Name="ADTxtParser"/>
+	<Parser Name="CusHex"/>
+	<Parser Name="NXP_PF01XX"/>
+	<!-- ok --><Parser Name="MPSParserTypeB"/>
+	<Parser Name="FDParser"/>
+	<!-- ok --><Parser Name="MPSParserTypeC"/>
+	<Parser Name="LiLin_PF50xxParser"/>
+	<Parser Name="ISParserTypeA"/>
+	<Parser Name="Infineon XCF"/>
+	<!-- ok --><Parser Name="MPSParserTypeD"/>
+	<Parser Name="ACSEC"/>
+	<Parser Name="MP8892Parser"/>
+	<Parser Name="SOCPRJParser"/>
+	<Parser Name="AD_MAX17xxTxtParser"/>
+	<Parser Name="FDCfgParser"/>
+	<Parser Name="Nopf8BitParser"/>
+	<!-- ok --><Parser Name="MPSParserTypeE"/>
+	<Parser Name="STAPL"/>
+	<!-- ok --><Parser Name="MPSHR12Parser"/>
+	<Parser Name="Arrow_PGP_Parser"/>
+	<Parser Name="MPTandOPTParser"/>
+	<Parser Name="TI_TPS6593_txtParser"/>
+	<Parser Name="TI03328EPRParser"/>
+	<!-- ok --><Parser Name="MPS_HR12xx_txtParser"/>
+	<Parser Name="Hercules_acfParser"/>
+	<Parser Name="ACBin_Parser"/>
+</FileParserCom>
+
+<FileParserCom Manufacturer="TI">
+
+</FileParserCom>
+
+<FileParserCom Manufacturer="Actel">
+
+</FileParserCom>
+
+<FileParserCom Manufacturer="ESMT">
+
+</FileParserCom>

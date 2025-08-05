@@ -1,0 +1,13 @@
+# ========= 编译产物 =========
+!*.class
+!*.exe
+!*.dll
+!*.so
+!*.a
+!*.lib
+!*.o
+!*.pyc
+!__pycache__/
+!target/
+!bin/
+!obj/

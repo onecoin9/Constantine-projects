@@ -1,0 +1,302 @@
+QWidget#bgWidget
+{
+    border-radius: 8px;
+    background: rgba(50, 50, 50, 1);
+}
+
+QWidget#backgroundWidget
+{
+    border-radius: 8px;
+    background: rgba(50, 50, 50, 1);
+}
+
+QPushButton#closeButton
+{
+    image: url(:/Skin/Dark/Common/close.svg);
+}
+
+QLabel
+{
+    color: rgba(255, 255, 255, 1);
+    text-align: left;
+    vertical-align: middle;
+    background: transparent;
+    font:14px "HarmonyOS Sans SC";
+    font-weight: 500;
+}
+
+QLabel#Title
+{
+    font:20px "HarmonyOS Sans SC";
+    font-weight: 400;
+}
+
+QLineEdit
+{
+    font:14px "HarmonyOS Sans SC";
+    color: rgba(255, 255, 255, 1);
+    font-weight: 500;
+    border-radius: 3px;
+    padding: 0 8px;
+    background: rgba(37, 37, 37, 1);
+    border: 1px solid rgba(70, 70, 70, 1);
+}
+
+QLineEdit:read-only
+{
+    border: 1px solid rgba(70, 70, 70, 1);
+    color: rgba(255, 255, 255, 1);
+    border-radius: 3px;
+    padding: 0 8px;
+    background: rgba(50, 50, 50, 1);
+}
+
+QPushButton#preButton,
+QPushButton#nextButton
+{
+    font:14px "HarmonyOS Sans SC";
+    font-weight: 500;
+    color: rgba(255, 255, 255, 1);
+    border-radius: 3px;
+    background-color: rgba(28, 92, 255, 1);
+}
+
+QPushButton#preButton:hover,
+QPushButton#nextButton:hover
+{
+    background-color: rgba(28, 105, 255, 1);
+}
+
+QPushButton#preButton:pressed,
+QPushButton#nextButton:pressed
+{
+    background-color: rgba(41, 95, 230, 1);
+}
+
+QPushButton#preButton:disabled,
+QPushButton#nextButton:disabled
+{
+	color: rgba(230, 230, 230, 1);
+    background-color: rgba(30, 144, 255, 1);
+}
+
+QPushButton#renameBtn,
+QPushButton#importButton,
+QPushButton#saveButton
+{
+    font:14px "HarmonyOS Sans SC";
+    font-weight: 500;
+    color: rgba(95, 99, 104, 1);
+    border-radius: 3px;
+    background-color: rgba(255, 255, 255, 1);
+    border: 1px solid rgba(247, 247, 247, 1);
+}
+
+QPushButton#renameBtn:hover,
+QPushButton#importButton:hover,
+QPushButton#saveButton:hover
+{
+    background-color: rgba(250, 250, 250, 1);
+}
+
+QPushButton#renameBtn:pressed,
+QPushButton#importButton:pressed,
+QPushButton#saveButton:pressed
+{
+    background-color: rgba(235, 235, 235, 1);
+}
+
+QPushButton#selectButton
+{
+    color: rgba(255, 255, 255, 1);
+    font:16px "HarmonyOS Sans SC";
+    font-weight: 500;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 7px;
+    background-color: rgba(70, 70, 70, 1);
+    border: 1px solid rgba(95, 95, 95, 1);
+}
+
+QPushButton#selectButton:hover
+{
+    background-color: rgba(75, 75, 75, 1);
+}
+
+QPushButton#selectButton:pressed
+{
+    background-color: rgba(80, 80, 80, 1);
+}
+
+QPushButton#SNCFilePathButton
+{
+    image:url(:/Skin/Dark/PushButton/otherButton.svg);
+}
+
+QPushButton#addressBtn
+{
+    image:url(:/Skin/Dark/PushButton/otherButton.svg);
+}
+
+QCheckBox#selectAllCheck,
+QCheckBox#checkID,
+QCheckBox#pinCheck,
+QCheckBox#chipOverLapCheck,
+QCheckBox#masterCheck,
+QCheckBox#editEnableCheck,
+QCheckBox#showPwdCheck
+{
+    color: rgba(255, 255, 255, 1);
+    font:14px "HarmonyOS Sans SC";
+    font-weight: 500;
+}
+
+QCheckBox#clBufferCheck
+{
+    color: rgba(255, 255, 255, 1);
+    font:11px "HarmonyOS Sans SC";
+    font-weight: 500;
+}
+
+QCheckBox#selectAllCheck::indicator::unchecked,
+QCheckBox#clBufferCheck::indicator::unchecked,
+QCheckBox#checkID::indicator::unchecked,
+QCheckBox#pinCheck::indicator::unchecked,
+QCheckBox#chipOverLapCheck::indicator::unchecked,
+QCheckBox#masterCheck::indicator::unchecked,
+QCheckBox#editEnableCheck::indicator::unchecked,
+QCheckBox#showPwdCheck::indicator::unchecked
+{
+    width:13px;
+    height:13px;
+    image: url(:/Skin/Dark/CheckBox/rectCheckNormal.svg);
+}
+
+QCheckBox#selectAllCheck::indicator::hover,
+QCheckBox#clBufferCheck::indicator::hover,
+QCheckBox#checkID::indicator::hover,
+QCheckBox#pinCheck::indicator::hover,
+QCheckBox#chipOverLapCheck::indicator::hover,
+QCheckBox#masterCheck::indicator::hover,
+QCheckBox#editEnableCheck::indicator::hover,
+QCheckBox#showPwdCheck::indicator::hover
+{
+    width:13px;
+    height:13px;
+    image: url(:/Skin/Dark/CheckBox/rectCheckHover.svg);
+}
+
+QCheckBox#selectAllCheck::indicator::checked,
+QCheckBox#clBufferCheck::indicator::checked,
+QCheckBox#checkID::indicator::checked,
+QCheckBox#pinCheck::indicator::checked,
+QCheckBox#chipOverLapCheck::indicator::checked,
+QCheckBox#masterCheck::indicator::checked,
+QCheckBox#editEnableCheck::indicator::checked,
+QCheckBox#showPwdCheck::indicator::checked
+{
+    width:13px;
+    height:13px;
+    image: url(:/Skin/Dark/CheckBox/rectCheckSelect.svg);
+}
+
+QCheckBox#selectAllCheck:!enabled,
+QCheckBox#clBufferCheck:!enabled,
+QCheckBox#checkID:!enabled,
+QCheckBox#pinCheck:!enabled
+{
+	color: rgb(160, 160, 160);
+}
+
+QComboBox
+{
+    color: rgba(255, 255, 255, 1);
+    font:16px "HarmonyOS Sans SC Light";
+    border-radius: 4px;
+    background: rgba(37, 37, 37, 1);
+    border: 1px solid rgba(58, 58, 58,1);
+}
+
+QComboBox::drop-down
+{
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 15px;
+    border-radius: 4px;
+    background : rgba(37, 37, 37, 1);
+}
+
+QComboBox::down-arrow
+{
+    width: 10px;
+    height: 10px;
+    image: url(:/Skin/Dark/ComboBox/downarrow.svg);
+}
+
+QComboBox::QAbstractItemView
+{
+    background: rgba(37, 37, 37, 1);
+    border: 1px solid rgba(58, 58, 58, 1);
+    border-radius:0px 0px 5px 5px;
+    color: rgba(255, 255, 255, 1);
+    outline: 0px;
+}
+
+QComboBox QAbstractItemView::item
+{
+  	height:27px;
+    font:15px "HarmonyOS Sans SC Light";
+    background: rgba(255, 255, 255, 1);
+    color:rgba(37, 37, 37, 1);
+}
+
+QComboBox QAbstractItemView::item:hover
+{
+    background:#409CE1;
+    color:#ffffff;
+}
+
+QComboBox QAbstractItemView::item:selected
+{
+    background:#409CE1;
+    color:#ffffff;
+}
+
+QGroupBox
+{
+    margin-top: 2.3ex;
+    border-radius: 10px;
+    border: 2px solid rgba(40, 40, 40, 1);
+    font:14px "HarmonyOS Sans SC";
+    font-weight: 700;
+    color: rgba(255, 255, 255, 1);
+}
+
+QGroupBox::title
+{
+    left:10px;
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+}
+
+QTabWidget::pane
+{
+    border:none;
+    background-color: rgba(50, 50, 50, 1);
+}
+
+QTabBar::tab
+{
+    font:14px "HarmonyOS Sans SC";
+    background-color: rgba(40, 40, 40, 1);
+}
+
+QTabBar::tab:selected
+{
+    background-color: rgba(70, 70, 70, 1);
+}
+
+QTabBar::tab:hover
+{
+    background-color: rgba(60, 60, 60, 1);
+}

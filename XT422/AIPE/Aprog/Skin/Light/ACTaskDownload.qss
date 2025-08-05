@@ -1,0 +1,80 @@
+QWidget#bgWidget
+{
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 1);
+}
+
+QWidget#backgroundWidget
+{
+    border-radius: 8px;
+    background: rgba(247, 247, 247, 1);
+}
+
+QPushButton#closeButton
+{
+    image: url(:/Skin/Light/Common/close.svg);
+}
+
+QLabel
+{
+    color: rgba(95, 99, 104, 1);
+    text-align: left;
+    vertical-align: middle;
+    background: transparent;
+    font:14px "HarmonyOS Sans SC";
+    font-weight: 500;
+}
+
+QLabel#Title
+{
+    font:20px "HarmonyOS Sans SC";
+    font-weight: 400;
+}
+
+QLineEdit
+{
+    font:14px "HarmonyOS Sans SC";
+    font-weight: 500;
+    border-radius: 3px;
+    padding: 0 8px;
+    color: rgba(47, 49, 51, 1);
+    background: rgba(235, 235, 235, 1);
+}
+
+QLineEdit:read-only
+{
+    border: 1px solid rgba(95, 99, 104, 1);
+    border-radius: 3px;
+    padding: 0 8px;
+    background: transparent;
+}
+
+QPushButton#downloadButton
+{
+    font:14px "HarmonyOS Sans SC";
+    font-weight: 500;
+    color: rgba(255, 255, 255, 1);
+    border-radius: 3px;
+    background-color: rgba(28, 92, 255, 1);
+}
+
+QPushButton#downloadButton:hover
+{
+    background-color: rgba(28, 105, 255, 1);
+}
+
+QPushButton#downloadButton:pressed
+{
+    background-color: rgba(41, 95, 230, 1);
+}
+
+QPushButton#downloadButton:disabled
+{
+	color: rgba(230, 230, 230, 1);
+    background-color: rgba(30, 144, 255, 1);
+}
+
+QPushButton#taskPathButton
+{
+    image:url(:/Skin/Light/PushButton/otherButton.png);
+}

@@ -1,0 +1,8 @@
+{
+    "error": {
+        "code": -1405,
+        "message": "FileName JsonType Error"
+    },
+    "id": "1",
+    "jsonrpc": "2.0"
+}

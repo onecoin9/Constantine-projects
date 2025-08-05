@@ -1,0 +1,37 @@
+# SVN directories
+.svn/
+
+# Build directories
+build/
+bin/
+Build/
+
+# Qt files
+*.pro.user*
+*.user*
+CMakeLists.txt.user*
+
+# Compiled files
+*.exe
+*.dll
+*.so
+*.dylib
+*.pdb
+*.ilk
+
+# Log files
+logs/
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+*~
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db

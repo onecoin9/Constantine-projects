@@ -1,0 +1,90 @@
+QWidget#rootWidget
+{
+    background: rgba(27, 27, 27, 1);
+}
+
+QMenuBar
+{
+    padding-left: 10px;
+    padding-top: 2px;
+    background: rgba(50, 50, 50, 1);
+    color: rgba(232, 232, 232, 1);
+    font:16px "HarmonyOS Sans SC Light";
+    font-weight: 700;
+    text-align: center;
+    spacing: 12px;
+}
+
+QMenuBar::item
+{
+    background-color: transparent;
+}
+
+QMenuBar::item:hover
+{
+    background: rgba(80, 80, 80, 1);
+}
+
+QMenuBar::item:selected
+{
+    background: rgba(80, 80, 80, 1);
+}
+
+QMenu
+{
+    background: rgba(50, 50, 50, 1);
+    border:1px solid transparent;
+    border-radius: 6px;
+    text-align: center;
+}
+
+QMenu::item[customProperty="custom_1"]
+{
+    padding:5px 37px;
+    margin:1px 2px;
+    color: rgba(232, 232, 232, 1);
+    font:14px "HarmonyOS Sans SC";
+    font-weight: 500;
+}
+
+QMenu::item[customProperty="custom_2"]
+{
+    padding:5px 10px;
+    color: rgba(232, 232, 232, 1);
+    font:14px "HarmonyOS Sans SC";
+    font-weight: 500;
+}
+
+QMenu::separator
+{
+    background-color: rgba(40, 40, 40, 1);
+    height:1px;
+    margin-left:25px;
+    margin-right:25px;
+}
+
+QMenu::item:selected
+{
+    border-radius: 4px;
+    background-color: rgba(80, 80, 80, 1);
+}
+
+QMenu::indicator
+{
+    width: 18px;
+    height: 18px;
+}
+
+QMenu::indicator::checked
+{
+    width:13px;
+    height:9px;
+    image: url(:/Skin/Dark/CheckBox/checkMark.svg);
+}
+
+QMenu::indicator::unchecked
+{
+    width:13px;
+    height:9px;
+    image: url(:/Skin/Dark/CheckBox/nullCheckMark.svg);
+}

@@ -1,0 +1,13 @@
+Î   {
+	"jsonrpc":"2.0",
+	"method":"SendPTCmd",
+	"id":"1004",
+ 	"params":{
+ 		"HopNum":0,
+		"PortID":"0x0",
+ 		"CmdFlag":"Notify",
+ 		"CmdID":"0x0401",
+ 		"CmdData":"0102030405060708",
+ 		"CmdDataFile":"CmdID0402_Data64K_5A.bin"
+ 	}	
+}

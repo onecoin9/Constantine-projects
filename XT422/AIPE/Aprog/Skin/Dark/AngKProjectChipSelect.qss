@@ -1,0 +1,100 @@
+QWidget#scrollAreaWidgetContents
+{
+    background: rgba(50, 50, 50, 1);
+}
+
+QMessageBox QLabel
+{ 
+	color: rgba(0, 0, 0, 1);
+}
+
+QLabel
+{
+    color: rgba(255, 255, 255, 1);
+    text-align: left;
+    vertical-align: middle;
+    background: transparent;
+    font:14px "HarmonyOS Sans SC";
+    font-weight: 500;
+}
+
+QLineEdit
+{
+    font:14px "HarmonyOS Sans SC";
+    color: rgba(255, 255, 255, 1);
+    font-weight: 500;
+    border-radius: 3px;
+    padding: 0 8px;
+    background: rgba(37, 37, 37, 1);
+    border: 1px solid rgba(70, 70, 70, 1);
+}
+
+QLineEdit:read-only
+{
+    border: 1px solid rgba(70, 70, 70, 1);
+    color: rgba(255, 255, 255, 1);
+    border-radius: 3px;
+    padding: 0 8px;
+    background: rgba(50, 50, 50, 1);
+}
+
+QGroupBox
+{
+    margin-top: 2.3ex;
+    border-radius: 10px;
+    border: 2px solid rgba(40, 40, 40, 1);
+    font:14px "HarmonyOS Sans SC";
+    font-weight: 700;
+    color: rgba(255, 255, 255, 1);
+}
+
+QGroupBox::title
+{
+    left:10px;
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+}
+
+QPushButton#selectButton
+{
+    color: rgba(255, 255, 255, 1);
+    font:16px "HarmonyOS Sans SC";
+    font-weight: 500;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 7px;
+    background-color: rgba(70, 70, 70, 1);
+    border: 1px solid rgba(95, 95, 95, 1);
+}
+
+QPushButton#selectButton:hover
+{
+    background-color: rgba(75, 75, 75, 1);
+}
+
+QPushButton#selectButton:pressed
+{
+    background-color: rgba(80, 80, 80, 1);
+}
+
+QScrollArea#scrollArea QScrollBar:vertical
+{
+    background-color: #323232;
+    width: 8px;
+}
+
+QScrollArea#scrollArea QScrollBar::handle:vertical
+{
+    background-color: #464646;
+    border-radius: 4px;
+}
+
+QScrollArea#scrollArea QScrollBar::add-page:vertical
+{
+    background: #323232;
+}
+
+QScrollArea#scrollArea QScrollBar::sub-page:vertical
+{
+    background: #323232;
+}

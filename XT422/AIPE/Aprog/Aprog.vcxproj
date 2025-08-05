@@ -1,0 +1,727 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{B12702AD-ABFB-343A-A199-8E24837244A3}</ProjectGuid>
+    <Keyword>Qt4VSv1.0</Keyword>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+    <ProjectName>Aprog</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <PropertyGroup Condition="'$(QtMsBuild)'=='' or !Exists('$(QtMsBuild)\qt.targets')">
+    <QtMsBuild>$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)Build\</OutDir>
+    <IncludePath>$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)Build\</OutDir>
+  </PropertyGroup>
+  <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
+    <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
+  </Target>
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt.props')">
+    <Import Project="$(QtMsBuild)\qt.props" />
+  </ImportGroup>
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="Shared" />
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PreprocessorDefinitions>UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;QT_CHARTS_LIB;QT_CONCURRENT_LIB;QT_CORE_LIB;QT_GUI_LIB;QT_NETWORK_LIB;QT_SERIALPORT_LIB;QT_SVG_LIB;QT_WIDGETS_LIB;QT_NETWORKAUTH_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);.\Components;.\DlgComponents;.\DataBase;..\Controller\Utils;..\Controller\TransmitSignalsInstance;..\Controller\MessageQueuePool;..\Model\ProjDataset;..\View\DlgComponents;..\View\Components;..\Model\DataBuffer;..\Controller\IOHeapManager;..\Model\IOHeap;..\View\DlgComponents\BufferMapDlg;..\View\DlgComponents\eMMCComponents;..\View\DlgComponents\ProjectComponents;..\View\Components\InterfaceComponents;..\Controller\LogManager;..\View\Components\ModelComponents;..\Controller\ACCmdHandler;..\View\DlgComponents\ChipComponents;..\View\DlgComponents\SettingComponents;..\Controller\ScanManager;..\Model\Device;..\Controller\ChkManager;..\View\DlgComponents\MenuBarComponents;..\Controller\EventManager;..\Controller\DeviceManager;..\View\DlgComponents\MessageBox;..\Controller\ProjectManager;..\Controller\TaskManager;..\View\SProtocolTest;..\Controller\ReportManager;..\Controller\eMMC;$(QTDIR)\include\QtCharts;$(QTDIR)\include\QtConcurrent;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtSerialPort;$(QTDIR)\include\QtSvg;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtNetworkAuth;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Disabled</Optimization>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
+      <AdditionalLibraryDirectories>$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>qtmaind.lib;Qt5WebEngine.lib;Qt5WebEngineCore.lib;Qt5WebEngineWidgets.lib;Qt5Chartsd.lib;Qt5Concurrentd.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Networkd.lib;Qt5SerialPortd.lib;Qt5Svgd.lib;Qt5Widgetsd.lib;Qt5NetworkAuthd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <QtMoc>
+      <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
+      <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
+      <IncludePath>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);.\Components;.\DlgComponents;.\DataBase;.\..\Controller\Utils;.\..\Controller\TransmitSignalsInstance;.\..\Controller\MessageQueuePool;.\..\Model\ProjDataset;.\..\View\DlgComponents;.\..\View\Components;.\..\Model\DataBuffer;.\..\Controller\IOHeapManager;.\..\Model\IOHeap;.\..\View\DlgComponents\BufferMapDlg;.\..\View\DlgComponents\eMMCComponents;.\..\View\DlgComponents\ProjectComponents;.\..\View\Components\InterfaceComponents;.\..\Controller\LogManager;.\..\View\Components\ModelComponents;.\..\Controller\ACCmdHandler;.\..\View\DlgComponents\ChipComponents;.\..\View\DlgComponents\SettingComponents;.\..\Controller\ScanManager;.\..\Model\Device;.\..\Controller\ChkManager;.\..\View\DlgComponents\MenuBarComponents;.\..\Controller\EventManager;.\..\Controller\DeviceManager;.\..\View\DlgComponents\MessageBox;.\..\Controller\ProjectManager;.\..\Controller\TaskManager;.\..\View\SProtocolTest;.\..\Controller\ReportManager;.\..\Controller\eMMC;$(QTDIR)\include\QtConcurrent;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtSerialPort;$(QTDIR)\include\QtSvg;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtNetwork</IncludePath>
+      <Define>UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;QT_CONCURRENT_LIB;QT_CORE_LIB;QT_GUI_LIB;QT_SERIALPORT_LIB;QT_SVG_LIB;QT_WIDGETS_LIB;QT_NETWORK_LIB;%(PreprocessorDefinitions)</Define>
+    </QtMoc>
+    <QtUic>
+      <ExecutionDescription>Uic'ing %(Identity)...</ExecutionDescription>
+      <OutputFile>.\GeneratedFiles\ui_%(Filename).h</OutputFile>
+    </QtUic>
+    <QtRcc>
+      <ExecutionDescription>Rcc'ing %(Identity)...</ExecutionDescription>
+      <OutputFile>.\GeneratedFiles\qrc_%(Filename).cpp</OutputFile>
+    </QtRcc>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PreprocessorDefinitions>UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;ABSTRACTPARSER_LIB;QT_CHARTS_LIB;QT_CONCURRENT_LIB;QT_CORE_LIB;QT_GUI_LIB;QT_NETWORK_LIB;QT_SERIALPORT_LIB;QT_SVG_LIB;QT_WIDGETS_LIB;QT_NETWORKAUTH_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtPropertyBrowser\;$(QTDIR)\include\QtCore\5.15.2\;$(QTDIR)\include\QtGui\5.15.2\;$(QTDIR)\include\QtGui\5.15.2\QtGui\private\;$(QTDIR)\include\QtCore\5.15.2\QtCore\private\;$(SolutionDir)\View\GlobalInit;$(SolutionDir)\View\mainFrame;$(SolutionDir)\View\mainFrame\Login;$(SolutionDir)\View\mainFrame\MainWindow;$(SolutionDir)\View\mainFrame\WindowComponents;$(SolutionDir)\View\Components;$(SolutionDir)\View\Components\ProgressComponents;$(SolutionDir)\View\Components\ModelComponents;$(SolutionDir)\View\Components\InterfaceComponents;$(SolutionDir)\View\DlgComponents;$(SolutionDir)\View\DlgComponents\eMMCComponents;$(SolutionDir)\View\DlgComponents\ProjectComponents;$(SolutionDir)\View\DlgComponents\ChipComponents;$(SolutionDir)\View\DlgComponents\MenuBarComponents;$(SolutionDir)\View\DlgComponents\BufferMapDlg;$(SolutionDir)\View\DlgComponents\SettingComponents;$(SolutionDir)\Model\DataBase;$(SolutionDir)\Model\SerializeData;$(SolutionDir)\Model\DataTransform;$(SolutionDir)\Model\ParserPlugins;.\Depend\sqlite3;.\Depend\qHexedit;.\Depend\pugixml;.\Depend\nlohmann;$(SolutionDir)\Controller\TransmitSignalsInstance;$(SolutionDir)\Controller\MessageQueuePool;$(SolutionDir)\Controller\IOHeapManager;$(SolutionDir)\Controller\ACCmdHandler;$(SolutionDir)\Controller\AutomaticManager;$(SolutionDir)\Controller\eMMC;$(SolutionDir)\Controller\Utils;$(SolutionDir)\Controller\ChipManager;$(SolutionDir)\Model\ProjDataset;$(SolutionDir)\Model\eMMC;$(SolutionDir)\Model\DataBuffer;$(SolutionDir)\Model\IOHeap;..\View\Components\InterfaceComponents;..\Controller\LogManager;..\View\Components\ModelComponents;..\Controller\ACCmdHandler;..\View\DlgComponents\ProjectComponents;..\View\DlgComponents\ChipComponents;..\View\DlgComponents\SettingComponents;..\Controller\ScanManager;..\Model\Device;..\Controller\ChkManager;..\Controller\Utils;..\View\DlgComponents\MenuBarComponents;..\Controller\EventManager;..\Controller\DeviceManager;..\View\DlgComponents\MessageBox;..\Controller\ProjectManager;..\View\DlgComponents\eMMCComponents;..\Controller\TaskManager;..\View\SProtocolTest;..\Controller\ReportManager;.\Depend\ACComlib\include;.\Depend\ACComLib\third_part;..\Controller\eMMC;$(QTDIR)\include\QtCharts;$(QTDIR)\include\QtConcurrent;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtSerialPort;$(QTDIR)\include\QtSvg;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtNetworkAuth;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Disabled</Optimization>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
+      <AdditionalLibraryDirectories>$(QTDIR)\lib;.\Depend\sqlite3;.\Depend\qHexedit;.\Depend\pugixml;.\Depend\ACComlib\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>qtmaind.lib;Qt5Concurrent.lib;Qt5WebEngine.lib;Qt5WebEngineCore.lib;Qt5WebEngineWidgets.lib;sqlite3.lib;AcHexViewEditd.lib;pugixmld.lib;QtSolutions_PropertyBrowser-headd.lib;ACComLib_x64.lib;Qt5Chartsd.lib;Qt5Concurrentd.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Networkd.lib;Qt5SerialPortd.lib;Qt5Svgd.lib;Qt5Widgetsd.lib;Qt5NetworkAuthd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <QtMoc>
+      <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
+      <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
+      <IncludePath>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtPropertyBrowser;$(QTDIR)\include\QtCore\5.15.2;$(QTDIR)\include\QtGui\5.15.2;$(QTDIR)\include\QtGui\5.15.2\QtGui\private;$(QTDIR)\include\QtCore\5.15.2\QtCore\private;$(SolutionDir)\View\GlobalInit;$(SolutionDir)\View\mainFrame;$(SolutionDir)\View\mainFrame\Login;$(SolutionDir)\View\mainFrame\MainWindow;$(SolutionDir)\View\mainFrame\WindowComponents;$(SolutionDir)\View\Components;$(SolutionDir)\View\Components\ProgressComponents;$(SolutionDir)\View\Components\ModelComponents;$(SolutionDir)\View\Components\InterfaceComponents;$(SolutionDir)\View\DlgComponents;$(SolutionDir)\View\DlgComponents\eMMCComponents;$(SolutionDir)\View\DlgComponents\ProjectComponents;$(SolutionDir)\View\DlgComponents\ChipComponents;$(SolutionDir)\View\DlgComponents\MenuBarComponents;$(SolutionDir)\View\DlgComponents\BufferMapDlg;$(SolutionDir)\View\DlgComponents\SettingComponents;$(SolutionDir)\Model\DataBase;$(SolutionDir)\Model\SerializeData;$(SolutionDir)\Model\DataTransform;$(SolutionDir)\Model\ParserPlugins;.\Depend\sqlite3;.\Depend\qHexedit;.\Depend\pugixml;.\Depend\nlohmann;$(SolutionDir)\Controller\TransmitSignalsInstance;$(SolutionDir)\Controller\MessageQueuePool;$(SolutionDir)\Controller\IOHeapManager;$(SolutionDir)\Controller\ACCmdHandler;$(SolutionDir)\Controller\AutomaticManager;$(SolutionDir)\Controller\eMMC;$(SolutionDir)\Controller\Utils;$(SolutionDir)\Controller\ChipManager;$(SolutionDir)\Model\ProjDataset;$(SolutionDir)\Model\eMMC;$(SolutionDir)\Model\DataBuffer;$(SolutionDir)\Model\IOHeap;.\..\View\Components\InterfaceComponents;.\..\Controller\LogManager;.\..\View\Components\ModelComponents;.\..\Controller\ACCmdHandler;.\..\View\DlgComponents\ProjectComponents;.\..\View\DlgComponents\ChipComponents;.\..\View\DlgComponents\SettingComponents;.\..\Controller\ScanManager;.\..\Model\Device;.\..\Controller\ChkManager;.\..\Controller\Utils;.\..\View\DlgComponents\MenuBarComponents;.\..\Controller\EventManager;.\..\Controller\DeviceManager;.\..\View\DlgComponents\MessageBox;.\..\Controller\ProjectManager;.\..\View\DlgComponents\eMMCComponents;.\..\Controller\TaskManager;.\..\View\SProtocolTest;.\..\Controller\ReportManager;.\Depend\ACComlib\include;.\Depend\ACComLib\third_part;.\..\Controller\eMMC;$(QTDIR)\include\QtConcurrent;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtSerialPort;$(QTDIR)\include\QtSvg;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtNetwork</IncludePath>
+      <Define>UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;ABSTRACTPARSER_LIB;QT_CONCURRENT_LIB;QT_CORE_LIB;QT_GUI_LIB;QT_SERIALPORT_LIB;QT_SVG_LIB;QT_WIDGETS_LIB;QT_NETWORK_LIB;%(PreprocessorDefinitions)</Define>
+    </QtMoc>
+    <QtUic>
+      <ExecutionDescription>Uic'ing %(Identity)...</ExecutionDescription>
+      <OutputFile>.\GeneratedFiles\ui_%(Filename).h</OutputFile>
+    </QtUic>
+    <QtRcc>
+      <ExecutionDescription>Rcc'ing %(Identity)...</ExecutionDescription>
+      <OutputFile>.\GeneratedFiles\qrc_%(Filename).cpp</OutputFile>
+    </QtRcc>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PreprocessorDefinitions>UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;QT_NO_DEBUG;NDEBUG;QT_CHARTS_LIB;QT_CONCURRENT_LIB;QT_CORE_LIB;QT_GUI_LIB;QT_NETWORK_LIB;QT_SERIALPORT_LIB;QT_SVG_LIB;QT_WIDGETS_LIB;QT_NETWORKAUTH_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);.\Components;.\DlgComponents;.\DataBase;..\Controller\Utils;..\Controller\TransmitSignalsInstance;..\Controller\MessageQueuePool;..\Model\ProjDataset;..\View\DlgComponents;..\View\Components;..\Model\DataBuffer;..\Controller\IOHeapManager;..\Model\IOHeap;..\View\DlgComponents\BufferMapDlg;..\View\DlgComponents\eMMCComponents;..\View\DlgComponents\ProjectComponents;..\View\Components\InterfaceComponents;..\Controller\LogManager;..\View\Components\ModelComponents;..\Controller\ACCmdHandler;..\View\DlgComponents\ChipComponents;..\View\DlgComponents\SettingComponents;..\Controller\ScanManager;..\Model\Device;..\Controller\ChkManager;..\View\DlgComponents\MenuBarComponents;..\Controller\EventManager;..\Controller\DeviceManager;..\View\DlgComponents\MessageBox;..\Controller\ProjectManager;..\Controller\TaskManager;..\View\SProtocolTest;..\Controller\ReportManager;..\Controller\eMMC;$(QTDIR)\include\QtCharts;$(QTDIR)\include\QtConcurrent;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtSerialPort;$(QTDIR)\include\QtSvg;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtNetworkAuth;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat />
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
+      <AdditionalLibraryDirectories>$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <AdditionalDependencies>qtmain.lib;Qt5Charts.lib;Qt5Concurrent.lib;Qt5Core.lib;Qt5Gui.lib;Qt5Network.lib;Qt5SerialPort.lib;Qt5Svg.lib;Qt5Widgets.lib;Qt5NetworkAuth.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <QtMoc>
+      <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
+      <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
+      <IncludePath>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);.\Components;.\DlgComponents;.\DataBase;.\..\Controller\Utils;.\..\Controller\TransmitSignalsInstance;.\..\Controller\MessageQueuePool;.\..\Model\ProjDataset;.\..\View\DlgComponents;.\..\View\Components;.\..\Model\DataBuffer;.\..\Controller\IOHeapManager;.\..\Model\IOHeap;.\..\View\DlgComponents\BufferMapDlg;.\..\View\DlgComponents\eMMCComponents;.\..\View\DlgComponents\ProjectComponents;.\..\View\Components\InterfaceComponents;.\..\Controller\LogManager;.\..\View\Components\ModelComponents;.\..\Controller\ACCmdHandler;.\..\View\DlgComponents\ChipComponents;.\..\View\DlgComponents\SettingComponents;.\..\Controller\ScanManager;.\..\Model\Device;.\..\Controller\ChkManager;.\..\View\DlgComponents\MenuBarComponents;.\..\Controller\EventManager;.\..\Controller\DeviceManager;.\..\View\DlgComponents\MessageBox;.\..\Controller\ProjectManager;.\..\Controller\TaskManager;.\..\View\SProtocolTest;.\..\Controller\ReportManager;.\..\Controller\eMMC;$(QTDIR)\include\QtConcurrent;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtSerialPort;$(QTDIR)\include\QtSvg;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtNetwork</IncludePath>
+      <Define>UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;QT_NO_DEBUG;NDEBUG;QT_CONCURRENT_LIB;QT_CORE_LIB;QT_GUI_LIB;QT_SERIALPORT_LIB;QT_SVG_LIB;QT_WIDGETS_LIB;QT_NETWORK_LIB;%(PreprocessorDefinitions)</Define>
+    </QtMoc>
+    <QtUic>
+      <ExecutionDescription>Uic'ing %(Identity)...</ExecutionDescription>
+      <OutputFile>.\GeneratedFiles\ui_%(Filename).h</OutputFile>
+    </QtUic>
+    <QtRcc>
+      <ExecutionDescription>Rcc'ing %(Identity)...</ExecutionDescription>
+      <OutputFile>.\GeneratedFiles\qrc_%(Filename).cpp</OutputFile>
+    </QtRcc>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PreprocessorDefinitions>UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;QT_NO_DEBUG;NDEBUG;ABSTRACTPARSER_LIB;QT_CHARTS_LIB;QT_CONCURRENT_LIB;QT_CORE_LIB;QT_GUI_LIB;QT_NETWORK_LIB;QT_SERIALPORT_LIB;QT_SVG_LIB;QT_WIDGETS_LIB;QT_NETWORKAUTH_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtPropertyBrowser;$(QTDIR)\include\QtGui\5.15.2\;$(QTDIR)\include\QtCore\5.15.2\;$(QTDIR)\include\QtGui\5.15.2\QtGui\private\;$(QTDIR)\include\QtCore\5.15.2\QtCore\private\;$(SolutionDir)\View\GlobalInit;$(SolutionDir)\View\mainFrame;$(SolutionDir)\View\mainFrame\Login;$(SolutionDir)\View\mainFrame\MainWindow;$(SolutionDir)\View\mainFrame\WindowComponents;$(SolutionDir)\View\Components;$(SolutionDir)\View\Components\ProgressComponents;$(SolutionDir)\View\Components\ModelComponents;$(SolutionDir)\View\Components\InterfaceComponents;$(SolutionDir)\View\DlgComponents;$(SolutionDir)\View\DlgComponents\eMMCComponents;$(SolutionDir)\View\DlgComponents\ProjectComponents;$(SolutionDir)\View\DlgComponents\ChipComponents;$(SolutionDir)\View\DlgComponents\BufferMapDlg;$(SolutionDir)\View\DlgComponents\MenuBarComponents;$(SolutionDir)\View\DlgComponents\SettingComponents;$(SolutionDir)\Model\DataBase;$(SolutionDir)\Model\SerializeData;$(SolutionDir)\Model\DataTransform;$(SolutionDir)\Model\ParserPlugins;.\Depend;.\Depend\sqlite3;\Depend\qHexedit;.\Depend\nlohmann;.\Depend\pugixml;$(SolutionDir)\Controller\TransmitSignalsInstance;$(SolutionDir)\Controller\MessageQueuePool;$(SolutionDir)\Controller\IOHeapManager;$(SolutionDir)\Controller\ACCmdHandler;$(SolutionDir)\Controller\AutomaticManager;$(SolutionDir)\Controller\eMMC;$(SolutionDir)\Controller\Utils;$(SolutionDir)\Controller\LogManager;$(SolutionDir)\Model\ProjDataset;$(SolutionDir)\Model\eMMC;$(SolutionDir)\Model\DataBuffer;$(SolutionDir)\Model\IOHeap;$(SolutionDir)\Controller\ScanManager;$(SolutionDir)\Controller\ChkManager;$(SolutionDir)\Controller\EventManager;$(SolutionDir)\Controller\ChipManager;$(SolutionDir)\Controller\DeviceManager;..\View\Components\InterfaceComponents;..\View\Components\ModelComponents;..\View\DlgComponents\ProjectComponents;..\View\DlgComponents\ChipComponents;..\View\DlgComponents\SettingComponents;..\Model\Device;..\View\DlgComponents\MessageBox;..\View\DlgComponents\MenuBarComponents;..\Controller\ProjectManager;..\View\DlgComponents\eMMCComponents;..\Controller\TaskManager;..\View\SProtocolTest;..\Controller\ReportManager;.\Depend\ACComlib\include;.\Depend\ACComLib\third_part;..\Controller\eMMC;..\Controller\ACCmdHandler;$(QTDIR)\include\QtCharts;$(QTDIR)\include\QtConcurrent;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtSerialPort;$(QTDIR)\include\QtSvg;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtNetworkAuth;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
+      <AdditionalLibraryDirectories>$(QTDIR)\lib;.\Depend\sqlite3;.\Depend\qHexedit;.\Depend\pugixml;.\Depend\ACComlib\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>qtmain.lib;sqlite3.lib;AcHexViewEdit.lib;pugixml.lib;QtSolutions_PropertyBrowser-head.lib;ACComLib_x64.lib;Qt5Charts.lib;Qt5Concurrent.lib;Qt5Core.lib;Qt5Gui.lib;Qt5Network.lib;Qt5SerialPort.lib;Qt5Svg.lib;Qt5Widgets.lib;Qt5NetworkAuth.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <QtMoc>
+      <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
+      <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
+      <IncludePath>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtPropertyBrowser;$(QTDIR)\include\QtGui\5.15.2;$(QTDIR)\include\QtCore\5.15.2;$(QTDIR)\include\QtGui\5.15.2\QtGui\private;$(QTDIR)\include\QtCore\5.15.2\QtCore\private;$(SolutionDir)\View\GlobalInit;$(SolutionDir)\View\mainFrame;$(SolutionDir)\View\mainFrame\Login;$(SolutionDir)\View\mainFrame\MainWindow;$(SolutionDir)\View\mainFrame\WindowComponents;$(SolutionDir)\View\Components;$(SolutionDir)\View\Components\ProgressComponents;$(SolutionDir)\View\Components\ModelComponents;$(SolutionDir)\View\Components\InterfaceComponents;$(SolutionDir)\View\DlgComponents;$(SolutionDir)\View\DlgComponents\eMMCComponents;$(SolutionDir)\View\DlgComponents\ProjectComponents;$(SolutionDir)\View\DlgComponents\ChipComponents;$(SolutionDir)\View\DlgComponents\BufferMapDlg;$(SolutionDir)\View\DlgComponents\MenuBarComponents;$(SolutionDir)\View\DlgComponents\SettingComponents;$(SolutionDir)\Model\DataBase;$(SolutionDir)\Model\SerializeData;$(SolutionDir)\Model\DataTransform;$(SolutionDir)\Model\ParserPlugins;.\Depend;.\Depend\sqlite3;\Depend\qHexedit;.\Depend\nlohmann;.\Depend\pugixml;$(SolutionDir)\Controller\TransmitSignalsInstance;$(SolutionDir)\Controller\MessageQueuePool;$(SolutionDir)\Controller\IOHeapManager;$(SolutionDir)\Controller\ACCmdHandler;$(SolutionDir)\Controller\AutomaticManager;$(SolutionDir)\Controller\eMMC;$(SolutionDir)\Controller\Utils;$(SolutionDir)\Controller\LogManager;$(SolutionDir)\Model\ProjDataset;$(SolutionDir)\Model\eMMC;$(SolutionDir)\Model\DataBuffer;$(SolutionDir)\Model\IOHeap;$(SolutionDir)\Controller\ScanManager;$(SolutionDir)\Controller\ChkManager;$(SolutionDir)\Controller\EventManager;$(SolutionDir)\Controller\ChipManager;$(SolutionDir)\Controller\DeviceManager;.\..\View\Components\InterfaceComponents;.\..\View\Components\ModelComponents;.\..\View\DlgComponents\ProjectComponents;.\..\View\DlgComponents\ChipComponents;.\..\View\DlgComponents\SettingComponents;.\..\Model\Device;.\..\View\DlgComponents\MessageBox;.\..\View\DlgComponents\MenuBarComponents;.\..\Controller\ProjectManager;.\..\View\DlgComponents\eMMCComponents;.\..\Controller\TaskManager;.\..\View\SProtocolTest;.\..\Controller\ReportManager;.\Depend\ACComlib\include;.\Depend\ACComLib\third_part;.\..\Controller\eMMC;.\..\Controller\ACCmdHandler;$(QTDIR)\include\QtConcurrent;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtSerialPort;$(QTDIR)\include\QtSvg;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtNetwork</IncludePath>
+      <Define>UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;QT_NO_DEBUG;NDEBUG;ABSTRACTPARSER_LIB;QT_CONCURRENT_LIB;QT_CORE_LIB;QT_GUI_LIB;QT_SERIALPORT_LIB;QT_SVG_LIB;QT_WIDGETS_LIB;QT_NETWORK_LIB;%(PreprocessorDefinitions)</Define>
+    </QtMoc>
+    <QtUic>
+      <ExecutionDescription>Uic'ing %(Identity)...</ExecutionDescription>
+      <OutputFile>.\GeneratedFiles\ui_%(Filename).h</OutputFile>
+    </QtUic>
+    <QtRcc>
+      <ExecutionDescription>Rcc'ing %(Identity)...</ExecutionDescription>
+      <OutputFile>.\GeneratedFiles\qrc_%(Filename).cpp</OutputFile>
+    </QtRcc>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Controller\ACCmdHandler\ACCmdHandler.cpp" />
+    <ClCompile Include="..\Controller\ACCmdHandler\ACDeviceModel.cpp" />
+    <ClCompile Include="..\Controller\ACCmdHandler\ACNetComm.cpp" />
+    <ClCompile Include="..\Controller\ACCmdHandler\AngKRemoteCmdManager.cpp" />
+    <ClCompile Include="..\Controller\ACCmdHandler\AppConfigModel.cpp" />
+    <ClCompile Include="..\Controller\ACCmdHandler\AppModels.cpp" />
+    <ClCompile Include="..\Controller\ACCmdHandler\BufferModel.cpp" />
+    <ClCompile Include="..\Controller\ACCmdHandler\CmdHandler.cpp" />
+    <ClCompile Include="..\Controller\ACCmdHandler\CRC\Crc32_Comm.cpp" />
+    <ClCompile Include="..\Controller\ACCmdHandler\CRC\Crc32_Std.cpp" />
+    <ClCompile Include="..\Controller\ACCmdHandler\CustomMessageHandler.cpp" />
+    <ClCompile Include="..\Controller\ACCmdHandler\ICD.cpp" />
+    <ClCompile Include="..\Controller\ACCmdHandler\MT422DllHandler.cpp" />
+    <ClCompile Include="..\Controller\ACCmdHandler\MT422SerialHandler.cpp" />
+    <ClCompile Include="..\Controller\ACCmdHandler\SerialPortManager.cpp" />
+    <ClCompile Include="..\Controller\ACCmdHandler\SerialPortWorker.cpp" />
+    <ClCompile Include="..\Controller\ACCmdHandler\UplinkDataReceiver.cpp" />
+    <ClCompile Include="..\Controller\ACCmdHandler\UUID\mtuidgenerator.cpp" />
+    <ClCompile Include="..\Controller\AutomaticManager\ACAutomaticManager.cpp" />
+    <ClCompile Include="..\Controller\AutomaticManager\AuthUtils.cpp" />
+    <ClCompile Include="..\Controller\AutomaticManager\AutoMessageServer.cpp" />
+    <ClCompile Include="..\Controller\AutomaticManager\ExternalServer.cpp" />
+    <ClCompile Include="..\Controller\ChipManager\ACChipManager.cpp" />
+    <ClCompile Include="..\Controller\ChkManager\AngKChkManager.cpp" />
+    <ClCompile Include="..\Controller\DeviceManager\ACDeviceManager.cpp" />
+    <ClCompile Include="..\Controller\eMMC\ACeMMCAnalyzeManager.cpp" />
+    <ClCompile Include="..\Controller\eMMC\ACMasterChipAnalyzeManager.cpp" />
+    <ClCompile Include="..\Controller\eMMC\CAcMbn.cpp" />
+    <ClCompile Include="..\Controller\EventManager\ACEventBuild.cpp" />
+    <ClCompile Include="..\Controller\EventManager\ACEventLogger.cpp" />
+    <ClCompile Include="..\Controller\EventManager\ACEventManager.cpp" />
+    <ClCompile Include="..\Controller\IOHeapManager\AngKIOHeapManager.cpp" />
+    <ClCompile Include="..\Controller\LogManager\AngKLogManager.cpp" />
+    <ClCompile Include="..\Controller\MessageQueuePool\AngKMessageHandler.cpp" />
+    <ClCompile Include="..\Controller\ProjectManager\ACProjManager.cpp" />
+    <ClCompile Include="..\Controller\ProjectManager\ProjectManagerSingleton.cpp" />
+    <ClCompile Include="..\Controller\RemoteServer\JsonRpcServer.cpp" />
+    <ClCompile Include="..\Controller\ReportManager\ACHtmlLogWriter.cpp" />
+    <ClCompile Include="..\Controller\ReportManager\ACReportRecord.cpp" />
+    <ClCompile Include="..\Controller\ScanManager\AngKScanManager.cpp" />
+    <ClCompile Include="..\Controller\TaskManager\ACSSDProjManager.cpp" />
+    <ClCompile Include="..\Controller\TaskManager\ACTaskManager.cpp" />
+    <ClCompile Include="..\Controller\TaskManager\TaskManagerSingleton.cpp" />
+    <ClCompile Include="..\Controller\TransmitSignalsInstance\AngKTransmitSignals.cpp" />
+    <ClCompile Include="..\Controller\Utils\AngKCommonTools.cpp" />
+    <ClCompile Include="..\Controller\Utils\AngKHelper.cpp" />
+    <ClCompile Include="..\Controller\Utils\AngkLogger.cpp" />
+    <ClCompile Include="..\Controller\Utils\AngKMisc.cpp" />
+    <ClCompile Include="..\Controller\Utils\AngKPathResolve.cpp" />
+    <ClCompile Include="..\Controller\Utils\AngKProjFile.cpp" />
+    <ClCompile Include="..\Controller\Utils\crc16.cpp" />
+    <ClCompile Include="..\Controller\Utils\crc32.c" />
+    <ClCompile Include="..\Controller\Utils\sha256.c" />
+    <ClCompile Include="..\Model\DataBase\AngKDBStandardItemModel.cpp" />
+    <ClCompile Include="..\Model\DataBase\ISQList.cpp" />
+    <ClCompile Include="..\Model\DataBuffer\AngKDataBuffer.cpp" />
+    <ClCompile Include="..\Model\DataTransform\DataTransform.cpp" />
+    <ClCompile Include="..\Model\Device\AngKDeviceModel.cpp" />
+    <ClCompile Include="..\Model\IOHeap\AngKIOHeapDevice.cpp" />
+    <ClCompile Include="..\Model\ParserPlugins\parser_global.cpp" />
+    <ClCompile Include="..\Model\ProjDataset\AngKProjDataset.cpp" />
+    <ClCompile Include="..\View\Components\InterfaceComponents\AngKControlWidget.cpp" />
+    <ClCompile Include="..\View\Components\InterfaceComponents\AngKShowLogArea.cpp" />
+    <ClCompile Include="..\View\Components\InterfaceComponents\AngKSiteWidget.cpp" />
+    <ClCompile Include="..\View\Components\InterfaceComponents\AngKTabProgram.cpp" />
+    <ClCompile Include="..\View\Components\InterfaceComponents\AngKTabProject.cpp" />
+    <ClCompile Include="..\View\Components\InterfaceComponents\AngKTabSite.cpp" />
+    <ClCompile Include="..\View\Components\InterfaceComponents\AngKTitleImg.cpp" />
+    <ClCompile Include="..\View\Components\InterfaceComponents\AngKTranslateSelect.cpp" />
+    <ClCompile Include="..\View\Components\MessageNotify\notify.cpp" />
+    <ClCompile Include="..\View\Components\MessageNotify\notifymanager.cpp" />
+    <ClCompile Include="..\View\Components\ModelComponents\AngKCheckBoxHeader.cpp" />
+    <ClCompile Include="..\View\Components\ModelComponents\AngKCustomDelegate.cpp" />
+    <ClCompile Include="..\View\Components\ModelComponents\AngKDBStandardItemModelEx.cpp" />
+    <ClCompile Include="..\View\Components\ModelComponents\AngKItemDelegate.cpp" />
+    <ClCompile Include="..\View\Components\ModelComponents\AngKProgressDelegate.cpp" />
+    <ClCompile Include="..\View\Components\ModelComponents\AngKSortFilterProxyModel.cpp" />
+    <ClCompile Include="..\View\Components\ModelComponents\AngKTableView.cpp" />
+    <ClCompile Include="..\View\Components\ProgressComponents\AngKProcessPathWidget.cpp" />
+    <ClCompile Include="..\View\Components\ProgressComponents\AngKProgressBar.cpp" />
+    <ClCompile Include="..\View\Components\ProgressComponents\AngKRoundProgressBar.cpp" />
+    <ClCompile Include="..\View\Components\ProgressComponents\AngKRoundProgressBarEx.cpp" />
+    <ClCompile Include="..\View\Components\ProgressComponents\CurrentProgressWgt.cpp" />
+    <ClCompile Include="..\View\Components\ProgressComponents\ProgressDialogSingleton.cpp" />
+    <ClCompile Include="..\View\Components\ProgressComponents\WarningNum.cpp" />
+    <ClCompile Include="..\View\Components\ProgressComponents\WarningWgt.cpp" />
+    <ClCompile Include="..\View\Components\ProgressComponents\YieldRateWgt.cpp" />
+    <ClCompile Include="..\View\DlgComponents\AngKDialog.cpp" />
+    <ClCompile Include="..\View\DlgComponents\BufferMapDlg\AngKBufferHexEdit.cpp" />
+    <ClCompile Include="..\View\DlgComponents\BufferMapDlg\AngKFillSetting.cpp" />
+    <ClCompile Include="..\View\DlgComponents\BufferMapDlg\AngKGotoSetting.cpp" />
+    <ClCompile Include="..\View\DlgComponents\BufferMapDlg\AngKHexViewEdit.cpp" />
+    <ClCompile Include="..\View\DlgComponents\ChipComponents\AngKChipDialog.cpp" />
+    <ClCompile Include="..\View\DlgComponents\ChipComponents\AngKChipSelectWidget.cpp" />
+    <ClCompile Include="..\View\DlgComponents\ChipComponents\AngKDeviceInfoDlg.cpp" />
+    <ClCompile Include="..\View\DlgComponents\eMMCComponents\ACeMMCSolution.cpp" />
+    <ClCompile Include="..\View\DlgComponents\eMMCComponents\AngKAddeMMCFile.cpp" />
+    <ClCompile Include="..\View\DlgComponents\eMMCComponents\AngKAddeMMCHuaweiFile.cpp" />
+    <ClCompile Include="..\View\DlgComponents\eMMCComponents\AngKemmCDriverPara.cpp" />
+    <ClCompile Include="..\View\DlgComponents\eMMCComponents\AngKemmcOption.cpp" />
+    <ClCompile Include="..\View\DlgComponents\eMMCComponents\AngKExtendCSD.cpp" />
+    <ClCompile Include="..\View\DlgComponents\eMMCComponents\eMMCParserManager.cpp" />
+    <ClCompile Include="..\View\DlgComponents\MenuBarComponents\ACAdapterCountInfomation.cpp" />
+    <ClCompile Include="..\View\DlgComponents\MenuBarComponents\ACAutomaticSetting.cpp" />
+    <ClCompile Include="..\View\DlgComponents\MenuBarComponents\ACDeviceManagerList.cpp" />
+    <ClCompile Include="..\View\DlgComponents\MenuBarComponents\ACMasterChipAnalyzeDlg.cpp" />
+    <ClCompile Include="..\View\DlgComponents\MenuBarComponents\ACProgrammerTestDlg.cpp" />
+    <ClCompile Include="..\View\DlgComponents\MenuBarComponents\AngKAboutDlg.cpp" />
+    <ClCompile Include="..\View\DlgComponents\MenuBarComponents\AngKAdapterInformation.cpp" />
+    <ClCompile Include="..\View\DlgComponents\MenuBarComponents\AngKCodeGeneratorDlg.cpp" />
+    <ClCompile Include="..\View\DlgComponents\MenuBarComponents\AngKDeviceInfoTable.cpp" />
+    <ClCompile Include="..\View\DlgComponents\MenuBarComponents\AngKDriverParam.cpp" />
+    <ClCompile Include="..\View\DlgComponents\MenuBarComponents\AngKNandImageDlg.cpp" />
+    <ClCompile Include="..\View\DlgComponents\MenuBarComponents\AngKPinMapSetting.cpp" />
+    <ClCompile Include="..\View\DlgComponents\MenuBarComponents\AngKProgrammerInfoDlg.cpp" />
+    <ClCompile Include="..\View\DlgComponents\MenuBarComponents\AngKSerialNumberDlg.cpp" />
+    <ClCompile Include="..\View\DlgComponents\MenuBarComponents\AngKSNCreator.cpp" />
+    <ClCompile Include="..\View\DlgComponents\MenuBarComponents\AngKSNCreatorDlg.cpp" />
+    <ClCompile Include="..\View\DlgComponents\MenuBarComponents\AngKUpdateFirmware.cpp" />
+    <ClCompile Include="..\View\DlgComponents\MessageBox\ACMessageBox.cpp" />
+    <ClCompile Include="..\View\DlgComponents\ProjectComponents\ACProjectCreateDlg.cpp" />
+    <ClCompile Include="..\View\DlgComponents\ProjectComponents\ACProjectProperty.cpp" />
+    <ClCompile Include="..\View\DlgComponents\ProjectComponents\ACTaskCreateDlg.cpp" />
+    <ClCompile Include="..\View\DlgComponents\ProjectComponents\ACTaskDownload.cpp" />
+    <ClCompile Include="..\View\DlgComponents\ProjectComponents\AngKFilesImport.cpp" />
+    <ClCompile Include="..\View\DlgComponents\ProjectComponents\AngKOperationTag.cpp" />
+    <ClCompile Include="..\View\DlgComponents\ProjectComponents\AngKProjectChipConfigWidget.cpp" />
+    <ClCompile Include="..\View\DlgComponents\ProjectComponents\AngKProjectChipSelect.cpp" />
+    <ClCompile Include="..\View\DlgComponents\ProjectComponents\AngKProjectDrvParaSetting.cpp" />
+    <ClCompile Include="..\View\DlgComponents\ProjectComponents\AngKProjectOperation.cpp" />
+    <ClCompile Include="..\View\DlgComponents\SettingComponents\AngKAdvanceSetting.cpp" />
+    <ClCompile Include="..\View\DlgComponents\SettingComponents\AngKChainSelectDlg.cpp" />
+    <ClCompile Include="..\View\DlgComponents\SettingComponents\AngKConnetDialog.cpp" />
+    <ClCompile Include="..\View\DlgComponents\SettingComponents\AngKDebugSetting.cpp" />
+    <ClCompile Include="..\View\DlgComponents\SettingComponents\AngKDemoWidget.cpp" />
+    <ClCompile Include="..\View\DlgComponents\SettingComponents\ACEthernetConfigWidget.cpp" />
+    <ClCompile Include="..\View\DlgComponents\SettingComponents\AngKSettingDlg.cpp" />
+    <ClCompile Include="..\View\DlgComponents\SettingComponents\AngKSwapSetting.cpp" />
+    <ClCompile Include="..\View\GlobalInit\AppModeType.cpp" />
+    <ClCompile Include="..\View\GlobalInit\DevErrCode.cpp" />
+    <ClCompile Include="..\View\mainFrame\agclient.cpp" />
+    <ClCompile Include="..\View\mainFrame\AngKGlobalInstance.cpp" />
+    <ClCompile Include="..\View\mainFrame\Login\AngKLoginChoose.cpp" />
+    <ClCompile Include="..\View\mainFrame\Login\AngKLoginDialog.cpp" />
+    <ClCompile Include="..\View\mainFrame\Login\AngKLoginInput.cpp" />
+    <ClCompile Include="..\View\mainFrame\MainWindow\AngKMainFrame.cpp" />
+    <ClCompile Include="..\View\mainFrame\MainWindow\AngKShadowWidget.cpp" />
+    <ClCompile Include="..\View\mainFrame\MainWindow\AngKSkinGridImage.cpp" />
+    <ClCompile Include="..\View\mainFrame\MainWindow\AngKWindowTitleBar.cpp" />
+    <ClCompile Include="..\View\mainFrame\WindowComponents\AngKCustomTab.cpp" />
+    <ClCompile Include="..\View\mainFrame\WindowComponents\AngKProgrammerWidget.cpp" />
+    <ClCompile Include="..\View\mainFrame\WindowComponents\AngKPropetryWidget.cpp" />
+    <ClCompile Include="..\View\mainFrame\WindowComponents\AngKReportWidget.cpp" />
+    <ClCompile Include="..\View\mainFrame\WindowComponents\AngKToolWidget.cpp" />
+    <ClCompile Include="..\View\mainFrame\WindowComponents\AnimWidgetManager.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_ACSSDProjManager.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_AngKCheckBoxHeader.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ACSSDProjManager.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_AngKCheckBoxHeader.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="agclient.qrc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BackupFiles\icon.svg" />
+    <None Include="cpp.hint" />
+    <None Include="Translations\agclient_en.ts" />
+    <None Include="Translations\agclient_ja.ts" />
+    <None Include="Translations\agclient_zh.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="..\View\Components\InterfaceComponents\AngKControlWidget.ui" />
+    <QtUic Include="..\View\Components\InterfaceComponents\AngKShowLogArea.ui" />
+    <QtUic Include="..\View\Components\InterfaceComponents\AngKSiteWidget.ui" />
+    <QtUic Include="..\View\Components\InterfaceComponents\AngKTabProgram.ui" />
+    <QtUic Include="..\View\Components\InterfaceComponents\AngKTabProject.ui" />
+    <QtUic Include="..\View\Components\InterfaceComponents\AngKTabSite.ui" />
+    <QtUic Include="..\View\Components\InterfaceComponents\AngKTitleImg.ui" />
+    <QtUic Include="..\View\Components\InterfaceComponents\AngKTranslateSelect.ui" />
+    <QtUic Include="..\View\Components\ProgressComponents\AngKProcessPathWidget.ui" />
+    <QtUic Include="..\View\Components\ProgressComponents\CurrentProgressWgt.ui" />
+    <QtUic Include="..\View\Components\ProgressComponents\WarningNum.ui" />
+    <QtUic Include="..\View\Components\ProgressComponents\WarningWgt.ui" />
+    <QtUic Include="..\View\Components\ProgressComponents\YieldRateWgt.ui" />
+    <QtUic Include="..\View\DlgComponents\AngKDialog.ui" />
+    <QtUic Include="..\View\DlgComponents\BufferMapDlg\AngKBufferHexEdit.ui" />
+    <QtUic Include="..\View\DlgComponents\BufferMapDlg\AngKFillSetting.ui" />
+    <QtUic Include="..\View\DlgComponents\BufferMapDlg\AngKGotoSetting.ui" />
+    <QtUic Include="..\View\DlgComponents\BufferMapDlg\AngKHexViewEdit.ui" />
+    <QtUic Include="..\View\DlgComponents\ChipComponents\AngKChipDialog.ui" />
+    <QtUic Include="..\View\DlgComponents\ChipComponents\AngKChipSelectWidget.ui" />
+    <QtUic Include="..\View\DlgComponents\ChipComponents\AngKDeviceInfoDlg.ui" />
+    <QtUic Include="..\View\DlgComponents\eMMCComponents\ACeMMCSolution.ui" />
+    <QtUic Include="..\View\DlgComponents\eMMCComponents\AngKAddeMMCFile.ui" />
+    <QtUic Include="..\View\DlgComponents\eMMCComponents\AngKAddeMMCHuaweiFile.ui" />
+    <QtUic Include="..\View\DlgComponents\eMMCComponents\AngKemmCDriverPara.ui" />
+    <QtUic Include="..\View\DlgComponents\eMMCComponents\AngKemmcOption.ui" />
+    <QtUic Include="..\View\DlgComponents\eMMCComponents\AngKExtendCSD.ui">
+      <FileType>Document</FileType>
+    </QtUic>
+    <QtUic Include="..\View\DlgComponents\MenuBarComponents\ACAdapterCountInfomation.ui" />
+    <QtUic Include="..\View\DlgComponents\MenuBarComponents\ACAutomaticSetting.ui" />
+    <QtUic Include="..\View\DlgComponents\MenuBarComponents\ACDeviceManagerList.ui" />
+    <QtUic Include="..\View\DlgComponents\MenuBarComponents\ACMasterChipAnalyzeDlg.ui" />
+    <QtUic Include="..\View\DlgComponents\MenuBarComponents\ACProgrammerTestDlg.ui" />
+    <QtUic Include="..\View\DlgComponents\MenuBarComponents\AngKAboutDlg.ui" />
+    <QtUic Include="..\View\DlgComponents\MenuBarComponents\AngKAdapterInformation.ui" />
+    <QtUic Include="..\View\DlgComponents\MenuBarComponents\AngKCodeGeneratorDlg.ui" />
+    <QtUic Include="..\View\DlgComponents\MenuBarComponents\AngKDeviceInfoTable.ui" />
+    <QtUic Include="..\View\DlgComponents\MenuBarComponents\AngKDriverParam.ui" />
+    <QtUic Include="..\View\DlgComponents\MenuBarComponents\AngKNandImageDlg.ui" />
+    <QtUic Include="..\View\DlgComponents\MenuBarComponents\AngKPinMapSetting.ui" />
+    <QtUic Include="..\View\DlgComponents\MenuBarComponents\AngKProgrammerInfoDlg.ui" />
+    <QtUic Include="..\View\DlgComponents\MenuBarComponents\AngKSerialNumberDlg.ui" />
+    <QtUic Include="..\View\DlgComponents\MenuBarComponents\AngKSNCreator.ui" />
+    <QtUic Include="..\View\DlgComponents\MenuBarComponents\AngKSNCreatorDlg.ui" />
+    <QtUic Include="..\View\DlgComponents\MenuBarComponents\AngKUpdateFirmware.ui" />
+    <QtUic Include="..\View\DlgComponents\MessageBox\ACMessageBox.ui" />
+    <QtUic Include="..\View\DlgComponents\ProjectComponents\ACProjectCreateDlg.ui" />
+    <QtUic Include="..\View\DlgComponents\ProjectComponents\ACProjectProperty.ui" />
+    <QtUic Include="..\View\DlgComponents\ProjectComponents\ACTaskCreateDlg.ui" />
+    <QtUic Include="..\View\DlgComponents\ProjectComponents\ACTaskDownload.ui" />
+    <QtUic Include="..\View\DlgComponents\ProjectComponents\AngKFilesImport.ui" />
+    <QtUic Include="..\View\DlgComponents\ProjectComponents\AngKOperationTag.ui" />
+    <QtUic Include="..\View\DlgComponents\ProjectComponents\AngKProjectChipSelect.ui" />
+    <QtUic Include="..\View\DlgComponents\ProjectComponents\AngKProjectDrvParaSetting.ui" />
+    <QtUic Include="..\View\DlgComponents\ProjectComponents\AngKProjectOperation.ui" />
+    <QtUic Include="..\View\DlgComponents\SettingComponents\AngKAdvanceSetting.ui" />
+    <QtUic Include="..\View\DlgComponents\SettingComponents\AngKChainSelectDlg.ui" />
+    <QtUic Include="..\View\DlgComponents\SettingComponents\AngKConnetDialog.ui" />
+    <QtUic Include="..\View\DlgComponents\SettingComponents\AngKDebugSetting.ui" />
+    <QtUic Include="..\View\DlgComponents\SettingComponents\AngKDemoWidget.ui" />
+    <QtUic Include="..\View\DlgComponents\SettingComponents\ACEthernetConfigWidget.ui" />
+    <QtUic Include="..\View\DlgComponents\SettingComponents\AngKSettingDlg.ui" />
+    <QtUic Include="..\View\DlgComponents\SettingComponents\AngKSwapSetting.ui" />
+    <QtUic Include="..\View\mainFrame\agclient.ui" />
+    <QtUic Include="..\View\mainFrame\Login\AngKLoginChoose.ui" />
+    <QtUic Include="..\View\mainFrame\Login\AngKLoginDialog.ui" />
+    <QtUic Include="..\View\mainFrame\Login\AngKLoginInput.ui" />
+    <QtUic Include="..\View\mainFrame\MainWindow\AngKMainFrame.ui" />
+    <QtUic Include="..\View\mainFrame\WindowComponents\AngKProgrammerWidget.ui" />
+    <QtUic Include="..\View\mainFrame\WindowComponents\AngKPropetryWidget.ui" />
+    <QtUic Include="..\View\mainFrame\WindowComponents\AngKReportWidget.ui" />
+    <QtUic Include="..\View\mainFrame\WindowComponents\AngKToolWidget.ui" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="..\View\DlgComponents\BufferMapDlg\AngKGotoSetting.h" />
+    <QtMoc Include="..\View\DlgComponents\BufferMapDlg\AngKFillSetting.h" />
+    <QtMoc Include="..\View\DlgComponents\eMMCComponents\AngKAddeMMCFile.h" />
+    <QtMoc Include="..\View\DlgComponents\eMMCComponents\AngKemmcOption.h" />
+    <QtMoc Include="..\View\DlgComponents\eMMCComponents\AngKExtendCSD.h" />
+    <QtMoc Include="..\View\DlgComponents\ProjectComponents\AngKFilesImport.h" />
+    <QtMoc Include="..\View\DlgComponents\ProjectComponents\AngKOperationTag.h" />
+    <QtMoc Include="..\View\DlgComponents\ProjectComponents\AngKProjectOperation.h" />
+    <QtMoc Include="..\View\DlgComponents\BufferMapDlg\AngKBufferHexEdit.h" />
+    <QtMoc Include="..\View\DlgComponents\BufferMapDlg\AngKHexViewEdit.h" />
+    <QtMoc Include="..\View\DlgComponents\ChipComponents\AngKChipDialog.h" />
+    <QtMoc Include="..\View\DlgComponents\ChipComponents\AngKChipSelectWidget.h" />
+    <QtMoc Include="..\View\DlgComponents\ProjectComponents\AngKProjectChipSelect.h" />
+    <QtMoc Include="..\View\DlgComponents\MenuBarComponents\AngKAdapterInformation.h" />
+    <QtMoc Include="..\View\DlgComponents\MenuBarComponents\AngKCodeGeneratorDlg.h" />
+    <QtMoc Include="..\View\DlgComponents\MenuBarComponents\AngKDriverParam.h" />
+    <QtMoc Include="..\View\DlgComponents\MenuBarComponents\AngKNandImageDlg.h" />
+    <QtMoc Include="..\View\DlgComponents\MenuBarComponents\AngKProgrammerInfoDlg.h" />
+    <QtMoc Include="..\View\DlgComponents\MenuBarComponents\AngKSerialNumberDlg.h" />
+    <QtMoc Include="..\View\DlgComponents\MenuBarComponents\AngKSNCreator.h" />
+    <QtMoc Include="..\View\DlgComponents\MenuBarComponents\AngKSNCreatorDlg.h" />
+    <QtMoc Include="..\View\DlgComponents\MenuBarComponents\AngKUpdateFirmware.h" />
+    <QtMoc Include="..\View\DlgComponents\SettingComponents\AngKConnetDialog.h" />
+    <QtMoc Include="..\View\DlgComponents\SettingComponents\ACEthernetConfigWidget.h" />
+    <QtMoc Include="..\View\DlgComponents\SettingComponents\AngKSettingDlg.h" />
+    <QtMoc Include="..\View\DlgComponents\AngKDialog.h" />
+    <QtMoc Include="..\View\Components\ProgressComponents\AngKProcessPathWidget.h" />
+    <QtMoc Include="..\View\Components\ProgressComponents\AngKProgressBar.h" />
+    <QtMoc Include="..\View\Components\ProgressComponents\AngKRoundProgressBar.h" />
+    <QtMoc Include="..\View\Components\ProgressComponents\AngKRoundProgressBarEx.h" />
+    <QtMoc Include="..\View\Components\ProgressComponents\CurrentProgressWgt.h" />
+    <QtMoc Include="..\View\Components\ProgressComponents\ProgressDialogSingleton.h" />
+    <QtMoc Include="..\View\Components\ProgressComponents\WarningNum.h" />
+    <QtMoc Include="..\View\Components\ProgressComponents\WarningWgt.h" />
+    <QtMoc Include="..\View\Components\ProgressComponents\YieldRateWgt.h" />
+    <QtMoc Include="..\View\DlgComponents\MenuBarComponents\AngKPinMapSetting.h" />
+    <QtMoc Include="..\View\Components\ModelComponents\AngKCustomDelegate.h" />
+    <QtMoc Include="..\View\Components\ModelComponents\AngKDBStandardItemModelEx.h" />
+    <QtMoc Include="..\View\Components\ModelComponents\AngKItemDelegate.h" />
+    <QtMoc Include="..\View\Components\ModelComponents\AngKSortFilterProxyModel.h" />
+    <QtMoc Include="..\View\Components\ModelComponents\AngKTableView.h" />
+    <QtMoc Include="..\View\Components\InterfaceComponents\AngKControlWidget.h" />
+    <QtMoc Include="..\View\Components\InterfaceComponents\AngKShowLogArea.h" />
+    <QtMoc Include="..\View\Components\InterfaceComponents\AngKSiteWidget.h" />
+    <QtMoc Include="..\View\Components\InterfaceComponents\AngKTabSite.h" />
+    <QtMoc Include="..\View\Components\InterfaceComponents\AngKTitleImg.h" />
+    <QtMoc Include="..\View\Components\InterfaceComponents\AngKTranslateSelect.h" />
+    <QtMoc Include="..\View\mainFrame\Login\AngKLoginChoose.h" />
+    <QtMoc Include="..\View\mainFrame\Login\AngKLoginDialog.h" />
+    <QtMoc Include="..\View\mainFrame\Login\AngKLoginInput.h" />
+    <QtMoc Include="..\View\mainFrame\MainWindow\AngKMainFrame.h" />
+    <QtMoc Include="..\View\DlgComponents\eMMCComponents\AngKAddeMMCHuaweiFile.h" />
+    <QtMoc Include="..\View\DlgComponents\eMMCComponents\eMMCParserManager.h" />
+    <QtMoc Include="..\View\DlgComponents\eMMCComponents\AngKemmCDriverPara.h" />
+    <QtMoc Include="..\View\DlgComponents\ProjectComponents\AngKProjectDrvParaSetting.h" />
+    <QtMoc Include="..\Controller\LogManager\AngKLogManager.h" />
+    <QtMoc Include="..\View\Components\ModelComponents\AngKProgressDelegate.h" />
+    <QtMoc Include="..\Controller\ACCmdHandler\AngKRemoteCmdManager.h" />
+    <QtMoc Include="..\View\DlgComponents\ProjectComponents\AngKProjectChipConfigWidget.h" />
+    <QtMoc Include="..\View\DlgComponents\ChipComponents\AngKDeviceInfoDlg.h" />
+    <QtMoc Include="..\View\DlgComponents\SettingComponents\AngKAdvanceSetting.h" />
+    <QtMoc Include="..\View\DlgComponents\SettingComponents\AngKSwapSetting.h" />
+    <QtMoc Include="..\Controller\ScanManager\AngKScanManager.h" />
+    <QtMoc Include="..\Model\Device\AngKDeviceModel.h" />
+    <QtMoc Include="..\Controller\ChkManager\AngKChkManager.h" />
+    <QtMoc Include="..\Controller\ACCmdHandler\CustomMessageHandler.h" />
+    <ClInclude Include="..\Controller\ACCmdHandler\ICustomDllHandler.h" />
+    <ClInclude Include="..\Controller\ACCmdHandler\MT422DllHandler.h" />
+    <QtMoc Include="..\Controller\ACCmdHandler\MT422SerialHandler.h" />
+    <QtMoc Include="..\Controller\ACCmdHandler\SerialPortManager.h" />
+    <QtMoc Include="..\Controller\ACCmdHandler\SerialPortWorker.h" />
+    <ClInclude Include="..\Controller\ACCmdHandler\UUID\itimeprovider.h" />
+    <ClInclude Include="..\Controller\ACCmdHandler\UUID\iuidgenerator.h" />
+    <ClInclude Include="..\Controller\ACCmdHandler\UUID\mtuidgenerator.h" />
+    <ClInclude Include="..\Controller\AutomaticManager\ACAutomaticManager.h" />
+    <QtMoc Include="..\Controller\AutomaticManager\AutoInterface.h" />
+    <QtMoc Include="..\Controller\AutomaticManager\automaticplugin_global.h" />
+    <QtMoc Include="..\Controller\AutomaticManager\AutoMessageServer.h" />
+    <QtMoc Include="..\Controller\AutomaticManager\AuthUtils.h" />
+    <QtMoc Include="..\Controller\AutomaticManager\ExternalServer.h" />
+    <ClInclude Include="..\Controller\ChipManager\ACChipManager.h" />
+    <ClInclude Include="..\Controller\ChkManager\ChecksumDef.h" />
+    <QtMoc Include="..\Controller\EventManager\ACEventManager.h" />
+    <QtMoc Include="..\Controller\EventManager\ACEventLogger.h" />
+    <QtMoc Include="..\Controller\EventManager\ACEventBuild.h" />
+    <QtMoc Include="..\Controller\DeviceManager\ACDeviceManager.h" />
+    <QtMoc Include="..\Controller\eMMC\ACeMMCAnalyzeManager.h" />
+    <QtMoc Include="..\Controller\eMMC\ACMasterChipAnalyzeManager.h" />
+    <ClInclude Include="..\Controller\eMMC\CAcMbn.h" />
+    <ClInclude Include="..\Controller\eMMC\eMMCDef.h" />
+    <ClInclude Include="..\Controller\LogManager\IOutput.h" />
+    <QtMoc Include="..\Controller\Utils\AngkLogger.h" />
+    <QtMoc Include="..\Controller\ProjectManager\ACProjManager.h" />
+    <QtMoc Include="..\View\DlgComponents\SettingComponents\AngKChainSelectDlg.h" />
+    <QtMoc Include="..\View\DlgComponents\SettingComponents\AngKDebugSetting.h" />
+    <QtMoc Include="..\View\DlgComponents\MenuBarComponents\AngKDeviceInfoTable.h" />
+    <QtMoc Include="..\View\DlgComponents\MenuBarComponents\AngKAboutDlg.h" />
+    <QtMoc Include="..\View\Components\InterfaceComponents\AngKTabProgram.h" />
+    <QtMoc Include="..\View\Components\InterfaceComponents\AngKTabProject.h" />
+    <QtMoc Include="..\View\DlgComponents\SettingComponents\AngKDemoWidget.h" />
+    <QtMoc Include="..\View\DlgComponents\MenuBarComponents\ACAdapterCountInfomation.h" />
+    <QtMoc Include="..\View\DlgComponents\MessageBox\ACMessageBox.h" />
+    <QtMoc Include="..\View\DlgComponents\MenuBarComponents\ACDeviceManagerList.h" />
+    <QtMoc Include="..\Controller\TaskManager\ACTaskManager.h" />
+    <QtMoc Include="..\Controller\ReportManager\ACReportRecord.h" />
+    <QtMoc Include="..\Controller\ReportManager\ACHtmlLogWriter.h" />
+    <CustomBuild Include="..\Controller\TaskManager\ACSSDProjManager.h">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DWIN64 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DQT_CONCURRENT_LIB -DQT_NETWORK_LIB -DQT_SERIALPORT_LIB -D%(PreprocessorDefinitions)  "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtANGLE" "-I$(QTDIR)\include\QtSvg" "-I$(QTDIR)\include\QtWidgets" "-I.\Components" "-I.\DlgComponents" "-I.\DataBase" "-I$(QTDIR)\include\QtConcurrent" "-I.\..\Controller\Utils" "-I.\..\Controller\TransmitSignalsInstance" "-I.\..\Controller\MessageQueuePool" "-I.\..\Model\ProjDataset" "-I.\..\View\DlgComponents" "-I.\..\View\Components" "-I.\..\Model\DataBuffer" "-I.\..\Controller\IOHeapManager" "-I.\..\Model\IOHeap" "-I.\..\View\DlgComponents\BufferMapDlg" "-I.\..\View\DlgComponents\eMMCComponents" "-I.\..\View\DlgComponents\ProjectComponents" "-I.\..\View\Components\InterfaceComponents" "-I.\..\Controller\LogManager" "-I.\..\View\Components\ModelComponents" "-I.\..\Controller\ACCmdHandler" "-I.\..\View\DlgComponents\ChipComponents" "-I.\..\View\DlgComponents\SettingComponents" "-I.\..\Controller\ScanManager" "-I.\..\Model\Device" "-I$(QTDIR)\include\QtNetwork" "-I.\..\Controller\ChkManager" "-I.\..\View\DlgComponents\MenuBarComponents" "-I.\..\Controller\EventManager" "-I.\..\Controller\DeviceManager" "-I.\..\View\DlgComponents\MessageBox" "-I.\..\Controller\ProjectManager" "-I.\..\Controller\TaskManager" "-I.\..\View\SProtocolTest" "-I.\..\Controller\ReportManager" "-I.\..\Controller\eMMC" "-I$(QTDIR)\include\QtSerialPort"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DWIN64 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DQT_CONCURRENT_LIB -DABSTRACTPARSER_LIB -DQT_NETWORK_LIB -DQT_SERIALPORT_LIB -D%(PreprocessorDefinitions)  "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtANGLE" "-I$(QTDIR)\include\QtSvg" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtPropertyBrowser" "-I$(QTDIR)\include\QtCore\5.15.2" "-I$(QTDIR)\include\QtGui\5.15.2" "-I$(QTDIR)\include\QtConcurrent" "-I$(QTDIR)\include\QtGui\5.15.2\QtGui\private" "-I$(QTDIR)\include\QtCore\5.15.2\QtCore\private" "-I$(SolutionDir)\View\GlobalInit" "-I$(SolutionDir)\View\mainFrame" "-I$(SolutionDir)\View\mainFrame\Login" "-I$(SolutionDir)\View\mainFrame\MainWindow" "-I$(SolutionDir)\View\mainFrame\WindowComponents" "-I$(SolutionDir)\View\Components" "-I$(SolutionDir)\View\Components\ProgressComponents" "-I$(SolutionDir)\View\Components\ModelComponents" "-I$(SolutionDir)\View\Components\InterfaceComponents" "-I$(SolutionDir)\View\DlgComponents" "-I$(SolutionDir)\View\DlgComponents\eMMCComponents" "-I$(SolutionDir)\View\DlgComponents\ProjectComponents" "-I$(SolutionDir)\View\DlgComponents\ChipComponents" "-I$(SolutionDir)\View\DlgComponents\MenuBarComponents" "-I$(SolutionDir)\View\DlgComponents\BufferMapDlg" "-I$(SolutionDir)\View\DlgComponents\SettingComponents" "-I$(SolutionDir)\Model\DataBase" "-I$(SolutionDir)\Model\SerializeData" "-I$(SolutionDir)\Model\DataTransform" "-I$(SolutionDir)\Model\ParserPlugins" "-I.\Depend\sqlite3" "-I.\Depend\qHexedit" "-I.\Depend\pugixml" "-I.\Depend\nlohmann" "-I$(SolutionDir)\Controller\TransmitSignalsInstance" "-I$(SolutionDir)\Controller\MessageQueuePool" "-I$(SolutionDir)\Controller\IOHeapManager" "-I$(SolutionDir)\Controller\ACCmdHandler" "-I$(SolutionDir)\Controller\AutomaticManager" "-I$(SolutionDir)\Controller\eMMC" "-I$(SolutionDir)\Controller\Utils" "-I$(SolutionDir)\Controller\ChipManager" "-I$(SolutionDir)\Model\ProjDataset" "-I$(SolutionDir)\Model\eMMC" "-I$(SolutionDir)\Model\DataBuffer" "-I$(SolutionDir)\Model\IOHeap" "-I.\..\View\Components\InterfaceComponents" "-I.\..\Controller\LogManager" "-I.\..\View\Components\ModelComponents" "-I.\..\Controller\ACCmdHandler" "-I.\..\View\DlgComponents\ProjectComponents" "-I.\..\View\DlgComponents\ChipComponents" "-I.\..\View\DlgComponents\SettingComponents" "-I.\..\Controller\ScanManager" "-I.\..\Model\Device" "-I$(QTDIR)\include\QtNetwork" "-I.\..\Controller\ChkManager" "-I.\..\Controller\Utils" "-I.\..\View\DlgComponents\MenuBarComponents" "-I.\..\Controller\EventManager" "-I.\..\Controller\DeviceManager" "-I.\..\View\DlgComponents\MessageBox" "-I.\..\Controller\ProjectManager" "-I.\..\View\DlgComponents\eMMCComponents" "-I.\..\Controller\TaskManager" "-I.\..\View\SProtocolTest" "-I.\..\Controller\ReportManager" "-I.\Depend\ACComlib\include" "-I.\Depend\ACComLib\third_part" "-I.\..\Controller\eMMC" "-I$(QTDIR)\include\QtSerialPort"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DWIN64 -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DQT_CONCURRENT_LIB -DQT_NETWORK_LIB -DQT_SERIALPORT_LIB -D%(PreprocessorDefinitions)  "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtANGLE" "-I$(QTDIR)\include\QtSvg" "-I$(QTDIR)\include\QtWidgets" "-I.\Components" "-I.\DlgComponents" "-I.\DataBase" "-I$(QTDIR)\include\QtConcurrent" "-I.\..\Controller\Utils" "-I.\..\Controller\TransmitSignalsInstance" "-I.\..\Controller\MessageQueuePool" "-I.\..\Model\ProjDataset" "-I.\..\View\DlgComponents" "-I.\..\View\Components" "-I.\..\Model\DataBuffer" "-I.\..\Controller\IOHeapManager" "-I.\..\Model\IOHeap" "-I.\..\View\DlgComponents\BufferMapDlg" "-I.\..\View\DlgComponents\eMMCComponents" "-I.\..\View\DlgComponents\ProjectComponents" "-I.\..\View\Components\InterfaceComponents" "-I.\..\Controller\LogManager" "-I.\..\View\Components\ModelComponents" "-I.\..\Controller\ACCmdHandler" "-I.\..\View\DlgComponents\ChipComponents" "-I.\..\View\DlgComponents\SettingComponents" "-I.\..\Controller\ScanManager" "-I.\..\Model\Device" "-I$(QTDIR)\include\QtNetwork" "-I.\..\Controller\ChkManager" "-I.\..\View\DlgComponents\MenuBarComponents" "-I.\..\Controller\EventManager" "-I.\..\Controller\DeviceManager" "-I.\..\View\DlgComponents\MessageBox" "-I.\..\Controller\ProjectManager" "-I.\..\Controller\TaskManager" "-I.\..\View\SProtocolTest" "-I.\..\Controller\ReportManager" "-I.\..\Controller\eMMC" "-I$(QTDIR)\include\QtSerialPort"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DWIN64 -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DQT_CONCURRENT_LIB -DABSTRACTPARSER_LIB -DQT_NETWORK_LIB -DQT_SERIALPORT_LIB -D%(PreprocessorDefinitions)  "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtANGLE" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtSvg" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtConcurrent" "-I$(QTDIR)\include\QtPropertyBrowser" "-I$(QTDIR)\include\QtGui\5.15.2" "-I$(QTDIR)\include\QtCore\5.15.2" "-I$(QTDIR)\include\QtGui\5.15.2\QtGui\private" "-I$(QTDIR)\include\QtCore\5.15.2\QtCore\private" "-I$(SolutionDir)\View\GlobalInit" "-I$(SolutionDir)\View\mainFrame" "-I$(SolutionDir)\View\mainFrame\Login" "-I$(SolutionDir)\View\mainFrame\MainWindow" "-I$(SolutionDir)\View\mainFrame\WindowComponents" "-I$(SolutionDir)\View\Components" "-I$(SolutionDir)\View\Components\ProgressComponents" "-I$(SolutionDir)\View\Components\ModelComponents" "-I$(SolutionDir)\View\Components\InterfaceComponents" "-I$(SolutionDir)\View\DlgComponents" "-I$(SolutionDir)\View\DlgComponents\eMMCComponents" "-I$(SolutionDir)\View\DlgComponents\ProjectComponents" "-I$(SolutionDir)\View\DlgComponents\ChipComponents" "-I$(SolutionDir)\View\DlgComponents\BufferMapDlg" "-I$(SolutionDir)\View\DlgComponents\MenuBarComponents" "-I$(SolutionDir)\View\DlgComponents\SettingComponents" "-I$(SolutionDir)\Model\DataBase" "-I$(SolutionDir)\Model\SerializeData" "-I$(SolutionDir)\Model\DataTransform" "-I$(SolutionDir)\Model\ParserPlugins" "-I.\Depend" "-I.\Depend\sqlite3" "-I\Depend\qHexedit" "-I.\Depend\nlohmann" "-I.\Depend\pugixml" "-I$(SolutionDir)\Controller\TransmitSignalsInstance" "-I$(SolutionDir)\Controller\MessageQueuePool" "-I$(SolutionDir)\Controller\IOHeapManager" "-I$(SolutionDir)\Controller\ACCmdHandler" "-I$(SolutionDir)\Controller\AutomaticManager" "-I$(SolutionDir)\Controller\eMMC" "-I$(SolutionDir)\Controller\Utils" "-I$(SolutionDir)\Controller\LogManager" "-I$(SolutionDir)\Model\ProjDataset" "-I$(SolutionDir)\Model\eMMC" "-I$(SolutionDir)\Model\DataBuffer" "-I$(SolutionDir)\Model\IOHeap" "-I$(SolutionDir)\Controller\ScanManager" "-I$(SolutionDir)\Controller\ChkManager" "-I$(SolutionDir)\Controller\EventManager" "-I$(SolutionDir)\Controller\ChipManager" "-I$(SolutionDir)\Controller\DeviceManager" "-I.\..\View\Components\InterfaceComponents" "-I.\..\View\Components\ModelComponents" "-I.\..\View\DlgComponents\ProjectComponents" "-I.\..\View\DlgComponents\ChipComponents" "-I.\..\View\DlgComponents\SettingComponents" "-I.\..\Model\Device" "-I.\..\View\DlgComponents\MessageBox" "-I.\..\View\DlgComponents\MenuBarComponents" "-I.\..\Controller\ProjectManager" "-I.\..\View\DlgComponents\eMMCComponents" "-I.\..\Controller\TaskManager" "-I.\..\View\SProtocolTest" "-I.\..\Controller\ReportManager" "-I.\Depend\ACComlib\include" "-I.\Depend\ACComLib\third_part" "-I.\..\Controller\eMMC" "-I.\..\Controller\ACCmdHandler" "-I$(QTDIR)\include\QtSerialPort"</Command>
+    </CustomBuild>
+    <QtMoc Include="..\Controller\RemoteServer\JsonRpcServer.h" />
+    <ClInclude Include="..\Controller\ProjectManager\ProjectManagerSingleton.h" />
+    <ClInclude Include="..\Controller\TaskManager\TaskManagerSingleton.h" />
+    <ClInclude Include="..\Model\Device\DeviceModel.h" />
+    <QtMoc Include="..\View\DlgComponents\ProjectComponents\ACProjectProperty.h" />
+    <QtMoc Include="..\View\DlgComponents\eMMCComponents\ACeMMCSolution.h" />
+    <QtMoc Include="..\View\DlgComponents\ProjectComponents\ACProjectCreateDlg.h" />
+    <QtMoc Include="..\View\DlgComponents\ProjectComponents\ACTaskCreateDlg.h" />
+    <QtMoc Include="..\View\DlgComponents\ProjectComponents\ACTaskDownload.h" />
+    <QtMoc Include="..\View\DlgComponents\MenuBarComponents\ACProgrammerTestDlg.h" />
+    <QtMoc Include="..\View\DlgComponents\MenuBarComponents\ACAutomaticSetting.h" />
+    <QtMoc Include="..\View\DlgComponents\MenuBarComponents\ACMasterChipAnalyzeDlg.h" />
+    <CustomBuild Include="..\View\Components\ModelComponents\AngKCheckBoxHeader.h">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DWIN64 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DQT_CONCURRENT_LIB -DQT_NETWORK_LIB -DQT_SERIALPORT_LIB -D%(PreprocessorDefinitions)  "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtANGLE" "-I$(QTDIR)\include\QtSvg" "-I$(QTDIR)\include\QtWidgets" "-I.\Components" "-I.\DlgComponents" "-I.\DataBase" "-I$(QTDIR)\include\QtConcurrent" "-I.\..\Controller\Utils" "-I.\..\Controller\TransmitSignalsInstance" "-I.\..\Controller\MessageQueuePool" "-I.\..\Model\ProjDataset" "-I.\..\View\DlgComponents" "-I.\..\View\Components" "-I.\..\Model\DataBuffer" "-I.\..\Controller\IOHeapManager" "-I.\..\Model\IOHeap" "-I.\..\View\DlgComponents\BufferMapDlg" "-I.\..\View\DlgComponents\eMMCComponents" "-I.\..\View\DlgComponents\ProjectComponents" "-I.\..\View\Components\InterfaceComponents" "-I.\..\Controller\LogManager" "-I.\..\View\Components\ModelComponents" "-I.\..\Controller\ACCmdHandler" "-I.\..\View\DlgComponents\ChipComponents" "-I.\..\View\DlgComponents\SettingComponents" "-I.\..\Controller\ScanManager" "-I.\..\Model\Device" "-I$(QTDIR)\include\QtNetwork" "-I.\..\Controller\ChkManager" "-I.\..\View\DlgComponents\MenuBarComponents" "-I.\..\Controller\EventManager" "-I.\..\Controller\DeviceManager" "-I.\..\View\DlgComponents\MessageBox" "-I.\..\Controller\ProjectManager" "-I.\..\Controller\TaskManager" "-I.\..\View\SProtocolTest" "-I.\..\Controller\ReportManager" "-I.\..\Controller\eMMC" "-I$(QTDIR)\include\QtSerialPort"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DWIN64 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DQT_CONCURRENT_LIB -DABSTRACTPARSER_LIB -DQT_NETWORK_LIB -DQT_SERIALPORT_LIB -D%(PreprocessorDefinitions)  "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtANGLE" "-I$(QTDIR)\include\QtSvg" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtPropertyBrowser" "-I$(QTDIR)\include\QtCore\5.15.2" "-I$(QTDIR)\include\QtGui\5.15.2" "-I$(QTDIR)\include\QtConcurrent" "-I$(QTDIR)\include\QtGui\5.15.2\QtGui\private" "-I$(QTDIR)\include\QtCore\5.15.2\QtCore\private" "-I$(SolutionDir)\View\GlobalInit" "-I$(SolutionDir)\View\mainFrame" "-I$(SolutionDir)\View\mainFrame\Login" "-I$(SolutionDir)\View\mainFrame\MainWindow" "-I$(SolutionDir)\View\mainFrame\WindowComponents" "-I$(SolutionDir)\View\Components" "-I$(SolutionDir)\View\Components\ProgressComponents" "-I$(SolutionDir)\View\Components\ModelComponents" "-I$(SolutionDir)\View\Components\InterfaceComponents" "-I$(SolutionDir)\View\DlgComponents" "-I$(SolutionDir)\View\DlgComponents\eMMCComponents" "-I$(SolutionDir)\View\DlgComponents\ProjectComponents" "-I$(SolutionDir)\View\DlgComponents\ChipComponents" "-I$(SolutionDir)\View\DlgComponents\MenuBarComponents" "-I$(SolutionDir)\View\DlgComponents\BufferMapDlg" "-I$(SolutionDir)\View\DlgComponents\SettingComponents" "-I$(SolutionDir)\Model\DataBase" "-I$(SolutionDir)\Model\SerializeData" "-I$(SolutionDir)\Model\DataTransform" "-I$(SolutionDir)\Model\ParserPlugins" "-I.\Depend\sqlite3" "-I.\Depend\qHexedit" "-I.\Depend\pugixml" "-I.\Depend\nlohmann" "-I$(SolutionDir)\Controller\TransmitSignalsInstance" "-I$(SolutionDir)\Controller\MessageQueuePool" "-I$(SolutionDir)\Controller\IOHeapManager" "-I$(SolutionDir)\Controller\ACCmdHandler" "-I$(SolutionDir)\Controller\AutomaticManager" "-I$(SolutionDir)\Controller\eMMC" "-I$(SolutionDir)\Controller\Utils" "-I$(SolutionDir)\Controller\ChipManager" "-I$(SolutionDir)\Model\ProjDataset" "-I$(SolutionDir)\Model\eMMC" "-I$(SolutionDir)\Model\DataBuffer" "-I$(SolutionDir)\Model\IOHeap" "-I.\..\View\Components\InterfaceComponents" "-I.\..\Controller\LogManager" "-I.\..\View\Components\ModelComponents" "-I.\..\Controller\ACCmdHandler" "-I.\..\View\DlgComponents\ProjectComponents" "-I.\..\View\DlgComponents\ChipComponents" "-I.\..\View\DlgComponents\SettingComponents" "-I.\..\Controller\ScanManager" "-I.\..\Model\Device" "-I$(QTDIR)\include\QtNetwork" "-I.\..\Controller\ChkManager" "-I.\..\Controller\Utils" "-I.\..\View\DlgComponents\MenuBarComponents" "-I.\..\Controller\EventManager" "-I.\..\Controller\DeviceManager" "-I.\..\View\DlgComponents\MessageBox" "-I.\..\Controller\ProjectManager" "-I.\..\View\DlgComponents\eMMCComponents" "-I.\..\Controller\TaskManager" "-I.\..\View\SProtocolTest" "-I.\..\Controller\ReportManager" "-I.\Depend\ACComlib\include" "-I.\Depend\ACComLib\third_part" "-I.\..\Controller\eMMC" "-I$(QTDIR)\include\QtSerialPort"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DWIN64 -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DQT_CONCURRENT_LIB -DQT_NETWORK_LIB -DQT_SERIALPORT_LIB -D%(PreprocessorDefinitions)  "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtANGLE" "-I$(QTDIR)\include\QtSvg" "-I$(QTDIR)\include\QtWidgets" "-I.\Components" "-I.\DlgComponents" "-I.\DataBase" "-I$(QTDIR)\include\QtConcurrent" "-I.\..\Controller\Utils" "-I.\..\Controller\TransmitSignalsInstance" "-I.\..\Controller\MessageQueuePool" "-I.\..\Model\ProjDataset" "-I.\..\View\DlgComponents" "-I.\..\View\Components" "-I.\..\Model\DataBuffer" "-I.\..\Controller\IOHeapManager" "-I.\..\Model\IOHeap" "-I.\..\View\DlgComponents\BufferMapDlg" "-I.\..\View\DlgComponents\eMMCComponents" "-I.\..\View\DlgComponents\ProjectComponents" "-I.\..\View\Components\InterfaceComponents" "-I.\..\Controller\LogManager" "-I.\..\View\Components\ModelComponents" "-I.\..\Controller\ACCmdHandler" "-I.\..\View\DlgComponents\ChipComponents" "-I.\..\View\DlgComponents\SettingComponents" "-I.\..\Controller\ScanManager" "-I.\..\Model\Device" "-I$(QTDIR)\include\QtNetwork" "-I.\..\Controller\ChkManager" "-I.\..\View\DlgComponents\MenuBarComponents" "-I.\..\Controller\EventManager" "-I.\..\Controller\DeviceManager" "-I.\..\View\DlgComponents\MessageBox" "-I.\..\Controller\ProjectManager" "-I.\..\Controller\TaskManager" "-I.\..\View\SProtocolTest" "-I.\..\Controller\ReportManager" "-I.\..\Controller\eMMC" "-I$(QTDIR)\include\QtSerialPort"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DWIN64 -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DQT_CONCURRENT_LIB -DABSTRACTPARSER_LIB -DQT_NETWORK_LIB -DQT_SERIALPORT_LIB -D%(PreprocessorDefinitions)  "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtANGLE" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtSvg" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtConcurrent" "-I$(QTDIR)\include\QtPropertyBrowser" "-I$(QTDIR)\include\QtGui\5.15.2" "-I$(QTDIR)\include\QtCore\5.15.2" "-I$(QTDIR)\include\QtGui\5.15.2\QtGui\private" "-I$(QTDIR)\include\QtCore\5.15.2\QtCore\private" "-I$(SolutionDir)\View\GlobalInit" "-I$(SolutionDir)\View\mainFrame" "-I$(SolutionDir)\View\mainFrame\Login" "-I$(SolutionDir)\View\mainFrame\MainWindow" "-I$(SolutionDir)\View\mainFrame\WindowComponents" "-I$(SolutionDir)\View\Components" "-I$(SolutionDir)\View\Components\ProgressComponents" "-I$(SolutionDir)\View\Components\ModelComponents" "-I$(SolutionDir)\View\Components\InterfaceComponents" "-I$(SolutionDir)\View\DlgComponents" "-I$(SolutionDir)\View\DlgComponents\eMMCComponents" "-I$(SolutionDir)\View\DlgComponents\ProjectComponents" "-I$(SolutionDir)\View\DlgComponents\ChipComponents" "-I$(SolutionDir)\View\DlgComponents\BufferMapDlg" "-I$(SolutionDir)\View\DlgComponents\MenuBarComponents" "-I$(SolutionDir)\View\DlgComponents\SettingComponents" "-I$(SolutionDir)\Model\DataBase" "-I$(SolutionDir)\Model\SerializeData" "-I$(SolutionDir)\Model\DataTransform" "-I$(SolutionDir)\Model\ParserPlugins" "-I.\Depend" "-I.\Depend\sqlite3" "-I\Depend\qHexedit" "-I.\Depend\nlohmann" "-I.\Depend\pugixml" "-I$(SolutionDir)\Controller\TransmitSignalsInstance" "-I$(SolutionDir)\Controller\MessageQueuePool" "-I$(SolutionDir)\Controller\IOHeapManager" "-I$(SolutionDir)\Controller\ACCmdHandler" "-I$(SolutionDir)\Controller\AutomaticManager" "-I$(SolutionDir)\Controller\eMMC" "-I$(SolutionDir)\Controller\Utils" "-I$(SolutionDir)\Controller\LogManager" "-I$(SolutionDir)\Model\ProjDataset" "-I$(SolutionDir)\Model\eMMC" "-I$(SolutionDir)\Model\DataBuffer" "-I$(SolutionDir)\Model\IOHeap" "-I$(SolutionDir)\Controller\ScanManager" "-I$(SolutionDir)\Controller\ChkManager" "-I$(SolutionDir)\Controller\EventManager" "-I$(SolutionDir)\Controller\ChipManager" "-I$(SolutionDir)\Controller\DeviceManager" "-I.\..\View\Components\InterfaceComponents" "-I.\..\View\Components\ModelComponents" "-I.\..\View\DlgComponents\ProjectComponents" "-I.\..\View\DlgComponents\ChipComponents" "-I.\..\View\DlgComponents\SettingComponents" "-I.\..\Model\Device" "-I.\..\View\DlgComponents\MessageBox" "-I.\..\View\DlgComponents\MenuBarComponents" "-I.\..\Controller\ProjectManager" "-I.\..\View\DlgComponents\eMMCComponents" "-I.\..\Controller\TaskManager" "-I.\..\View\SProtocolTest" "-I.\..\Controller\ReportManager" "-I.\Depend\ACComlib\include" "-I.\Depend\ACComLib\third_part" "-I.\..\Controller\eMMC" "-I.\..\Controller\ACCmdHandler" "-I$(QTDIR)\include\QtSerialPort"</Command>
+    </CustomBuild>
+    <ClInclude Include="..\View\GlobalInit\AppModeType.h" />
+    <ClInclude Include="..\View\GlobalInit\DevErrCode.h" />
+    <ClInclude Include="..\View\GlobalInit\errorcode.h" />
+    <ClInclude Include="..\View\GlobalInit\ErrTypes.h" />
+    <ClInclude Include="..\View\GlobalInit\PropertyDefine.h" />
+    <ClInclude Include="..\View\mainFrame\MainWindow\AngKShadowWidget.h" />
+    <ClInclude Include="..\View\mainFrame\MainWindow\AngKShadowWindow.h" />
+    <QtMoc Include="..\View\mainFrame\MainWindow\AngKWindowTitleBar.h" />
+    <ClInclude Include="..\View\mainFrame\MainWindow\AngKSkinGridImage.h" />
+    <QtMoc Include="..\View\mainFrame\WindowComponents\AngKCustomTab.h" />
+    <QtMoc Include="..\View\mainFrame\WindowComponents\AngKProgrammerWidget.h" />
+    <QtMoc Include="..\View\mainFrame\WindowComponents\AngKPropetryWidget.h" />
+    <QtMoc Include="..\View\mainFrame\WindowComponents\AngKReportWidget.h" />
+    <QtMoc Include="..\View\mainFrame\WindowComponents\AngKToolWidget.h" />
+    <QtMoc Include="..\View\mainFrame\WindowComponents\AnimWidgetManager.h" />
+    <QtMoc Include="..\Controller\TransmitSignalsInstance\AngKTransmitSignals.h" />
+    <QtMoc Include="..\Controller\MessageQueuePool\AngKMessageHandler.h" />
+    <QtMoc Include="..\Controller\ACCmdHandler\ACCmdHandler.h" />
+    <ClInclude Include="..\Controller\ACCmdHandler\ACCmdPacket.h" />
+    <QtMoc Include="..\Controller\ACCmdHandler\ACDeviceModel.h" />
+    <ClInclude Include="..\Controller\ACCmdHandler\ACError.h" />
+    <QtMoc Include="..\Controller\ACCmdHandler\ACNetComm.h" />
+    <ClInclude Include="..\Controller\ACCmdHandler\ACTypes.h" />
+    <QtMoc Include="..\Controller\ACCmdHandler\CmdHandler.h" />
+    <QtMoc Include="..\Controller\ACCmdHandler\AppModels.h" />
+    <QtMoc Include="..\Controller\ACCmdHandler\AppConfigModel.h" />
+    <QtMoc Include="..\Controller\ACCmdHandler\BufferModel.h" />
+    <ClInclude Include="..\Controller\ACCmdHandler\CRC\Crc32_Comm.h" />
+    <ClInclude Include="..\Controller\ACCmdHandler\CRC\Crc32_Std.h" />
+    <ClInclude Include="..\Controller\ACCmdHandler\IACComm.h" />
+    <ClInclude Include="..\Controller\ACCmdHandler\ICD.h" />
+    <ClInclude Include="..\Controller\ACCmdHandler\ICmdHandler.h" />
+    <ClInclude Include="..\Controller\ACCmdHandler\ICrcCheck.h" />
+    <ClInclude Include="..\Controller\ACCmdHandler\IDataWriter.h" />
+    <QtMoc Include="..\Controller\ACCmdHandler\UplinkDataReceiver.h" />
+    <ClInclude Include="..\Controller\ACCmdHandler\Platform.h" />
+    <QtMoc Include="..\Controller\IOHeapManager\AngKIOHeapManager.h" />
+    <ClInclude Include="..\Controller\MessageQueuePool\safe_queue_base.h" />
+    <ClInclude Include="..\Controller\MessageQueuePool\thread_pool.h" />
+    <ClInclude Include="..\Controller\Utils\AngKCommonTools.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtNetworkAuth;$(QTDIR)\include\QtSvg;$(QTDIR)\include\QtWidgets;.\Components;.\DlgComponents;.\DataBase;$(QTDIR)\include\QtConcurrent;.\..\Controller\Utils;.\..\Controller\TransmitSignalsInstance;.\..\Controller\MessageQueuePool;.\..\Model\ProjDataset;.\..\View\DlgComponents;.\..\View\Components;.\..\Model\DataBuffer</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtNetworkAuth;$(QTDIR)\include\QtSvg;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtCore\5.15.2;$(QTDIR)\include\QtGui\5.15.2;$(QTDIR)\include\QtGui\5.15.2\QtGui\private;$(QTDIR)\include\QtCore\5.15.2\QtCore\private;.\..\.\View\GlobalInit;.\..\.\View\mainFrame;.\..\.\View\Components;.\..\.\View\DlgComponents;.\..\.\Model\DataBase;.\..\.\Model\SerializeData;.\..\.\Model\DataTransform;.\..\.\Controller\Utils;.\Depend\sqlite3;.\Depend\qHexedit;.\Depend\pugixml;.\Depend\nlohmann;$(QTDIR)\include\QtConcurrent;.\..\Controller\Utils;.\..\Controller\TransmitSignalsInstance;.\..\Controller\MessageQueuePool;.\..\Controller\ACCmdHandler;.\..\Model\ProjDataset;.\..\View\DlgComponents;.\..\View\Components;.\..\Model\DataBuffer</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtNetworkAuth;$(QTDIR)\include\QtSvg;$(QTDIR)\include\QtWidgets;.\Components;.\DlgComponents;.\DataBase;$(QTDIR)\include\QtConcurrent;.\..\Controller\Utils;.\..\Controller\TransmitSignalsInstance;.\..\Controller\MessageQueuePool;.\..\Model\ProjDataset;.\..\View\DlgComponents;.\..\View\Components;.\..\Model\DataBuffer</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtNetworkAuth;$(QTDIR)\include\QtSvg;$(QTDIR)\include\QtWidgets;.\..\.\View\GlobalInit;.\..\.\View\mainFrame;.\..\.\View\Components;.\..\.\View\DlgComponents;.\..\.\Model\DataBase;.\..\.\Model\SerializeData;.\..\.\Model\DataTransform;.\..\.\Controller\Utils;.\Depend;.\Depend\sqlite3;\Depend\qHexedit;.\Depend\nlohmann;.\Depend\pugixml;.\DataBase;$(QTDIR)\include\QtConcurrent;.\..\Controller\Utils;.\..\Controller\TransmitSignalsInstance;.\..\Controller\MessageQueuePool;.\..\Controller\ACCmdHandler;.\..\Model\ProjDataset;.\..\View\DlgComponents;.\..\View\Components;.\..\Model\DataBuffer</IncludePath>
+    </ClInclude>
+    <ClInclude Include="..\Controller\Utils\AngKHelper.h" />
+    <ClInclude Include="..\Controller\Utils\AngKMisc.h" />
+    <ClInclude Include="..\Controller\Utils\AngKPathResolve.h" />
+    <QtMoc Include="..\Controller\Utils\AngKProjFile.h" />
+    <ClInclude Include="..\Controller\Utils\ChkSum.h" />
+    <ClInclude Include="..\Model\DataBase\ChipModel.h" />
+    <ClInclude Include="..\Model\DataBase\DBController.hpp" />
+    <ClInclude Include="..\Model\DataBase\ISQList.h" />
+    <ClInclude Include="..\Model\DataBase\reflection.hpp" />
+    <ClInclude Include="..\Model\DataBase\SQLBuilder.hpp" />
+    <ClInclude Include="..\Model\DataBase\SQLStatement.hpp" />
+    <QtMoc Include="..\Model\DataBase\AngKDBStandardItemModel.h" />
+    <QtMoc Include="..\Model\DataTransform\DataTransform.h" />
+    <QtMoc Include="..\Model\ProjDataset\AngKProjDataset.h" />
+    <QtMoc Include="..\Model\DataBuffer\IDataBuffer.h" />
+    <ClInclude Include="..\Model\DataBuffer\AngKDataBuffer.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtNetworkAuth;$(QTDIR)\include\QtSvg;$(QTDIR)\include\QtWidgets;.\Components;.\DlgComponents;.\DataBase;$(QTDIR)\include\QtConcurrent;.\..\Controller\Utils;.\..\Controller\TransmitSignalsInstance;.\..\Controller\MessageQueuePool;.\..\Model\ProjDataset;.\..\View\DlgComponents;.\..\View\Components;.\..\Model\DataBuffer</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtNetworkAuth;$(QTDIR)\include\QtSvg;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtCore\5.15.2;$(QTDIR)\include\QtGui\5.15.2;$(QTDIR)\include\QtGui\5.15.2\QtGui\private;$(QTDIR)\include\QtCore\5.15.2\QtCore\private;.\..\.\View\GlobalInit;.\..\.\View\mainFrame;.\..\.\View\Components;.\..\.\View\DlgComponents;.\..\.\Model\DataBase;.\..\.\Model\SerializeData;.\..\.\Model\DataTransform;.\..\.\Controller\Utils;.\Depend\sqlite3;.\Depend\qHexedit;.\Depend\pugixml;.\Depend\nlohmann;$(QTDIR)\include\QtConcurrent;.\..\Controller\Utils;.\..\Controller\TransmitSignalsInstance;.\..\Controller\MessageQueuePool;.\..\Controller\ACCmdHandler;.\..\Model\ProjDataset;.\..\View\DlgComponents;.\..\View\Components;.\..\Model\DataBuffer</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtNetworkAuth;$(QTDIR)\include\QtSvg;$(QTDIR)\include\QtWidgets;.\Components;.\DlgComponents;.\DataBase;$(QTDIR)\include\QtConcurrent;.\..\Controller\Utils;.\..\Controller\TransmitSignalsInstance;.\..\Controller\MessageQueuePool;.\..\Model\ProjDataset;.\..\View\DlgComponents;.\..\View\Components;.\..\Model\DataBuffer</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtNetworkAuth;$(QTDIR)\include\QtSvg;$(QTDIR)\include\QtWidgets;.\..\.\View\GlobalInit;.\..\.\View\mainFrame;.\..\.\View\Components;.\..\.\View\DlgComponents;.\..\.\Model\DataBase;.\..\.\Model\SerializeData;.\..\.\Model\DataTransform;.\..\.\Controller\Utils;.\Depend;.\Depend\sqlite3;\Depend\qHexedit;.\Depend\nlohmann;.\Depend\pugixml;.\DataBase;$(QTDIR)\include\QtConcurrent;.\..\Controller\Utils;.\..\Controller\TransmitSignalsInstance;.\..\Controller\MessageQueuePool;.\..\Controller\ACCmdHandler;.\..\Model\ProjDataset;.\..\View\DlgComponents;.\..\View\Components;.\..\Model\DataBuffer</IncludePath>
+    </ClInclude>
+    <ClInclude Include="..\Model\eMMC\eMMCCom.h" />
+    <QtMoc Include="..\Model\IOHeap\AngKIOHeapDevice.h" />
+    <QtMoc Include="..\Model\ParserPlugins\parser_global.h" />
+    <ClInclude Include="..\Model\SerializeData\DataJsonSerial.hpp" />
+    <ClInclude Include="..\View\Components\AngKMessageQueue.h" />
+    <QtMoc Include="..\View\Components\MessageNotify\notify.h" />
+    <QtMoc Include="..\View\Components\MessageNotify\notifymanager.h" />
+    <ClInclude Include="..\View\GlobalInit\ChipOperatorCfgDefine.h" />
+    <ClInclude Include="..\View\GlobalInit\DataBufferDefine.h" />
+    <ClInclude Include="..\View\GlobalInit\GlobalDefine.h" />
+    <ClInclude Include="..\View\GlobalInit\IOHeapDeviceDefine.h" />
+    <ClInclude Include="..\View\GlobalInit\MessageType.h" />
+    <ClInclude Include="..\View\GlobalInit\StyleInit.h" />
+    <ClInclude Include="..\View\GlobalInit\Tag_Proj.h" />
+    <ClInclude Include="..\View\GlobalInit\XmlDefine.h" />
+    <QtMoc Include="..\View\mainFrame\AngKGlobalInstance.h" />
+    <QtMoc Include="..\View\mainFrame\agclient.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="AG06Client.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="BackupFiles\AprogExe.ico" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
+    <Import Project="$(QtMsBuild)\qt.targets" />
+  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties lreleaseOptions="" lupdateOnBuild="0" lupdateOptions="" MocDir=".\GeneratedFiles\$(ConfigurationName)" MocOptions="" Qt5Version_x0020_Win32="Qt5.15.2" Qt5Version_x0020_x64="Qt5.15.2_x64" RccDir=".\GeneratedFiles" UicDir=".\GeneratedFiles" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

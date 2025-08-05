@@ -1,0 +1,74 @@
+QCheckBox#allCheckBox
+{
+    color: rgba(255, 255, 255, 1);
+    font: 14px "HarmonyOS Sans SC";
+    font-weight: 500;
+}
+
+QCheckBox#allCheckBox::indicator::unchecked
+{
+    image: url(:/Skin/Dark/CheckBox/rectCheckHomeNormal.svg);
+}
+
+QCheckBox#allCheckBox::indicator::hover
+{
+    image: url(:/Skin/Dark/CheckBox/rectCheckHomeHover.svg);
+}
+
+QCheckBox#allCheckBox::indicator::checked
+{
+    image: url(:/Skin/Dark/CheckBox/rectCheckSelect.svg);
+}
+
+QPushButton#exitButton
+{
+    font-weight: 500;
+    font:20px "HarmonyOS Sans SC Light";
+    color: rgba(255, 255, 255, 1);
+    text-align: center;
+    vertical-align: middle;
+    width: 175px;
+    height: 49px;
+    border-radius: 20px;
+    background-color: rgba(70, 70, 70, 1);
+}
+
+QPushButton#startButton
+{
+    font-weight: 500;
+    font:20px "HarmonyOS Sans SC Light";
+    color: rgba(255, 255, 255, 1);
+    text-align: center;
+    vertical-align: middle;
+    width: 175px;
+    height: 49px;
+    border-radius: 20px;
+    background-color: rgba(28, 92, 255, 1);
+}
+
+QPushButton#startButton:hover
+{
+    background-color: rgba(28, 105, 255, 1);
+}
+
+QPushButton#startButton:pressed
+{
+    background-color: rgba(19, 68, 191, 1);
+}
+
+QPushButton#startButton:!enabled,
+QPushButton#exitButton:!enabled
+{
+    background-color: rgba(66, 66, 66, 1);
+    color: rgba(121, 121, 121, 1);
+}
+
+QPushButton#exitButton:hover
+{
+    background-color: rgba(83, 83, 83, 1);
+}
+
+QPushButton#exitButton:pressed
+{
+    background-color: rgba(94, 94, 94, 1);
+}

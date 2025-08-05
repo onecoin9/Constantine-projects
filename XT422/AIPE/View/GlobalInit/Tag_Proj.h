@@ -1,0 +1,66 @@
+﻿#ifndef __TAG_PROJ_DEFINE__
+#define __TAG_PROJ_DEFINE__
+
+
+
+#define TAG_INVALID				0		//无效tag
+
+#define TAG_CHIPDATA			9
+#define TAG_CHIPNAME			10
+#define TAG_CHIPMANU			11
+#define TAG_CHIPADAPTER			12
+#define TAG_CHIPADAPTERID		13
+#define TAG_CHIPPACK			14
+#define TAG_CHIPTYPE			15
+#define TAG_CHIPALGOFILE		16
+#define TAG_CHIPFPGAFILE		17
+#define TAG_CHIPAPPFILE			18
+#define TAG_CHIPINFO			19
+#define TAG_CHIPBUFFSIZE		20
+#define TAG_CHIPBUFF			21
+#define TAG_CHIPBUFFINFO		22
+#define TAG_CHIPOPCFG			23
+#define TAG_CHIPSPBIT			24
+#define TAG_CHIPALVBUFF			25
+#define TAG_CHIPFPGAFILEG8  	26
+#define TAG_CHIPSNCFG			27
+#define TAG_CHIPDVRVOLTAGE		28
+#define TAG_CHIPDVRTIME			29
+#define TAG_SYSTEM				30
+#define TAG_FACTORYMODE			31
+#define TAG_EMMCOPTION			32
+#define TAG_SECURITY			33
+#define TAG_PROJINFO			34
+#define TAG_CONFIGDUMP			35
+#define TAG_MULTIBUFMAP			36
+#define TAG_CONFIGBUFMAPINFO	37
+#define TAG_CHECKSUMFILE		38
+#define TAG_EXTDATAFILE			39
+#define TAG_EMMCIGNOREEXTREG	40
+#define TAG_DATAREMAP			41 ///数据重新映射
+#define TAG_PROJALLFILE			42
+#define TAG_CHIPMASTERALGOFILE	43
+#define TAG_PINMAP				44
+#define TAG_BLOCK				45
+
+#define TAG_FILEIMPORT			99
+#define TAG_BUFFFILEINFO		100
+#define TAG_CHECKSUMEXT			102
+#define TAG_USBKEYBIND			103
+#define TAG_NANDFILEINFO		104
+#define TAG_SNCINFO				105
+#define TAG_DRVINFO    			106
+#define TAG_SNREMAPINFO			107
+#define TAG_EMMCFILEIMPORT		108
+#define TAG_EMMCINTELLIGENT		109
+#define TAG_EMMCHEADER			110
+#define TAG_EMMCHEADERTABLE		111
+#define TAG_FILEUUID			112
+#define TAG_CHIPOPERATE			113
+#define TAG_DrvCommonPara		114
+#define TAG_DrvSelfPara			115
+#define TAG_ProDescriptionPara	116
+#define TAG_PROJVERSION			117
+#define TAG_CHIP_ALGO_FILE_INFO	118	//DeviceDriverFile
+
+#endif // __TAG_PROJ_DEFINE__

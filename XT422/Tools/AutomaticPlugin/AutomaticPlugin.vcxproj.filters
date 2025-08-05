@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Header Files\ComStruct">
+      <UniqueIdentifier>{4e58b977-b970-4273-92c1-da34d0558bdc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ComStruct">
+      <UniqueIdentifier>{f1820e63-7196-47db-bab1-3d64b8538fe4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SProtocal">
+      <UniqueIdentifier>{f76ce0e8-d729-4131-a3d9-5a803c09b940}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SProtocal">
+      <UniqueIdentifier>{a85a2898-1179-4c59-8467-d5b0a5066d87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\json">
+      <UniqueIdentifier>{3d1da65b-95db-4735-994a-704fc9c4859e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\json\Include">
+      <UniqueIdentifier>{2ff31b8b-77a8-4ba7-9d37-8473cc3a0d49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\json\Src">
+      <UniqueIdentifier>{9546dc72-be43-4eb3-b570-577cabd2efca}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AutomaticPlugin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AutoInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ComStruct\ComFunc.cpp">
+      <Filter>Source Files\ComStruct</Filter>
+    </ClCompile>
+    <ClCompile Include="ComStruct\Serial.cpp">
+      <Filter>Source Files\ComStruct</Filter>
+    </ClCompile>
+    <ClCompile Include="AutoSProtocal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SProtocal\ComDelegate.cpp">
+      <Filter>Source Files\SProtocal</Filter>
+    </ClCompile>
+    <ClCompile Include="SProtocal\PckMsg.cpp">
+      <Filter>Source Files\SProtocal</Filter>
+    </ClCompile>
+    <ClCompile Include="SProtocal\STSocket.cpp">
+      <Filter>Source Files\SProtocal</Filter>
+    </ClCompile>
+    <ClCompile Include="SProtocal\TcpStdMes.cpp">
+      <Filter>Source Files\SProtocal</Filter>
+    </ClCompile>
+    <ClCompile Include="json\src\json_reader.cpp">
+      <Filter>Header Files\json\Src</Filter>
+    </ClCompile>
+    <ClCompile Include="json\src\json_value.cpp">
+      <Filter>Header Files\json\Src</Filter>
+    </ClCompile>
+    <ClCompile Include="json\src\json_writer.cpp">
+      <Filter>Header Files\json\Src</Filter>
+    </ClCompile>
+    <ClCompile Include="ComStruct\ComTool.cpp">
+      <Filter>Source Files\ComStruct</Filter>
+    </ClCompile>
+    <ClCompile Include="SProtocal\BlockSocket.cpp">
+      <Filter>Source Files\SProtocal</Filter>
+    </ClCompile>
+    <ClCompile Include="ComStruct\ACException.cpp">
+      <Filter>Source Files\ComStruct</Filter>
+    </ClCompile>
+    <ClCompile Include="ComStruct\DevListBase.cpp">
+      <Filter>Source Files\ComStruct</Filter>
+    </ClCompile>
+    <ClCompile Include="ComStruct\GlbSetting.cpp">
+      <Filter>Source Files\ComStruct</Filter>
+    </ClCompile>
+    <ClCompile Include="ComStruct\LogMsg.cpp">
+      <Filter>Source Files\ComStruct</Filter>
+    </ClCompile>
+    <ClCompile Include="ComStruct\WorkThread.cpp">
+      <Filter>Source Files\ComStruct</Filter>
+    </ClCompile>
+    <ClCompile Include="ComStruct\ConfigSetting.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TranslationCtrl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="AutomaticPlugin.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="automaticplugin_global.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="AutoInterface.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ComStruct\ComFunc.h">
+      <Filter>Header Files\ComStruct</Filter>
+    </ClInclude>
+    <ClInclude Include="ComStruct\Serial.h">
+      <Filter>Header Files\ComStruct</Filter>
+    </ClInclude>
+    <ClInclude Include="SProtocal\ComDelegate.h">
+      <Filter>Header Files\SProtocal</Filter>
+    </ClInclude>
+    <ClInclude Include="SProtocal\PckMsg.h">
+      <Filter>Header Files\SProtocal</Filter>
+    </ClInclude>
+    <ClInclude Include="SProtocal\STSocket.h">
+      <Filter>Header Files\SProtocal</Filter>
+    </ClInclude>
+    <ClInclude Include="SProtocal\TcpStdMes.h">
+      <Filter>Header Files\SProtocal</Filter>
+    </ClInclude>
+    <ClInclude Include="json\include\json\autolink.h">
+      <Filter>Header Files\json\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="json\include\json\config.h">
+      <Filter>Header Files\json\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="json\include\json\features.h">
+      <Filter>Header Files\json\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="json\include\json\forwards.h">
+      <Filter>Header Files\json\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="json\include\json\json.h">
+      <Filter>Header Files\json\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="json\include\json\reader.h">
+      <Filter>Header Files\json\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="json\include\json\value.h">
+      <Filter>Header Files\json\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="json\include\json\writer.h">
+      <Filter>Header Files\json\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="json\src\json_batchallocator.h">
+      <Filter>Header Files\json\Src</Filter>
+    </ClInclude>
+    <ClInclude Include="SProtocal\BlockSocket.h">
+      <Filter>Header Files\SProtocal</Filter>
+    </ClInclude>
+    <ClInclude Include="ComStruct\ComTool.h">
+      <Filter>Header Files\ComStruct</Filter>
+    </ClInclude>
+    <ClInclude Include="ComStruct\ACException.h">
+      <Filter>Header Files\ComStruct</Filter>
+    </ClInclude>
+    <ClInclude Include="ComStruct\DevListBase.h">
+      <Filter>Header Files\ComStruct</Filter>
+    </ClInclude>
+    <ClInclude Include="ComStruct\ErrTypes.h">
+      <Filter>Header Files\ComStruct</Filter>
+    </ClInclude>
+    <ClInclude Include="ComStruct\GlbSetting.h">
+      <Filter>Header Files\ComStruct</Filter>
+    </ClInclude>
+    <ClInclude Include="ComStruct\Log.h">
+      <Filter>Header Files\ComStruct</Filter>
+    </ClInclude>
+    <ClInclude Include="ComStruct\LogMsg.h">
+      <Filter>Header Files\ComStruct</Filter>
+    </ClInclude>
+    <ClInclude Include="ComStruct\WorkThread.h">
+      <Filter>Header Files\ComStruct</Filter>
+    </ClInclude>
+    <ClInclude Include="ComStruct\ConfigSetting.h">
+      <Filter>Header Files\ComStruct</Filter>
+    </ClInclude>
+    <ClInclude Include="AutoSProtocal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TranslationCtrl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,22 @@
+QWidget#widget
+{
+    background: transparent;
+}
+
+QLabel
+{
+    color: rgba(255, 255, 255, 1);
+    background: transparent;
+}
+
+QLabel#numLabel
+{
+    font:36px "HarmonyOS Sans SC";
+    font-weight: 500;
+}
+
+QLabel#warnLabel
+{
+    font:36px "HarmonyOS Sans SC";
+    font-weight: 500;
+}

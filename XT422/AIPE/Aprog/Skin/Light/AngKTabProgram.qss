@@ -1,0 +1,44 @@
+QLabel
+{
+    color: rgba(95, 99, 104, 1);
+    text-align: left;
+    vertical-align: middle;
+    background: transparent;
+    font:14px "HarmonyOS Sans SC";
+    font-weight: 500;
+}
+
+QLineEdit
+{
+    font:14px "HarmonyOS Sans SC";
+    font-weight: 500;
+    border-radius: 3px;
+    padding: 0 8px;
+    background: rgba(241, 243, 244, 1);
+}
+
+QLineEdit:read-only
+{
+    border: 1px solid rgba(95, 99, 104, 1);
+    border-radius: 3px;
+    padding: 0 8px;
+    background: white;
+}
+
+QLabel#screenSymbolLabel
+{
+    image: url(:/Skin/Light/Common/screenSymbol.svg);
+}
+
+QLabel#powerSymbolLabel
+{
+    image: url(:/Skin/Light/Common/powerSymbol.svg);
+}
+
+QFrame#line,
+QFrame#line2
+{
+	 border:none;
+	 background: rgba(212, 212, 212, 1);
+	 max-height : 1px;
+}

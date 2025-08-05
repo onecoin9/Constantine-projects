@@ -1,0 +1,25 @@
+QTabWidget::pane
+{
+    border:none;
+    background-color: #ffffff;
+}
+
+QTabBar::tab
+{
+    background-color: rgba(241, 243, 244, 1);
+    border-bottom-color: #C2C7CB;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    max-width: 120px;
+    min-width: 150px;
+    min-height: 43px;
+    font:14px "HarmonyOS Sans SC";
+    color: rgba(47, 49, 51, 1);
+    font-weight: 500;
+    padding: 0px;
+}
+
+QTabBar::tab:selected
+{
+    background-color: rgba(255, 255, 255, 1);
+}

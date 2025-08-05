@@ -1,0 +1,89 @@
+Comment,Format=CSV; Hex=CoderUpper; BreakOutBytes=False; PEC=False; SMBusWordCommandBytesOrderAsLowByteFirst=True; IncludeBlockLength=True [DO NOT REMOVE THIS LINE IF YOU WANT TO IMPORT USING A FUSION TOOL]
+Comment,"SMBus Fields are Request,Address,Command,Data"
+Comment,SMBus Word Command data bytes order is: <low-byte><high-byte>
+Comment,"For reads, the last field is what is expected back from the device"
+Comment,Creator: Texas Instruments Fusion Digital Power Designer v7.4.1
+Comment,"Date: Wednesday, March 17, 2021"
+Comment,Verifying IC_DEVICE_ID is 0x59 (TPS53659)
+BlockRead,0x5A,0xAD,0x0159
+Comment,Write configuration to volatile memory
+Comment,Write VOUT_MAX [Rail #1] 1.300 V
+WriteByte,0x5A,0x00,0x00
+ReadByte,0x5A,0x00,0x00
+WriteWord,0x5A,0x24,0xD300
+ReadWord,0x5A,0x24,0xD300
+Comment,Write USER_DATA_00 [Rail #1] 11005A1D3413
+BlockWrite,0x5A,0xB0,0x0611005A1D3413
+BlockRead,0x5A,0xB0,0x0611005A1D3413
+Comment,Write USER_DATA_01 [Rail #1] 000000000040
+BlockWrite,0x5A,0xB1,0x06000000000040
+BlockRead,0x5A,0xB1,0x06000000000040
+Comment,Write USER_DATA_02 [Rail #1] 710F00000090
+BlockWrite,0x5A,0xB2,0x06710F00000090
+BlockRead,0x5A,0xB2,0x06710F00000090
+Comment,Write USER_DATA_03 [Rail #1] 0401110300C0
+BlockWrite,0x5A,0xB3,0x060401110300C0
+BlockRead,0x5A,0xB3,0x060401110300C0
+Comment,Write USER_DATA_04 [Rail #1] 8F8FC777C73F
+BlockWrite,0x5A,0xB4,0x068F8FC777C73F
+BlockRead,0x5A,0xB4,0x068F8FC777C73F
+Comment,Write USER_DATA_05 [Rail #1] 160804BFA1FF
+BlockWrite,0x5A,0xB5,0x06160804BFA1FF
+BlockRead,0x5A,0xB5,0x06160804BFA1FF
+Comment,Write USER_DATA_06 [Rail #1] 254B1614E87F
+BlockWrite,0x5A,0xB6,0x06254B1614E87F
+BlockRead,0x5A,0xB6,0x06254B1614E87F
+Comment,Write USER_DATA_07 [Rail #1] 806D09006BFF
+BlockWrite,0x5A,0xB7,0x06806D09006BFF
+BlockRead,0x5A,0xB7,0x06806D09006BFF
+Comment,Write USER_DATA_08 [Rail #1] 00020000809A
+BlockWrite,0x5A,0xB8,0x0600020000809A
+BlockRead,0x5A,0xB8,0x0600020000809A
+Comment,Write USER_DATA_09 [Rail #1] 000160808080
+BlockWrite,0x5A,0xB9,0x06000160808080
+BlockRead,0x5A,0xB9,0x06000160808080
+Comment,Write USER_DATA_10 [Rail #1] 00662E40408C
+BlockWrite,0x5A,0xBA,0x0600662E40408C
+BlockRead,0x5A,0xBA,0x0600662E40408C
+Comment,Write USER_DATA_11 [Rail #1] 0062200020E1
+BlockWrite,0x5A,0xBB,0x060062200020E1
+BlockRead,0x5A,0xBB,0x060062200020E1
+Comment,Write USER_DATA_12 [Rail #1] C8D01F00FF01
+BlockWrite,0x5A,0xBC,0x06C8D01F00FF01
+BlockRead,0x5A,0xBC,0x06C8D01F00FF01
+Comment,Write VOUT_COMMAND [Rail #1] 1.200 V
+WriteWord,0x5A,0x21,0xBF00
+ReadWord,0x5A,0x21,0xBF00
+Comment,Write VOUT_MARGIN_HIGH [Rail #1] 0.000 V
+WriteWord,0x5A,0x25,0x0000
+ReadWord,0x5A,0x25,0x0000
+Comment,Write VOUT_MARGIN_LOW [Rail #1] 0.000 V
+WriteWord,0x5A,0x26,0x0000
+ReadWord,0x5A,0x26,0x0000
+Comment,Write VOUT_MIN [Rail #1] 1.100 V
+WriteWord,0x5A,0x2B,0xAB00
+ReadWord,0x5A,0x2B,0xAB00
+Comment,Write VOUT_MAX [Rail #2] 1.200 V
+WriteByte,0x5A,0x00,0x01
+ReadByte,0x5A,0x00,0x01
+WriteWord,0x5A,0x24,0xBF00
+ReadWord,0x5A,0x24,0xBF00
+Comment,Write VOUT_COMMAND [Rail #2] 1.050 V
+WriteWord,0x5A,0x21,0xA100
+ReadWord,0x5A,0x21,0xA100
+Comment,Write VOUT_MARGIN_HIGH [Rail #2] 0.000 V
+WriteWord,0x5A,0x25,0x0000
+ReadWord,0x5A,0x25,0x0000
+Comment,Write VOUT_MARGIN_LOW [Rail #2] 0.000 V
+WriteWord,0x5A,0x26,0x0000
+ReadWord,0x5A,0x26,0x0000
+Comment,Write VOUT_MIN [Rail #2] 0.900 V
+WriteWord,0x5A,0x2B,0x8300
+ReadWord,0x5A,0x2B,0x8300
+Comment,Store configuration to non-volatile memory
+Comment,Execute STORE_DEFAULT_ALL
+SendByte,0x5A,0x11
+Pause,1000,"Pausing 1,000.00 ms for STORE_DEFAULT_ALL hold time"
+Comment,"Verifying MFR_SERIAL matches expected [""0x85689167""]"
+BlockRead,0x5A,0x9E,0x0485689167
+Comment,Script end

@@ -1,0 +1,22 @@
+QWidget#bgWidget
+{
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 1);
+}
+
+QLabel
+{
+    color: rgba(95, 99, 104, 1);
+    text-align: left;
+    vertical-align: middle;
+    background: transparent;
+    font:16px "HarmonyOS Sans SC";
+    font-weight: 400;
+}
+
+QFrame#line
+{
+	 border:none;
+	 background: rgba(212, 212, 212, 1);
+	 max-height : 1px;
+}

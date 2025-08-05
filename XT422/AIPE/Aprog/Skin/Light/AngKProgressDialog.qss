@@ -1,0 +1,25 @@
+QWidget
+{
+    background: rgba(247, 247, 247, 1);
+}
+
+QLabel
+{
+    color: rgba(95, 99, 104, 1);
+    text-align: center;
+    vertical-align: top;
+    background: rgba(247, 247, 247, 1);
+}
+
+QProgressBar::chunk
+{
+    border-radius: 6px;
+    background-color: qlineargradient(spread:pad,x1:0,y1:0,x2:1,y2:0,stop:0 rgba(193, 216, 227, 1),stop:1 rgba(39, 205, 253, 1));
+}
+
+QProgressBar
+{
+    padding: 2px;
+    border-radius: 8px;
+    background-color: rgba(204, 204, 204, 1);
+}

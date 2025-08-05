@@ -1,0 +1,51 @@
+QWidget#bgWidget
+{
+    border-radius: 8px;
+    background: rgba(37, 37, 37, 1);
+}
+
+QWidget#widget
+{
+    background: rgba(37, 37, 37, 1);
+}
+
+QMessageBox QLabel
+{ 
+	color: rgba(0, 0, 0, 1);
+}
+
+QLabel
+{
+    color: rgba(255, 255, 255, 1);
+    text-align: left;
+    vertical-align: top;
+    background: transparent;
+}
+
+QLabel#titleLabel
+{
+    font:24px "HarmonyOS Sans SC";
+    font-weight: 700;
+}
+
+QLabel#rateLabel
+{
+    font:16px "HarmonyOS Sans SC";
+    font-weight: 400;
+    color: rgba(227, 227, 227, 1);
+}
+
+QLabel#perLabel
+{
+    font:16px "HarmonyOS Sans SC";
+    font-weight: 700;
+    color: rgba(65, 237, 166, 1);
+}
+
+QLabel#symbolLabel
+{
+    font:16px "HarmonyOS Sans SC";
+    font-weight: 500;
+    background:transparent;
+    color: rgba(227, 227, 227, 1);
+}

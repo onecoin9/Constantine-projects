@@ -1,0 +1,94 @@
+#include "Delegate.h"
+
+CDelegateBase::CDelegateBase(void* pObject, void* pFn) 
+{
+	m_pObject = pObject;
+	m_pFn = pFn; 
+}
+
+CDelegateBase::CDelegateBase(const CDelegateBase& rhs) 
+{
+	m_pObject = rhs.m_pObject;
+	m_pFn = rhs.m_pFn; 
+}
+
+CDelegateBase::~CDelegateBase()
+{
+
+}
+
+bool CDelegateBase::Equals(const CDelegateBase& rhs) const 
+{
+	return m_pObject == rhs.m_pObject && m_pFn == rhs.m_pFn; 
+}
+
+bool CDelegateBase::operator() (void* param) 
+{
+	return Invoke(param); 
+}
+
+void* CDelegateBase::GetFn() 
+{
+	return m_pFn; 
+}
+
+void* CDelegateBase::GetObj() 
+{
+	return m_pObject; 
+}
+
+CEventSource::~CEventSource()
+{
+	for( int i = 0; i < (int)m_aDelegates.size(); i++ ) {
+		CDelegateBase* pObject = static_cast<CDelegateBase*>(m_aDelegates[i]);
+		if( pObject) delete pObject;
+	}
+}
+
+CEventSource::operator bool()
+{
+	return m_aDelegates.size() > 0;
+}
+
+void CEventSource::operator+= (CDelegateBase& d)
+{ 
+	for( int i = 0; i < (int)m_aDelegates.size(); i++ ) {
+		CDelegateBase* pObject = static_cast<CDelegateBase*>(m_aDelegates[i]);
+		if( pObject && pObject->Equals(d) ){
+			return;
+		}
+	}
+
+	m_aDelegates.push_back(d.Copy());
+}
+
+void CEventSource::operator+= (FnType pFn)
+{ 
+	(*this) += MakeDelegate(pFn);
+}
+
+void CEventSource::operator-= (CDelegateBase& d) 
+{
+	for( int i = 0; i < (int)m_aDelegates.size(); i++ ) {
+		CDelegateBase* pObject = static_cast<CDelegateBase*>(m_aDelegates[i]);
+		if( pObject && pObject->Equals(d) ) {
+			delete pObject;
+			m_aDelegates.erase(m_aDelegates.begin()+i);
+			pObject=NULL;
+			return;
+		}
+	}
+}
+void CEventSource::operator-= (FnType pFn)
+{ 
+	(*this) -= MakeDelegate(pFn);
+}
+
+bool CEventSource::operator() (void* param) 
+{
+	for( int i = 0; i < (int)m_aDelegates.size(); i++ ) {
+		CDelegateBase* pObject = static_cast<CDelegateBase*>(m_aDelegates[i]);
+		if( pObject && !(*pObject)(param) ) return false;
+	}
+	return true;
+}
