@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>BlockDetailDialog</class>
+ <widget class="QDialog" name="BlockDetailDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>
+    <height>400</height>
+   </rect>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="labelLib"/>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLabel" name="labelSite"/>
+     </item>
+     <item row="0" column="2">
+      <widget class="QLabel" name="labelPass"/>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="labelOSFail"/>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLabel" name="labelLeakageFail"/>
+     </item>
+     <item row="1" column="2">
+      <widget class="QLabel" name="labelProgramFail"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QTabWidget" name="tabWidget"/>
+   </item>
+  </layout>
+ </widget>
+</ui>

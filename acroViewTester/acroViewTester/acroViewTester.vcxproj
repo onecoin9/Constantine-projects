@@ -1,0 +1,360 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{12B5D7FC-7317-4C49-8D52-24426EAB43B1}</ProjectGuid>
+    <RootNamespace>acroViewTester</RootNamespace>
+    <Keyword>QtVS_v304</Keyword>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformMinVersion>10.0.19041.0</WindowsTargetPlatformMinVersion>
+    <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')">$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <PlatformToolset>v142</PlatformToolset>
+    <OutputDirectory>release\</OutputDirectory>
+    <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
+    <CharacterSet>NotSet</CharacterSet>
+    <ConfigurationType>Application</ConfigurationType>
+    <IntermediateDirectory>release\</IntermediateDirectory>
+    <PrimaryOutput>acroViewTester</PrimaryOutput>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <PlatformToolset>v142</PlatformToolset>
+    <OutputDirectory>debug\</OutputDirectory>
+    <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
+    <CharacterSet>NotSet</CharacterSet>
+    <ConfigurationType>Application</ConfigurationType>
+    <IntermediateDirectory>debug\</IntermediateDirectory>
+    <PrimaryOutput>acroViewTester</PrimaryOutput>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <Import Project="$(QtMsBuild)\qt_defaults.props" Condition="Exists('$(QtMsBuild)\qt_defaults.props')" />
+  <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <QtInstall>5.15.2_msvc2019_64</QtInstall>
+    <QtModules>core;sql;network;gui;axcontainer;widgets;qml;quick</QtModules>
+  </PropertyGroup>
+  <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <QtInstall>5.15.2_msvc2019_64</QtInstall>
+    <QtModules>core;sql;network;gui;axcontainer;widgets;qml;quick</QtModules>
+  </PropertyGroup>
+  <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') OR !Exists('$(QtMsBuild)\Qt.props')">
+    <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
+  </Target>
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+    <Import Project="$(QtMsBuild)\Qt.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+    <Import Project="$(QtMsBuild)\Qt.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">acroViewTester</TargetName>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</IgnoreImportLibrary>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">acroViewTester</TargetName>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</IgnoreImportLibrary>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LibraryPath>$(ProjectDir)third_party\plugins\AutoMatic;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;.;src;src\core;src\ui;src\network;src\utils;src\utils\crc;src\utils\crypto;src\utils\file;src\utils\path;src\utils\common;src\utils\log;src\utils\db;src\utils\system;src\models;src\handlers;include;resources;resources\data;resources\qrc;db;third_party;third_party\AutomaticManager;third_party\depend;third_party\plugins;release;/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zc:__cplusplus -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
+      <AssemblerListingLocation>release\</AssemblerListingLocation>
+      <BrowseInformation>false</BrowseInformation>
+      <DebugInformationFormat>None</DebugInformationFormat>
+      <DisableSpecificWarnings>4577;4467;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <ObjectFileName>release\</ObjectFileName>
+      <Optimization>MaxSpeed</Optimization>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;QT_DEPRECATED_WARNINGS;NDEBUG;QT_NO_DEBUG;QT_AXBASE_LIB;QT_QMLMODELS_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessToFile>false</PreprocessToFile>
+      <ProgramDataBaseFileName>
+      </ProgramDataBaseFileName>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <WarningLevel>Level3</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>kernel32.lib;ole32.lib;oleaut32.lib;user32.lib;gdi32.lib;advapi32.lib;$(QTDIR)\lib\Qt5QmlModels.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>.\third_party\depend;C:\openssl\lib;C:\Utils\my_sql\mysql-5.7.25-winx64\lib;C:\Utils\postgresql\pgsql\lib;C:\openssl\lib;C:\Utils\my_sql\mysql-5.7.25-winx64\lib;C:\Utils\postgresql\pgsql\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreImportLibrary>true</IgnoreImportLibrary>
+      <LinkIncremental>false</LinkIncremental>
+      <OptimizeReferences>true</OptimizeReferences>
+      <OutputFile>$(OutDir)\acroViewTester.exe</OutputFile>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Windows</SubSystem>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Link>
+    <Midl>
+      <DefaultCharType>Unsigned</DefaultCharType>
+      <EnableErrorChecks>None</EnableErrorChecks>
+      <WarningLevel>0</WarningLevel>
+    </Midl>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;QT_DEPRECATED_WARNINGS;NDEBUG;QT_NO_DEBUG;QT_AXBASE_LIB;QT_QMLMODELS_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <QtMoc>
+      <CompilerFlavor>msvc</CompilerFlavor>
+      <Include>./$(Configuration)/moc_predefs.h</Include>
+      <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
+      <DynamicSource>output</DynamicSource>
+      <QtMocDir>$(Configuration)</QtMocDir>
+      <QtMocFileName>moc_%(Filename).cpp</QtMocFileName>
+    </QtMoc>
+    <QtRcc>
+      <InitFuncName>acroViewTester</InitFuncName>
+      <ExecutionDescription>Rcc'ing %(Identity)...</ExecutionDescription>
+      <Compression>default</Compression>
+      <QtRccDir>$(Configuration)</QtRccDir>
+      <QtRccFileName>qrc_%(Filename).cpp</QtRccFileName>
+    </QtRcc>
+    <QtUic>
+      <ExecutionDescription>Uic'ing %(Identity)...</ExecutionDescription>
+      <QtUicDir>$(ProjectDir)</QtUicDir>
+      <QtUicFileName>ui_%(Filename).h</QtUicFileName>
+    </QtUic>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;.;src;src\core;src\ui;src\network;src\utils;src\utils\crc;src\utils\crypto;src\utils\file;src\utils\path;src\utils\common;src\utils\log;src\utils\db;src\utils\system;src\models;src\handlers;include;resources;resources\data;resources\qrc;db;third_party;third_party\AutomaticManager;third_party\depend;third_party\plugins;debug;/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AssemblerListingLocation>debug\</AssemblerListingLocation>
+      <BrowseInformation>false</BrowseInformation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4577;4467;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <ObjectFileName>debug\</ObjectFileName>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;QT_DEPRECATED_WARNINGS;QT_AXBASE_LIB;QT_QMLMODELS_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessToFile>false</PreprocessToFile>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <WarningLevel>Level3</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>kernel32.lib;ole32.lib;oleaut32.lib;user32.lib;gdi32.lib;advapi32.lib;$(QTDIR)\lib\Qt5QmlModelsd.lib;shell32.lib;Qt5Xlsx.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\Qt\5.15.2\msvc2015_64\lib;.\third_party\depend;C:\openssl\lib;C:\Utils\my_sql\mysql-5.7.25-winx64\lib;C:\Utils\postgresql\pgsql\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreImportLibrary>true</IgnoreImportLibrary>
+      <OutputFile>$(OutDir)\acroViewTester.exe</OutputFile>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Windows</SubSystem>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Link>
+    <Midl>
+      <DefaultCharType>Unsigned</DefaultCharType>
+      <EnableErrorChecks>None</EnableErrorChecks>
+      <WarningLevel>0</WarningLevel>
+    </Midl>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;QT_DEPRECATED_WARNINGS;QT_AXBASE_LIB;QT_QMLMODELS_LIB;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <QtMoc>
+      <CompilerFlavor>msvc</CompilerFlavor>
+      <Include>./$(Configuration)/moc_predefs.h</Include>
+      <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
+      <DynamicSource>output</DynamicSource>
+      <QtMocDir>$(Configuration)</QtMocDir>
+      <QtMocFileName>moc_%(Filename).cpp</QtMocFileName>
+    </QtMoc>
+    <QtRcc>
+      <ExecutionDescription>Rcc'ing %(Identity)...</ExecutionDescription>
+      <Compression>default</Compression>
+      <InitFuncName>acroViewTester</InitFuncName>
+      <QtRccDir>$(Configuration)</QtRccDir>
+      <QtRccFileName>qrc_%(Filename).cpp</QtRccFileName>
+    </QtRcc>
+    <QtUic>
+      <ExecutionDescription>Uic'ing %(Identity)...</ExecutionDescription>
+      <QtUicDir>$(ProjectDir)</QtUicDir>
+      <QtUicFileName>ui_%(Filename).h</QtUicFileName>
+    </QtUic>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\core\appdata.cpp" />
+    <ClCompile Include="src\core\dataProcess.cpp" />
+    <ClCompile Include="src\network\jsonRpcClient.cpp" />
+    <ClCompile Include="src\network\JsonRpcHandler.cpp" />
+    <ClCompile Include="src\ui\acroViewTester.cpp" />
+    <ClCompile Include="src\ui\blockDetailDialog.cpp" />
+    <ClCompile Include="src\ui\configDialog.cpp" />
+    <ClCompile Include="src\ui\directTriggerMenu.cpp" />
+    <ClCompile Include="src\ui\ProjectSelectDialog.cpp" />
+    <ClCompile Include="src\network\UdpCommunicator.cpp" />
+    <ClCompile Include="src\utils\common\assistFunc.cpp" />
+    <ClCompile Include="src\utils\common\qthelper.cpp" />
+    <ClCompile Include="src\utils\system\dumpUtil.cpp" />
+    <ClCompile Include="src\handlers\handleAutomatic.cpp" />
+    <ClCompile Include="src\handlers\handleJson.cpp" />
+    <ClCompile Include="src\handlers\handleUdpComm.cpp" />
+    <ClCompile Include="src\handlers\handleView.cpp" />
+    <ClCompile Include="src\core\handlerController.cpp" />
+    <ClCompile Include="src\ui\inputDialog.cpp" />
+    <ClCompile Include="src\utils\log\logManager.cpp" />
+    <ClCompile Include="src\ui\login.cpp" />
+    <ClCompile Include="src\ui\measureDialog.cpp" />
+    <ClCompile Include="src\ui\menubar.cpp" />
+    <ClCompile Include="src\utils\system\peripheralControl.cpp" />
+    <ClCompile Include="src\models\productInfoModel.cpp" />
+    <ClCompile Include="src\core\projectConfig.cpp" />
+    <ClCompile Include="src\ui\roleAddDialog.cpp" />
+    <ClCompile Include="src\ui\setting.cpp" />
+    <ClCompile Include="src\utils\system\shell.c" />
+    <ClCompile Include="db\sqlite3.c" />
+    <ClCompile Include="src\network\tcpIpModule.cpp" />
+    <ClCompile Include="src\network\tcphandler.cpp" />
+    <ClCompile Include="src\models\testSite.cpp" />
+    <ClCompile Include="src\models\testSiteGrid.cpp" />
+    <ClCompile Include="src\utils\log\testSpdLog.cpp" />
+    <ClCompile Include="src\ui\userManagement.cpp" />
+    <ClCompile Include="third_party\AutomaticManager\ACAutomaticManager.cpp" />
+    <ClCompile Include="third_party\AutomaticManager\AuthUtils.cpp" />
+    <ClCompile Include="third_party\AutomaticManager\AutoMessageServer.cpp" />
+    <ClCompile Include="third_party\AutomaticManager\ExternalServer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="third_party\AutomaticManager\ACAutomaticManager.h" />
+    <QtMoc Include="third_party\AutomaticManager\ExternalServer.h" />
+    <QtMoc Include="third_party\AutomaticManager\AutoMessageServer.h" />
+    <QtMoc Include="third_party\AutomaticManager\automaticplugin_global.h" />
+    <QtMoc Include="third_party\AutomaticManager\AutoInterface.h" />
+    <QtMoc Include="third_party\AutomaticManager\AuthUtils.h" />
+    <QtMoc Include="src\ui\acroViewTester.h" />
+    <ClInclude Include="src\core\appdata.h" />
+    <ClInclude Include="src\core\CommandBuilder.h" />
+    <QtMoc Include="src\network\jsonRpcClient.h" />
+    <ClInclude Include="src\ui\blockDetailDialog.h" />
+    <QtMoc Include="src\ui\buttonDelegate.h" />
+    <QtMoc Include="src\ui\configDialog.h" />
+    <QtMoc Include="src\ui\directTriggerMenu.h" />
+    <ClInclude Include="src\utils\common\qthelper.h" />
+    <ClInclude Include="src\utils\log\AppLogger.h" />
+    <ClInclude Include="src\network\JsonRpcHandler.h" />
+    <QtMoc Include="src\ui\ProjectSelectDialog.h" />
+    <ClInclude Include="src\core\ProtocolStructures.h" />
+    <QtMoc Include="src\network\UdpCommunicator.h" />
+    <ClInclude Include="src\utils\system\dumpUtil.h" />
+    <ClInclude Include="src\core\handlerController.h" />
+    <ClInclude Include="src\utils\common\head.h" />
+    <QtMoc Include="src\ui\inputDialog.h" />
+    <QtMoc Include="src\utils\log\logManager.h" />
+    <QtMoc Include="src\ui\login.h" />
+    <QtMoc Include="src\ui\measureDialog.h" />
+    <QtMoc Include="src\utils\system\peripheralControl.h" />
+    <QtMoc Include="src\models\productInfoModel.h" />
+    <QtMoc Include="src\ui\roleAddDialog.h" />
+    <QtMoc Include="src\ui\setting.h" />
+    <ClInclude Include="db\sqlite3.h" />
+    <ClInclude Include="db\sqlite3ext.h" />
+    <QtMoc Include="src\network\tcpIpModule.h" />
+    <QtMoc Include="src\network\tcphandler.h" />
+    <QtMoc Include="src\models\testSite.h" />
+    <ClInclude Include="src\models\testSiteGrid.h" />
+    <ClInclude Include="src\core\testerDefinitions.h" />
+    <QtMoc Include="src\ui\userManagement.h" />
+    <ClInclude Include="src\core\version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="debug\moc_predefs.h.cbt">
+      <FileType>Document</FileType>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\mkspecs\features\data\dummy.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cl -Bx"$(QTDIR)\bin\qmake.exe" -nologo -Zc:wchar_t -FS -Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zc:__cplusplus -Zi -MDd -std:c++17 -W3 -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 -wd4577 -wd4467 -E $(QTDIR)\mkspecs\features\data\dummy.cpp 2&gt;NUL &gt;$(IntDir)\moc_predefs.h</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generate moc_predefs.h</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)\moc_predefs.h;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="release\moc_predefs.h.cbt">
+      <FileType>Document</FileType>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\mkspecs\features\data\dummy.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cl -Bx"$(QTDIR)\bin\qmake.exe" -nologo -Zc:wchar_t -FS -Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zc:__cplusplus -O2 -MD -std:c++17 -W3 -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 -wd4577 -wd4467 -E $(QTDIR)\mkspecs\features\data\dummy.cpp 2&gt;NUL &gt;$(IntDir)\moc_predefs.h</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generate moc_predefs.h</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)\moc_predefs.h;%(Outputs)</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="src\ui\acroViewTester.ui" />
+    <QtUic Include="src\ui\blockDetailDialog.ui" />
+    <QtUic Include="src\ui\configDialog.ui" />
+    <QtUic Include="src\ui\login.ui" />
+    <QtUic Include="src\ui\measureDialog.ui" />
+    <QtUic Include="src\ui\roleAddDialog.ui" />
+    <QtUic Include="src\ui\setting.ui" />
+    <QtUic Include="src\ui\tabAutoMatic.ui" />
+    <QtUic Include="src\ui\testSite-backup-horizontal.ui" />
+    <QtUic Include="src\ui\testSite-backup-vertical.ui" />
+    <QtUic Include="src\ui\testSite.ui" />
+    <QtUic Include="src\ui\userManagement.ui" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="acroViewTester.pri" />
+    <None Include="acroViewTester.pro" />
+    <None Include="resources\qrc\pics\Acroview.ico" />
+    <None Include="resources\qrc\pics\Acroview.png" />
+    <None Include="resources\qrc\qss\flatgray.css" />
+    <QtRcc Include="resources\acroViewTester.qrc" />
+    <None Include="resources\qrc\pics\alarmBlack.png" />
+    <None Include="resources\qrc\pics\alarmGray.png" />
+    <None Include="resources\qrc\pics\alarmWhite.png" />
+    <None Include="resources\qrc\pics\color??.txt" />
+    <None Include="resources\qrc\pics\dataBlack.png" />
+    <None Include="resources\qrc\pics\dataGray.png" />
+    <None Include="resources\qrc\pics\dataWhite.png" />
+    <None Include="resources\qrc\pics\doubleDown .png" />
+    <None Include="resources\qrc\pics\doubleUp.png" />
+    <None Include="resources\qrc\pics\downTwo.png" />
+    <None Include="resources\qrc\pics\exp.png" />
+    <None Include="resources\qrc\pics\eyeClose.png" />
+    <None Include="resources\qrc\pics\eyeOpen.png" />
+    <None Include="resources\qrc\pics\pauseBlack.png" />
+    <None Include="resources\qrc\pics\pauseGray.png" />
+    <None Include="resources\qrc\pics\pauseWhite.png" />
+    <None Include="resources\qrc\pics\pauseY.png" />
+    <None Include="resources\qrc\pics\peopleBlack.png" />
+    <None Include="resources\qrc\pics\peopleGray.png" />
+    <None Include="resources\qrc\pics\peopleWhite.png" />
+    <None Include="resources\qrc\pics\playBlack.png" />
+    <None Include="resources\qrc\pics\playGray.png" />
+    <None Include="resources\qrc\pics\playWhite.png" />
+    <None Include="resources\qrc\pics\settingBlack.png" />
+    <None Include="resources\qrc\pics\settingGray.png" />
+    <None Include="resources\qrc\pics\settingWhite.png" />
+    <None Include="resources\qrc\pics\startG.png" />
+    <None Include="resources\qrc\pics\upTwo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resources\Resource.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Import Project="$(QtMsBuild)\qt.targets" Condition="Exists('$(QtMsBuild)\qt.targets')" />
+  <ImportGroup Label="ExtensionTargets" />
+</Project>

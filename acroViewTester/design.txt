@@ -1,0 +1,831 @@
+irm https://raw.githubusercontent.com/yuaotian/go-cursor-help/refs/heads/master/scripts/run/cursor_win_id_modifier.ps1 | iex
+
+
+#include "acroViewTester.h"
+
+acroViewTester::acroViewTester(QWidget* parent)
+    : QMainWindow(parent)
+    , settings("YourCompany", "AcroViewTester")
+{
+    ui.setupUi(this);
+    initForm();
+    loadViewSettings();
+    initProductModel();
+    testSiteGrid = new TestSiteGrid(this);
+
+    QWidget* firstTab = ui.tabWidgetMainView->widget(0);  
+    if (!firstTab->layout()) {
+        QVBoxLayout* layout = new QVBoxLayout(firstTab);
+        firstTab->setLayout(layout);
+    }
+
+    firstTab->layout()->addWidget(testSiteGrid);
+
+    setupTestSites();
+}
+
+acroViewTester::~acroViewTester()
+{
+    // 清理资源
+    if (directMenu) {
+        delete directMenu;
+        directMenu = nullptr;
+    }
+
+    if (settingDialog_ui) {
+        delete settingDialog_ui;
+        settingDialog_ui = nullptr;
+    }
+
+    // QMap中的QAction和QWidget对象会由Qt的父子关系自动清理
+    viewActions.clear();
+    viewWidgets.clear();
+}
+
+void acroViewTester::setupTestSites()
+{
+    // 获取第一个标签页
+    QWidget* firstTab = ui.tabWidgetMainView->widget(0);
+    if (!firstTab) {
+        qDebug() << "无法找到主视图标签页！";
+        return;
+    }
+
+    // 从设置中读取配置
+    int blockRows = settings.value("Block/Rows", 3).toInt();
+    int blockCols = settings.value("Block/Cols", 8).toInt();
+    int gridRows = settings.value("Cursor/Rows", 2).toInt();
+    int gridCols = settings.value("Cursor/Cols", 1).toInt();
+    int totalBlocks = blockRows * blockCols;
+
+    qDebug() << "更新配置：" << "Block:" << blockRows << "x" << blockCols
+        << "Grid:" << gridRows << "x" << gridCols;
+
+    if (testSiteGrid) {
+        delete testSiteGrid;
+        testSiteGrid = nullptr;
+    }
+
+    // 创建新的TestSiteGrid
+    testSiteGrid = new TestSiteGrid(firstTab);
+    testSiteGrid->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+    // 如果没有布局，创建一个
+    if (!firstTab->layout()) {
+        QVBoxLayout* mainLayout = new QVBoxLayout(firstTab);
+        mainLayout->setContentsMargins(0, 0, 0, 0);
+        mainLayout->setSpacing(0);
+        firstTab->setLayout(mainLayout);
+    }
+
+    // 清除现有布局中的所有部件
+    QLayout* layout = firstTab->layout();
+    while (QLayoutItem* item = layout->takeAt(0)) {
+        if (QWidget* widget = item->widget()) {
+            widget->deleteLater();
+        }
+        delete item;
+    }
+
+    // 创建新的滚动区域
+    QScrollArea* scrollArea = new QScrollArea(firstTab);
+    scrollArea->setFrameShape(QFrame::NoFrame);
+    scrollArea->setWidgetResizable(true);
+    scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+
+    // 创建滚动区域的内容部件
+    QWidget* scrollContent = new QWidget(scrollArea);
+    QVBoxLayout* contentLayout = new QVBoxLayout(scrollContent);
+    contentLayout->setContentsMargins(0, 0, 0, 0);
+    contentLayout->setSpacing(0);
+    contentLayout->addWidget(testSiteGrid);
+    contentLayout->addStretch();
+
+    scrollArea->setWidget(scrollContent);
+    layout->addWidget(scrollArea);
+
+    // 设置新的网格大小
+    testSiteGrid->setGridSize(gridRows, gridCols);
+
+    for (int i = 0; i < gridRows; ++i) {
+        for (int j = 0; j < gridCols; ++j) {
+            TestSite* site = testSiteGrid->getSite(i, j);
+            if (site) {
+                connect(site, &TestSite::blockClicked, this, &acroViewTester::onBlockClicked);
+                for (int block = 0; block < totalBlocks; ++block) {
+                    TestSite::BlockData data;
+                    data.libNumber = 5;
+                    data.siteNumber = block + 1;
+                    data.pass = 200;
+                    data.osFail = 10;
+                    data.leakageFail = 10;
+                    data.programFail = 10;
+
+                    // 添加一些测试数据点
+                    data.osData = { 1.0, 1.2, 1.1, 1.3, 1.4 };
+                    data.leakageData = { 0.5, 0.6, 0.4, 0.7, 0.8 };
+
+                    site->setBlockData(block, data);
+                }
+            }
+        }
+    }
+    // 强制更新布局
+    testSiteGrid->show();
+    scrollContent->show();
+    scrollArea->show();
+    firstTab->updateGeometry();
+
+    qDebug() << "TestSiteGrid 完全重建完成";
+}
+
+void acroViewTester::onBlockClicked(int blockIndex, const TestSite::BlockData& data)
+{
+    BlockDetailDialog* dialog = new BlockDetailDialog(data, this);
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->show();
+
+}
+void acroViewTester::onSettingsChanged()
+{
+    qDebug() << "Settings changed signal received";  // 添加调试输出
+    setupTestSites();
+}
+
+void acroViewTester::onGridSizeChanged(int rows, int cols)
+{
+    qDebug() << "Grid size changed:" << rows << "x" << cols;  // 添加调试输出
+    testSiteGrid->setGridSize(rows, cols);
+}
+void acroViewTester::createViewMenu()
+{
+    viewMenu = menuBar()->addMenu(tr("视图"));
+    viewWidgets = {
+        {"listViewProdInfo", ui.listViewProdInfo},
+        {"tabWidgetMainView", ui.tabWidgetMainView},
+        {"tabWidgetViceView", ui.tabWidgetViceView}
+    };
+    QMap<QString, QString> viewNames = {
+        {"listViewProdInfo", tr("产品信息列表")},
+        {"tabWidgetMainView", tr("主视图")},
+        {"tabWidgetViceView", tr("副视图")}
+    };
+
+    for (auto it = viewWidgets.begin(); it != viewWidgets.end(); ++it) {
+        QAction* action = new QAction(viewNames[it.key()], this);
+        action->setCheckable(true);
+        action->setChecked(true);  // 默认显示所有视图
+        action->setData(it.key());
+        connect(action, &QAction::toggled, this, &acroViewTester::onViewActionToggled);
+        viewMenu->addAction(action);
+        viewActions[it.key()] = action;
+    }
+}
+
+void acroViewTester::loadViewSettings()
+{
+    QStringList visibleViews = settings.value("VisibleViews", QStringList()
+        << "listViewProdInfo"
+        << "tabWidgetMainView"
+        << "tabWidgetViceView").toStringList();
+
+    // 更新动作状态和视图可见性
+    for (auto it = viewWidgets.begin(); it != viewWidgets.end(); ++it) {
+        bool isVisible = visibleViews.contains(it.key());
+        viewActions[it.key()]->setChecked(isVisible);
+        it.value()->setVisible(isVisible);
+    }
+}
+
+void acroViewTester::saveViewSettings()
+{
+    QStringList visibleViews;
+    for (auto it = viewWidgets.begin(); it != viewWidgets.end(); ++it) {
+        if (it.value()->isVisible()) {
+            visibleViews << it.key();
+        }
+    }
+    settings.setValue("VisibleViews", visibleViews);
+    settings.sync();
+}
+
+void acroViewTester::onViewActionToggled(bool checked)
+{
+    QAction* action = qobject_cast<QAction*>(sender());
+    if (!action) return;
+
+    QString widgetKey = action->data().toString();
+    if (viewWidgets.contains(widgetKey)) {
+        viewWidgets[widgetKey]->setVisible(checked);
+        saveViewSettings();
+    }
+}
+
+
+void acroViewTester::loadStyle(const QString& qssFile)
+{
+    QFile file(qssFile);
+    if (file.open(QFile::ReadOnly)) {
+        QString qss = QLatin1String(file.readAll());
+        setStyleSheet(qss);
+        file.close();
+    }
+}
+
+void acroViewTester::initProductModel()
+{
+    // 创建模型实例
+    productModel = new ProductInfoModel(this);
+
+    // 设置listView的样式
+    ui.listViewProdInfo->setStyleSheet(
+        "QListView {"
+        "    background-color: rgb(0, 32, 48);"  // 深蓝色背景
+        "    color: white;"                      // 白色文字
+        "    border: none;"                      // 无边框
+        "}"
+        "QListView::item {"
+        "    height: 25px;"                      // 项目高度
+        "    padding: 5px;"                      // 内边距
+        "}"
+        "QListView::item:selected {"
+        "    background-color: rgb(0, 48, 72);"  // 选中项颜色
+        "}"
+    );
+
+    // 设置视图属性
+    ui.listViewProdInfo->setModel(productModel);
+    ui.listViewProdInfo->setEditTriggers(QAbstractItemView::NoEditTriggers); // 禁止编辑
+    ui.listViewProdInfo->setSelectionMode(QAbstractItemView::SingleSelection); // 单选模式
+    ui.listViewProdInfo->setSpacing(1); // 设置项目间距
+
+    // 可选：连接选择变化的信号
+    connect(ui.listViewProdInfo->selectionModel(), &QItemSelectionModel::currentChanged,
+        this, &acroViewTester::onProductItemSelected);
+}
+void acroViewTester::onProductItemSelected(const QModelIndex& current, const QModelIndex& previous)
+{
+    if (current.isValid()) {
+        QString itemText = current.data(Qt::DisplayRole).toString();
+        // 在这里处理选择变化后的逻辑
+    }
+}
+
+// 如果需要更新数据的方法
+void acroViewTester::updateProductInfo(const QString& key, const QString& value)
+{
+    if (productModel) {
+        productModel->updateValue(key, value);
+    }
+}
+
+阅读我的全部文件 解决需求  for (int i = 0; i < rows * cols; ++i) {
+
+TestSite* site = new TestSite(i + 1, this);
+
+m_testSites.append(site);
+
+gridLayout->addWidget(site, i / cols, i % cols);
+
+}
+
+我现在设置site的行和列是可以从setting的lineEditCursorRow和lineEditCursorCol获取 但是一个site的状态块数量不能根据lineEditMouseRow来动态生成 需要修改一下 同时将lineEditMouseRow改为lineEditBlockRow
+
+我的groupBoxViceView要显示几个label 具体的内容要根据setting的updateUIForScene显示 比如if (scene == "老化测试") {
+        showAgingTestControls();
+    } 如何实现
+
+我需要将setting.ui的comboBoxOsScene的内容保存在设置中 ，并且将comboBoxOsScene包含的内容推送到acroview.ui的groupBoxViceView里 比如if (scene == "老化测试") {
+        showAgingTestControls();
+    }showAgingTestControls这里面的labelLogPath，lineEditLogPath，labelLogTransPath，lineEditLogTransPath，labelReportPath，lineEditReportPath labelAutoPath lineEditAutoPath labelMesPath lineEditMesPath labelRecipePath lineEditRecipePath添加到acroview.ui的groupBoxViceView里 以A:B的格式比如labelLogPath：lineEditLogPath。除了老化测试之外，else if (scene == "AG06") {
+        showAG06Controls();
+    }
+    else if (scene == "AP8000") {
+        showAP8000Controls();
+    }也要对应将变换的label和lineedit信息推送到acroview.ui的groupBoxViceView里 请实现以上功能
+
+我想在tabWidgetPeripheral的三个tab中分别实现风扇 电源和负载仪的外设控制 ，风扇的tab设计成图一所示 电源的tab设计成图2所示 负载仪的tab设计成图3所示  风扇页的tab就是多个pushbutton组成 然后有标签 电源的tab就是电源序号的label 一个输入框 六个按钮分别为开风扇 关风扇 写风扇 开电源 关电源 写电源  负载的tab就是一个combobox来选择哪个channel 然后下面有一个对应的标签
+
+我现在需要点击pushbuttonExpand之后出现一个widgetA 然后这个widgetA里包含九个m_contentWidget，widgetA是可滑动的，如何实现
+
+我现在的tableviewusers需要这么设计 第一列为checkbox 第二列为id 第三列为用户名 第四列为真实姓名 第五列为角色 第六列为账号状态 第七列为操作 包含重置密码和删除两个pushbutton  如何实现
+
+{
+  "method": "teststart",
+  "data": {
+    "bibid": 1,
+    "sites": [
+      {
+        "siteid": "1",
+        "sitesn": "SN001"
+      },
+      {
+        "siteid": "2",
+        "sitesn": "SN002"
+      },
+      {
+        "siteid": "3",
+        "sitesn": "SN003"
+      }
+     ]
+  }
+}
+
+#include "jsonrpcclient.h"
+#include <QDebug>
+#include <QtCore/qendian.h>
+static const quint32 MAGIC_NUMBER = 0x4150524F; // "APRO" in hex
+static const quint16 HEADER_VERSION = 1;
+static const int HEADER_LENGTH = 32;
+static const QString JSONRPC_VERSION = "2.0";
+
+JsonRpcClient::JsonRpcClient(QObject* parent) : QObject(parent)
+{
+    tcpSocket = new QTcpSocket(this);
+
+    connect(tcpSocket, &QTcpSocket::readyRead, this, &JsonRpcClient::onReadyRead);
+    connect(tcpSocket, &QTcpSocket::connected, this, &JsonRpcClient::onConnected);
+    connect(tcpSocket, &QTcpSocket::disconnected, this, &JsonRpcClient::onDisconnected);
+    connect(tcpSocket, QOverload<QAbstractSocket::SocketError>::of(&QTcpSocket::errorOccurred),
+        this, &JsonRpcClient::onErrorOccurred);
+}
+
+JsonRpcClient::~JsonRpcClient()
+{
+    disconnectFromServer();
+}
+
+void JsonRpcClient::connectToServer(const QHostAddress& address, quint16 port)
+{
+    if (!tcpSocket->isOpen()) {
+        tcpSocket->connectToHost(address, port);
+    }
+}
+
+void JsonRpcClient::disconnectFromServer()
+{
+    if (tcpSocket->isOpen()) {
+        tcpSocket->disconnectFromHost();
+    }
+}
+
+bool JsonRpcClient::isConnected() const
+{
+    return tcpSocket->state() == QAbstractSocket::ConnectedState;
+}
+
+void JsonRpcClient::sendRequest(const QString& method, const QJsonObject& data, const QJsonValue& id)
+{
+    if (isConnected()) {
+        QJsonObject request;
+        request["method"] = method;
+        request["data"] = data;
+        request["id"] = id; 
+
+        QJsonDocument doc(request);
+        QByteArray jsonData = doc.toJson(QJsonDocument::Compact);
+
+        QByteArray header;
+        QByteArray magicNumberArray(4, 0);
+        qToBigEndian(MAGIC_NUMBER, reinterpret_cast<uchar*>(magicNumberArray.data()));
+        header.append(magicNumberArray);
+        QByteArray versionArray(2, 0);
+        qToBigEndian(HEADER_VERSION, reinterpret_cast<uchar*>(versionArray.data()));
+        header.append(versionArray);
+        QByteArray lengthArray(4, 0);
+        qToBigEndian(static_cast<quint32>(jsonData.size()), reinterpret_cast<uchar*>(lengthArray.data()));
+        header.append(lengthArray);
+        header.append(QByteArray(22, 0));  
+        Q_ASSERT(header.size() == HEADER_LENGTH);
+        tcpSocket->write(header + jsonData);
+    }
+}
+
+void JsonRpcClient::onReadyRead()
+{
+    buffer.clear();
+    buffer.append(tcpSocket->readAll());
+    processResponse(buffer);
+}
+
+void JsonRpcClient::processResponse(const QByteArray& data)
+{
+    //testcode
+    //QString jsonString = R"(
+    //{
+    //  "method": "teststart",
+    //  "data": {
+    //    "bibid": 1,
+    //    "sites": [
+    //      {
+    //        "siteid": "1",
+    //        "sitesn": "SN001"
+    //      },
+    //      {
+    //        "siteid": "2",
+    //        "sitesn": "SN002"
+    //      },
+    //      {
+    //        "siteid": "3",
+    //        "sitesn": "SN003"
+    //      }
+    //    ]
+    //  }
+    //}
+    //)";
+    // 将 JSON 数据字符串转换为 QJsonDocument
+    //QJsonDocument doc = QJsonDocument::fromJson(jsonString.toUtf8());
+
+    QJsonDocument doc = QJsonDocument::fromJson(data);
+    if (doc.isObject()) 
+    {
+        QJsonObject response = doc.object();
+        QString method = response.value("method").toString();
+        QString status = response.value("status").toString();
+        QJsonObject responseData = response.value("data").toObject();
+
+        if (status == "success") {
+            qDebug() << "Method:" << method << "succeeded with data:" << responseData;
+        }
+        else {
+            qDebug() << "Method:" << method << "failed with data:" << responseData;
+        }
+
+        emit responseReceived(response);
+    }
+}
+
+void JsonRpcClient::onConnected()
+{
+    qDebug() << "Connected to server.";
+    emit connected();
+}
+
+void JsonRpcClient::onDisconnected()
+{
+    qDebug() << "Disconnected from server.";
+    emit disconnected();
+}
+
+void JsonRpcClient::onErrorOccurred(QAbstractSocket::SocketError socketError)
+{
+    Q_UNUSED(socketError)
+        qDebug() << "Error:" << tcpSocket->errorString();
+    emit errorOccurred(tcpSocket->errorString());
+}
+------------------------
+如何将解析后的数据以label的形式在groupBoxJsonRpcTest显示出来
+void JsonRpcClient::processPayload(const QByteArray& payload)
+{
+    QJsonParseError parseError;
+    QJsonDocument doc = QJsonDocument::fromJson(payload, &parseError);
+
+    if (parseError.error != QJsonParseError::NoError) {
+        qWarning() << "JsonRpcClient: JSON parse error:" << parseError.errorString() << "Payload:" << payload;
+        emit protocolError(QString("JSON parse error: %1").arg(parseError.errorString()));
+        // Decide how to handle parse errors, maybe disconnect or just log
+        return;
+    }
+
+    if (!doc.isObject()) {
+        qWarning() << "JsonRpcClient: Received JSON is not an object:" << payload;
+        emit protocolError("Received JSON is not an object");
+        return;
+    }
+
+    QJsonObject obj = doc.object();
+
+    // Check if it's a valid JSON-RPC 2.0 response/message
+    if (!obj.contains("jsonrpc") || obj["jsonrpc"].toString() != CLIENT_JSONRPC_VERSION) {
+        qWarning() << "JsonRpcClient: Received message with missing or invalid 'jsonrpc' version:" << payload;
+        emit protocolError("Invalid 'jsonrpc' version in received message");
+        return;
+    }
+
+    // Distinguish between Response and Server-Sent Command (based on Server's SendClientDoCmd structure)
+    if (obj.contains("id") && !obj["id"].isNull()) { // Standard Response (has non-null id)
+        qint64 id = obj["id"].toVariant().toLongLong(); // Assuming numeric IDs
+
+        if (m_pendingRequests.contains(id)) {
+            PendingRequest pending = m_pendingRequests.take(id);
+            pending.timer->stop(); // Stop the timeout timer
+            delete pending.timer;  // Clean up the timer object
+
+            if (obj.contains("result")) {
+                // Successful Response
+                qDebug() << "JsonRpcClient: Received result for id=" << id;
+                if (pending.successCb) {
+                    pending.successCb(obj["result"]);
+                }
+                emit responseReceived(id, obj["result"]);
+
+            }
+            else if (obj.contains("error")) {
+                // Error Response
+                QJsonObject errorObj = obj["error"].toObject();
+                int code = errorObj.value("code").toInt(-1);
+                QString message = errorObj.value("message").toString("Unknown error");
+                QJsonValue data = errorObj.value("data");
+                qWarning() << "JsonRpcClient: Received error for id=" << id << "code=" << code << "message=" << message;
+                if (pending.errorCb) {
+                    pending.errorCb(code, message, data);
+                }
+                emit errorReceived(id, code, message, data);
+            }
+            else {
+                qWarning() << "JsonRpcClient: Received invalid response object (no result or error) for id=" << id << ":" << payload;
+                emit protocolError(QString("Invalid response object for id %1").arg(id));
+                if (pending.errorCb) { // Notify via error callback if response is malformed
+                    pending.errorCb(-32603, "Invalid response object received", QJsonValue()); // Internal error code
+                }
+            }
+        }
+        else {
+            qWarning() << "JsonRpcClient: Received response for unknown or timed out request id=" << id << ":" << payload;
+            // Ignore or log this unexpected response
+        }
+    }
+    else if (obj.contains("result") && obj.value("id").isNull()) { // Potential Server-Sent Command (id is null, has result)
+        QJsonObject resultObj = obj["result"].toObject();
+        if (resultObj.contains("cmd") && resultObj["cmd"].isString()) {
+            QString cmd = resultObj["cmd"].toString();
+            QJsonObject data = resultObj.value("data").toObject(); // Assuming data is an object
+            qDebug() << "JsonRpcClient: Received server command:" << cmd;
+            emit serverCommandReceived(cmd, data);
+        }
+        else {
+            qWarning() << "JsonRpcClient: Received message with null id but invalid 'result' format (expected cmd/data):" << payload;
+            emit protocolError("Received malformed server command");
+        }
+
+    }
+    else if (obj.contains("method")) { // Received a Request or Notification from server (less common, but possible)
+        qWarning() << "JsonRpcClient: Received a Request/Notification from server (method:" << obj["method"].toString() << "). Client currently does not process these.";
+        // Decide if the client should handle server-sent requests/notifications.
+        // If it's a request (has an id), the client should ideally respond.
+        // If it's a notification (no id), just process it.
+    }
+    else {
+        qWarning() << "JsonRpcClient: Received unknown JSON-RPC message type:" << payload;
+        emit protocolError("Received unknown JSON-RPC message type");
+    }
+}
+testsite.ui中有一个pushbuttonaction 在我的qrc文件中有startG和pauseY，默认这个按钮为startG，点击之后变成pauseY,同时创造这个按钮点击的槽函数用来处理开始和停止的逻辑，具体的逻辑后续在实现
+
+如何让labelLogPath labelLogTransPath  labelReportPath labelAutoPath labelMesPath labelRecipePath labelProjectPath labelAprog2Path labelMultiAprogPath labelHandle labelAlarmServer labelLocalPort的长度相同 然后让对应的lineedit可以上下对齐 同时长度最小为220
+
+请根据我最新的setting,ui文件 实现updateUIForScene函数的更新和showAgingTestControls  showAG06Controls showAP8000Controls ，同时帮我修改groupbox的名字 让它更符合onSceneChanged的定义
+
+ QSettings settings("AcroView", "acroViewTester");和QSettings settings(configFilePath, QSettings::IniFormat);可以合一吗 就是把configfilepath的config.ini读取到"AcroView", "acroViewTester"
+
+我现在有几个测试步骤 第一个步骤为电学测试 分为1管脚通断测试 有上下限的判断需要发送 2上电电流测试 需要发送vddi电压和vdd电流 也有上限和下限 第二个步骤为频率筛选 需要多次测量 每次都需要设定OSC输出频率  第三个步骤为标度标定 需要输入时间间隔，采样点数和采集轴向 第四个步骤为功能安全标定 需要按照固定配方发送命令，并读取传感器输出。配方包含：具体的指令，2条指令之间的时间间隔，是否回读，等。 第五个步骤为烧写OTP，条件：IDATA=8.5V；按照固定配方发送命令。第六个步骤为PSI5下测试 分为几个子步骤 6.1是读取产品Phase&OTP信息 自检信息01E7为正常，其余为自检错误。 6.2是 读取产品传感器输出零位噪声 需要输入采样点数和产品类型 返回来的信息需要包括最大值 最小值 平均值 标准差 错误码（绝对值超过一定范围的即为错误码，检测到错误码之后，直接输出错误码即可。） 6.3是读取产品曼码电流 需要输入参数Base：4-6mA
+Delta:22-30mA 6.4是测量bit time ，bit time 参数可配置，超过设定阈值即报错。测量值生成在报表中。阈值典型值：±480LSB。6.5是测量t delay 6.6是同步脉冲VDD Base可调 典型值：6.7V（可调范围4.5-11V） 6.7 是异步通信模式 6.8是双时间槽通信模式 需要根据以上内容设计json 包括send和receive两部分
+
+修改measureDialog.ui 目前要分成可点击选择是否进行该测试项的checkbox形式 第一个测试项是电学测试 分为管脚通断测试（需要配置压降上限和下限）和上电电流测试（需要配置VDDI电压和电流），第二个测试项是频率筛选（需要配置OSC输出频率） 第三个测试项是标度标定 （需要输入时间间隔 采样点数 采集轴向），第四个测试项是功能安全标定（需要一个文本框），第五个测试项是烧写OTP（需要输入IDATA 如IDATA=8.5V） 第六个测试项是PSI5下测试 分为1读取产品phase信息 2读取产品传感器输出零位噪声（需要输入采样点数 产品类型） 3读取产品曼码电流（需要输入上下限Base：4-6mA
+Delta:22-30mA） 4 测量bit time（需要可配置参数） 5测量t delay 6 同步脉冲VDD Base可调（典型值：6.7V（可调范围4.5-11V）） 7异步通信模式 8双时间槽通信模式
+
+
+#include "testSite.h"
+#include "ui_testsite.h"
+#include <QPushButton>
+#include <QGridLayout>
+
+TestSite::TestSite(int siteNumber, QWidget* parent)
+    : QWidget(parent)
+    , ui(new Ui::TestSite)
+    , m_siteNumber(siteNumber)
+    , m_status(Testing)
+{
+    ui->setupUi(this);
+    ui->labelSiteNum->setText(QString("%1").arg(m_siteNumber));
+    initForm();
+    
+    connect(ui->pushButtonAction, &QPushButton::clicked, this, &TestSite::onPushButtonActionClicked);
+}
+
+TestSite::~TestSite()
+{
+    delete ui;
+}
+
+void TestSite::onPushButtonActionClicked()
+{
+    if (isStarted)
+    {
+        ui->pushButtonAction->setStyleSheet(baseStyle + "QPushButton { border-image: url(:/acroViewTester/qrc/pics/startG.png); }");
+        isStarted = false;
+        // 在这里实现停止的逻辑
+    }
+    else
+    {
+        ui->pushButtonAction->setStyleSheet(baseStyle + "QPushButton { border-image: url(:/acroViewTester/qrc/pics/pauseY.png); }");
+  
+        isStarted = true;
+        // 在这里实现开始的逻辑
+    }
+}
+
+void TestSite::updateButtonAppearance(const ButtonState& buttonState) 
+{
+    Status status = Idle;
+    QString color = getStatusColor(status);
+    QString statusText;
+    switch (status) {
+    case Idle: statusText = "Idle"; break;
+    case Testing: statusText = "Testing"; break;
+    case Completed: statusText = "Completed"; break;
+    case Failed: statusText = "Failed"; break;
+    case Disabled: statusText = "Disabled"; break;
+    }
+
+    if (buttonState.isClicked) 
+    {
+        status = Completed;
+        buttonState.button->setStyleSheet(QString("QPushButton { background-color: %1;  border: 1px solid black; }").arg(color));
+    }
+    else 
+    {
+        status = Idle;
+        buttonState.button->setStyleSheet(QString("QPushButton { background-color: %1;  border: 1px solid black; }").arg(color));
+    }
+}
+
+
+void TestSite::createStatusBlocks(int siteRow,int siteColumn)
+{
+    m_statusBlocks.clear();
+    for (int i = 0; i < siteColumn * siteRow; ++i) 
+    {
+        QPushButton* block = new QPushButton(this);
+        block->setMinimumSize(15, 15);
+        block->setFlat(true);
+        connect(block, &QPushButton::clicked, this, [this, i]() {
+            // 切换按钮状态
+            m_statusBlocks[i].isClicked = !m_statusBlocks[i].isClicked;
+            // 更新按钮外观
+            updateButtonAppearance(m_statusBlocks[i]);
+            });
+        ButtonState state = { false, block };
+        
+        block->setAutoFillBackground(true);
+
+        QString tooltipText = QString("Tester %1\nStatus: %2\nTime: %3")
+            .arg(i + 1)
+            .arg("空闲")
+            .arg("00:00:00");
+        block->setToolTip(tooltipText);
+        m_statusBlocks.append(state);
+        ui->blocksLayout->addWidget(block, i / siteColumn, i % siteColumn);
+    }
+}
+
+void TestSite::initForm()
+{
+    setStatus(Idle);
+    baseStyle = R"(
+        QPushButton {
+            background-color: white;
+            border: 1px solid #333;
+            color: #333;
+            border-radius: 4px;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        QPushButton:hover {
+            background-color: #f5f5f5;
+            border-color: #666;
+        }
+        QPushButton:pressed {
+            background-color: #e0e0e0;
+            border-color: #444;
+            transform: translateY(1px);
+        }
+        QPushButton:disabled {
+            background-color: #f0f0f0;
+            border-color: #999;
+            color: #666;
+            cursor: not-allowed;
+        }
+        QPushButton:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(51, 51, 51, 0.3);
+        }
+    )";
+
+    QSettings settings("AcroView", "acroViewTester");
+    int baseRow = settings.value("Grid/BaseRows", SITE_ROW).toInt();
+    int baseCol = settings.value("Grid/BaseCols", SITE_COLUMN).toInt();
+    createStatusBlocks(baseRow, baseCol);
+}
+
+
+void TestSite::setStatus(Status status)
+{
+    m_status = status;
+    QString color = getStatusColor(status);
+    QString statusText;
+    switch (status) {
+    case Idle: statusText = "Idle"; break;
+    case Testing: statusText = "Testing"; break;
+    case Completed: statusText = "Completed"; break;
+    case Failed: statusText = "Failed"; break;
+    case Disabled: statusText = "Disabled"; break;
+    }
+    ui->statusLabel->setText(statusText);
+    ui->statusLabel->setStyleSheet(QString("QLabel { background-color: %1; color: black; padding: 5px; }").arg(color));
+    for (int i = 0; i < m_statusBlocks.size(); ++i) {
+        QString tooltipText = QString("Tester %1\nStatus: %2\nTime: %3")
+            .arg(i + 1)
+            .arg(statusText)
+            .arg(ui->timeLabel->text());
+        m_statusBlocks[i].button->setToolTip(tooltipText);
+    }
+}
+
+void TestSite::updateTime(const QString& time)
+{
+    ui->timeLabel->setText(time);
+    for (int i = 0; i < m_statusBlocks.size(); ++i) {
+        QString tooltipText = QString("Tester %1\nStatus: %2\nTime: %3")
+            .arg(i + 1)
+            .arg(ui->statusLabel->text())
+            .arg(time);
+        m_statusBlocks[i].button->setToolTip(tooltipText);
+    }
+}
+
+QString TestSite::getStatusColor(Status status)
+{
+    switch (status) {
+    case Idle: return "#808080";      // 灰色
+    case Testing: return "#FFFA65";   // 橙色
+    case Completed: return "#008000"; // 绿色
+    case Failed: return "#FF0000";    // 红色
+    case Disabled: return "#A9A9A9";  // 深灰色
+    default: return "#808080";
+    }
+}
+
+QComboBox {
+    background-color: white;
+    border: 1px solid gray;
+    border-radius: 10px;
+    padding: 1px 18px 1px 3px;
+    min-width: 6em;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+QComboBox:focus {
+    border: 1px solid darkblue;
+}
+
+QComboBox QAbstractItemView {
+    border: 1px solid darkgray;
+    border-radius: 10px;
+    selection-background-color: lightgray;
+}
+
+SO16(150)-AG03
+BF6910AS10Y
+
+specItem.id = testItem.id;
+        specItem.testItemName = testItem.className;
+        specItem.aliasName = testItem.alias;
+
+        specItem.params1Value = "Param1_" + testItem.id;
+        specItem.limit1Lower = "0";
+        specItem.limit1Upper = "100";
+
+        specItem.params2Value = "Param2_" + testItem.id;
+        specItem.limit2Lower = "10";
+        specItem.limit2Upper = "200";
+
+        specItem.params3Value = "Param3_" + testItem.id;
+        specItem.limit3Lower = "20";
+        specItem.limit3Upper = "300";
+
+        specItem.binName = "Bin_" + testItem.id; // Simulated bin name
+        specItem.comment
+
+	CString dataStr;
+	for (int i = 0; i < length; ++i) {
+		dataStr.AppendFormat(_T("%02X "), data[i]);
+	}
+	dataStr = _T("data: ") + dataStr + _T("\n");
+	OutputDebugString(dataStr);
+	CString crcBufferStr;
+	for (size_t i = 0; i < crcBuffer.size(); ++i) {
+		crcBufferStr.AppendFormat(_T("%02X "), crcBuffer[i]);
+	}
+	crcBufferStr = _T("crcBuffer: ") + crcBufferStr + _T("\n");
+	OutputDebugString(crcBufferStr);
+	CString crcStr;
+	crcStr.Format(_T("crc: 0x%08X\n"), crc);
+	OutputDebugString(crcStr);
+
+52 45 4B 31 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00 20 00 00 00 00 51 9A 4B FA 56 95 06 C8 91 92 F9 72 79 38 7F C0 C0 03 F9 03 7B C1 4E 54 EC 20 2C AC 31 05 F3 8D 12 34 56 78 12 34 56 78 12 34 56 78 12 34 56 78 5D 19 8E 6B 7A 6D 8D 88 1D 30 6C 38 C3 B7 3C E0 5E 11 83 97 B8 24 D5 5C 62 31 F6 B3 74 3B 8D 7F A5 A8 D3 D7
+
+R7FA4M2AD*CFP TQFP100(14x14)-AG80

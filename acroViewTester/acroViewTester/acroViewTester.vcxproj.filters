@@ -1,0 +1,445 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\network\JsonRpcHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\ProjectSelectDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\network\UdpCommunicator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utils\common\assistFunc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utils\system\dumpUtil.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\handlers\handleAutomatic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\handlers\handleJson.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\handlers\handleUdpComm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\handlers\handleView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\handlerController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\inputDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utils\log\logManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\login.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\measureDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\menubar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utils\system\peripheralControl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\models\productInfoModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\projectConfig.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\roleAddDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\setting.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utils\system\shell.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="db\sqlite3.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\network\tcpIpModule.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\network\tcphandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\models\testSite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\models\testSiteGrid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utils\log\testSpdLog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\userManagement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\acroViewTester.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\blockDetailDialog.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\configDialog.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\directTriggerMenu.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\dataProcess.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\appdata.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utils\common\qthelper.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\network\jsonRpcClient.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third_party\AutomaticManager\ACAutomaticManager.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third_party\AutomaticManager\AuthUtils.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third_party\AutomaticManager\AutoMessageServer.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third_party\AutomaticManager\ExternalServer.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\utils\log\AppLogger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\network\JsonRpcHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="src\ui\ProjectSelectDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="src\core\ProtocolStructures.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="src\network\UdpCommunicator.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="src\utils\system\dumpUtil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\handlerController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\common\head.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="src\ui\inputDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\utils\log\logManager.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\ui\login.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\ui\measureDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\utils\system\peripheralControl.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\models\productInfoModel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\ui\roleAddDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\ui\setting.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="db\sqlite3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="db\sqlite3ext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="src\network\tcpIpModule.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\network\tcphandler.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\models\testSite.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="src\models\testSiteGrid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\testerDefinitions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="src\ui\userManagement.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="src\core\version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ui\blockDetailDialog.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\CommandBuilder.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\appdata.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\common\qthelper.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third_party\AutomaticManager\ACAutomaticManager.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="debug\moc_predefs.h.cbt">
+      <Filter>Generated Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="release\moc_predefs.h.cbt">
+      <Filter>Generated Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="src\ui\login.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\ui\measureDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\ui\roleAddDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\ui\setting.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\ui\userManagement.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\ui\acroViewTester.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\ui\blockDetailDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\ui\configDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\ui\tabAutoMatic.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\ui\testSite.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\ui\testSite-backup-horizontal.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\ui\testSite-backup-vertical.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\qrc\pics\Acroview.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\qrc\pics\Acroview.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <QtRcc Include="resources\acroViewTester.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+    <None Include="resources\qrc\pics\alarmBlack.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\qrc\pics\alarmGray.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\qrc\pics\alarmWhite.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\qrc\pics\color??.txt">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\qrc\pics\dataBlack.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\qrc\pics\dataGray.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\qrc\pics\dataWhite.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\qrc\pics\doubleDown .png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\qrc\pics\doubleUp.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\qrc\pics\downTwo.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\qrc\pics\exp.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\qrc\pics\eyeClose.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\qrc\pics\eyeOpen.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\qrc\pics\pauseBlack.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\qrc\pics\pauseGray.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\qrc\pics\pauseWhite.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\qrc\pics\pauseY.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\qrc\pics\peopleBlack.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\qrc\pics\peopleGray.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\qrc\pics\peopleWhite.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\qrc\pics\playBlack.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\qrc\pics\playGray.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\qrc\pics\playWhite.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\qrc\pics\settingBlack.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\qrc\pics\settingGray.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\qrc\pics\settingWhite.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\qrc\pics\startG.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\qrc\pics\upTwo.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="acroViewTester.pri" />
+    <None Include="acroViewTester.pro" />
+    <None Include="resources\qrc\qss\flatgray.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resources\Resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="src\ui\acroViewTester.h">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\ui\buttonDelegate.h">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\ui\configDialog.h">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\ui\directTriggerMenu.h">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\network\jsonRpcClient.h">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="third_party\AutomaticManager\AuthUtils.h">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="third_party\AutomaticManager\AutoInterface.h">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="third_party\AutomaticManager\automaticplugin_global.h">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="third_party\AutomaticManager\AutoMessageServer.h">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="third_party\AutomaticManager\ExternalServer.h">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+</Project>
