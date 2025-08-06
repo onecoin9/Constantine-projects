@@ -31,6 +31,10 @@ logs/
 # IDE files
 .vscode/
 .idea/
+.vs/
+*.suo
+*.user
+**/x64/Debug/
 
 # OS files
 .DS_Store
