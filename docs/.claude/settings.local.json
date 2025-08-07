@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find . -name \"*.json\" -o -name \"Makefile\" -o -name \"*.mk\" -o -name \"*.bat\" -o -name \"*.sh\" -o -name \"CMakeLists.txt\" -o -name \"*.pro\" -o -name \"*.sln\" -o -name \"*.vcxproj\")"
+    ],
+    "deny": []
+  }
+}
