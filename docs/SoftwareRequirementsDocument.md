@@ -58,13 +58,7 @@
 
 ### 1.4 技术架构
 
-- **开发环境**: Visual Studio 2019 + Qt 5.15.2
-- **编程语言**: C++ 17
-- **UI框架**: Qt Widgets + Qt Designer
-- **多线程**: QThread、QtConcurrent、QThreadPool
-- **网络通信**: QNetworkAccessManager、QTcpSocket
-- **数据库**: SQLite (QSqlDatabase)--暂未加入
-- **日志系统**: spdlog
+为避免与第5章重复，本节仅给出指引：详见第[5.2 技术栈](#52-技术栈)与[5.3 系统组件](#53-系统组件)。
 
 ### 1.5 参考文档
 
@@ -557,6 +551,121 @@ Set_P,Set_T,Measured_P,Measured_T,Timestamp
   }
 }
 ```
+
+---
+
+#### 3.5.6 工作流文件说明（docs/workflow）
+
+- 目录：`docs/workflow/`
+- 目的：通过JSON定义可配置的测试/标定/误差流程，供工作流引擎加载与执行。
+
+文件概览（简述）
+- `mainWorkflow.json`：主流程编排，负责在“标定流程”和“误差确认流程”之间切换与汇流。
+- `calibration_zone{1..4}Workflow.json`：各温区的标定子流程，包含该温区内的PT点遍历、采样与产物输出（CaliSample/OTPResult）。
+- `error_test_zone{1..4}Workflow.json`：各温区的误差确认子流程，包含该温区内PT点遍历、采样与判定（TestSample/Check）。
+
+命名与约定
+- 命名：`<流程类型>_zone<温区序号>Workflow.json`，如 `calibration_zone1Workflow.json`。
+- 放置路径固定为 `docs/workflow/`，由配置项 `WorkflowRoot`（可扩展）管理。
+
+结构要点（通用）
+- 顶层字段建议：
+  - `name`：工作流名称
+  - `version`：工作流版本（语义化，例如 1.0.0）
+  - `zoneId`：温区编号（1-4），主流程可无此字段
+  - `params`：可变参数（如PT点表、重试次数、超时阈值、产物路径等）
+  - `steps`：步骤数组（顺序执行/条件跳转）
+- 常见步骤类型：
+  - `setPressure`、`waitTemperature`、`measure`（采样多次取平均）
+  - `callTool`（如 MTPTCali.exe、MTPTCheck.exe）
+  - `persistCsv`（写入 CSV：CaliSample/TestSample/OTPResult）
+  - `decision`（基于条件路由到下一步）
+- 容错与重试：
+  - 每步支持 `timeoutSec` 与 `retry` 策略；失败需产生标准化错误码与日志
+  - NG时触发 `onFail` 分支（如分Bin、记录追溯信息）
+- 参数化：
+  - PT点、DUT标识、文件命名中的`X`、Cache路径、外部工具路径、超时等通过 `params`/配置文件注入
+- 版本与追溯：
+  - 建议每个工作流文件包含 `version` 与 `lastModified`（可选），执行时将版本写入日志
+
+极简JSON示例（结构示意）
+```json
+{
+  "name": "calibration_zone1",
+  "version": "1.0.0",
+  "zoneId": 1,
+  "params": {
+    "pressurePoints": [64.125, 128.0],
+    "measureRepeat": 20,
+    "cacheRoot": "D:/MT/Cache",
+    "toolCali": "D:/MT/tools/MTPTCali.exe",
+    "timeoutSec": 60
+  },
+  "steps": [
+    { "type": "waitTemperature", "target": 25.0, "tolerance": 0.5, "timeoutSec": 300 },
+    { "type": "setPressure", "value": 64.125 },
+    { "type": "measure", "repeat": "@params.measureRepeat", "saveTo": "@cacheRoot/DUT-X-CaliSample.csv" },
+    { "type": "setPressure", "value": 128.0 },
+    { "type": "measure", "repeat": "@params.measureRepeat", "saveTo": "@cacheRoot/DUT-X-CaliSample.csv" },
+    { "type": "callTool", "exe": "@params.toolCali", "args": ["--input", "DUT-X-CaliSample.csv", "--output", "DUT-X-OTPResult.csv"], "timeoutSec": "@params.timeoutSec" },
+    { "type": "decision", "when": "@lastTool.returnCode == 0", "then": "NEXT", "else": "FAIL" }
+  ]
+}
+```
+
+执行规则（摘要）
+- 主流程加载 `mainWorkflow.json`，按状态选择进入各温区的标定/误差子流程。
+- 子流程在对应温区内完成PT点遍历与数据产物生成，失败即返回NG并停止该DUT后续流程。
+- 日志必须记录：工作流名、版本、zoneId、DUT_ID、开始/结束时间、外部工具返回码与产物路径。
+
+---
+
+#### 3.5.7 工作流步骤类型规范（摘要）
+
+- 通用字段（所有步骤）：
+  - `type`(必填)：步骤类型
+  - `timeoutSec`(可选, 默认60)
+  - `retry`(可选, 默认0)
+  - `onFail`(可选)：失败分支（如 `FAIL`/`BIN_NG`）
+  - `note`(可选)：备注
+
+- setPressure
+  - 参数：`value`(必填, KPa, 数值)
+  - 验证：压力到位±容差（由配置 `PressureTolerance`）
+
+- waitTemperature
+  - 参数：`target`(必填, ℃), `tolerance`(可选, 默认±0.5℃)
+  - 验证：在`timeoutSec`内达到目标±容差
+
+- measure
+  - 参数：`repeat`(可选, 默认1), `saveTo`(必填), `channels`(可选：P/T)
+  - 规则：多次采样取平均值，写入CSV并校验列头完整
+
+- persistCsv
+  - 参数：`path`(必填), `headers`(必填), `append`(可选, 默认true)
+  - 规则：UTF-8编码、逗号分隔、追加写时校验列头一致
+
+- callTool
+  - 参数：`exe`(必填), `args`(可选数组), `expectExitCode`(可选, 默认0)
+  - 规则：执行前可选哈希校验；返回码与`expectExitCode`一致视为成功
+
+- decision
+  - 参数：`when`(必填, 表达式), `then`/`else`(必填)
+  - 规则：表达式结果布尔化后路由
+
+#### 3.5.8 工作流验收标准
+
+- 结构与配置
+  - [ ] 所有工作流JSON通过JSON Schema校验（结构、类型、必填字段）
+  - [ ] `name/version/steps`字段完整，zone子流程包含`zoneId`
+  - [ ] 参数注入键存在且与配置清单一致
+- 可执行性
+  - [ ] `callTool`步骤在目标环境可执行，返回码=0
+  - [ ] `setPressure/waitTemperature`满足容差要求
+  - [ ] `measure/persistCsv`生成CSV符合通用格式规范
+- 日志与追溯
+  - [ ] 执行日志记录工作流名/版本/zoneId/DUT_ID/开始结束时间/外部工具返回码/产物路径
+  - [ ] NG分支触发时包含错误码与原因
 
 ---
 
