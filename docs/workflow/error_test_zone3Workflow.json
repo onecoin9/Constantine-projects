@@ -1,0 +1,131 @@
+{
+  "id": "error_test_zone3_workflow_v1",
+  "name": "误差测试-温区3工作流",
+  "description": "温区3误差测试流程，适用于站点5和6的误差测试阶段",
+  "version": "1.0.0",
+  "steps": [
+      {
+        "id": "step_wait_chip_placed",
+        "name": "等待芯片放置信号",
+        "type": "WaitForSignal",
+        "config": {
+          "deviceId": "handler_001",
+          "wait_for_signal": "chipPlaced",
+          "timeout": 30000
+        },
+        "onError": "retry"
+      },
+      {
+        "id": "step_power_on_door",
+        "name": "门控设备上电",
+        "type": "DeviceCommand",
+        "config": {
+          "deviceId": "door_001",
+          "command": "powerOn",
+          "params": {
+            "devSn": "${deviceSN}",
+            "socketMask": "${receivedSocketEnableMask}"
+          }
+        },
+        "onError": "abort"
+      },
+      {
+        "id": "delay_after_power_on",
+        "name": "等待上电稳定",
+        "type": "Delay",
+        "config": { "durationMs": 2000 }
+      },
+      {
+        "id": "step_error_test_loop",
+        "name": "误差测试循环",
+        "type": "PressureTestLoop",
+        "config": {
+                "pressures": [1, 2, 3, 4],
+                "steps": [
+                    {
+                        "id": "set_pressure",
+                        "name": "设置压力(模拟)",
+                        "type": "Delay",
+                        "config": {
+                            "durationMs": 500,
+                            "description": "模拟压力设备设置压力 ${currentPressure}"
+                        }
+                    },
+                    {
+                        "id": "delay_after_set_pressure",
+                        "name": "等待压力稳定",
+                        "type": "Delay",
+                        "config": {
+                            "durationMs": 1000
+                        }
+                    },
+                    {
+                        "id": "read_temperature_multiple",
+                        "name": "多次读取温度并取平均值",
+                        "type": "TemperatureReadLoop",
+                        "config": {
+                            "deviceId": "temp_003",
+                            "readTimes": 10,
+                            "intervalMs": 200,
+                            "description": "读取10次温度并计算平均值，当前压力: ${currentPressure}"
+                        }
+                    },
+                    {
+                        "id": "collect_data",
+                        "name": "数据采集",
+                        "type": "DeviceCommand",
+                        "config": {
+                            "deviceId": "door_001",
+                            "command": "startDataCollection",
+                            "params": {
+                                "devSn": "${deviceSN}",
+                                "sampleTimes": 10,
+                                "socketMask": "${receivedSocketEnableMask}"
+                            }
+                        }
+                    },
+                    {
+                        "id": "delay_after_collect",
+                        "name": "等待采集完成",
+                        "type": "Delay",
+                        "config": {
+                            "durationMs": 2000
+                        }
+                    }
+                    
+                ]
+            },
+        "onError": "continue"
+      },
+      {
+        "id": "step_set_done_site",
+        "name": "通知站点完成",
+        "type": "DeviceCommand",
+        "config": {
+          "deviceId": "handler_001",
+          "command": "setdonesite",
+          "params": {
+            "siteIdx": "${receivedSiteIndex}",
+            "socketMask": "${receivedSocketEnableMask}"
+          }
+        },
+        "onError": "abort"
+      },
+      {
+        "id": "step_delay_before_signal",
+        "name": "延时3秒后发送信号",
+        "type": "Delay",
+        "config": { "durationMs": 3000 }
+      },
+      {
+        "id": "step_loop_back_to_start",
+        "name": "循环回到等待芯片放置信号",
+        "type": "LoopBack",
+        "config": {
+          "targetStep": "step_wait_chip_placed",
+          "maxIterations": 100
+        },
+        "onError": "continue"
+      }
+    ]
+  } 

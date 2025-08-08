@@ -1,0 +1,246 @@
+{
+    "id": "calibration_zone4_workflow_v1",
+    "name": "标定测试-温区4工作流",
+    "description": "温区4标定测试流程，适用于站点7和8的标定阶段",
+    "version": "1.0.0",
+    "steps": [
+        {
+            "id": "step_wait_chip_placed",
+            "name": "等待芯片放置信号",
+            "type": "WaitForSignal",
+            "config": {
+                "deviceId": "handler_001",
+                "wait_for_signal": "chipPlaced",
+                "timeout": 10000,
+                "onTimeout": "notifyMainWorkflow"
+            },
+            "onError": "retry"
+        },
+        {
+            "id": "step_power_on_door",
+            "name": "门控设备上电",
+            "type": "DeviceCommand",
+            "config": {
+                "deviceId": "door_001",
+                "command": "powerOn",
+                "params": {
+                    "devSn": "${deviceSN}",
+                    "socketMask": "${receivedSocketEnableMask}"
+                }
+            },
+            "onError": "abort"
+        },
+        {
+            "id": "delay_after_power_on",
+            "name": "等待上电稳定",
+            "type": "Delay",
+            "config": {
+                "durationMs": 2000
+            }
+        },
+        {
+            "id": "step_pressure_test_loop",
+            "name": "压力测试循环",
+            "type": "PressureTestLoop",
+            "config": {
+                "pressures": [
+                    1,
+                    2,
+                    3,
+                    4
+                ],
+                "steps": [
+                    {
+                        "id": "set_pressure",
+                        "name": "设置压力(模拟)",
+                        "type": "Delay",
+                        "config": {
+                            "durationMs": 500,
+                            "description": "模拟压力设备设置压力 ${currentPressure}"
+                        }
+                    },
+                    {
+                        "id": "delay_after_set_pressure",
+                        "name": "等待压力稳定",
+                        "type": "Delay",
+                        "config": {
+                            "durationMs": 1000
+                        }
+                    },
+                    {
+                        "id": "read_temperature_multiple",
+                        "name": "多次读取温度并取平均值",
+                        "type": "TemperatureReadLoop",
+                        "config": {
+                            "deviceId": "temp_004",
+                            "readTimes": 10,
+                            "intervalMs": 200,
+                            "description": "读取10次温度并计算平均值，当前压力: ${currentPressure}"
+                        }
+                    },
+                    {
+                        "id": "collect_data",
+                        "name": "数据采集",
+                        "type": "DeviceCommand",
+                        "config": {
+                            "deviceId": "door_001",
+                            "command": "startDataCollection",
+                            "params": {
+                                "devSn": "${deviceSN}",
+                                "sampleTimes": 10,
+                                "socketMask": "${receivedSocketEnableMask}"
+                            }
+                        }
+                    },
+                    {
+                        "id": "delay_after_collect",
+                        "name": "等待采集完成",
+                        "type": "Delay",
+                        "config": {
+                            "durationMs": 2000
+                        }
+                    }
+                ]
+            },
+            "onError": "continue"
+        },
+        {
+            "id": "step_12",
+            "type": "DeviceCommand",
+            "name": "寄存器批量读写操作",
+            "config": {
+                "deviceId": "door_001",
+                "command": "executeRegisterOperations",
+                "params": {
+                    "dutActive": 1,
+                    "registers": [
+                        {
+                            "sAddr": 1,
+                            "fc": 0,
+                            "rAddr": 130,
+                            "data": 132,
+                            "len": 4,
+                            "remark": "读寄存器0x82"
+                        },
+                        {
+                            "sAddr": 1,
+                            "fc": 1,
+                            "rAddr": 128,
+                            "data": 94,
+                            "len": 2,
+                            "remark": "写寄存器0x80"
+                        },
+                        {
+                            "sAddr": 1,
+                            "fc": 1,
+                            "rAddr": 130,
+                            "data": 140,
+                            "len": 3,
+                            "remark": "写寄存器0x82"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "id": "step_poweroff_door",
+            "name": "门控设备下电",
+            "type": "DeviceCommand",
+            "config": {
+                "deviceId": "door_001",
+                "command": "powerOff",
+                "params": {
+                    "devSn": "${deviceSN}"
+                }
+            },
+            "onError": "abort"
+        },
+        {
+            "id": "step_delay_before_signal",
+            "name": "延时3秒后发送信号",
+            "type": "Delay",
+            "config": {
+                "durationMs": 3000
+            }
+        },
+        {
+            "id": "step_set_done_site",
+            "name": "通知站点完成",
+            "type": "DeviceCommand",
+            "config": {
+                "deviceId": "handler_001",
+                "command": "setdonesite",
+                "params": {
+                    "siteIdx": "${receivedSiteIndex}",
+                    "socketMask": "${receivedSocketEnableMask}"
+                }
+            },
+            "onError": "abort"
+        },
+        {
+            "id": "step_loop_back_to_start",
+            "name": "循环回到等待芯片放置信号",
+            "type": "LoopBack",
+            "config": {
+                "targetStep": "step_wait_chip_placed",
+                "targetStepIndex": 0,
+                "maxIterations": 100
+            },
+            "onError": "continue"
+        },
+        {
+            "id": "step_getlotdata",
+            "name": "获取批次数据",
+            "type": "DeviceCommand",
+            "config": {
+                "deviceId": "handler_001",
+                "command": "getlotdata"
+            },
+            "onError": "abort"
+        },
+        {
+            "id": "delay_after_getlotdata",
+            "name": "延时2秒",
+            "type": "Delay",
+            "config": {
+                "durationMs": 4000
+            }
+        },
+        {
+            "id": "step_open_notepad",
+            "name": "打开记事本",
+            "type": "DeviceCommand",
+            "config": {
+                "deviceId": "exeDevice1",
+                "command": "start",
+                "params": {
+                    "path": "C:/Windows/System32/notepad.exe"
+                }
+            },
+            "onError": "continue"
+        },
+        {
+            "id": "delay_after_notepad",
+            "name": "延时5秒",
+            "type": "Delay",
+            "config": {
+                "durationMs": 5000
+            }
+        },
+        {
+            "id": "step_send_zone_complete_signal",
+            "name": "发送温区工作流完成信号",
+            "type": "DeviceCommand",
+            "config": {
+                "deviceId": "handler_001",
+                "command": "signalMainWorkflow",
+                "params": {
+                    "signal": "zoneWorkflowComplete",
+                    "siteId": "${siteId}",
+                    "reason": "workflowComplete"
+                }
+            },
+            "onError": "continue"
+        }
+    ]
+}
