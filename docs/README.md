@@ -1,9 +1,9 @@
 # docs 目录索引
 
-- SoftwareRequirementsDocument.md
-  - 主SRD（持续更新版本）
-- augustMind.md
-  - 进度日志，与个人目录的 augustMind 同步（仓库跟踪版本）
+- specs/
+  - SoftwareRequirementsDocument.md（主SRD，持续更新版本）
+- progress/
+  - augustMind.md（进度日志，与个人目录的 augustMind 同步）
 - workflow/
   - 工作流定义JSON（主流程与各温区子流程）
 - examples/
@@ -22,13 +22,12 @@
   - 示例：archive/2025-08-08/SoftwareRequirementsDocument.md
   - 其他：archive/2025-08-06/（备份）、archive/legacy/（旧版本中文MD）
 
-归档规则
-- 每次关键变更或里程碑达成时，将SRD复制到 `archive/YYYY-MM-DD/`
-- 命名保持与原文件一致，方便比对
-- 仅归档定版或阶段版本，日常小改无需归档
+清理策略
+- 禁止保留空目录；如 `guides/` 暂为空，可在首次加入文档后保留
+- 定期检查 `notes/` 与 `references/`，将过期文件归档或删除
 
 同步建议
-- 本地 `d:\ConstantineFiles\...\augustMind.md` 建议以每日任务结束时同步到 `docs/augustMind.md`
+- 本地 `d:\ConstantineFiles\...\augustMind.md` 建议以每日任务结束时同步到 `docs/progress/augustMind.md`
 - 每日同步命令示例：
   - `powershell -NoProfile -ExecutionPolicy Bypass -File docs/scripts/sync_augustMind.ps1`
   - `powershell -NoProfile -ExecutionPolicy Bypass -File docs/scripts/archive_srd.ps1`
