@@ -1,0 +1,131 @@
+{
+  "id": "main_workflow_v1",
+  "name": "主线程工作流",
+  "description": "主线程执行的公共操作，包括HandlerDevice初始化和任务加载",
+  "version": "1.0.0",
+  "steps": [
+    {
+      "id": "delay_after_version",
+      "name": "系统预热延时",
+      "type": "Delay",
+      "config": {
+        "durationMs": 2000,
+        "description": "给核心引擎、日志系统、设备管理器留出初始化缓冲时间"
+      }
+    },
+    {
+      "id": "step_start_site_threads",
+      "name": "启动站点测试线程",
+      "type": "StartSiteThreads",
+      "config": {
+        "siteIds": [
+          1,
+          2
+        ],
+        "workflowConfig": {
+          "testStage": "${testStage}",
+          "workflows": {
+            "calibration": {
+              "zone1": "calibration_zone1Workflow.json"
+            },
+            "error_test": {
+              "zone1": "error_test_zone1Workflow.json"
+            }
+          },
+          "siteZoneMapping": {
+            "1": "zone1",
+            "2": "zone1",
+            "3": "zone2",
+            "4": "zone2",
+            "5": "zone3",
+            "6": "zone3",
+            "7": "zone4",
+            "8": "zone4"
+          }
+        }
+      },
+      "onError": "abort"
+    },
+    {
+      "id": "delay_after_start_threads",
+      "name": "等待站点线程就绪",
+      "type": "Delay",
+      "config": {
+        "durationMs": 1000,
+        "description": "确保站点线程创建完成并加载站点工作流"
+      }
+    },
+    {
+      "id": "delay_after_site_status",
+      "name": "工作流加载稳定延时",
+      "type": "Delay",
+      "config": {
+        "durationMs": 2000,
+        "description": "为站点工作流内子任务与设备连接留出稳定时间"
+      }
+    },
+    {
+      "id": "step_wait_for_zone_workflows",
+      "name": "等待温区工作流完成",
+      "type": "MainWorkflowWaitZoneComplete",
+      "config": {
+        "timeout": 0,
+        "wait_for_signal": "zoneWorkflowComplete"
+      },
+      "onError": "abort"
+    },
+    {
+      "id": "delay_after_load_task",
+      "name": "结果缓冲延时",
+      "type": "Delay",
+      "config": {
+        "durationMs": 2000,
+        "description": "等待站点工作流产生的数据与状态同步刷新"
+      }
+    },
+    {
+      "id": "create_dir_and_write_txt",
+      "name": "创建D:/callexe并写入qc_note.txt",
+      "type": "DeviceCommand",
+      "config": {
+          "deviceId": "exeDevice1",
+          "command": "start",
+          "params": {
+              "path": "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe",
+              "arguments": [
+                "-NoProfile",
+                "-ExecutionPolicy", "Bypass",
+                "-Command",
+                "$dir='D:\\callexe'; if(!(Test-Path $dir)){ New-Item -Path $dir -ItemType Directory -Force | Out-Null }; $file=Join-Path $dir 'qc_note.txt'; $content='这是qc测试专属的txt文件'; Set-Content -Path $file -Value $content -Encoding UTF8"
+              ]
+          }
+      },
+      "onError": "continue"
+  },
+    {
+      "id": "open_txt_with_notepad",
+      "name": "用记事本打开写入的文件",
+      "type": "DeviceCommand",
+      "config": {
+          "deviceId": "exeDevice1",
+          "command": "start",
+          "params": {
+              "path": "C:/Windows/System32/notepad.exe",
+              "arguments": [
+                "D:\\callexe\\qc_note.txt"
+              ]
+          }
+      },
+      "onError": "continue"
+  },
+    {
+      "id": "delay_final_cleanup",
+      "name": "收尾清理延时",
+      "type": "Delay",
+      "config": {
+        "durationMs": 3000,
+        "description": "保留时间用于日志落盘、资源释放与UI刷新"
+      }
+    }
+  ]
+}
