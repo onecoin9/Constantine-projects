@@ -1,0 +1,184 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// 中文(中华人民共和国) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)\r\n"
+    "LANGUAGE 4, 2\r\n"
+    "#pragma code_page(936)\r\n"
+    "#include ""res\\SCS_SN_ID206_001.rc2""  // 非 Microsoft Visual C++ 编辑的资源\r\n"
+    "#include ""afxres.rc""     // 标准组件\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080403a8"
+        BEGIN
+            VALUE "CompanyName", "TODO: <公司名>"
+            VALUE "FileDescription", "TODO: <文件说明>"
+            VALUE "FileVersion", "1.0.0.1"
+            VALUE "InternalName", "SCS_SN_ID206_001.dll"
+            VALUE "LegalCopyright", "TODO: (C) <公司名>。保留所有权利。"
+            VALUE "OriginalFilename", "SCS_SN_ID206_001.dll"
+            VALUE "ProductName", "TODO: <产品名>"
+            VALUE "ProductVersion", "1.0.0.2"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x804, 936
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DLGID206 DIALOGEX 0, 0, 349, 152
+STYLE DS_SETFONT | WS_CHILD
+FONT 9, "Verdana", 400, 0, 0x0
+BEGIN
+    LTEXT           "Excel File:",IDC_STATIC,6,11,33,11
+    EDITTEXT        IDC_CSVFILEPATH,43,9,271,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "...",IDC_BTNID206SEL,321,9,21,11
+    GROUPBOX        "烧录设置参数信息",IDC_STATIC,4,23,339,113
+    RTEXT           "uuid字符数:",IDC_STATIC,209,38,39,8
+    EDITTEXT        IDC_EDIT_UUID_LEN,257,35,71,12,ES_AUTOHSCROLL
+    RTEXT           "key字符数:",IDC_STATIC,207,55,41,8
+    EDITTEXT        IDC_EDIT_KEY_LEN,257,52,71,12,ES_AUTOHSCROLL
+    LTEXT           "DeviceID地址:",IDC_STATIC,4,138,47,8,NOT WS_VISIBLE
+    EDITTEXT        IDC_EDIT_DIDADDR,59,136,72,12,ES_AUTOHSCROLL | NOT WS_VISIBLE
+    LTEXT           "ConnpublicKey地址:",IDC_STATIC,164,138,66,8,NOT WS_VISIBLE
+    EDITTEXT        IDC_EDIT_KEYADDR,231,136,72,12,ES_AUTOHSCROLL | NOT WS_VISIBLE
+    LTEXT           "16进制",IDC_STATIC,133,139,23,8,NOT WS_VISIBLE
+    LTEXT           "16进制",IDC_STATIC,305,139,23,8,NOT WS_VISIBLE
+    RTEXT           "烧录起始地址:",IDC_STATIC,69,23,47,8,NOT WS_VISIBLE
+    EDITTEXT        IDC_EDIT_FIRSTADDR,124,21,72,12,ES_AUTOHSCROLL | NOT WS_VISIBLE
+    LTEXT           "16进制",IDC_STATIC,198,24,23,8,NOT WS_VISIBLE
+    RTEXT           "mac字符数:",IDC_STATIC,207,71,40,8
+    EDITTEXT        IDC_EDIT_MAC_LEN,257,69,71,12,ES_AUTOHSCROLL
+    RTEXT           "link字符数:",IDC_STATIC,206,88,41,8
+    EDITTEXT        IDC_EDIT_LINK_LEN,257,86,71,12,ES_AUTOHSCROLL
+    RTEXT           "uuid地址:",IDC_STATIC,9,38,45,8
+    EDITTEXT        IDC_EDIT_UUID_ADR,61,36,72,12,ES_AUTOHSCROLL
+    LTEXT           "16进制",IDC_STATIC,135,39,23,8
+    RTEXT           "key地址:",IDC_STATIC,7,56,46,8
+    EDITTEXT        IDC_EDIT_KEY_ADR,61,54,72,12,ES_AUTOHSCROLL
+    LTEXT           "16进制",IDC_STATIC,135,57,23,8
+    RTEXT           "mac地址:",IDC_STATIC,7,74,46,8
+    EDITTEXT        IDC_EDIT_MAC_ADR,61,72,72,12,ES_AUTOHSCROLL
+    LTEXT           "16进制",IDC_STATIC,135,75,23,8
+    RTEXT           "link地址:",IDC_STATIC,7,90,46,8
+    EDITTEXT        IDC_EDIT_LINK_ADR,61,88,72,12,ES_AUTOHSCROLL
+    LTEXT           "16进制",IDC_STATIC,135,91,23,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_DLGID206, DIALOG
+    BEGIN
+        RIGHTMARGIN, 340
+        BOTTOMMARGIN, 148
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // 中文(中华人民共和国) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+LANGUAGE 4, 2
+#pragma code_page(936)
+#include "res\SCS_SN_ID206_001.rc2"  // 非 Microsoft Visual C++ 编辑的资源
+#include "afxres.rc"     // 标准组件
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

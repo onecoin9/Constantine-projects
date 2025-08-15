@@ -1,0 +1,247 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// 中文(中华人民共和国) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)\r\n"
+    "LANGUAGE 4, 2\r\n"
+    "#pragma code_page(936)\r\n"
+    "#include ""res\\SNScan.rc2""  // 非 Microsoft Visual C++ 编辑的资源\r\n"
+    "#include ""afxres.rc""     // 标准组件\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080403a8"
+        BEGIN
+            VALUE "CompanyName", "TODO: <公司名>"
+            VALUE "FileDescription", "TODO: <文件说明>"
+            VALUE "FileVersion", "1.0.0.1"
+            VALUE "InternalName", "SNScan.dll"
+            VALUE "LegalCopyright", "TODO: (C) <公司名>。保留所有权利。"
+            VALUE "OriginalFilename", "SNScan.dll"
+            VALUE "ProductName", "TODO: <产品名>"
+            VALUE "ProductVersion", "1.0.0.1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x804, 936
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DLGSNSCAN DIALOGEX 0, 0, 349, 185
+STYLE DS_SETFONT | WS_CHILD | WS_SYSMENU
+FONT 9, "Verdana", 400, 0, 0x0
+BEGIN
+    RTEXT           "SN Group:",IDC_STATIC,6,25,35,8
+    COMBOBOX        IDC_COMBO1,45,24,45,76,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_OWNERDRAWFIXED | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,1,63,346,120
+    LTEXT           "SNRule Ini :",IDC_STATIC,5,6,38,8
+    EDITTEXT        IDC_EDITRULEINI,45,5,283,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "...",IDC_BTNINISEL,328,5,20,12
+    LTEXT           "SNRule:",IDC_STATIC,103,25,26,8
+    COMBOBOX        IDC_CMBSNRULE,130,23,119,62,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Scanner Enable",IDC_CHKSCANNEREN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,42,65,10
+    CONTROL         "Chip Unique ID Enable",IDC_UIDEN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,104,43,87,10
+    CONTROL         "Test SNRule Dll ",IDC_CHKTESTRULEDLL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,252,42,67,10
+END
+
+IDD_DLGSCANINTERFACE DIALOGEX 0, 0, 264, 144
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Scanner Interface"
+FONT 9, "Verdana", 400, 0, 0x0
+BEGIN
+    EDITTEXT        IDC_EDITSITENAME,29,5,129,12,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDITADPIDX,214,5,40,12,ES_AUTOHSCROLL | ES_READONLY
+    CONTROL         "",IDC_GROUPPOS,"Static",SS_ETCHEDFRAME | NOT WS_VISIBLE,6,35,252,1
+    DEFPUSHBUTTON   "Ok",IDOK,117,123,30,14
+    LTEXT           "Site :",IDC_STATIC,9,6,18,8
+    LTEXT           "Adapter Index :",IDC_STATIC,162,6,51,8
+    LTEXT           "Chip ID:",IDC_STATIC,10,21,28,8
+    EDITTEXT        IDC_EDITCHIPID,43,19,115,12,ES_AUTOHSCROLL
+END
+
+IDD_DLGSCANGROUP DIALOGEX 0, 0, 257, 33
+STYLE DS_SETFONT | WS_CHILD | WS_SYSMENU
+FONT 9, "Verdana", 400, 0, 0x0
+BEGIN
+    EDITTEXT        IDC_EDITGROUPNAME,5,17,249,12,ES_AUTOHSCROLL
+    LTEXT           "SNGroupIdx:",IDC_STATIC,5,6,41,8
+    EDITTEXT        IDC_GROUPIDX,47,4,15,12,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "Addr:",IDC_STATIC,65,6,18,8
+    EDITTEXT        IDC_SNADDR,84,4,44,12,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "Size:",IDC_STATIC,130,6,17,8
+    EDITTEXT        IDC_SNSIZE,149,4,29,12,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "Name:",IDC_STATIC,182,5,22,8
+    EDITTEXT        IDC_SNNAME,206,3,48,12,ES_AUTOHSCROLL | ES_READONLY
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDFRAME,0,0,257,33
+END
+
+IDD_SHA256_DLG DIALOGEX 0, 0, 300, 173
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "SHA256设置"
+FONT 10, "宋体", 400, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "确定",IDOK,72,152,50,14
+    PUSHBUTTON      "取消",IDCANCEL,175,152,50,14
+    LTEXT           "存储地址(16进制):",IDC_STATIC,60,19,68,8
+    LTEXT           "加密算法:",IDC_STATIC,91,70,39,8
+    LTEXT           "附加KEY:",IDC_STATIC,95,98,33,8
+    LTEXT           "附加KEY内容:",IDC_STATIC,80,126,49,8
+    EDITTEXT        IDC_ADDR_EDIT,133,15,90,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_KEY_EDIT,136,122,90,14,ES_AUTOHSCROLL
+    CONTROL         "Distable",IDC_DIS_RADIO,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,136,69,48,10
+    CONTROL         "SHA256",IDC_USE_RADIO,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,194,69,40,10
+    CONTROL         "Text",IDC_TEXT_RADIO,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,136,97,32,10
+    CONTROL         "Hex",IDC_HEX_RADIO,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,195,98,28,10
+    LTEXT           "UUID格式:",IDC_STATIC,91,44,39,8
+    CONTROL         "Text",IDC_TEXT_RADIO2,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,136,43,32,10
+    CONTROL         "Hex",IDC_HEX_RADIO2,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,194,43,28,10
+END
+
+IDD_SNRULE_SL_DLG DIALOGEX 0, 0, 341, 144
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "SNRuleSL001配置"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "确定",IDOK,105,123,50,14
+    PUSHBUTTON      "取消",IDCANCEL,192,123,50,14
+    LTEXT           "franchiseId：",IDC_STATIC,41,22,46,8
+    EDITTEXT        IDC_EDIT_FRANCHIS_ID,93,19,219,14,ES_AUTOHSCROLL
+    LTEXT           "http地址：",IDC_STATIC,47,45,39,8
+    EDITTEXT        IDC_EDIT_HTTP_ADDR,93,42,218,14,ES_AUTOHSCROLL
+    LTEXT           "写入地址1(16进制)：",IDC_STATIC,11,69,79,8
+    EDITTEXT        IDC_EDIT_WR_ADDR_ONE,93,66,218,14,ES_AUTOHSCROLL
+    LTEXT           "写入地址2(16进制)：",IDC_STATIC,10,93,78,8
+    EDITTEXT        IDC_EDIT_WR_ADDR_T,93,91,218,14,ES_AUTOHSCROLL
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_DLGSCANINTERFACE, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 137
+    END
+
+    IDD_SHA256_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 293
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 166
+    END
+
+    IDD_SNRULE_SL_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 334
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 137
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // 中文(中华人民共和国) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+LANGUAGE 4, 2
+#pragma code_page(936)
+#include "res\SNScan.rc2"  // 非 Microsoft Visual C++ 编辑的资源
+#include "afxres.rc"     // 标准组件
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

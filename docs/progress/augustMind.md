@@ -126,9 +126,51 @@
 ### 8月15日任务
 
 - **用户管理系统** - 实现用户权限管理功能
+  - 产出md文档，规范系统实现
+  - 轻量化权限（MVP）：仅 admin 与 cyy 可访问“设备测试”Tab（索引3）
 - **ACComLib集成** - 参考MultiAprog\trunk\ACICTComMes实现通信库
 
 **本周专注**: 只做这两个核心任务，确保质量和进度
+
+## 🔐 权限功能 Todo（新增）
+
+- [ ] 轻量化用户权限（MVP）
+  - [ ] 仅 admin 与 cyy 可访问“设备测试”Tab（索引3）
+  - [ ] 未授权用户：隐藏该 Tab，阻止通过快捷键/URL/深链直接进入
+  - [ ] 拒绝访问时弹出提示，并记录 LOG_WARN（含用户名、时间、资源名）
+  - [ ] 配置文件化：支持本地用户名名单与资源策略
+
+实现模块（建议）
+
+- AuthService（C++）：
+  - 接口：bool hasAccess(const QString& user, const QString& resource)
+  - 数据源：config/user_roles.json（用户名→角色）、config/resource_policies.json（资源→角色）
+- UserContext（C++/全局）：当前登录用户（初期从配置/环境获取，后续可接SSO）
+- PermissionGuard（UI层/Qt）：
+  - 在 MainWindow/Tab 切换点拦截；对索引3（设备测试）做显示/进入控制
+  - 对被拦截行为进行 UI 提示与日志记录
+
+配置示例（新增文件）
+
+- config/user_roles.json
+  - { "admin": ["admin"], "cyy": ["tester"], "guest": ["viewer"] }
+- config/resource_policies.json
+  - { "tab:device-test:index:3": ["admin", "tester"] }
+
+验收标准
+
+- [ ] admin/cyy 登录：可见且可进入设备测试 Tab
+- [ ] 其他用户：Tab 隐藏或点击被拦截，无法通过快捷方式绕过
+- [ ] 拒绝访问均记录日志并提示
+- [ ] 单元/集成测试覆盖三类用户（admin、cyy、普通）
+
+实施清单
+
+- [ ] 新增 include/AuthService.h、src/AuthService.cpp
+- [ ] 新增 include/PermissionGuard.h、src/PermissionGuard.cpp（或直接在 MainWindow 管理逻辑）
+- [ ] 新增 config/user_roles.json、config/resource_policies.json（含样例）
+- [ ] 在应用启动时加载配置并注入到 UI 初始化流程
+- [ ] 更新 README/开发文档：描述权限模型与扩展方式
 
 ## 📅 任务排期（跳过周末）
 

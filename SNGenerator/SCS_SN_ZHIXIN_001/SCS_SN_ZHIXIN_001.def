@@ -1,0 +1,16 @@
+; SCS_SN_ZHIXIN_001.def : 声明 DLL 的模块参数。
+
+LIBRARY      "SCS_SN_ZHIXIN_001"
+
+EXPORTS
+    ; 此处可以是显式导出
+	SNGetCapability
+    SNCreateWindow
+    SNDestroyWindow
+    SNShowWindow
+    SNInitCtrlsValue
+    SNGetCtrlsValue
+    SNQuery
+    SNTellResult
+    SNPreLoad
+    SNCheckNeedTobeReuse

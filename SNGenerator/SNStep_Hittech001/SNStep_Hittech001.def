@@ -1,0 +1,14 @@
+; SNStep_Hittech001.def : 声明 DLL 的模块参数。
+
+LIBRARY      "SNStep_Hittech001"
+
+EXPORTS
+    ; 此处可以是显式导出
+    SNGetCapability
+    SNCreateWindow
+    SNDestroyWindow
+    SNShowWindow
+    SNInitCtrlsValue
+    SNInitCtrlsValueWithoutWnd
+    SNGetCtrlsValue
+    SNQuery

@@ -1,0 +1,144 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// 中文(中华人民共和国) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DLGSNCUSTOM DIALOGEX 0, 0, 458, 224
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "ESP executable file:",IDC_STATIC,30,7,66,8
+    EDITTEXT        IDC_EEF_EDIT,30,18,368,14,ES_AUTOHSCROLL
+    LTEXT           "Additional Command Line Parameters: ",IDC_STATIC,30,37,129,8
+    EDITTEXT        IDC_ACLP_EDIT,30,48,368,14,ES_AUTOHSCROLL
+    LTEXT           "Serialization data file:",IDC_STATIC,30,68,72,8
+    EDITTEXT        IDC_SDF_EDIT,30,79,368,14,ES_AUTOHSCROLL
+    LTEXT           "Serialization log file:",IDC_STATIC,30,100,68,8
+    EDITTEXT        IDC_SLF_EDIT,30,111,368,14,ES_AUTOHSCROLL
+    LTEXT           "First serial number(DEC):",IDC_STATIC,30,132,84,8
+    EDITTEXT        IDC_FSN_EDIT,30,142,95,14,ES_AUTOHSCROLL
+    LTEXT           "Last serial number(DEC):",IDC_STATIC,293,132,83,8
+    EDITTEXT        IDC_LSN_EDIT,293,142,105,14,ES_AUTOHSCROLL
+    CONTROL         "Compatibility mode",IDC_CM_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,30,168,78,10
+    CONTROL         "Regard T02 as String Type",IDC_RTAST_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,30,188,104,10
+    CONTROL         "Delete data file before call ESP executable",IDC_DDFBCEE_CHECK,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,248,168,154,10
+    PUSHBUTTON      "...",IDC_SEL_BTN1,407,18,18,14
+    PUSHBUTTON      "...",IDC_SEL_BTN2,407,79,18,14
+    PUSHBUTTON      "...",IDC_SEL_BTN3,407,111,18,14
+    LTEXT           "Special Rule:",IDC_SR_TEXT,248,188,51,8
+    EDITTEXT        IDC_SR_EDIT,300,184,97,14,ES_AUTOHSCROLL
+    CONTROL         "Serial file is encrypted",IDC_ENC_CHK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,30,207,115,10
+    EDITTEXT        IDC_KEY_EDIT,133,203,264,14,ES_AUTOHSCROLL | NOT WS_VISIBLE
+END
+
+IDD_WORKSHEET_DLG DIALOGEX 0, 0, 255, 139
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Work Sheet"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_WO_EDIT,115,13,100,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_AN_EDIT,115,33,100,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EN_EDIT,115,53,100,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_PN_EDIT,115,73,100,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_PI_EDIT,115,93,100,14,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "Confirm",IDOK,42,118,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,155,118,50,14
+    LTEXT           "Work Order:",IDC_STATIC,35,15,42,8
+    LTEXT           "Asset Number:",IDC_STATIC,35,35,50,8
+    LTEXT           "Employee Number:",IDC_STATIC,35,55,63,8
+    LTEXT           "Program Name:",IDC_STATIC,35,75,53,8
+    LTEXT           "Program ID:",IDC_STATIC,35,95,41,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_DLGSNCUSTOM, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 451
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 217
+    END
+
+    IDD_WORKSHEET_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 248
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 132
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // 中文(中华人民共和国) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
