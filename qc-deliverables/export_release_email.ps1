@@ -1,7 +1,7 @@
 # Convert releaseVersion.md (markdown tables) to an email-friendly HTML file
 # Usage:
-#   powershell -ExecutionPolicy Bypass -File .\qc_files\export_release_email.ps1
-#   powershell -ExecutionPolicy Bypass -File .\qc_files\export_release_email.ps1 -Source "d:\Constantine-Projects\qc_files\releaseVersion.md" -Out "d:\Constantine-Projects\qc_files\releaseVersion_email.html"
+#   powershell -ExecutionPolicy Bypass -File .\qc需要文件\export_release_email.ps1
+#   powershell -ExecutionPolicy Bypass -File .\qc需要文件\export_release_email.ps1 -Source "d:\Constantine-Projects\qc需要文件\releaseVersion.md" -Out "d:\Constantine-Projects\qc需要文件\releaseVersion_email.html"
 
 [CmdletBinding()]
 param(

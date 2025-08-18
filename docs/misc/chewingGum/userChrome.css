@@ -9,6 +9,11 @@
       --urlbar-height: 30px;
       --urlbar-outline: #414868;
 
+      /* 柔和的文字颜色 */
+      --urlbar-text-color: #a9b1d6;
+      --urlbar-placeholder-color: #565f89;
+      --urlbar-suggestion-text: #c0caf5;
+
       --fullscreen-warn: rgb(25, 25, 25);
 
       --arrowpanel-background: var(--urlbar-bg) !important;
@@ -35,6 +40,11 @@
       --urldrop-bg: #e1e8ef;
       --urlbar-outline: #94a3b8;
 
+      /* 柔和的文字颜色 - 浅色主题 */
+      --urlbar-text-color: #475569;
+      --urlbar-placeholder-color: #94a3b8;
+      --urlbar-suggestion-text: #334155;
+
       --fullscreen-warn: rgb(25, 25, 25);
 
       --arrowpanel-background: #e2e8f0 !important;
@@ -57,6 +67,77 @@
 #urlbar {
    border-radius: 30px !important;
    border: 0 !important;
+}
+
+/* 强制搜索栏文字颜色优化 - 使用更具体的选择器 */
+#urlbar #urlbar-input,
+#urlbar-input,
+.urlbar-input {
+   color: #a9b1d6 !important;
+   font-weight: 400 !important;
+   text-shadow: none !important;
+}
+
+/* 强制占位符文字颜色 */
+#urlbar #urlbar-input::placeholder,
+#urlbar-input::placeholder,
+.urlbar-input::placeholder {
+   color: #565f89 !important;
+   opacity: 0.8 !important;
+}
+
+/* 强制搜索建议文字颜色 */
+.urlbarView-row,
+.urlbarView-row * {
+   color: #c0caf5 !important;
+}
+
+.urlbarView-row[selected],
+.urlbarView-row[selected] * {
+   color: #a9b1d6 !important;
+}
+
+/* 强制 URL 文字颜色 */
+.urlbarView-url,
+.urlbarView-url * {
+   color: #565f89 !important;
+   opacity: 0.9 !important;
+}
+
+/* 强制搜索建议标题 */
+.urlbarView-title,
+.urlbarView-title * {
+   color: #a9b1d6 !important;
+   font-weight: 400 !important;
+}
+
+/* 强制所有 urlbar 内的文字 */
+#urlbar *,
+#urlbar-input-container *,
+.urlbar-input-container * {
+   color: #a9b1d6 !important;
+}
+
+/* 针对浅色主题的强制样式 */
+@media (prefers-color-scheme: light) {
+
+   #urlbar #urlbar-input,
+   #urlbar-input,
+   .urlbar-input {
+      color: #475569 !important;
+   }
+
+   #urlbar #urlbar-input::placeholder,
+   #urlbar-input::placeholder,
+   .urlbar-input::placeholder {
+      color: #94a3b8 !important;
+   }
+
+   #urlbar *,
+   #urlbar-input-container *,
+   .urlbar-input-container * {
+      color: #475569 !important;
+   }
 }
 
 #urlbar:not(.megabar):hover {
@@ -268,10 +349,26 @@ toolbar#TabsToolbar {
    height: 0px;
    min-height: 0 !important;
    background-color: var(--bg) !important;
+   visibility: collapse !important;
 }
 
 .toolbar-items {
    visibility: collapse;
+}
+
+/* Fix title bar background */
+#titlebar {
+   background-color: var(--bg) !important;
+}
+
+/* Ensure no white space at top */
+#main-window {
+   background-color: var(--bg) !important;
+}
+
+/* Fix window controls area */
+.titlebar-buttonbox-container {
+   background-color: var(--bg) !important;
 }
 
 /* ----- Move menu buttons ----- */
@@ -359,6 +456,79 @@ toolbar:not([customizing]) > #nav-bar-customization-target {
 #toolbar-menubar {
    /* menubar bg color */
    background-color: var(--bg) !important;
+}
+
+/* Additional fixes for white space at top */
+#navigator-toolbox-background {
+   background-color: var(--bg) !important;
+}
+
+/* Ensure all toolbars have consistent background */
+.browser-toolbar {
+   background-color: var(--bg) !important;
+}
+
+/* Fix any remaining white space */
+#main-window>#navigator-toolbox {
+   background-color: var(--bg) !important;
+}
+
+/* 进一步优化搜索栏视觉效果 */
+#urlbar-input-container {
+   color: #a9b1d6 !important;
+}
+
+/* 搜索栏图标颜色优化 */
+#urlbar .urlbar-icon {
+   opacity: 0.7 !important;
+   filter: brightness(0.8) !important;
+}
+
+/* 下拉建议背景优化 */
+.urlbarView {
+   background-color: var(--urldrop-bg) !important;
+   border-radius: 15px !important;
+}
+
+.urlbarView-row:hover {
+   background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* 减少整体对比度 */
+#urlbar-background {
+   opacity: 0.95 !important;
+}
+
+/* 额外的强制文字颜色修复 */
+#urlbar input,
+#urlbar input[type="text"],
+#urlbar-input[type="text"],
+input#urlbar-input {
+   color: #a9b1d6 !important;
+   -webkit-text-fill-color: #a9b1d6 !important;
+}
+
+/* 修复可能的 Firefox 内部样式覆盖 */
+#urlbar-input-container input,
+#urlbar-input-container .textbox-input,
+.urlbar-input-container input {
+   color: #a9b1d6 !important;
+   -webkit-text-fill-color: #a9b1d6 !important;
+}
+
+/* 浅色主题的额外修复 */
+@media (prefers-color-scheme: light) {
+
+   #urlbar input,
+   #urlbar input[type="text"],
+   #urlbar-input[type="text"],
+   input#urlbar-input,
+   #urlbar-input-container input,
+   #urlbar-input-container .textbox-input,
+   .urlbar-input-container input {
+      color: #475569 !important;
+      -webkit-text-fill-color: #475569 !important;
+   }
 }
 
 
