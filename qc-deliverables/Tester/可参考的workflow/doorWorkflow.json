@@ -1,0 +1,209 @@
+{
+    "workflow": {
+      "id": "door_full_flow_001",
+      "name": "Door 全流程（含 ACSvcTCPCtrl 启动）",
+      "version": "1.1.0",
+      "steps": [
+        {
+          "id": "step_01",
+          "type": "InitializeDevices",
+          "name": "初始化 Door 设备对象",
+          "config": {
+            "devices": ["door_001"],
+            "timeout": 30000
+          }
+        },
+        {
+          "id": "step_02",
+          "type": "DeviceCommand",
+          "name": "启动 ACSvcTCPCtrl.exe",
+          "config": {
+            "deviceId": "door_001",
+            "command": "startacsvc",
+            "params": {
+              "exePath": "D:/Applications/ACSvcTCPCtrl.exe"
+            }
+          }
+        },
+        {
+          "id": "step_03",
+          "type": "Delay",
+          "name": "等待 ACSvcTCPCtrl 就绪",
+          "config": {
+            "durationMs": 3000
+          }
+        },
+        {
+          "id": "step_04",
+          "type": "DeviceCommand",
+          "name": "设置 Door 工程路径",
+          "config": {
+            "deviceId": "door_001",
+            "command": "setproject",
+            "params": {
+              "projectPath": "D:/Applications/SMP475.apr"
+            }
+          }
+        },
+        {
+          "id": "step_05",
+          "type": "DeviceCommand",
+          "name": "Door 初始化（调用 initializeDevice）",
+          "config": {
+            "deviceId": "door_001",
+            "command": "initialize",
+            "params": {}
+          }
+        },
+        {
+          "id": "step_06",
+          "type": "DeviceCommand",
+          "name": "设置 Site 名称",
+          "config": {
+            "deviceId": "door_001",
+            "command": "setsitename",
+            "params": {
+              "siteName": "Site01"
+            }
+          }
+        },
+        {
+          "id": "step_07",
+          "type": "Delay",
+          "name": "等待 ACSvcTCPCtrl 就绪",
+          "config": {
+            "durationMs": 10000
+          }
+        },
+        {
+          "id": "step_08",
+          "type": "DeviceCommand",
+          "name": "Door 上电",
+          "config": {
+            "deviceId": "door_001",
+            "command": "poweron",
+            "params": {
+              "dutActive": 1
+            }
+          }
+        },
+        {
+          "id": "step_09",
+          "type": "Delay",
+          "name": "等待 10 秒",
+          "config": {
+            "durationMs": 5000
+          }
+        },
+        {
+          "id": "step_10",
+          "type": "DeviceCommand",
+          "name": "切换到调试模式",
+          "config": {
+            "deviceId": "door_001",
+            "command": "setpowermode",
+            "params": {
+              "mode": "调试模式"
+            }
+          }
+        },
+        {
+          "id": "step_11",
+          "type": "Delay",
+          "name": "等待 2 秒",
+          "config": {
+            "durationMs": 2000
+          }
+        },
+        {
+          "id": "step_12",
+          "type": "DeviceCommand",
+          "name": "寄存器批量写入",
+          "config": {
+            "deviceId": "door_001",
+            "command": "executeRegisterOperations",
+            "params": {
+              "dutActive": 1,
+              "registers": [
+                { "sAddr": 1, "fc": 1, "rAddr": 130, "data": 132, "len": 1 },
+                { "sAddr": 1, "fc": 1, "rAddr": 128, "data": 94,  "len": 1 },
+                { "sAddr": 1, "fc": 1, "rAddr": 130, "data": 140, "len": 1 }
+              ]
+            }
+          }
+        },
+        {
+          "id": "step_13",
+          "type": "DeviceCommand",
+          "name": "寄存器批量读取验证",
+          "config": {
+            "deviceId": "door_001",
+            "command": "executeRegisterOperations",
+            "params": {
+              "dutActive": 1,
+              "registers": [
+                { "sAddr": 1, "fc": 0, "rAddr": 130, "data": 0, "len": 1 },
+                { "sAddr": 1, "fc": 0, "rAddr": 128, "data": 0, "len": 1 }
+              ]
+            }
+          }
+        },
+        {
+          "id": "step_14",
+          "type": "Delay",
+          "name": "等待 5 秒",
+          "config": {
+            "durationMs": 5000
+          }
+        },
+        {
+          "id": "step_15",
+          "type": "DeviceCommand",
+          "name": "开始数据采集",
+          "config": {
+            "deviceId": "door_001",
+            "command": "startdatacollection",
+            "params": {
+              "sampleTimes": 10 
+            }
+          }
+        },
+        {
+          "id": "step_16",
+          "type": "Delay",
+          "name": "采集 5 秒",
+          "config": {
+            "durationMs": 5000
+          }
+        },
+        {
+          "id": "step_17",
+          "type": "DeviceCommand",
+          "name": "停止数据采集",
+          "config": {
+            "deviceId": "door_001",
+            "command": "stopdatacollection",
+            "params": {}
+          }
+        },
+        {
+          "id": "step_18",
+          "type": "Delay",
+          "name": "等待 2 秒",
+          "config": {
+            "durationMs": 2000
+          }
+        },
+        {
+          "id": "step_19",
+          "type": "DeviceCommand",
+          "name": "下电 (流程结束)",
+          "config": {
+            "deviceId": "door_001",
+            "command": "poweroff",
+            "params": {}
+          }
+        }
+      ]
+    }
+  }

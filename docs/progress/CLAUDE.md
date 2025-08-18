@@ -17,7 +17,7 @@ The repository is organized as follows:
   - `test.md` - Test file (appears to be corrupted)
 
 - **Images:**
-  - `image/SoftwareRequirementsDocument/` - Technical diagrams and flowcharts for the requirements document
+  - `specs/images/` - Technical diagrams and flowcharts used by the requirements document
   - Various process flow diagrams including calibration, OTP writing, and error verification processes
 
 ## Key Project Context

@@ -1,0 +1,239 @@
+{
+  "workflow": {
+    "id": "temp_full_flow_v1",
+    "name": "温控设备功能验证",
+    "version": "1.0.0",
+    "steps": [
+      {                       
+        "id": "step_02",
+        "type": "Delay",
+        "name": "步骤2: 系统稳定延时(5秒)",
+        "config": { "durationMs": 5000 }
+      },
+      {                       
+        "id": "step_03",
+        "type": "DeviceCommand",
+        "name": "步骤3: 设定目标温度 85.5°C",
+        "config": {
+          "deviceId": "temp_001",
+          "command": "settargettemp",
+          "params": { "celsius": 85.5 }
+        }
+      },
+      {                       
+        "id": "step_04",
+        "type": "Delay",
+        "name": "步骤4: 温度设定生效延时(5秒)",
+        "config": { "durationMs": 5000 }
+      },
+      {                       
+        "id": "step_05",
+        "type": "DeviceCommand",
+        "name": "步骤5: 设定风扇转速 80%",
+        "config": {
+          "deviceId": "temp_001",
+          "command": "setfanspeed",
+          "params": { "percent": 80 }
+        }
+      },
+      {                       
+        "id": "step_06",
+        "type": "Delay",
+        "name": "步骤6: 风扇转速设定生效延时(5秒)",
+        "config": { "durationMs": 5000 }
+      },
+      {                       
+        "id": "step_07",
+        "type": "DeviceCommand",
+        "name": "步骤7: 启动温控加热",
+        "config": {
+          "deviceId": "temp_001",
+          "command": "startheat",
+          "params": { "state": 1 }
+        }
+      },
+      {                       
+        "id": "step_08",
+        "type": "DeviceCommand",
+        "name": "步骤8: 开启5V电源输出",
+        "config": {
+          "deviceId": "temp_001",
+          "command": "control5v",
+          "params": { "on": true }
+        }
+      },
+      {                       
+        "id": "step_09",
+        "type": "Delay",
+        "name": "步骤9: 升温稳定延时(10秒)",
+        "config": { "durationMs": 10000 }
+      },
+      {                      
+        "id": "step_10",
+        "type": "DeviceCommand",
+        "name": "步骤10: 读取当前温度值",
+        "config": {
+          "deviceId": "temp_001",
+          "command": "readtemperature",
+          "params": {}
+        }
+      },
+      {                      
+        "id": "step_11",
+        "type": "DeviceCommand",
+        "name": "步骤11: 读取风扇转速状态",
+        "config": {
+          "deviceId": "temp_001",
+          "command": "readfanspeed",
+          "params": {}
+        }
+      },  
+      {                      
+        "id": "step_12",
+        "type": "Delay",
+        "name": "步骤12: 数据采集间隔延时(5秒)",
+        "config": { "durationMs": 5000 }
+      },
+      {                       
+        "id": "step_13",
+        "type": "DeviceCommand",
+        "name": "步骤13: 查询电压电流参数",
+        "config": {
+          "deviceId": "temp_001",
+          "command": "queryvoltage",
+          "params": {}
+        }
+      },
+      {                       
+        "id": "step_14",
+        "type": "Delay",
+        "name": "步骤14: 电压查询间隔延时(5秒)",
+        "config": { "durationMs": 5000 }
+      },
+      {                      
+        "id": "step_15",
+        "type": "DeviceCommand",
+        "name": "步骤15: 检查系统故障状态",
+        "config": {
+          "deviceId": "temp_001",
+          "command": "queryfault",
+          "params": {}
+        }
+      },
+      {                       
+        "id": "step_16",
+        "type": "DeviceCommand",
+        "name": "步骤16: 设定各SITE分区温度",
+        "config": {
+          "deviceId": "temp_001",
+          "command": "setsitetemp",
+          "params": {
+            "siteTempsCelsius": [
+              70,70,70,70,70,70,70,70,
+              70,70,70,70,70,70,70,70,
+              70,70,70,70,70,70,70,70
+            ]
+          }
+        }
+      },
+      {                       
+        "id": "step_17",
+        "type": "Delay",
+        "name": "步骤17: SITE温度设定生效延时(5秒)",
+        "config": { "durationMs": 5000 }
+      },
+      {                       
+        "id": "step_18",
+        "type": "DeviceCommand",
+        "name": "步骤18: 查询SITE设定温度",
+        "config": {
+          "deviceId": "temp_001",
+          "command": "querysitetemp",
+          "params": {}
+        }
+      },
+      {                       
+        "id": "step_19",
+        "type": "DeviceCommand",
+        "name": "步骤19: 设置PID参数(Kp=50, Ki=20, Kd=0)",
+        "config": {
+          "deviceId": "temp_001",
+          "command": "setpid",
+          "params": { "kp": 50.0, "ki": 20.0, "kd": 0 }
+        }
+      },
+      {                       
+        "id": "step_20",
+        "type": "DeviceCommand",
+        "name": "步骤20: 查询PID参数设置",
+        "config": {
+          "deviceId": "temp_001",
+          "command": "querypid",
+          "params": {}
+        }
+      },  
+      {                       
+        "id": "step_21",
+        "type": "Delay",
+        "name": "步骤21: PID参数生效延时(5秒)",
+        "config": { "durationMs": 5000 }
+      },
+      {                       
+        "id": "step_22",
+        "type": "DeviceCommand",
+        "name": "步骤22: 设置最大占空比为800",
+        "config": {
+          "deviceId": "temp_001",
+          "command": "setmaxduty",
+          "params": { "duty": 800 }
+        }
+      },
+      {                       
+        "id": "step_23",
+        "type": "DeviceCommand",
+        "name": "步骤23: 查询最大占空比设置",
+        "config": {
+          "deviceId": "temp_001",
+          "command": "querymaxduty",
+          "params": {}
+        }
+      },
+      {                      
+        "id": "step_24",
+        "type": "DeviceCommand",
+        "name": "步骤24: 关闭5V电源输出",
+        "config": {
+          "deviceId": "temp_001",
+          "command": "control5v",
+          "params": { "on": false }
+        }
+      },
+      {                       
+        "id": "step_25",
+        "type": "DeviceCommand",
+        "name": "步骤25: 停止温控加热",
+        "config": {
+          "deviceId": "temp_001",
+          "command": "stopheat",
+          "params": { "state": 0 }
+        }
+      },  
+      {                       
+        "id": "step_26",
+        "type": "Delay",
+        "name": "步骤26: 系统关闭稳定延时(5秒)",
+        "config": { "durationMs": 5000 }
+      },
+      {                       
+        "id": "step_27",
+        "type": "DeviceCommand",
+        "name": "步骤27: 执行系统复位",
+        "config": {
+          "deviceId": "temp_001",
+          "command": "systemreset",
+          "params": {}
+        }
+      }
+    ]
+  }
+}

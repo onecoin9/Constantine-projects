@@ -1,0 +1,169 @@
+{
+    "id": "calibration_zone1_workflow_v1",
+    "name": "标定测试-温区1工作流",
+    "description": "温区1标定测试流程，适用于站点1和2的标定阶段",
+    "version": "1.0.0",
+    "steps": [
+        {
+            "id": "step_power_on_door",
+            "name": "门控设备上电",
+            "type": "DeviceCommand",
+            "config": {
+                "deviceId": "door_001",
+                "command": "powerOn",
+                "params": {
+                    "devSn": "${deviceSN}",
+                    "socketMask": "${receivedSocketEnableMask}"
+                }
+            },
+            "onError": "abort"
+        },
+        {
+            "id": "delay_after_power_on",
+            "name": "等待上电稳定",
+            "type": "Delay",
+            "config": {
+                "durationMs": 2000
+            }
+        },
+        {
+            "id": "step_pressure_test_loop",
+            "name": "压力测试循环",
+            "type": "PressureTestLoop",
+            "config": {
+                "pressures": [1, 2],
+                "steps": [
+                    {
+                        "id": "set_pressure",
+                        "name": "设置压力(模拟)",
+                        "type": "Delay",
+                        "config": {
+                            "durationMs": 500,
+                            "description": "模拟压力设备设置压力 ${currentPressure}"
+                        }
+                    },
+                    {
+                        "id": "delay_after_set_pressure",
+                        "name": "等待压力稳定",
+                        "type": "Delay",
+                        "config": {
+                            "durationMs": 1000
+                        }
+                    },
+                    {
+                        "id": "collect_data",
+                        "name": "数据采集",
+                        "type": "DeviceCommand",
+                        "config": {
+                            "deviceId": "door_001",
+                            "command": "startDataCollection",
+                            "params": {
+                                "devSn": "${deviceSN}",
+                                "sampleTimes": 10,
+                                "socketMask": "${receivedSocketEnableMask}"
+                            }
+                        }
+                    },
+                    {
+                        "id": "delay_after_collect",
+                        "name": "等待采集完成",
+                        "type": "Delay",
+                        "config": {
+                            "durationMs": 2000
+                        }
+                    },
+                    {
+                        "id": "read_temperature_once_1",
+                        "name": "读取温度(1/2)",
+                        "type": "DeviceCommand",
+                        "config": {
+                            "deviceId": "temp_001",
+                            "command": "readTemperature",
+                            "params": { "forceSync": true, "timeoutMs": 5000 }
+                        }
+                    },
+                    {
+                        "id": "delay_between_temperature_reads",
+                        "name": "两次温度读取间隔",
+                        "type": "Delay",
+                        "config": {
+                            "durationMs": 200
+                        }
+                    },
+                    {
+                        "id": "read_temperature_once_2",
+                        "name": "读取温度(2/2)",
+                        "type": "DeviceCommand",
+                        "config": {
+                            "deviceId": "temp_001",
+                            "command": "readTemperature",
+                            "params": { "forceSync": true, "timeoutMs": 5000 }
+                        }
+                    },
+                    {
+                        "id": "delay_between_temperature_reads",
+                        "name": "等待读取温度完成",
+                        "type": "Delay",
+                        "config": {
+                            "durationMs": 400
+                        }
+                    },
+                    {
+                        "id": "compute_temperature_average",
+                        "name": "计算温度平均值(设备缓存)",
+                        "type": "DeviceCommand",
+                        "config": {
+                            "deviceId": "temp_001",
+                            "command": "computeAverageTemperature",
+                             "params": {
+                                 "forceSync": true,
+                                 "timeoutMs": 5000,
+                                 "saveToCaliSample": true,
+                                 "dutSN": "${deviceSN}",
+                                 "pTarget": "${currentPressure}",
+                                 "zone": 1
+                             }
+                        }
+                    }
+                ]
+            },
+            "onError": "continue"
+        },
+        {
+            "id": "step_poweroff_door",
+            "name": "门控设备下电",
+            "type": "DeviceCommand",
+            "config": {
+                "deviceId": "door_001",
+                "command": "powerOff",
+                "params": {
+                    "devSn": "${deviceSN}"
+                }
+            },
+            "onError": "abort"
+        },
+        {
+            "id": "step_delay_before_signal",
+            "name": "延时3秒后发送信号",
+            "type": "Delay",
+            "config": {
+                "durationMs": 3000
+            }
+        },
+        {
+            "id": "step_send_zone_complete_signal",
+            "name": "发送温区工作流完成信号",
+            "type": "DeviceCommand",
+            "config": {
+                "deviceId": "handler_001",
+                "command": "signalMainWorkflow",
+                "params": {
+                    "signal": "zoneWorkflowComplete",
+                    "siteId": "${siteId}",
+                    "reason": "workflowComplete"
+                }
+            },
+            "onError": "continue"
+        }
+    ]
+}
