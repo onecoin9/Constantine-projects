@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
@@ -190,26 +190,73 @@
             font-size: 12px;
             color: #999;
         }
-        /* 评分行与星标（支持半星与滑动） */
-        .rating-row { margin-top: 8px; display: flex; align-items: center; gap: 8px; }
-        .rating-label { font-size: 12px; color: #999; }
-        .rating-stars {
-            position: relative;
-            display: inline-block;
-            line-height: 1;
-            font-size: 18px;
-            cursor: pointer;
-            -webkit-user-select: none; user-select: none;
+
+        /* 星星评分显示样式 */
+        .food-rating-display {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            margin: 4px 0;
         }
-        .rating-stars .stars-base { color: #ffc107; opacity: 0.35; }
-        .rating-stars .stars-fill {
+
+        .food-rating-display .star {
+            font-size: 16px;
             color: #ffc107;
+        }
+
+        .food-rating-display .rating-text {
+            font-size: 12px;
+            color: #999;
+            margin-left: 4px;
+        }
+
+        /* 可滑动星星评分系统 */
+        .star-rating {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin: 8px 0;
+            user-select: none;
+            touch-action: none;
+        }
+
+        .star-container {
+            position: relative;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .star {
+            font-size: 28px;
+            color: #ddd;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .star.filled {
+            color: #ffc107;
+        }
+
+        .star.half::before {
+            content: '★';
             position: absolute;
-            left: 0; top: 0;
-            white-space: nowrap;
+            top: 0;
+            left: 0;
+            width: 50%;
             overflow: hidden;
-            width: 0%;
-            pointer-events: none;
+            color: #ffc107;
+        }
+
+        .rating-value {
+            margin-left: 8px;
+            font-size: 16px;
+            color: #667eea;
+            font-weight: 600;
+            min-width: 35px;
         }
 
         .food-actions {
@@ -255,8 +302,6 @@
             background: #2196f3;
             color: white;
         }
-
-    .btn-small { padding: 6px 10px; font-size: 12px; }
 
         /* 浮动按钮组 */
         .fab-group {
@@ -397,7 +442,6 @@
 
         /* 同步设置样式 */
         .sync-info {
-
             background: #f8f9fa;
             padding: 16px;
             border-radius: 8px;
@@ -489,11 +533,6 @@
         .notification.error {
             background: #f44336;
         }
-
-    /* 顶部工具条 */
-    .toolbar { margin-top: 8px; text-align: right; }
-    .no-margin-top { margin-top: 0 !important; }
-    .mt-16 { margin-top: 16px !important; }
     </style>
 </head>
 <body>
@@ -504,9 +543,6 @@
             <div class="sync-status" id="syncStatus">未同步</div>
             <div class="search-bar">
                 <input type="text" class="search-input" placeholder="搜索美食或餐厅..." id="searchInput">
-            </div>
-            <div class="toolbar">
-                <button class="btn btn-secondary btn-small" id="sortEatenBtn" title="按评分高低排序（仅在“已品尝”页生效）">按评分排序：默认</button>
             </div>
         </header>
 
@@ -566,15 +602,26 @@
                     <textarea class="form-input form-textarea" id="notes" placeholder="记录一些特别的信息..."></textarea>
                 </div>
                 <div class="form-group hidden" id="ratingGroup">
-                    <label class="form-label" for="rating">评分</label>
-                    <select class="form-input" id="rating">
-                        <option value="">请选择评分</option>
-                        <option value="5">⭐⭐⭐⭐⭐ 非常好</option>
-                        <option value="4">⭐⭐⭐⭐ 很好</option>
-                        <option value="3">⭐⭐⭐ 一般</option>
-                        <option value="2">⭐⭐ 不太好</option>
-                        <option value="1">⭐ 很差</option>
-                    </select>
+                    <label class="form-label">评分</label>
+                    <div class="star-rating" id="starRating">
+                        <div class="star-container" data-rating="1">
+                            <span class="star">★</span>
+                        </div>
+                        <div class="star-container" data-rating="2">
+                            <span class="star">★</span>
+                        </div>
+                        <div class="star-container" data-rating="3">
+                            <span class="star">★</span>
+                        </div>
+                        <div class="star-container" data-rating="4">
+                            <span class="star">★</span>
+                        </div>
+                        <div class="star-container" data-rating="5">
+                            <span class="star">★</span>
+                        </div>
+                        <span class="rating-value" id="ratingValue">0.0</span>
+                    </div>
+                    <input type="hidden" id="rating" value="">
                 </div>
                 <div class="form-actions">
                     <button type="button" class="btn btn-secondary" id="cancelBtn">取消</button>
@@ -593,7 +640,7 @@
             </div>
             <div class="sync-info">
                 <p><strong>GitHub同步说明：</strong></p>
-                <p>1. 访问 <a href="https://github.com/settings/tokens" target="_blank" rel="noopener noreferrer">GitHub Token设置</a></p>
+                <p>1. 访问 <a href="https://github.com/settings/tokens" target="_blank">GitHub Token设置</a></p>
                 <p>2. 点击 "Generate new token (classic)"</p>
                 <p>3. 勾选 "gist" 权限</p>
                 <p>4. 复制生成的token并粘贴到下方</p>
@@ -608,20 +655,19 @@
                     <button type="submit" class="btn btn-primary">保存设置</button>
                 </div>
             </form>
-            <div class="form-actions mt-16">
+            <div class="form-actions" style="margin-top: 16px;">
                 <button type="button" class="btn btn-success" id="uploadBtn">上传到云端</button>
                 <button type="button" class="btn btn-info" id="downloadBtn">从云端下载</button>
             </div>
         </div>
     </div>
-
     <script>
         // 应用状态
         let foods = [];
         let currentTab = 'to-eat';
         let editingId = null;
         let dataSync = null;
-    let ratingSortDesc = false; // 仅在已品尝页启用
+        let currentRating = 0;
 
         // DOM元素
         const foodList = document.getElementById('foodList');
@@ -643,8 +689,143 @@
         const downloadBtn = document.getElementById('downloadBtn');
         const syncStatus = document.getElementById('syncStatus');
         const notification = document.getElementById('notification');
+        const starRating = document.getElementById('starRating');
+        const ratingValue = document.getElementById('ratingValue');
 
-        // 数据同步类
+        // 星星评分系统
+        class StarRating {
+            constructor(container) {
+                this.container = container;
+                this.stars = container.querySelectorAll('.star-container');
+                this.valueDisplay = container.querySelector('.rating-value');
+                this.hiddenInput = document.getElementById('rating');
+                this.rating = 0;
+                this.isDragging = false;
+                
+                this.init();
+            }
+
+            init() {
+                this.stars.forEach((star, index) => {
+                    // 鼠标事件
+                    star.addEventListener('mouseenter', (e) => this.handleHover(e, index + 1));
+                    star.addEventListener('mousemove', (e) => this.handleMouseMove(e, index + 1));
+                    star.addEventListener('click', (e) => this.handleClick(e, index + 1));
+                    
+                    // 触摸事件
+                    star.addEventListener('touchstart', (e) => {
+                        e.preventDefault();
+                        this.isDragging = true;
+                        this.handleTouch(e, index + 1);
+                    });
+                    
+                    star.addEventListener('touchmove', (e) => {
+                        e.preventDefault();
+                        if (this.isDragging) {
+                            this.handleTouchMove(e);
+                        }
+                    });
+                    
+                    star.addEventListener('touchend', (e) => {
+                        e.preventDefault();
+                        this.isDragging = false;
+                    });
+                });
+
+                this.container.addEventListener('mouseleave', () => {
+                    this.updateDisplay(this.rating);
+                });
+            }
+
+            handleHover(e, starIndex) {
+                if (!this.isDragging) {
+                    const rect = e.target.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const isHalf = x < rect.width / 2;
+                    const rating = isHalf ? starIndex - 0.5 : starIndex;
+                    this.updateDisplay(rating);
+                }
+            }
+
+            handleMouseMove(e, starIndex) {
+                if (!this.isDragging) {
+                    const rect = e.target.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const isHalf = x < rect.width / 2;
+                    const rating = isHalf ? starIndex - 0.5 : starIndex;
+                    this.updateDisplay(rating);
+                }
+            }
+
+            handleClick(e, starIndex) {
+                const rect = e.target.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const isHalf = x < rect.width / 2;
+                const rating = isHalf ? starIndex - 0.5 : starIndex;
+                this.setRating(rating);
+            }
+
+            handleTouch(e, starIndex) {
+                const touch = e.touches[0];
+                const rect = e.target.getBoundingClientRect();
+                const x = touch.clientX - rect.left;
+                const isHalf = x < rect.width / 2;
+                const rating = isHalf ? starIndex - 0.5 : starIndex;
+                this.setRating(rating);
+            }
+
+            handleTouchMove(e) {
+                const touch = e.touches[0];
+                const element = document.elementFromPoint(touch.clientX, touch.clientY);
+                const starContainer = element?.closest('.star-container');
+                
+                if (starContainer) {
+                    const starIndex = parseInt(starContainer.dataset.rating);
+                    const rect = starContainer.getBoundingClientRect();
+                    const x = touch.clientX - rect.left;
+                    const isHalf = x < rect.width / 2;
+                    const rating = isHalf ? starIndex - 0.5 : starIndex;
+                    this.setRating(rating);
+                }
+            }
+
+            setRating(rating) {
+                this.rating = Math.max(0, Math.min(5, rating));
+                this.updateDisplay(this.rating);
+                this.hiddenInput.value = this.rating;
+                currentRating = this.rating;
+            }
+
+            updateDisplay(rating) {
+                this.valueDisplay.textContent = rating.toFixed(1);
+                
+                this.stars.forEach((starContainer, index) => {
+                    const star = starContainer.querySelector('.star');
+                    const starValue = index + 1;
+                    
+                    star.className = 'star';
+                    
+                    if (rating >= starValue) {
+                        star.classList.add('filled');
+                    } else if (rating >= starValue - 0.5) {
+                        star.classList.add('half');
+                    }
+                });
+            }
+
+            reset() {
+                this.rating = 0;
+                this.updateDisplay(0);
+                this.hiddenInput.value = '';
+                currentRating = 0;
+            }
+
+            setValue(rating) {
+                this.setRating(rating || 0);
+            }
+        }
+
+        // 修复版数据同步类
         class DataSync {
             constructor() {
                 this.githubToken = localStorage.getItem('github_token');
@@ -668,26 +849,33 @@
                 }
             }
 
-            // 确保使用已有 gist，避免重复创建
-            async ensureGistId() {
-                if (!this.githubToken) return null;
-                if (this.gistId) return this.gistId;
+            async findExistingGist() {
                 try {
-                    const resp = await fetch('https://api.github.com/gists?per_page=100', {
-                        headers: { 'Authorization': `token ${this.githubToken}` }
+                    const response = await fetch('https://api.github.com/gists', {
+                        headers: {
+                            'Authorization': `token ${this.githubToken}`
+                        }
                     });
-                    if (resp.ok) {
-                        const list = await resp.json();
-                        // 依据文件名匹配已有数据 gist
-                        const found = list.find(g => g.files && g.files['toeatlist-data.json']);
-                        if (found) {
-                            this.gistId = found.id;
+                    
+                    if (response.ok) {
+                        const gists = await response.json();
+                        // 查找美食清单的Gist
+                        const existingGist = gists.find(gist => 
+                            gist.description === '美食清单数据备份' && 
+                            gist.files['toeatlist-data.json']
+                        );
+                        
+                        if (existingGist) {
+                            this.gistId = existingGist.id;
                             localStorage.setItem('gist_id', this.gistId);
-                            return this.gistId;
+                            console.log('找到现有Gist:', this.gistId);
+                            return true;
                         }
                     }
-                } catch (_) { /* 忽略，走创建流程 */ }
-                return null;
+                } catch (error) {
+                    console.error('查找现有Gist失败:', error);
+                }
+                return false;
             }
 
             async uploadData(foods) {
@@ -714,12 +902,14 @@
                 };
 
                 try {
-                    let response;
-                    // 若无 gistId，尝试复用已有 gist
+                    // 如果没有Gist ID，先查找现有的Gist
                     if (!this.gistId) {
-                        await this.ensureGistId();
+                        await this.findExistingGist();
                     }
+
+                    let response;
                     if (this.gistId) {
+                        // 更新现有Gist
                         response = await fetch(`https://api.github.com/gists/${this.gistId}`, {
                             method: 'PATCH',
                             headers: {
@@ -729,17 +919,14 @@
                             body: JSON.stringify(gistData)
                         });
                     } else {
-                        // 创建时在描述中加入固定标识，便于后续识别
+                        // 创建新Gist
                         response = await fetch('https://api.github.com/gists', {
                             method: 'POST',
                             headers: {
                                 'Authorization': `token ${this.githubToken}`,
                                 'Content-Type': 'application/json'
                             },
-                            body: JSON.stringify({
-                                ...gistData,
-                                description: 'ToEatList 数据备份（请勿删除）'
-                            })
+                            body: JSON.stringify(gistData)
                         });
                     }
 
@@ -750,10 +937,10 @@
                         
                         syncStatus.textContent = '同步成功 ' + new Date().toLocaleTimeString();
                         syncStatus.className = 'sync-status success';
-                        showNotification('数据已上传到云端', 'success');
+                        showNotification('数据已上传到云端 (ID: ' + this.gistId.substr(0, 8) + ')', 'success');
                         return true;
                     } else {
-                        throw new Error('上传失败');
+                        throw new Error('上传失败: ' + response.status);
                     }
                 } catch (error) {
                     syncStatus.textContent = '同步失败';
@@ -763,10 +950,17 @@
             }
 
             async downloadData() {
-                if (!this.githubToken) throw new Error('未配置同步设置');
+                async downloadData() {
+                if (!this.githubToken) {
+                    throw new Error('请先设置GitHub Token');
+                }
+
+                // 如果没有Gist ID，先查找现有的Gist
                 if (!this.gistId) {
-                    await this.ensureGistId();
-                    if (!this.gistId) throw new Error('未找到云端数据');
+                    const found = await this.findExistingGist();
+                    if (!found) {
+                        throw new Error('未找到云端数据，请先上传数据');
+                    }
                 }
 
                 syncStatus.textContent = '正在下载...';
@@ -785,10 +979,10 @@
                         
                         syncStatus.textContent = '下载成功 ' + new Date().toLocaleTimeString();
                         syncStatus.className = 'sync-status success';
-                        showNotification('数据已从云端下载', 'success');
+                        showNotification('数据已从云端下载 (ID: ' + this.gistId.substr(0, 8) + ')', 'success');
                         return data.foods;
                     } else {
-                        throw new Error('下载失败');
+                        throw new Error('下载失败: ' + response.status);
                     }
                 } catch (error) {
                     syncStatus.textContent = '下载失败';
@@ -813,6 +1007,7 @@
             loadData();
             initializeDefaultData();
             dataSync = new DataSync();
+            starRatingInstance = new StarRating(starRating);
             bindEvents();
             renderFoodList();
         }
@@ -876,26 +1071,13 @@
 
         // 绑定事件
         function bindEvents() {
-            // 标签切换（兼容旧环境）
-            for (var i = 0; i < tabs.length; i++) {
-                (function(tab){
-                    tab.addEventListener('click', function(){
-                        var tabName = tab.getAttribute('data-tab');
-                        switchTab(tabName);
-                    });
-                })(tabs[i]);
-            }
-            // 事件委托兜底
-            var tabBar = document.querySelector('.tab-bar');
-            if (tabBar) {
-                tabBar.addEventListener('click', function(e){
-                    var t = e.target;
-                    if (t && t.classList && t.classList.contains('tab')) {
-                        var tabName = t.getAttribute('data-tab');
-                        switchTab(tabName);
-                    }
+            // 标签切换
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabName = tab.dataset.tab;
+                    switchTab(tabName);
                 });
-            }
+            });
 
             // 搜索
             searchInput.addEventListener('input', () => {
@@ -913,84 +1095,6 @@
                 if (dataSync.githubToken) {
                     document.getElementById('githubToken').value = dataSync.githubToken;
                 }
-            });
-
-            // 评分交互（半星 + 滑动）：事件委托到 .rating-stars
-            foodList.addEventListener('mousemove', (e) => {
-                const container = e.target.closest('.rating-stars');
-                if (!container) return;
-                const r = getRatingFromPos(container, e.clientX);
-                setOverlay(container, r);
-            });
-            foodList.addEventListener('mouseleave', (e) => {
-                // 当鼠标离开列表区域时，重置每个容器到其当前评分
-                document.querySelectorAll('.rating-stars').forEach(el => {
-                    const current = parseFloat(el.getAttribute('data-rating') || '0') || 0;
-                    setOverlay(el, current);
-                });
-            }, true);
-            foodList.addEventListener('click', (e) => {
-                const container = e.target.closest('.rating-stars');
-                if (!container) return;
-                const foodId = container.getAttribute('data-id');
-                const r = getRatingFromPos(container, e.clientX);
-                const idx = foods.findIndex(f => f.id === foodId);
-                if (idx !== -1) {
-                    foods[idx].rating = r;
-                    foods[idx].updatedAt = new Date().toISOString();
-                    saveData();
-                    // 提交后刷新（也可只更新该项，为简洁使用整体重渲染）
-                    renderFoodList();
-                    if (dataSync.githubToken) {
-                        dataSync.uploadData(foods).catch(() => {});
-                    }
-                }
-            });
-            // 触摸交互
-            foodList.addEventListener('touchstart', (e) => {
-                const t = e.touches[0];
-                const el = document.elementFromPoint(t.clientX, t.clientY);
-                const container = el && el.closest ? el.closest('.rating-stars') : null;
-                if (!container) return;
-                e.preventDefault();
-                const r = getRatingFromPos(container, t.clientX);
-                setOverlay(container, r);
-            }, { passive: false });
-            foodList.addEventListener('touchmove', (e) => {
-                const t = e.touches[0];
-                const el = document.elementFromPoint(t.clientX, t.clientY);
-                const container = el && el.closest ? el.closest('.rating-stars') : null;
-                if (!container) return;
-                e.preventDefault();
-                const r = getRatingFromPos(container, t.clientX);
-                setOverlay(container, r);
-            }, { passive: false });
-            foodList.addEventListener('touchend', (e) => {
-                const t = e.changedTouches[0];
-                const el = document.elementFromPoint(t.clientX, t.clientY);
-                const container = el && el.closest ? el.closest('.rating-stars') : null;
-                if (!container) return;
-                const foodId = container.getAttribute('data-id');
-                const r = parseFloat(container.getAttribute('data-rating') || '0') || 0;
-                const idx = foods.findIndex(f => f.id === foodId);
-                if (idx !== -1) {
-                    foods[idx].rating = r;
-                    foods[idx].updatedAt = new Date().toISOString();
-                    saveData();
-                    renderFoodList();
-                    if (dataSync.githubToken) {
-                        dataSync.uploadData(foods).catch(() => {});
-                    }
-                }
-            });
-
-            // 按评分排序（仅在已品尝页）
-            document.getElementById('sortEatenBtn').addEventListener('click', () => {
-                if (currentTab !== 'eaten') return;
-                ratingSortDesc = !ratingSortDesc;
-                const btn = document.getElementById('sortEatenBtn');
-                btn.textContent = ratingSortDesc ? '按评分排序：高→低' : '按评分排序：默认';
-                renderFoodList();
             });
 
             // 模态框关闭
@@ -1019,20 +1123,8 @@
         // 数据加载和保存
         function loadData() {
             const saved = localStorage.getItem('toeatlist');
-            if (!saved) { foods = []; return; }
-            try {
-                const parsed = JSON.parse(saved);
-                if (Array.isArray(parsed)) {
-                    foods = parsed;
-                } else if (parsed && Array.isArray(parsed.foods)) {
-                    foods = parsed.foods; // 兼容旧结构 { foods: [...] }
-                } else {
-                    foods = [];
-                }
-            } catch (e) {
-                console.warn('本地数据解析失败，已重置:', e);
-                try { localStorage.removeItem('toeatlist'); } catch (_) {}
-                foods = [];
+            if (saved) {
+                foods = JSON.parse(saved);
             }
         }
 
@@ -1052,26 +1144,13 @@
         // 渲染美食列表
         function renderFoodList() {
             const searchTerm = searchInput.value.toLowerCase();
-            var filteredFoods = foods.filter(function(food){
-                var matchesTab = food.status === currentTab;
-                var nameStr = (food.name || '').toLowerCase();
-                var restStr = (food.restaurant || '').toLowerCase();
-                var matchesSearch = !searchTerm ||
-                    (nameStr.indexOf(searchTerm) > -1) ||
-                    (restStr && restStr.indexOf(searchTerm) > -1);
+            const filteredFoods = foods.filter(food => {
+                const matchesTab = food.status === currentTab;
+                const matchesSearch = !searchTerm || 
+                    food.name.toLowerCase().includes(searchTerm) ||
+                    (food.restaurant && food.restaurant.toLowerCase().includes(searchTerm));
                 return matchesTab && matchesSearch;
             });
-
-            // 已品尝页按评分排序（可切换）
-            if (currentTab === 'eaten' && ratingSortDesc) {
-                filteredFoods = filteredFoods.slice().sort((a, b) => {
-                    const ra = (a.rating != null ? a.rating : -1);
-                    const rb = (b.rating != null ? b.rating : -1);
-                    if (rb !== ra) return rb - ra; // 高分在前，未评分（null）在后
-                    // 次序：更新时间近的在前
-                    return new Date(b.updatedAt) - new Date(a.updatedAt);
-                });
-            }
 
             if (filteredFoods.length === 0) {
                 foodList.classList.add('hidden');
@@ -1088,6 +1167,23 @@
                 const statusText = food.status === 'eaten' ? '已品尝' : 
                                  food.status === 'revisit' ? '二刷清单' : '待品尝';
                 
+                // 生成星星评分显示
+                let ratingDisplay = '';
+                if (food.rating && food.rating > 0) {
+                    const fullStars = Math.floor(food.rating);
+                    const hasHalfStar = food.rating % 1 !== 0;
+                    
+                    ratingDisplay = '<div class="food-rating-display">';
+                    for (let i = 0; i < fullStars; i++) {
+                        ratingDisplay += '<span class="star">★</span>';
+                    }
+                    if (hasHalfStar) {
+                        ratingDisplay += '<span class="star half">★</span>';
+                    }
+                    ratingDisplay += '<span class="rating-text">' + food.rating.toFixed(1) + '</span>';
+                    ratingDisplay += '</div>';
+                }
+                
                 return '<div class="food-item" data-id="' + food.id + '">' +
                     '<div class="food-header">' +
                         '<div class="food-name">' + food.name + '</div>' +
@@ -1096,54 +1192,14 @@
                     (food.restaurant ? '<div class="food-restaurant">📍 ' + food.restaurant + '</div>' : '') +
                     '<div class="food-meta">' +
                         '<span>' + formatDate(food.createdAt) + '</span>' +
-                        '<span></span>' +
                     '</div>' +
-                    // inline 评分（仅在已品尝状态显示）
-            (food.status === 'eaten' ? (
-                        '<div class="rating-row">' +
-                            '<span class="rating-label">评分：</span>' +
-                '<div class="rating-stars" data-id="' + food.id + '" data-rating="' + ((food.rating != null ? food.rating : 0)) + '">' + renderStars(food.rating) + '</div>' +
-                        '</div>'
-                    ) : '') +
+                    ratingDisplay +
                     (food.notes ? '<div style="margin-top: 8px; color: #666; font-size: 14px;">' + food.notes + '</div>' : '') +
                     '<div class="food-actions">' +
                         getActionButtons(food) +
                     '</div>' +
                 '</div>';
             }).join('');
-            // 初始化每个评分控件的填充宽度
-            var starNodes = document.querySelectorAll('.rating-stars');
-            Array.prototype.forEach.call(starNodes, function(el){
-                var r = parseFloat(el.getAttribute('data-rating') || '0') || 0;
-                setOverlay(el, r);
-            });
-
-    }
-
-        // 渲染五星叠层，支持半星（通过填充宽度）
-        function renderStars(rating) {
-            const r = clampRating(typeof rating === 'number' ? rating : 0);
-            const percent = (r / 5) * 100;
-            return (
-                '<div class="stars-base">★★★★★</div>' +
-                '<div class="stars-fill" style="width:' + percent + '%">★★★★★</div>'
-            );
-        }
-
-        function clampRating(r) { return Math.max(0, Math.min(5, Math.round(r * 2) / 2)); }
-        function setOverlay(container, rating) {
-            const fill = container.querySelector('.stars-fill');
-            if (fill) fill.style.width = (clampRating(rating) / 5 * 100) + '%';
-            container.setAttribute('data-rating', clampRating(rating));
-            container.setAttribute('title', clampRating(rating) + ' / 5');
-        }
-        function getRatingFromPos(container, clientX) {
-            const rect = container.getBoundingClientRect();
-            const x = clientX - rect.left;
-            const percent = Math.max(0, Math.min(1, x / rect.width));
-            let r = Math.round(percent * 10) / 2; // 0.0,0.5,...5.0
-            if (r > 0 && r < 0.5) r = 0.5; // 最小半星（点击区域内）
-            return clampRating(r);
         }
 
         // 获取操作按钮
@@ -1185,6 +1241,7 @@
                 modalTitle.textContent = '添加美食';
                 foodForm.reset();
                 document.getElementById('ratingGroup').classList.add('hidden');
+                starRatingInstance.reset();
             } else if (type === 'edit') {
                 const food = foods.find(f => f.id === foodId);
                 if (food) {
@@ -1196,9 +1253,10 @@
                     
                     if (food.status === 'eaten') {
                         document.getElementById('ratingGroup').classList.remove('hidden');
-                        document.getElementById('rating').value = food.rating || '';
+                        starRatingInstance.setValue(food.rating);
                     } else {
                         document.getElementById('ratingGroup').classList.add('hidden');
+                        starRatingInstance.reset();
                     }
                 }
             } else if (type === 'mark-eaten') {
@@ -1210,7 +1268,7 @@
                     document.getElementById('category').value = food.category || '';
                     document.getElementById('notes').value = food.notes || '';
                     document.getElementById('ratingGroup').classList.remove('hidden');
-                    document.getElementById('rating').value = '';
+                    starRatingInstance.reset();
                 }
             }
             
@@ -1235,7 +1293,7 @@
                 restaurant: document.getElementById('restaurant').value.trim(),
                 category: document.getElementById('category').value.trim(),
                 notes: document.getElementById('notes').value.trim(),
-                rating: document.getElementById('rating').value ? parseInt(document.getElementById('rating').value) : null
+                rating: currentRating || null
             };
 
             if (!formData.name) {
@@ -1350,18 +1408,7 @@
         }
 
         function markAsEaten(id) {
-            const index = foods.findIndex(f => f.id === id);
-            if (index !== -1) {
-                foods[index].status = 'eaten';
-                foods[index].eatenAt = new Date().toISOString();
-                foods[index].updatedAt = new Date().toISOString();
-                if (foods[index].rating == null) foods[index].rating = 0; // 初始为 0 星，可直接点亮
-                saveData();
-                renderFoodList();
-                if (dataSync.githubToken) {
-                    dataSync.uploadData(foods).catch(() => {});
-                }
-            }
+            openModal('mark-eaten', id);
         }
 
         function moveToRevisit(id) {
@@ -1385,8 +1432,6 @@
             const index = foods.findIndex(f => f.id === id);
             if (index !== -1) {
                 foods[index].status = 'to-eat';
-                // 回退为未评分
-                foods[index].rating = null;
                 foods[index].updatedAt = new Date().toISOString();
                 saveData();
                 renderFoodList();
@@ -1400,28 +1445,11 @@
             }
         }
 
+        // 初始化星星评分实例
+        let starRatingInstance;
+
         // 启动应用
         init();
-
-        // 根据当前标签显示/隐藏排序按钮
-        function updateSortButtonVisibility() {
-            const btn = document.getElementById('sortEatenBtn');
-            if (currentTab === 'eaten') {
-                btn.style.display = 'inline-block';
-            } else {
-                btn.style.display = 'none';
-            }
-        }
-
-        // 覆盖 switchTab 以更新排序按钮可见性
-        const _switchTab = switchTab;
-        switchTab = function(tabName) {
-            _switchTab(tabName);
-            updateSortButtonVisibility();
-        }
-
-        // 初始化排序按钮可见性
-        updateSortButtonVisibility();
     </script>
 </body>
 </html>
