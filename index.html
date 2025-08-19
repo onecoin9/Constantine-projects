@@ -433,6 +433,19 @@
             color: #ccc;
         }
 
+        /* 新增：卡片图片与地图链接样式 */
+.food-photo {
+    width: 100%;
+    height: auto;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-top: 8px;
+}
+.map-links { margin-top: 4px; font-size: 12px; }
+.map-links a { color: #667eea; text-decoration: none; margin-right: 8px; }
+.map-links a:hover { text-decoration: underline; }
+
         /* 响应式设计 */
         @media (max-width: 480px) {
             .container {
@@ -565,6 +578,20 @@
                     <label class="form-label" for="notes">备注</label>
                     <textarea class="form-input form-textarea" id="notes" placeholder="记录一些特别的信息..."></textarea>
                 </div>
+
+                <!-- 新增：照片上传与预览（自动压缩至 <200KB） -->
+                <div class="form-group">
+                    <label class="form-label" for="photoFile">照片（小于200KB，选择后自动压缩）</label>
+                    <input type="file" class="form-input" id="photoFile" accept="image/*">
+                    <div class="mt-16">
+                        <img id="photoPreview" class="food-photo hidden" alt="">
+                        <div class="mt-16">
+                            <button type="button" class="btn btn-secondary btn-small hidden" id="removePhotoBtn">移除照片</button>
+                        </div>
+                    </div>
+                    <div style="font-size:12px;color:#999;margin-top:6px;">提示：为控制体积，图片会转为JPEG并按需缩放压缩。</div>
+                </div>
+
                 <div class="form-group hidden" id="ratingGroup">
                     <label class="form-label" for="rating">评分</label>
                     <select class="form-input" id="rating">
@@ -621,7 +648,11 @@
         let currentTab = 'to-eat';
         let editingId = null;
         let dataSync = null;
-    let ratingSortDesc = false; // 仅在已品尝页启用
+        let ratingSortDesc = false; // 仅在已品尝页启用
+
+// 新增：图片处理的临时状态
+let pendingPhotoData = null;   // 选择后压缩得到的 dataURL
+let removePhotoFlag = false;   // 编辑时点击“移除照片”
 
         // DOM元素
         const foodList = document.getElementById('foodList');
@@ -643,6 +674,11 @@
         const downloadBtn = document.getElementById('downloadBtn');
         const syncStatus = document.getElementById('syncStatus');
         const notification = document.getElementById('notification');
+
+        // 新增：图片表单控件引用
+        const photoFile = document.getElementById('photoFile');
+        const photoPreview = document.getElementById('photoPreview');
+        const removePhotoBtn = document.getElementById('removePhotoBtn');
 
         // 数据同步类
         class DataSync {
@@ -807,6 +843,49 @@
                 notification.classList.remove('show');
             }, 3000);
         }
+
+        // 新增：压缩图片为 <200KB 的 dataURL（最大边 1200px，逐步降质）
+function compressImage(file, maxKB = 200) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onerror = reject;
+        reader.onload = e => {
+            const img = new Image();
+            img.onerror = reject;
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                let w = img.naturalWidth, h = img.naturalHeight;
+                const maxW = 1200, maxH = 1200;
+                const scale = Math.min(1, maxW / w, maxH / h);
+                w = Math.round(w * scale); h = Math.round(h * scale);
+                canvas.width = w; canvas.height = h;
+                ctx.drawImage(img, 0, 0, w, h);
+
+                let q = 0.9;
+                let dataURL = canvas.toDataURL('image/jpeg', q);
+                const sizeKB = () => Math.round((dataURL.length * 3 / 4) / 1024);
+                while (sizeKB() > maxKB && q > 0.4) {
+                    q -= 0.1;
+                    dataURL = canvas.toDataURL('image/jpeg', q);
+                }
+                resolve(dataURL);
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
+}
+
+// 新增：地图/点评链接
+function getMapLinks(keyword) {
+    var q = encodeURIComponent(keyword || '');
+    return '<div class="map-links">地图：'
+        + '<a href="https://www.amap.com/search?query=' + q + '" target="_blank" rel="noopener noreferrer">高德</a>'
+        + '<a href="https://map.baidu.com/search/' + q + '" target="_blank" rel="noopener noreferrer">百度</a>'
+        + '<a href="https://www.dianping.com/search/keyword/0/0_' + q + '" target="_blank" rel="noopener noreferrer">大众点评</a>'
+        + '</div>';
+}
 
         // 初始化应用
         function init() {
@@ -1094,31 +1173,28 @@
                         '<div class="food-status ' + statusClass + '">' + statusText + '</div>' +
                     '</div>' +
                     (food.restaurant ? '<div class="food-restaurant">📍 ' + food.restaurant + '</div>' : '') +
+                    (food.restaurant ? getMapLinks(food.restaurant || food.name) : '') +           <!-- 新增：地图链接 -->
+                    (food.photo ? '<img class="food-photo" src="' + food.photo + '" alt="' + food.name + '">' : '') + <!-- 新增：卡片图片 -->
                     '<div class="food-meta">' +
                         '<span>' + formatDate(food.createdAt) + '</span>' +
                         '<span></span>' +
                     '</div>' +
-                    // inline 评分（仅在已品尝状态显示）
-            (food.status === 'eaten' ? (
-                        '<div class="rating-row">' +
-                            '<span class="rating-label">评分：</span>' +
-                '<div class="rating-stars" data-id="' + food.id + '" data-rating="' + ((food.rating != null ? food.rating : 0)) + '">' + renderStars(food.rating) + '</div>' +
-                        '</div>'
-                    ) : '') +
+                    (food.status === 'eaten'
+                        ? '<div class="rating-row"><span class="rating-label">评分：</span>'
+                        + '<div class="rating-stars" data-id="' + food.id + '" data-rating="' + ((food.rating != null ? food.rating : 0)) + '">' + renderStars(food.rating) + '</div></div>'
+                        : '') +
                     (food.notes ? '<div style="margin-top: 8px; color: #666; font-size: 14px;">' + food.notes + '</div>' : '') +
-                    '<div class="food-actions">' +
-                        getActionButtons(food) +
-                    '</div>' +
+                    '<div class="food-actions">' + getActionButtons(food) + '</div>' +
                 '</div>';
             }).join('');
+
             // 初始化每个评分控件的填充宽度
             var starNodes = document.querySelectorAll('.rating-stars');
             Array.prototype.forEach.call(starNodes, function(el){
                 var r = parseFloat(el.getAttribute('data-rating') || '0') || 0;
                 setOverlay(el, r);
             });
-
-    }
+        }
 
         // 渲染五星叠层，支持半星（通过填充宽度）
         function renderStars(rating) {
@@ -1180,11 +1256,16 @@
         // 模态框操作
         function openModal(type, foodId = null) {
             editingId = foodId;
-            
+
             if (type === 'add') {
                 modalTitle.textContent = '添加美食';
                 foodForm.reset();
                 document.getElementById('ratingGroup').classList.add('hidden');
+                pendingPhotoData = null;
+                removePhotoFlag = false;
+                if (photoPreview) photoPreview.classList.add('hidden');
+                if (removePhotoBtn) removePhotoBtn.classList.add('hidden');
+                if (photoFile) photoFile.value = '';
             } else if (type === 'edit') {
                 const food = foods.find(f => f.id === foodId);
                 if (food) {
@@ -1200,6 +1281,20 @@
                     } else {
                         document.getElementById('ratingGroup').classList.add('hidden');
                     }
+
+                    // 照片回显
+                    pendingPhotoData = null;
+                    removePhotoFlag = false;
+                    if (food.photo) {
+                        photoPreview.src = food.photo;
+                        photoPreview.classList.remove('hidden');
+                        removePhotoBtn.classList.remove('hidden');
+                    } else {
+                        photoPreview.src = '';
+                        photoPreview.classList.add('hidden');
+                        removePhotoBtn.classList.add('hidden');
+                    }
+                    if (photoFile) photoFile.value = '';
                 }
             } else if (type === 'mark-eaten') {
                 const food = foods.find(f => f.id === foodId);
@@ -1253,6 +1348,10 @@
                         updatedAt: new Date().toISOString()
                     };
                     
+                    // 图片：移除或更新
+                    if (removePhotoFlag) delete foods[index].photo;
+                    if (pendingPhotoData) foods[index].photo = pendingPhotoData;
+
                     if (modalTitle.textContent === '标记为已品尝') {
                         foods[index].status = 'eaten';
                         foods[index].eatenAt = new Date().toISOString();
@@ -1266,8 +1365,13 @@
                     createdAt: new Date().toISOString(),
                     updatedAt: new Date().toISOString()
                 };
+                if (pendingPhotoData) newFood.photo = pendingPhotoData;  // 新增：保存图片
                 foods.push(newFood);
             }
+
+            // 清理临时状态
+            pendingPhotoData = null;
+            removePhotoFlag = false;
 
             saveData();
             renderFoodList();
