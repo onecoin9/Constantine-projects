@@ -948,13 +948,26 @@
             });
         }
 
-        // 新增：地图/点评链接
-        function getMapLinks(keyword) {
-            var q = encodeURIComponent(keyword || '');
+        // 修改：地图搜索地点，大众点评搜索美食名称
+        function getMapLinks(food) {
+            var restaurant = food.restaurant || '';
+            var name = food.name || '';
+            
+            // 地图类：优先搜索餐厅地点，无地点时搜索美食名
+            var mapQuery = restaurant || name;
+            var mapEncoded = encodeURIComponent(mapQuery);
+            
+            // 大众点评：优先搜索美食名，可组合餐厅名提高精度
+            var dpQuery = name;
+            if (restaurant && restaurant !== name) {
+                dpQuery = name + ' ' + restaurant; // 美食名 + 餐厅名，搜索更精确
+            }
+            var dpEncoded = encodeURIComponent(dpQuery);
+            
             return '<div class="map-links">地图：'
-                + '<a href="https://www.amap.com/search?query=' + q + '" target="_blank" rel="noopener noreferrer">高德</a>'
-                + '<a href="https://map.baidu.com/search/' + q + '" target="_blank" rel="noopener noreferrer">百度</a>'
-                + '<a href="https://www.dianping.com/search/keyword/0/0_' + q + '" target="_blank" rel="noopener noreferrer">大众点评</a>'
+                + '<a href="https://www.amap.com/search?query=' + mapEncoded + '" target="_blank" rel="noopener noreferrer">高德</a>'
+                + '<a href="http://maps.apple.com/?q=' + mapEncoded + '" target="_blank" rel="noopener noreferrer">苹果地图</a>'
+                + '<a href="https://www.dianping.com/search/keyword/0/0_' + dpEncoded + '" target="_blank" rel="noopener noreferrer">大众点评</a>'
                 + '</div>';
         }
 
