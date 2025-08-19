@@ -642,11 +642,17 @@
                     <label class="form-label" for="rating">评分</label>
                     <select class="form-input" id="rating">
                         <option value="">请选择评分</option>
-                        <option value="5">⭐⭐⭐⭐⭐ 非常好</option>
-                        <option value="4">⭐⭐⭐⭐ 很好</option>
-                        <option value="3">⭐⭐⭐ 一般</option>
-                        <option value="2">⭐⭐ 不太好</option>
-                        <option value="1">⭐ 很差</option>
+                        <option value="5">⭐⭐⭐⭐⭐ 5星</option>
+                        <option value="4.5">⭐⭐⭐⭐☆ 4.5星</option>
+                        <option value="4">⭐⭐⭐⭐ 4星</option>
+                        <option value="3.5">⭐⭐⭐☆ 3.5星</option>
+                        <option value="3">⭐⭐⭐ 3星</option>
+                        <option value="2.5">⭐⭐☆ 2.5星</option>
+                        <option value="2">⭐⭐ 2星</option>
+                        <option value="1.5">⭐☆ 1.5星</option>
+                        <option value="1">⭐ 1星</option>
+                        <option value="0.5">☆ 0.5星</option>
+                        <option value="0">未评分</option>
                     </select>
                 </div>
                 <div class="form-actions">
@@ -952,18 +958,18 @@
         function getMapLinks(food) {
             var restaurant = food.restaurant || '';
             var name = food.name || '';
-            
+
             // 地图类：优先搜索餐厅地点，无地点时搜索美食名
             var mapQuery = restaurant || name;
             var mapEncoded = encodeURIComponent(mapQuery);
-            
+
             // 大众点评：优先搜索美食名，可组合餐厅名提高精度
             var dpQuery = name;
             if (restaurant && restaurant !== name) {
                 dpQuery = name + ' ' + restaurant; // 美食名 + 餐厅名，搜索更精确
             }
             var dpEncoded = encodeURIComponent(dpQuery);
-            
+
             return '<div class="map-links">地图：'
                 + '<a href="https://www.amap.com/search?query=' + mapEncoded + '" target="_blank" rel="noopener noreferrer">高德</a>'
                 + '<a href="http://maps.apple.com/?q=' + mapEncoded + '" target="_blank" rel="noopener noreferrer">苹果地图</a>'
@@ -1107,7 +1113,7 @@
                     foods[idx].updatedAt = new Date().toISOString();
                     saveData();
                     renderFoodList();
-                    if (dataSync.githubToken) dataSync.uploadData(foods).catch(() => {});
+                    if (dataSync.githubToken) dataSync.uploadData(foods).catch(() => { });
                 }
             });
 
@@ -1145,7 +1151,7 @@
                     foods[idx].updatedAt = new Date().toISOString();
                     saveData();
                     renderFoodList();
-                    if (dataSync.githubToken) dataSync.uploadData(foods).catch(() => {});
+                    if (dataSync.githubToken) dataSync.uploadData(foods).catch(() => { });
                 }
             });
 
@@ -1412,7 +1418,12 @@
 
                     if (food.status === 'eaten') {
                         document.getElementById('ratingGroup').classList.remove('hidden');
-                        document.getElementById('rating').value = food.rating || '';
+                        const ratingSelect = document.getElementById('rating');
+if (food.rating != null) {
+    ratingSelect.value = food.rating.toString();
+} else {
+    ratingSelect.value = '';
+}
                     } else {
                         document.getElementById('ratingGroup').classList.add('hidden');
                     }
@@ -1440,7 +1451,8 @@
                     document.getElementById('category').value = food.category || '';
                     document.getElementById('notes').value = food.notes || '';
                     document.getElementById('ratingGroup').classList.remove('hidden');
-                    document.getElementById('rating').value = '';
+                    document.getElementById('ratingGroup').classList.remove('hidden');
+document.getElementById('rating').value = '0'; // 默认显示"未评分"，用户可选择
                 }
             }
 
@@ -1465,7 +1477,7 @@
                 restaurant: document.getElementById('restaurant').value.trim(),
                 category: document.getElementById('category').value.trim(),
                 notes: document.getElementById('notes').value.trim(),
-                rating: document.getElementById('rating').value ? parseInt(document.getElementById('rating').value) : null
+                rating: document.getElementById('rating').value ? parseFloat(document.getElementById('rating').value) : null
             };
 
             if (!formData.name) {
