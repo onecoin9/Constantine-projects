@@ -131,11 +131,30 @@
         }
 
         .food-item {
+            position: relative;
             background: white;
             border-radius: 12px;
             padding: 16px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s ease;
+        }
+
+        .food-item.swiping {
+            transform: translateX(-80px);
+        }
+
+        .swipe-action {
+            position: absolute;
+            right: -80px;
+            top: 0;
+            bottom: 0;
+            width: 80px;
+            background: #4CAF50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
         }
 
         .food-item:active {
@@ -1230,6 +1249,57 @@
                     if (photoFile) photoFile.value = '';
                 });
             }
+
+            // 卡片右滑标记已品尝
+            let startX = 0;
+            let currentItem = null;
+
+            foodList.addEventListener('touchstart', (e) => {
+                const item = e.target.closest('.food-item');
+                if (!item) return;
+                const food = foods.find(f => f.id === item.dataset.id);
+                if (!food || food.status === 'eaten') return; // 已品尝的不支持滑动
+
+                startX = e.touches[0].clientX;
+                currentItem = item;
+            }, { passive: true });
+
+            foodList.addEventListener('touchmove', (e) => {
+                if (!currentItem) return;
+                const currentX = e.touches[0].clientX;
+                const diffX = startX - currentX;
+
+                if (diffX > 20) { // 右滑超过20px
+                    currentItem.classList.add('swiping');
+                    if (!currentItem.querySelector('.swipe-action')) {
+                        const action = document.createElement('div');
+                        action.className = 'swipe-action';
+                        action.textContent = '已品尝';
+                        currentItem.appendChild(action);
+                    }
+                } else {
+                    currentItem.classList.remove('swiping');
+                    const action = currentItem.querySelector('.swipe-action');
+                    if (action) action.remove();
+                }
+            }, { passive: true });
+
+            foodList.addEventListener('touchend', (e) => {
+                if (!currentItem) return;
+
+                if (currentItem.classList.contains('swiping')) {
+                    // 执行标记已品尝
+                    const foodId = currentItem.dataset.id;
+                    openModal('mark-eaten', foodId);
+                }
+
+                // 重置状态
+                currentItem.classList.remove('swiping');
+                const action = currentItem.querySelector('.swipe-action');
+                if (action) action.remove();
+                currentItem = null;
+                startX = 0;
+            }, { passive: true });
         }
 
         // 数据加载和保存
@@ -1310,7 +1380,7 @@
                     '<div class="food-status ' + statusClass + '">' + statusText + '</div>' +
                     '</div>' +
                     (food.restaurant ? '<div class="food-restaurant">📍 ' + food.restaurant + '</div>' : '') +
-                    (food.restaurant ? getMapLinks(food.restaurant || food.name) : '') +
+                    (food.restaurant ? getMapLinks(food) : '') +
                     (food.photo ? '<img class="food-photo" src="' + food.photo + '" alt="' + food.name + '">' : '') +
                     '<div class="food-meta">' +
                     '<span>' + formatDate(food.createdAt) + '</span>' +
@@ -1419,11 +1489,11 @@
                     if (food.status === 'eaten') {
                         document.getElementById('ratingGroup').classList.remove('hidden');
                         const ratingSelect = document.getElementById('rating');
-if (food.rating != null) {
-    ratingSelect.value = food.rating.toString();
-} else {
-    ratingSelect.value = '';
-}
+                        if (food.rating != null) {
+                            ratingSelect.value = food.rating.toString();
+                        } else {
+                            ratingSelect.value = '';
+                        }
                     } else {
                         document.getElementById('ratingGroup').classList.add('hidden');
                     }
@@ -1451,8 +1521,7 @@ if (food.rating != null) {
                     document.getElementById('category').value = food.category || '';
                     document.getElementById('notes').value = food.notes || '';
                     document.getElementById('ratingGroup').classList.remove('hidden');
-                    document.getElementById('ratingGroup').classList.remove('hidden');
-document.getElementById('rating').value = '0'; // 默认显示"未评分"，用户可选择
+                    document.getElementById('rating').value = '0'; // 默认显示"未评分"，用户可选择
                 }
             }
 
@@ -1509,8 +1578,8 @@ document.getElementById('rating').value = '0'; // 默认显示"未评分"，用�
                     id: generateId(),
                     ...formData,
                     status: 'to-eat',
-                    createdAt: new Date().toISOString(),
-                    updatedAt: new Date().toISOString()
+                    createdAt: new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' }),
+                    updatedAt: new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })
                 };
                 if (pendingPhotoData) newFood.photo = pendingPhotoData;  // 新增：保存图片
                 foods.push(newFood);
