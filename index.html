@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -35,7 +36,7 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .header h1 {
@@ -69,7 +70,7 @@
             border: none;
             border-radius: 20px;
             font-size: 16px;
-            background: rgba(255,255,255,0.9);
+            background: rgba(255, 255, 255, 0.9);
             outline: none;
         }
 
@@ -133,7 +134,7 @@
             background: white;
             border-radius: 12px;
             padding: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s ease;
         }
 
@@ -190,22 +191,40 @@
             font-size: 12px;
             color: #999;
         }
+
         /* 评分行与星标（支持半星与滑动） */
-        .rating-row { margin-top: 8px; display: flex; align-items: center; gap: 8px; }
-        .rating-label { font-size: 12px; color: #999; }
+        .rating-row {
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .rating-label {
+            font-size: 12px;
+            color: #999;
+        }
+
         .rating-stars {
             position: relative;
             display: inline-block;
             line-height: 1;
             font-size: 18px;
             cursor: pointer;
-            -webkit-user-select: none; user-select: none;
+            -webkit-user-select: none;
+            user-select: none;
         }
-        .rating-stars .stars-base { color: #ffc107; opacity: 0.35; }
+
+        .rating-stars .stars-base {
+            color: #ffc107;
+            opacity: 0.35;
+        }
+
         .rating-stars .stars-fill {
             color: #ffc107;
             position: absolute;
-            left: 0; top: 0;
+            left: 0;
+            top: 0;
             white-space: nowrap;
             overflow: hidden;
             width: 0%;
@@ -256,7 +275,10 @@
             color: white;
         }
 
-    .btn-small { padding: 6px 10px; font-size: 12px; }
+        .btn-small {
+            padding: 6px 10px;
+            font-size: 12px;
+        }
 
         /* 浮动按钮组 */
         .fab-group {
@@ -277,7 +299,7 @@
             border: none;
             font-size: 20px;
             cursor: pointer;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
             transition: all 0.3s ease;
         }
 
@@ -301,7 +323,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.5);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -434,32 +456,44 @@
         }
 
         /* 新增：卡片图片与地图链接样式 */
-.food-photo {
-    width: 100%;
-    height: auto;
-    max-height: 200px;
-    object-fit: cover;
-    border-radius: 10px;
-    margin-top: 8px;
-}
-.map-links { margin-top: 4px; font-size: 12px; }
-.map-links a { color: #667eea; text-decoration: none; margin-right: 8px; }
-.map-links a:hover { text-decoration: underline; }
+        .food-photo {
+            width: 100%;
+            height: auto;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-top: 8px;
+        }
+
+        .map-links {
+            margin-top: 4px;
+            font-size: 12px;
+        }
+
+        .map-links a {
+            color: #667eea;
+            text-decoration: none;
+            margin-right: 8px;
+        }
+
+        .map-links a:hover {
+            text-decoration: underline;
+        }
 
         /* 响应式设计 */
         @media (max-width: 480px) {
             .container {
                 max-width: 100%;
             }
-            
+
             .header {
                 padding: 16px 12px 12px;
             }
-            
+
             .main-content {
                 padding: 12px;
             }
-            
+
             .fab-group {
                 bottom: 16px;
                 right: 16px;
@@ -503,12 +537,22 @@
             background: #f44336;
         }
 
-    /* 顶部工具条 */
-    .toolbar { margin-top: 8px; text-align: right; }
-    .no-margin-top { margin-top: 0 !important; }
-    .mt-16 { margin-top: 16px !important; }
+        /* 顶部工具条 */
+        .toolbar {
+            margin-top: 8px;
+            text-align: right;
+        }
+
+        .no-margin-top {
+            margin-top: 0 !important;
+        }
+
+        .mt-16 {
+            margin-top: 16px !important;
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <!-- 头部 -->
@@ -519,7 +563,8 @@
                 <input type="text" class="search-input" placeholder="搜索美食或餐厅..." id="searchInput">
             </div>
             <div class="toolbar">
-                <button class="btn btn-secondary btn-small" id="sortEatenBtn" title="按评分高低排序（仅在“已品尝”页生效）">按评分排序：默认</button>
+                <button class="btn btn-secondary btn-small" id="sortEatenBtn"
+                    title="按评分高低排序（仅在“已品尝”页生效）">按评分排序：默认</button>
             </div>
         </header>
 
@@ -535,7 +580,7 @@
             <div class="food-list" id="foodList">
                 <!-- 美食项目将通过JavaScript动态生成 -->
             </div>
-            
+
             <!-- 空状态 -->
             <div class="empty-state hidden" id="emptyState">
                 <div class="empty-state-icon">🍽️</div>
@@ -586,7 +631,8 @@
                     <div class="mt-16">
                         <img id="photoPreview" class="food-photo hidden" alt="">
                         <div class="mt-16">
-                            <button type="button" class="btn btn-secondary btn-small hidden" id="removePhotoBtn">移除照片</button>
+                            <button type="button" class="btn btn-secondary btn-small hidden"
+                                id="removePhotoBtn">移除照片</button>
                         </div>
                     </div>
                     <div style="font-size:12px;color:#999;margin-top:6px;">提示：为控制体积，图片会转为JPEG并按需缩放压缩。</div>
@@ -618,13 +664,10 @@
                 <h2 class="modal-title">同步设置</h2>
                 <button class="close-btn" id="closeSyncModal">&times;</button>
             </div>
-            <div class="sync-info">
-                <p><strong>GitHub同步说明：</strong></p>
-                <p>1. 访问 <a href="https://github.com/settings/tokens" target="_blank" rel="noopener noreferrer">GitHub Token设置</a></p>
-                <p>2. 点击 "Generate new token (classic)"</p>
-                <p>3. 勾选 "gist" 权限</p>
-                <p>4. 复制生成的token并粘贴到下方</p>
-            </div>
+
+            <!-- 删除了上面的同步说明块（sync-info） -->
+
+            <!-- 仅在未保存 Token 时显示该表单；保存后自动隐藏 -->
             <form id="syncForm">
                 <div class="form-group">
                     <label class="form-label" for="githubToken">GitHub Token *</label>
@@ -635,9 +678,11 @@
                     <button type="submit" class="btn btn-primary">保存设置</button>
                 </div>
             </form>
+
             <div class="form-actions mt-16">
                 <button type="button" class="btn btn-success" id="uploadBtn">上传到云端</button>
                 <button type="button" class="btn btn-info" id="downloadBtn">从云端下载</button>
+                <button type="button" class="btn btn-secondary" id="rebindBtn" title="重新查找并绑定云端数据">重新绑定云端</button>
             </div>
         </div>
     </div>
@@ -650,9 +695,9 @@
         let dataSync = null;
         let ratingSortDesc = false; // 仅在已品尝页启用
 
-// 新增：图片处理的临时状态
-let pendingPhotoData = null;   // 选择后压缩得到的 dataURL
-let removePhotoFlag = false;   // 编辑时点击“移除照片”
+        // 新增：图片处理的临时状态
+        let pendingPhotoData = null;   // 选择后压缩得到的 dataURL
+        let removePhotoFlag = false;   // 编辑时点击“移除照片”
 
         // DOM元素
         const foodList = document.getElementById('foodList');
@@ -672,6 +717,7 @@ let removePhotoFlag = false;   // 编辑时点击“移除照片”
         const cancelSyncBtn = document.getElementById('cancelSyncBtn');
         const uploadBtn = document.getElementById('uploadBtn');
         const downloadBtn = document.getElementById('downloadBtn');
+        const rebindBtn = document.getElementById('rebindBtn');
         const syncStatus = document.getElementById('syncStatus');
         const notification = document.getElementById('notification');
 
@@ -783,7 +829,7 @@ let removePhotoFlag = false;   // 编辑时点击“移除照片”
                         const result = await response.json();
                         this.gistId = result.id;
                         localStorage.setItem('gist_id', this.gistId);
-                        
+
                         syncStatus.textContent = '同步成功 ' + new Date().toLocaleTimeString();
                         syncStatus.className = 'sync-status success';
                         showNotification('数据已上传到云端', 'success');
@@ -818,7 +864,7 @@ let removePhotoFlag = false;   // 编辑时点击“移除照片”
                         const gist = await response.json();
                         const fileContent = gist.files['toeatlist-data.json'].content;
                         const data = JSON.parse(fileContent);
-                        
+
                         syncStatus.textContent = '下载成功 ' + new Date().toLocaleTimeString();
                         syncStatus.className = 'sync-status success';
                         showNotification('数据已从云端下载', 'success');
@@ -832,66 +878,92 @@ let removePhotoFlag = false;   // 编辑时点击“移除照片”
                     throw error;
                 }
             }
+
+            // 新增：重新绑定云端 Gist（选最近更新且含 toeatlist-data.json 的）
+            async rebindGist() {
+                if (!this.githubToken) throw new Error('未配置 GitHub Token');
+                this.gistId = null;
+                try { localStorage.removeItem('gist_id'); } catch (_) { }
+
+                const resp = await fetch('https://api.github.com/gists?per_page=100', {
+                    headers: { 'Authorization': `token ${this.githubToken}` }
+                });
+                if (!resp.ok) throw new Error('列出 gists 失败: ' + resp.status);
+
+                const list = await resp.json();
+                const candidates = list.filter(g => g.files && g.files['toeatlist-data.json']);
+                if (candidates.length === 0) return null;
+
+                candidates.sort(function (a, b) {
+                    return new Date(b.updated_at) - new Date(a.updated_at);
+                });
+                const chosen = candidates[0];
+                this.gistId = chosen.id;
+                localStorage.setItem('gist_id', this.gistId);
+                this.updateSyncStatus();
+                return this.gistId;
+            }
         }
 
         // 显示通知
         function showNotification(message, type = 'info') {
             notification.textContent = message;
             notification.className = `notification show ${type}`;
-            
+
             setTimeout(() => {
                 notification.classList.remove('show');
             }, 3000);
         }
 
         // 新增：压缩图片为 <200KB 的 dataURL（最大边 1200px，逐步降质）
-function compressImage(file, maxKB = 200) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onerror = reject;
-        reader.onload = e => {
-            const img = new Image();
-            img.onerror = reject;
-            img.onload = () => {
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-                let w = img.naturalWidth, h = img.naturalHeight;
-                const maxW = 1200, maxH = 1200;
-                const scale = Math.min(1, maxW / w, maxH / h);
-                w = Math.round(w * scale); h = Math.round(h * scale);
-                canvas.width = w; canvas.height = h;
-                ctx.drawImage(img, 0, 0, w, h);
+        function compressImage(file, maxKB = 200) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onerror = reject;
+                reader.onload = e => {
+                    const img = new Image();
+                    img.onerror = reject;
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        let w = img.naturalWidth, h = img.naturalHeight;
+                        const maxW = 1200, maxH = 1200;
+                        const scale = Math.min(1, maxW / w, maxH / h);
+                        w = Math.round(w * scale); h = Math.round(h * scale);
+                        canvas.width = w; canvas.height = h;
+                        ctx.drawImage(img, 0, 0, w, h);
 
-                let q = 0.9;
-                let dataURL = canvas.toDataURL('image/jpeg', q);
-                const sizeKB = () => Math.round((dataURL.length * 3 / 4) / 1024);
-                while (sizeKB() > maxKB && q > 0.4) {
-                    q -= 0.1;
-                    dataURL = canvas.toDataURL('image/jpeg', q);
-                }
-                resolve(dataURL);
-            };
-            img.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-    });
-}
+                        let q = 0.9;
+                        let dataURL = canvas.toDataURL('image/jpeg', q);
+                        const sizeKB = () => Math.round((dataURL.length * 3 / 4) / 1024);
+                        while (sizeKB() > maxKB && q > 0.4) {
+                            q -= 0.1;
+                            dataURL = canvas.toDataURL('image/jpeg', q);
+                        }
+                        resolve(dataURL);
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
 
-// 新增：地图/点评链接
-function getMapLinks(keyword) {
-    var q = encodeURIComponent(keyword || '');
-    return '<div class="map-links">地图：'
-        + '<a href="https://www.amap.com/search?query=' + q + '" target="_blank" rel="noopener noreferrer">高德</a>'
-        + '<a href="https://map.baidu.com/search/' + q + '" target="_blank" rel="noopener noreferrer">百度</a>'
-        + '<a href="https://www.dianping.com/search/keyword/0/0_' + q + '" target="_blank" rel="noopener noreferrer">大众点评</a>'
-        + '</div>';
-}
+        // 新增：地图/点评链接
+        function getMapLinks(keyword) {
+            var q = encodeURIComponent(keyword || '');
+            return '<div class="map-links">地图：'
+                + '<a href="https://www.amap.com/search?query=' + q + '" target="_blank" rel="noopener noreferrer">高德</a>'
+                + '<a href="https://map.baidu.com/search/' + q + '" target="_blank" rel="noopener noreferrer">百度</a>'
+                + '<a href="https://www.dianping.com/search/keyword/0/0_' + q + '" target="_blank" rel="noopener noreferrer">大众点评</a>'
+                + '</div>';
+        }
 
         // 初始化应用
         function init() {
             loadData();
             initializeDefaultData();
             dataSync = new DataSync();
+            updateSyncModalUI();              // 新增：根据是否已保存 Token 隐藏/显示表单
             bindEvents();
             renderFoodList();
         }
@@ -936,7 +1008,7 @@ function getMapLinks(keyword) {
                 ];
 
                 const allData = [...toEatData, ...revisitData];
-                
+
                 foods = allData.map((item, index) => ({
                     id: generateId() + index,
                     name: item.name,
@@ -957,8 +1029,8 @@ function getMapLinks(keyword) {
         function bindEvents() {
             // 标签切换（兼容旧环境）
             for (var i = 0; i < tabs.length; i++) {
-                (function(tab){
-                    tab.addEventListener('click', function(){
+                (function (tab) {
+                    tab.addEventListener('click', function () {
                         var tabName = tab.getAttribute('data-tab');
                         switchTab(tabName);
                     });
@@ -967,7 +1039,7 @@ function getMapLinks(keyword) {
             // 事件委托兜底
             var tabBar = document.querySelector('.tab-bar');
             if (tabBar) {
-                tabBar.addEventListener('click', function(e){
+                tabBar.addEventListener('click', function (e) {
                     var t = e.target;
                     if (t && t.classList && t.classList.contains('tab')) {
                         var tabName = t.getAttribute('data-tab');
@@ -989,9 +1061,9 @@ function getMapLinks(keyword) {
             // 同步按钮
             syncBtn.addEventListener('click', () => {
                 syncModal.classList.add('show');
-                if (dataSync.githubToken) {
-                    document.getElementById('githubToken').value = dataSync.githubToken;
-                }
+                const input = document.getElementById('githubToken');
+                if (input) input.value = '';      // 打开时不回显 Token
+                updateSyncModalUI();              // 打开弹窗时决定是否显示表单
             });
 
             // 评分交互（半星 + 滑动）：事件委托到 .rating-stars
@@ -999,33 +1071,34 @@ function getMapLinks(keyword) {
                 const container = e.target.closest('.rating-stars');
                 if (!container) return;
                 const r = getRatingFromPos(container, e.clientX);
-                setOverlay(container, r);
+                setOverlayPreview(container, r);          // 仅预览，不改 data-rating
             });
-            foodList.addEventListener('mouseleave', (e) => {
-                // 当鼠标离开列表区域时，重置每个容器到其当前评分
-                document.querySelectorAll('.rating-stars').forEach(el => {
-                    const current = parseFloat(el.getAttribute('data-rating') || '0') || 0;
-                    setOverlay(el, current);
-                });
-            }, true);
+
+            // 当鼠标离开某个评分容器时，恢复为“已保存评分”
+            foodList.addEventListener('mouseout', (e) => {
+                const container = e.target.closest && e.target.closest('.rating-stars');
+                if (!container) return;
+                if (container.contains(e.relatedTarget)) return; // 仍在同一容器内
+                const current = parseFloat(container.getAttribute('data-rating') || '0') || 0;
+                setOverlay(container, current);                 // 恢复显示
+            });
+
             foodList.addEventListener('click', (e) => {
                 const container = e.target.closest('.rating-stars');
                 if (!container) return;
                 const foodId = container.getAttribute('data-id');
-                const r = getRatingFromPos(container, e.clientX);
+                const r = getRatingFromPos(container, e.clientX);   // 基于位置计算
                 const idx = foods.findIndex(f => f.id === foodId);
                 if (idx !== -1) {
                     foods[idx].rating = r;
                     foods[idx].updatedAt = new Date().toISOString();
                     saveData();
-                    // 提交后刷新（也可只更新该项，为简洁使用整体重渲染）
                     renderFoodList();
-                    if (dataSync.githubToken) {
-                        dataSync.uploadData(foods).catch(() => {});
-                    }
+                    if (dataSync.githubToken) dataSync.uploadData(foods).catch(() => {});
                 }
             });
-            // 触摸交互
+
+            // 触摸交互：滑动预览，抬手保存当前位置评分
             foodList.addEventListener('touchstart', (e) => {
                 const t = e.touches[0];
                 const el = document.elementFromPoint(t.clientX, t.clientY);
@@ -1033,8 +1106,9 @@ function getMapLinks(keyword) {
                 if (!container) return;
                 e.preventDefault();
                 const r = getRatingFromPos(container, t.clientX);
-                setOverlay(container, r);
+                setOverlayPreview(container, r);                 // 仅预览
             }, { passive: false });
+
             foodList.addEventListener('touchmove', (e) => {
                 const t = e.touches[0];
                 const el = document.elementFromPoint(t.clientX, t.clientY);
@@ -1042,24 +1116,23 @@ function getMapLinks(keyword) {
                 if (!container) return;
                 e.preventDefault();
                 const r = getRatingFromPos(container, t.clientX);
-                setOverlay(container, r);
+                setOverlayPreview(container, r);                 // 仅预览
             }, { passive: false });
+
             foodList.addEventListener('touchend', (e) => {
                 const t = e.changedTouches[0];
                 const el = document.elementFromPoint(t.clientX, t.clientY);
                 const container = el && el.closest ? el.closest('.rating-stars') : null;
                 if (!container) return;
                 const foodId = container.getAttribute('data-id');
-                const r = parseFloat(container.getAttribute('data-rating') || '0') || 0;
+                const r = getRatingFromPos(container, t.clientX);   // 用当前位置计算真正评分
                 const idx = foods.findIndex(f => f.id === foodId);
                 if (idx !== -1) {
                     foods[idx].rating = r;
                     foods[idx].updatedAt = new Date().toISOString();
                     saveData();
                     renderFoodList();
-                    if (dataSync.githubToken) {
-                        dataSync.uploadData(foods).catch(() => {});
-                    }
+                    if (dataSync.githubToken) dataSync.uploadData(foods).catch(() => {});
                 }
             });
 
@@ -1077,11 +1150,11 @@ function getMapLinks(keyword) {
             closeSyncModal.addEventListener('click', closeSyncModalHandler);
             cancelBtn.addEventListener('click', closeModalHandler);
             cancelSyncBtn.addEventListener('click', closeSyncModalHandler);
-            
+
             modal.addEventListener('click', (e) => {
                 if (e.target === modal) closeModalHandler();
             });
-            
+
             syncModal.addEventListener('click', (e) => {
                 if (e.target === syncModal) closeSyncModalHandler();
             });
@@ -1093,6 +1166,51 @@ function getMapLinks(keyword) {
             // 同步操作
             uploadBtn.addEventListener('click', handleUpload);
             downloadBtn.addEventListener('click', handleDownload);
+            rebindBtn.addEventListener('click', async function () {
+                if (!dataSync.githubToken) {
+                    showNotification('请先保存 GitHub Token', 'error');
+                    return;
+                }
+                try {
+                    const id = await dataSync.rebindGist();
+                    if (id) showNotification('已绑定云端 Gist：' + id, 'success');
+                    else showNotification('未找到云端数据（toeatlist-data.json）', 'error');
+                } catch (e) {
+                    showNotification('重新绑定失败：' + (e && e.message ? e.message : '未知错误'), 'error');
+                }
+            });
+
+            // 图片选择/预览/压缩
+            if (photoFile) {
+                photoFile.addEventListener('change', async function (e) {
+                    const file = e.target.files && e.target.files[0];
+                    if (!file) return;
+                    try {
+                        const dataURL = await compressImage(file, 200);
+                        pendingPhotoData = dataURL;      // 保存到临时变量，提交时写入 foods
+                        removePhotoFlag = false;
+                        photoPreview.src = dataURL;
+                        photoPreview.classList.remove('hidden');
+                        removePhotoBtn.classList.remove('hidden');
+                        showNotification('图片已压缩并生成预览', 'success');
+                    } catch (err) {
+                        console.error(err);
+                        showNotification('图片处理失败', 'error');
+                    }
+                });
+            }
+
+            // 移除已选图片
+            if (removePhotoBtn) {
+                removePhotoBtn.addEventListener('click', function () {
+                    pendingPhotoData = null;
+                    removePhotoFlag = true;
+                    photoPreview.src = '';
+                    photoPreview.classList.add('hidden');
+                    removePhotoBtn.classList.add('hidden');
+                    if (photoFile) photoFile.value = '';
+                });
+            }
         }
 
         // 数据加载和保存
@@ -1110,7 +1228,7 @@ function getMapLinks(keyword) {
                 }
             } catch (e) {
                 console.warn('本地数据解析失败，已重置:', e);
-                try { localStorage.removeItem('toeatlist'); } catch (_) {}
+                try { localStorage.removeItem('toeatlist'); } catch (_) { }
                 foods = [];
             }
         }
@@ -1131,7 +1249,7 @@ function getMapLinks(keyword) {
         // 渲染美食列表
         function renderFoodList() {
             const searchTerm = searchInput.value.toLowerCase();
-            var filteredFoods = foods.filter(function(food){
+            var filteredFoods = foods.filter(function (food) {
                 var matchesTab = food.status === currentTab;
                 var nameStr = (food.name || '').toLowerCase();
                 var restStr = (food.restaurant || '').toLowerCase();
@@ -1162,22 +1280,22 @@ function getMapLinks(keyword) {
             emptyState.classList.add('hidden');
 
             foodList.innerHTML = filteredFoods.map(food => {
-                const statusClass = food.status === 'eaten' ? 'status-eaten' : 
-                                  food.status === 'revisit' ? 'status-revisit' : 'status-to-eat';
-                const statusText = food.status === 'eaten' ? '已品尝' : 
-                                 food.status === 'revisit' ? '二刷清单' : '待品尝';
-                
+                const statusClass = food.status === 'eaten' ? 'status-eaten' :
+                    food.status === 'revisit' ? 'status-revisit' : 'status-to-eat';
+                const statusText = food.status === 'eaten' ? '已品尝' :
+                    food.status === 'revisit' ? '二刷清单' : '待品尝';
+
                 return '<div class="food-item" data-id="' + food.id + '">' +
                     '<div class="food-header">' +
-                        '<div class="food-name">' + food.name + '</div>' +
-                        '<div class="food-status ' + statusClass + '">' + statusText + '</div>' +
+                    '<div class="food-name">' + food.name + '</div>' +
+                    '<div class="food-status ' + statusClass + '">' + statusText + '</div>' +
                     '</div>' +
                     (food.restaurant ? '<div class="food-restaurant">📍 ' + food.restaurant + '</div>' : '') +
-                    (food.restaurant ? getMapLinks(food.restaurant || food.name) : '') +           <!-- 新增：地图链接 -->
-                    (food.photo ? '<img class="food-photo" src="' + food.photo + '" alt="' + food.name + '">' : '') + <!-- 新增：卡片图片 -->
+                    (food.restaurant ? getMapLinks(food.restaurant || food.name) : '') +
+                    (food.photo ? '<img class="food-photo" src="' + food.photo + '" alt="' + food.name + '">' : '') +
                     '<div class="food-meta">' +
-                        '<span>' + formatDate(food.createdAt) + '</span>' +
-                        '<span></span>' +
+                    '<span>' + formatDate(food.createdAt) + '</span>' +
+                    '<span></span>' +
                     '</div>' +
                     (food.status === 'eaten'
                         ? '<div class="rating-row"><span class="rating-label">评分：</span>'
@@ -1185,12 +1303,12 @@ function getMapLinks(keyword) {
                         : '') +
                     (food.notes ? '<div style="margin-top: 8px; color: #666; font-size: 14px;">' + food.notes + '</div>' : '') +
                     '<div class="food-actions">' + getActionButtons(food) + '</div>' +
-                '</div>';
+                    '</div>';
             }).join('');
 
             // 初始化每个评分控件的填充宽度
             var starNodes = document.querySelectorAll('.rating-stars');
-            Array.prototype.forEach.call(starNodes, function(el){
+            Array.prototype.forEach.call(starNodes, function (el) {
                 var r = parseFloat(el.getAttribute('data-rating') || '0') || 0;
                 setOverlay(el, r);
             });
@@ -1213,6 +1331,10 @@ function getMapLinks(keyword) {
             container.setAttribute('data-rating', clampRating(rating));
             container.setAttribute('title', clampRating(rating) + ' / 5');
         }
+        function setOverlayPreview(container, rating) {
+            const fill = container.querySelector('.stars-fill');
+            if (fill) fill.style.width = (clampRating(rating) / 5 * 100) + '%';
+        }
         function getRatingFromPos(container, clientX) {
             const rect = container.getBoundingClientRect();
             const x = clientX - rect.left;
@@ -1225,7 +1347,7 @@ function getMapLinks(keyword) {
         // 获取操作按钮
         function getActionButtons(food) {
             let buttons = '';
-            
+
             if (food.status === 'to-eat') {
                 buttons += '<button class="btn btn-success" onclick="markAsEaten(\'' + food.id + '\')">标记已品尝</button>';
                 buttons += '<button class="btn btn-info" onclick="moveToRevisit(\'' + food.id + '\')">加入二刷</button>';
@@ -1236,10 +1358,10 @@ function getMapLinks(keyword) {
                 buttons += '<button class="btn btn-success" onclick="markAsEaten(\'' + food.id + '\')">标记已品尝</button>';
                 buttons += '<button class="btn btn-secondary" onclick="moveToToEat(\'' + food.id + '\')">移到待品尝</button>';
             }
-            
+
             buttons += '<button class="btn btn-secondary" onclick="editFood(\'' + food.id + '\')">编辑</button>';
             buttons += '<button class="btn btn-secondary" onclick="deleteFood(\'' + food.id + '\')">删除</button>';
-            
+
             return buttons;
         }
 
@@ -1274,7 +1396,7 @@ function getMapLinks(keyword) {
                     document.getElementById('restaurant').value = food.restaurant || '';
                     document.getElementById('category').value = food.category || '';
                     document.getElementById('notes').value = food.notes || '';
-                    
+
                     if (food.status === 'eaten') {
                         document.getElementById('ratingGroup').classList.remove('hidden');
                         document.getElementById('rating').value = food.rating || '';
@@ -1308,7 +1430,7 @@ function getMapLinks(keyword) {
                     document.getElementById('rating').value = '';
                 }
             }
-            
+
             modal.classList.add('show');
         }
 
@@ -1324,7 +1446,7 @@ function getMapLinks(keyword) {
         // 表单提交
         function handleFormSubmit(e) {
             e.preventDefault();
-            
+
             const formData = {
                 name: document.getElementById('foodName').value.trim(),
                 restaurant: document.getElementById('restaurant').value.trim(),
@@ -1347,7 +1469,7 @@ function getMapLinks(keyword) {
                         ...formData,
                         updatedAt: new Date().toISOString()
                     };
-                    
+
                     // 图片：移除或更新
                     if (removePhotoFlag) delete foods[index].photo;
                     if (pendingPhotoData) foods[index].photo = pendingPhotoData;
@@ -1376,7 +1498,7 @@ function getMapLinks(keyword) {
             saveData();
             renderFoodList();
             closeModalHandler();
-            
+
             // 自动上传到云端
             if (dataSync.githubToken) {
                 dataSync.uploadData(foods).catch(error => {
@@ -1388,16 +1510,15 @@ function getMapLinks(keyword) {
         // 同步表单提交
         function handleSyncFormSubmit(e) {
             e.preventDefault();
-            
             const token = document.getElementById('githubToken').value.trim();
-            if (!token) {
-                showNotification('请输入GitHub Token', 'error');
-                return;
-            }
+            if (!token) { showNotification('请输入GitHub Token', 'error'); return; }
 
             dataSync.setToken(token);
             showNotification('同步设置已保存', 'success');
-            closeSyncModalHandler();
+
+            // 保存后隐藏输入/取消/保存，仅保留“上传/下载”
+            updateSyncModalUI();
+            // 不关闭弹窗，便于直接点“上传/下载”
         }
 
         // 上传数据
@@ -1443,7 +1564,7 @@ function getMapLinks(keyword) {
                 foods = foods.filter(f => f.id !== id);
                 saveData();
                 renderFoodList();
-                
+
                 // 自动同步
                 if (dataSync.githubToken) {
                     dataSync.uploadData(foods).catch(error => {
@@ -1463,7 +1584,7 @@ function getMapLinks(keyword) {
                 saveData();
                 renderFoodList();
                 if (dataSync.githubToken) {
-                    dataSync.uploadData(foods).catch(() => {});
+                    dataSync.uploadData(foods).catch(() => { });
                 }
             }
         }
@@ -1475,7 +1596,7 @@ function getMapLinks(keyword) {
                 foods[index].updatedAt = new Date().toISOString();
                 saveData();
                 renderFoodList();
-                
+
                 // 自动同步
                 if (dataSync.githubToken) {
                     dataSync.uploadData(foods).catch(error => {
@@ -1494,7 +1615,7 @@ function getMapLinks(keyword) {
                 foods[index].updatedAt = new Date().toISOString();
                 saveData();
                 renderFoodList();
-                
+
                 // 自动同步
                 if (dataSync.githubToken) {
                     dataSync.uploadData(foods).catch(error => {
@@ -1502,6 +1623,22 @@ function getMapLinks(keyword) {
                     });
                 }
             }
+        }
+
+        // 更新：根据是否已保存 Token 同时禁用/启用操作按钮
+        function updateSyncModalUI() {
+            var formEl = document.getElementById('syncForm');
+            var has = !!(dataSync && dataSync.githubToken);
+            if (formEl) {
+                if (has) formEl.classList.add('hidden');
+                else formEl.classList.remove('hidden');
+            }
+            var up = document.getElementById('uploadBtn');
+            var down = document.getElementById('downloadBtn');
+            var rebind = document.getElementById('rebindBtn');
+            if (up) up.disabled = !has;
+            if (down) down.disabled = !has;
+            if (rebind) rebind.disabled = !has;
         }
 
         // 启动应用
@@ -1519,7 +1656,7 @@ function getMapLinks(keyword) {
 
         // 覆盖 switchTab 以更新排序按钮可见性
         const _switchTab = switchTab;
-        switchTab = function(tabName) {
+        switchTab = function (tabName) {
             _switchTab(tabName);
             updateSortButtonVisibility();
         }
@@ -1528,4 +1665,5 @@ function getMapLinks(keyword) {
         updateSortButtonVisibility();
     </script>
 </body>
+
 </html>
