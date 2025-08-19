@@ -211,24 +211,37 @@
             color: #999;
         }
 
-        /* 评分行与星标（支持半星与滑动） */
-        .rating-row {
+        /* 双评分行与星标（支持半星与滑动） */
+        .rating-section {
             margin-top: 8px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 12px;
+        }
+
+        .rating-row {
             display: flex;
             align-items: center;
             gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .rating-row:last-child {
+            margin-bottom: 0;
         }
 
         .rating-label {
             font-size: 12px;
-            color: #999;
+            color: #666;
+            min-width: 60px;
+            font-weight: 500;
         }
 
         .rating-stars {
             position: relative;
             display: inline-block;
             line-height: 1;
-            font-size: 18px;
+            font-size: 16px;
             cursor: pointer;
             -webkit-user-select: none;
             user-select: none;
@@ -248,6 +261,52 @@
             overflow: hidden;
             width: 0%;
             pointer-events: none;
+        }
+
+        .average-rating {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding-top: 8px;
+            border-top: 1px solid #e0e0e0;
+            margin-top: 8px;
+        }
+
+        .average-label {
+            font-size: 12px;
+            color: #333;
+            font-weight: 600;
+            min-width: 60px;
+        }
+
+        .average-stars {
+            position: relative;
+            display: inline-block;
+            line-height: 1;
+            font-size: 18px;
+            color: #ff5722;
+        }
+
+        .average-stars .stars-base {
+            color: #ff5722;
+            opacity: 0.3;
+        }
+
+        .average-stars .stars-fill {
+            color: #ff5722;
+            position: absolute;
+            left: 0;
+            top: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 0%;
+            pointer-events: none;
+        }
+
+        .rating-score {
+            font-size: 12px;
+            color: #666;
+            font-weight: 500;
         }
 
         .food-actions {
@@ -658,21 +717,41 @@
                 </div>
 
                 <div class="form-group hidden" id="ratingGroup">
-                    <label class="form-label" for="rating">评分</label>
-                    <select class="form-input" id="rating">
-                        <option value="">请选择评分</option>
-                        <option value="5">⭐⭐⭐⭐⭐ 5星</option>
-                        <option value="4.5">⭐⭐⭐⭐☆ 4.5星</option>
-                        <option value="4">⭐⭐⭐⭐ 4星</option>
-                        <option value="3.5">⭐⭐⭐☆ 3.5星</option>
-                        <option value="3">⭐⭐⭐ 3星</option>
-                        <option value="2.5">⭐⭐☆ 2.5星</option>
-                        <option value="2">⭐⭐ 2星</option>
-                        <option value="1.5">⭐☆ 1.5星</option>
-                        <option value="1">⭐ 1星</option>
-                        <option value="0.5">☆ 0.5星</option>
-                        <option value="0">未评分</option>
-                    </select>
+                    <label class="form-label">评分</label>
+                    <div class="form-group">
+                        <label class="form-label" for="ratingZhiyin">机智颖评分</label>
+                        <select class="form-input" id="ratingZhiyin">
+                            <option value="">请选择评分</option>
+                            <option value="5">⭐⭐⭐⭐⭐ 5星</option>
+                            <option value="4.5">⭐⭐⭐⭐☆ 4.5星</option>
+                            <option value="4">⭐⭐⭐⭐ 4星</option>
+                            <option value="3.5">⭐⭐⭐☆ 3.5星</option>
+                            <option value="3">⭐⭐⭐ 3星</option>
+                            <option value="2.5">⭐⭐☆ 2.5星</option>
+                            <option value="2">⭐⭐ 2星</option>
+                            <option value="1.5">⭐☆ 1.5星</option>
+                            <option value="1">⭐ 1星</option>
+                            <option value="0.5">☆ 0.5星</option>
+                            <option value="0">未评分</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="ratingShuaicui">帅气崔评分</label>
+                        <select class="form-input" id="ratingShuaicui">
+                            <option value="">请选择评分</option>
+                            <option value="5">⭐⭐⭐⭐⭐ 5星</option>
+                            <option value="4.5">⭐⭐⭐⭐☆ 4.5星</option>
+                            <option value="4">⭐⭐⭐⭐ 4星</option>
+                            <option value="3.5">⭐⭐⭐☆ 3.5星</option>
+                            <option value="3">⭐⭐⭐ 3星</option>
+                            <option value="2.5">⭐⭐☆ 2.5星</option>
+                            <option value="2">⭐⭐ 2星</option>
+                            <option value="1.5">⭐☆ 1.5星</option>
+                            <option value="1">⭐ 1星</option>
+                            <option value="0.5">☆ 0.5星</option>
+                            <option value="0">未评分</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="form-actions">
                     <button type="button" class="btn btn-secondary" id="cancelBtn">取消</button>
@@ -1108,6 +1187,8 @@
             foodList.addEventListener('mousemove', (e) => {
                 const container = e.target.closest('.rating-stars');
                 if (!container) return;
+                const rater = container.getAttribute('data-rater');
+                if (!rater) return; // 只处理单个评分者的评分，不处理综合评分
                 const r = getRatingFromPos(container, e.clientX);
                 setOverlayPreview(container, r);          // 仅预览，不改 data-rating
             });
@@ -1116,6 +1197,8 @@
             foodList.addEventListener('mouseout', (e) => {
                 const container = e.target.closest && e.target.closest('.rating-stars');
                 if (!container) return;
+                const rater = container.getAttribute('data-rater');
+                if (!rater) return; // 只处理单个评分者的评分
                 if (container.contains(e.relatedTarget)) return; // 仍在同一容器内
                 const current = parseFloat(container.getAttribute('data-rating') || '0') || 0;
                 setOverlay(container, current);                 // 恢复显示
@@ -1125,10 +1208,17 @@
                 const container = e.target.closest('.rating-stars');
                 if (!container) return;
                 const foodId = container.getAttribute('data-id');
+                const rater = container.getAttribute('data-rater'); // 'zhiyin' 或 'shuaicui'
+                if (!rater) return; // 只处理单个评分者的评分
+                
                 const r = getRatingFromPos(container, e.clientX);   // 基于位置计算
                 const idx = foods.findIndex(f => f.id === foodId);
                 if (idx !== -1) {
-                    foods[idx].rating = r;
+                    if (rater === 'zhiyin') {
+                        foods[idx].ratingZhiyin = r;
+                    } else if (rater === 'shuaicui') {
+                        foods[idx].ratingShuaicui = r;
+                    }
                     foods[idx].updatedAt = new Date().toISOString();
                     saveData();
                     renderFoodList();
@@ -1142,6 +1232,8 @@
                 const el = document.elementFromPoint(t.clientX, t.clientY);
                 const container = el && el.closest ? el.closest('.rating-stars') : null;
                 if (!container) return;
+                const rater = container.getAttribute('data-rater');
+                if (!rater) return; // 只处理单个评分者的评分
                 e.preventDefault();
                 const r = getRatingFromPos(container, t.clientX);
                 setOverlayPreview(container, r);                 // 仅预览
@@ -1152,6 +1244,8 @@
                 const el = document.elementFromPoint(t.clientX, t.clientY);
                 const container = el && el.closest ? el.closest('.rating-stars') : null;
                 if (!container) return;
+                const rater = container.getAttribute('data-rater');
+                if (!rater) return; // 只处理单个评分者的评分
                 e.preventDefault();
                 const r = getRatingFromPos(container, t.clientX);
                 setOverlayPreview(container, r);                 // 仅预览
@@ -1163,10 +1257,16 @@
                 const container = el && el.closest ? el.closest('.rating-stars') : null;
                 if (!container) return;
                 const foodId = container.getAttribute('data-id');
+                const rater = container.getAttribute('data-rater');
+                if (!rater) return; // 只处理单个评分者的评分
                 const r = getRatingFromPos(container, t.clientX);   // 用当前位置计算真正评分
                 const idx = foods.findIndex(f => f.id === foodId);
                 if (idx !== -1) {
-                    foods[idx].rating = r;
+                    if (rater === 'zhiyin') {
+                        foods[idx].ratingZhiyin = r;
+                    } else if (rater === 'shuaicui') {
+                        foods[idx].ratingShuaicui = r;
+                    }
                     foods[idx].updatedAt = new Date().toISOString();
                     saveData();
                     renderFoodList();
@@ -1351,9 +1451,18 @@
             // 已品尝页按评分排序（可切换）
             if (currentTab === 'eaten' && ratingSortDesc) {
                 filteredFoods = filteredFoods.slice().sort((a, b) => {
-                    const ra = (a.rating != null ? a.rating : -1);
-                    const rb = (b.rating != null ? b.rating : -1);
-                    if (rb !== ra) return rb - ra; // 高分在前，未评分（null）在后
+                    // 计算均值评分，只有两人都评分时才有有效均值
+                    let avgA = -1;
+                    let avgB = -1;
+                    
+                    if (a.ratingZhiyin != null && a.ratingShuaicui != null) {
+                        avgA = (a.ratingZhiyin + a.ratingShuaicui) / 2;
+                    }
+                    if (b.ratingZhiyin != null && b.ratingShuaicui != null) {
+                        avgB = (b.ratingZhiyin + b.ratingShuaicui) / 2;
+                    }
+                    
+                    if (avgB !== avgA) return avgB - avgA; // 高分在前，未完整评分在后
                     // 次序：更新时间近的在前
                     return new Date(b.updatedAt) - new Date(a.updatedAt);
                 });
@@ -1386,10 +1495,7 @@
                     '<span>' + formatDate(food.createdAt) + '</span>' +
                     '<span></span>' +
                     '</div>' +
-                    (food.status === 'eaten'
-                        ? '<div class="rating-row"><span class="rating-label">评分：</span>'
-                        + '<div class="rating-stars" data-id="' + food.id + '" data-rating="' + ((food.rating != null ? food.rating : 0)) + '">' + renderStars(food.rating) + '</div></div>'
-                        : '') +
+                    (food.status === 'eaten' ? renderRatingSection(food) : '') +
                     (food.notes ? '<div style="margin-top: 8px; color: #666; font-size: 14px;">' + food.notes + '</div>' : '') +
                     '<div class="food-actions">' + getActionButtons(food) + '</div>' +
                     '</div>';
@@ -1401,6 +1507,43 @@
                 var r = parseFloat(el.getAttribute('data-rating') || '0') || 0;
                 setOverlay(el, r);
             });
+        }
+
+        // 渲染双评分区域
+        function renderRatingSection(food) {
+            const zhiyinRating = food.ratingZhiyin != null ? food.ratingZhiyin : 0;
+            const shuaicuiRating = food.ratingShuaicui != null ? food.ratingShuaicui : 0;
+            
+            // 计算均值：只有当两人都评分时才计算均值
+            let averageRating = null;
+            let averageText = '待评分';
+            
+            if (food.ratingZhiyin != null && food.ratingShuaicui != null) {
+                averageRating = (food.ratingZhiyin + food.ratingShuaicui) / 2;
+                averageText = averageRating.toFixed(1) + ' 星';
+            } else if (food.ratingZhiyin != null || food.ratingShuaicui != null) {
+                averageText = '需两人评分';
+            }
+
+            return '<div class="rating-section">' +
+                '<div class="rating-row">' +
+                '<span class="rating-label">机智颖：</span>' +
+                '<div class="rating-stars" data-id="' + food.id + '" data-rater="zhiyin" data-rating="' + zhiyinRating + '">' + 
+                renderStars(food.ratingZhiyin) + '</div>' +
+                '<span class="rating-score">(' + (food.ratingZhiyin || 0) + ')</span>' +
+                '</div>' +
+                '<div class="rating-row">' +
+                '<span class="rating-label">帅气崔：</span>' +
+                '<div class="rating-stars" data-id="' + food.id + '" data-rater="shuaicui" data-rating="' + shuaicuiRating + '">' + 
+                renderStars(food.ratingShuaicui) + '</div>' +
+                '<span class="rating-score">(' + (food.ratingShuaicui || 0) + ')</span>' +
+                '</div>' +
+                '<div class="average-rating">' +
+                '<span class="average-label">综合：</span>' +
+                '<div class="average-stars">' + renderStars(averageRating) + '</div>' +
+                '<span class="rating-score">' + averageText + '</span>' +
+                '</div>' +
+                '</div>';
         }
 
         // 渲染五星叠层，支持半星（通过填充宽度）
@@ -1488,11 +1631,17 @@
 
                     if (food.status === 'eaten') {
                         document.getElementById('ratingGroup').classList.remove('hidden');
-                        const ratingSelect = document.getElementById('rating');
-                        if (food.rating != null) {
-                            ratingSelect.value = food.rating.toString();
+                        const ratingZhiyinSelect = document.getElementById('ratingZhiyin');
+                        const ratingShuaicuiSelect = document.getElementById('ratingShuaicui');
+                        if (food.ratingZhiyin != null) {
+                            ratingZhiyinSelect.value = food.ratingZhiyin.toString();
                         } else {
-                            ratingSelect.value = '';
+                            ratingZhiyinSelect.value = '';
+                        }
+                        if (food.ratingShuaicui != null) {
+                            ratingShuaicuiSelect.value = food.ratingShuaicui.toString();
+                        } else {
+                            ratingShuaicuiSelect.value = '';
                         }
                     } else {
                         document.getElementById('ratingGroup').classList.add('hidden');
@@ -1521,7 +1670,8 @@
                     document.getElementById('category').value = food.category || '';
                     document.getElementById('notes').value = food.notes || '';
                     document.getElementById('ratingGroup').classList.remove('hidden');
-                    document.getElementById('rating').value = '0'; // 默认显示"未评分"，用户可选择
+                    document.getElementById('ratingZhiyin').value = '0'; // 默认显示"未评分"，用户可选择
+                    document.getElementById('ratingShuaicui').value = '0'; // 默认显示"未评分"，用户可选择
                 }
             }
 
@@ -1546,7 +1696,8 @@
                 restaurant: document.getElementById('restaurant').value.trim(),
                 category: document.getElementById('category').value.trim(),
                 notes: document.getElementById('notes').value.trim(),
-                rating: document.getElementById('rating').value ? parseFloat(document.getElementById('rating').value) : null
+                ratingZhiyin: document.getElementById('ratingZhiyin').value ? parseFloat(document.getElementById('ratingZhiyin').value) : null,
+                ratingShuaicui: document.getElementById('ratingShuaicui').value ? parseFloat(document.getElementById('ratingShuaicui').value) : null
             };
 
             if (!formData.name) {
@@ -1674,7 +1825,9 @@
                 foods[index].status = 'eaten';
                 foods[index].eatenAt = new Date().toISOString();
                 foods[index].updatedAt = new Date().toISOString();
-                if (foods[index].rating == null) foods[index].rating = 0; // 初始为 0 星，可直接点亮
+                // 初始化双评分为0，如果还没有评分的话
+                if (foods[index].ratingZhiyin == null) foods[index].ratingZhiyin = 0;
+                if (foods[index].ratingShuaicui == null) foods[index].ratingShuaicui = 0;
                 saveData();
                 renderFoodList();
                 if (dataSync.githubToken) {
@@ -1705,7 +1858,8 @@
             if (index !== -1) {
                 foods[index].status = 'to-eat';
                 // 回退为未评分
-                foods[index].rating = null;
+                foods[index].ratingZhiyin = null;
+                foods[index].ratingShuaicui = null;
                 foods[index].updatedAt = new Date().toISOString();
                 saveData();
                 renderFoodList();
