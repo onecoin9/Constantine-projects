@@ -84,8 +84,9 @@
             background: white;
             border-bottom: 1px solid #eee;
             position: sticky;
-            top: 88px;
-            z-index: 99;
+            top: 0; /* 固定到视口顶部 */
+            z-index: 1500; /* 高于其他浮动元素 */
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
         }
 
         .tab {
@@ -515,22 +516,7 @@
         .empty-state {
             text-align: center;
             padding: 40px 20px;
-            color: #999;
-        }
-
-        .empty-state-icon {
-            font-size: 48px;
-            margin-bottom: 16px;
-        }
-
-        .empty-state-text {
-            font-size: 16px;
-            margin-bottom: 8px;
-        }
-
-        .empty-state-subtext {
-            font-size: 14px;
-            color: #ccc;
+            color: #777;
         }
 
         /* 新增：卡片图片与地图链接样式 */
@@ -617,16 +603,28 @@
 
         /* 顶部工具条 */
         .toolbar {
-            margin-top: 8px;
-            text-align: right;
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 12px;
+            padding-top: 8px;
+            padding-bottom: 8px;
         }
 
         .no-margin-top {
             margin-top: 0 !important;
+            padding: 16px;
+            padding-top: 8px; /* 为粘性标签栏留出空间 */
         }
 
         .mt-16 {
             margin-top: 16px !important;
+        }
+
+        .photo-hint {
+            font-size: 12px;
+            color: #999;
+            margin-top: 6px;
         }
     </style>
 </head>
@@ -713,7 +711,7 @@
                                 id="removePhotoBtn">移除照片</button>
                         </div>
                     </div>
-                    <div style="font-size:12px;color:#999;margin-top:6px;">提示：为控制体积，图片会转为JPEG并按需缩放压缩。</div>
+                    <div class="photo-hint">提示：为控制体积，图片会转为JPEG并按需缩放压缩。</div>
                 </div>
 
                 <div class="form-group hidden" id="ratingGroup">
@@ -1082,8 +1080,35 @@
             dataSync = new DataSync();
             updateSyncModalUI();              // 新增：根据是否已保存 Token 隐藏/显示表单
             bindEvents();
+            updateTabBarOffset();
             renderFoodList();
         }
+
+        // 根据 header 高度调整 tab-bar 的 top，避免覆盖 header
+        function updateTabBarOffset() {
+            const headerEl = document.querySelector('.header');
+            const tabBar = document.querySelector('.tab-bar');
+            if (!headerEl || !tabBar) return;
+            // 使用 header 的实际高度，确保 tab-bar 紧贴 header 底部而不覆盖 header 内的元素（如搜索框）
+            const headerRect = headerEl.getBoundingClientRect();
+            const headerH = Math.ceil(headerRect.height);
+            tabBar.style.top = headerH + 'px';
+
+            // 确保主内容区域顶部内边距足以避免被 tab-bar 覆盖：header 高度 + tab 高度
+            const mainContent = document.querySelector('.main-content');
+            if (mainContent) {
+                const tabH = Math.ceil(tabBar.getBoundingClientRect().height);
+                // 只保留 tab-bar 的高度和少量间距，避免留出重复的 header 空白
+                mainContent.style.paddingTop = (tabH + 8) + 'px';
+            }
+        }
+
+        // 在窗口尺寸变化时重新计算
+        window.addEventListener('resize', function () {
+            // 防抖
+            if (window._tabBarResizeTimer) clearTimeout(window._tabBarResizeTimer);
+            window._tabBarResizeTimer = setTimeout(updateTabBarOffset, 120);
+        });
 
         // 初始化默认数据
         function initializeDefaultData() {
@@ -1274,9 +1299,9 @@
                 }
             });
 
-            // 按评分排序（仅在已品尝页）
+            // 按评分排序（在已品尝和二刷页可用）
             document.getElementById('sortEatenBtn').addEventListener('click', () => {
-                if (currentTab !== 'eaten') return;
+                if (currentTab !== 'eaten' && currentTab !== 'revisit') return;
                 ratingSortDesc = !ratingSortDesc;
                 const btn = document.getElementById('sortEatenBtn');
                 btn.textContent = ratingSortDesc ? '按评分排序：高→低' : '按评分排序：默认';
@@ -1448,8 +1473,8 @@
                 return matchesTab && matchesSearch;
             });
 
-            // 已品尝页按评分排序（可切换）
-            if (currentTab === 'eaten' && ratingSortDesc) {
+            // 已品尝或二刷页按评分排序（可切换）
+            if ((currentTab === 'eaten' || currentTab === 'revisit') && ratingSortDesc) {
                 filteredFoods = filteredFoods.slice().sort((a, b) => {
                     // 计算均值评分，只有两人都评分时才有有效均值
                     let avgA = -1;
@@ -1495,11 +1520,18 @@
                     '<span>' + formatDate(food.createdAt) + '</span>' +
                     '<span></span>' +
                     '</div>' +
-                    (food.status === 'eaten' ? renderRatingSection(food) : '') +
+                    (food.status === 'eaten' || food.status === 'revisit' ? renderRatingSection(food) : '') +
                     (food.notes ? '<div style="margin-top: 8px; color: #666; font-size: 14px;">' + food.notes + '</div>' : '') +
                     '<div class="food-actions">' + getActionButtons(food) + '</div>' +
                     '</div>';
             }).join('');
+
+            // 在渲染完成后重新计算 tab-bar 偏移，多次调度以覆盖首次渲染/字体/图片加载引起的抖动
+            try {
+                updateTabBarOffset();
+                requestAnimationFrame(function () { try { updateTabBarOffset(); } catch (_) { } });
+                setTimeout(function () { try { updateTabBarOffset(); } catch (_) { } }, 80);
+            } catch (e) { /* ignore */ }
 
             // 初始化每个评分控件的填充宽度
             var starNodes = document.querySelectorAll('.rating-stars');
@@ -1596,7 +1628,6 @@
 
             return buttons;
         }
-
         // 工具函数
         function formatDate(dateString) {
             const date = new Date(dateString);
@@ -1629,7 +1660,7 @@
                     document.getElementById('category').value = food.category || '';
                     document.getElementById('notes').value = food.notes || '';
 
-                    if (food.status === 'eaten') {
+                    if (food.status === 'eaten' || food.status === 'revisit') {
                         document.getElementById('ratingGroup').classList.remove('hidden');
                         const ratingZhiyinSelect = document.getElementById('ratingZhiyin');
                         const ratingShuaicuiSelect = document.getElementById('ratingShuaicui');
@@ -1895,7 +1926,7 @@
         // 根据当前标签显示/隐藏排序按钮
         function updateSortButtonVisibility() {
             const btn = document.getElementById('sortEatenBtn');
-            if (currentTab === 'eaten') {
+            if (currentTab === 'eaten' || currentTab === 'revisit') {
                 btn.style.display = 'inline-block';
             } else {
                 btn.style.display = 'none';
@@ -1907,6 +1938,9 @@
         switchTab = function (tabName) {
             _switchTab(tabName);
             updateSortButtonVisibility();
+            try { updateTabBarOffset(); } catch (e) { /* ignore */ }
+            // 切换标签时将视口滚动到顶部，避免不同标签共享上一次的滚动位置
+            try { window.scrollTo({ top: 0, left: 0, behavior: 'auto' }); } catch (e) { window.scrollTo(0, 0); }
         }
 
         // 初始化排序按钮可见性
