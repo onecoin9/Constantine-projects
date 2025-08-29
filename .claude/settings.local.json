@@ -9,7 +9,9 @@
       "Bash(do mv \"$file\" \"D:\\Constantine-Projects\\docs\\requirements\\images$file\")",
       "Bash(rmdir:*)",
       "Bash(rm:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(python:*)",
+      "Bash(grep:*)"
     ],
     "deny": [],
     "ask": []
