@@ -12,7 +12,16 @@
       "Bash(git add:*)",
       "Bash(python:*)",
       "Bash(grep:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Read(D:\\qtProject\\doorPressure\\doorPressureTester/**)",
+      "Read(D:\\qtProject\\doorPressure\\doorPressureTester/**)",
+      "Read(D:\\qtProject\\doorPressure\\doorPressureTester/**)",
+      "Read(D:\\qtProject\\doorPressure\\doorPressureTester/**)",
+      "Read(D:\\qtProject\\doorPressure\\doorPressureTester/**)",
+      "Read(D:\\qtProject\\doorPressure\\doorPressureTester/**)",
+      "Read(D:\\qtProject\\doorPressure\\doorPressureTester\\include\\services/**)",
+      "Read(D:\\qtProject\\doorPressure\\doorPressureTester\\include\\services/**)",
+      "Read(D:\\qtProject\\doorPressure\\doorPressureTester\\include\\controller\\protocols/**)"
     ],
     "deny": [],
     "ask": []
