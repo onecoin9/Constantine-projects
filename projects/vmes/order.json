@@ -1,0 +1,35 @@
+{
+    "success": true, 
+    "message": "", 
+    "code": 200, 
+    "result": {
+        "Project": [
+            {
+                "SOFTWAREID": "RJ-0022111", 
+                "SOFTWARENAME": "AMBER-S-2022.1.11.rar"
+            },
+			{
+                "SOFTWAREID": "RJ-0022222", 
+                "SOFTWARENAME": "AMBER-S-2022.1.22.rar"
+            }
+        ], 
+        "Quantity": 1000,
+        "Remark": "001030012634", 
+        "Model":"AP800",
+        "OrderName": "001030012634", 
+        "ComponentName": "7459S26I436H0016", 
+        "ChipList": [
+            {
+                "CHIP_NUMBER": "NA00121", 
+                "CHIP_NAME": "08QA"
+            }, 
+            {
+                "CHIP_NUMBER": "NA00122", 
+                "CHIP_NAME": "08QB"
+            }
+        ], 
+        "ErrMsg": "", 
+        "Result": "true"
+    }, 
+    "timestamp": 1662369763368
+}

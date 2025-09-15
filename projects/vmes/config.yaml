@@ -1,0 +1,15 @@
+ListenPort: 8080
+LoginUrl: /mes/login
+GetTokenUrl: /mes/gettoken
+GetLocationUrl: /mes/getlocation
+GetWorkOrderUrl: /mes/getworkorder
+SendTaskInfoUrl: /mes/sendtaskinfo
+SendAlarmInfoUrl: /mes/sendalarminfo
+SendProgInfoUrl: /mes/sendproginfo
+SendProgResultUrl: /mes/sendprogresult
+SendOpeCallUrl: /mes/sendopecall
+SendReortUrl: 	/mes/sendreort
+SOAPListenPort: 	8088
+SOAPUrl: 	/mes/soap.asmx
+SOAPAction: SendResult
+SOAPBodyContentType: 	ProgramResult

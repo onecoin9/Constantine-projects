@@ -1,0 +1,14 @@
+<Envelope 
+    xmlns="http://schemas.xmlsoap.org/soap/envelope/">
+    <Header 
+        xmlns="http://schemas.xmlsoap.org/soap/envelope/">
+    </Header>
+    <Body xmlns="http://schemas.xmlsoap.org/soap/envelope/">
+             <ProgramResult>
+                   <PassCnt>5</PassCnt>
+                  <FailCnt>2</FailCnt>
+                  <TotalCnt>3</TotalCnt>
+             </ProgramResult>
+
+    </Body>
+</Envelope>
