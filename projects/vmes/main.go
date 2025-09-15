@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/xml"
 	"fmt"
 	"io/ioutil"
@@ -15,7 +16,7 @@ const (
 	VERSION = "V1.0.8_230915"
 )
 
-//yaml文件内容影射的结构体，注意结构体成员要大写开头
+// yaml文件内容影射的结构体，注意结构体成员要大写开头
 type ServerConfig struct {
 	ListenPort          string `yaml:"ListenPort"`
 	LoginUrl            string `yaml:"LoginUrl"`
@@ -90,6 +91,8 @@ func main() {
 	fmt.Println(server_config.SOAPListenPort)
 	//gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
+	// 打印每次请求的请求体与响应体
+	r.Use(loggingMiddleware())
 	r.GET("/download/TestEMMC.tar.gz", func(c *gin.Context) {
 		c.File("TestEMMC.tar.gz")
 	})
@@ -282,10 +285,6 @@ func main() {
 		c.Writer.WriteString(string(success_data))
 	})
 	r.POST(server_config.GetSnInfoUrl, func(c *gin.Context) {
-		recv_body := make([]byte, 2048)
-		n, _ := c.Request.Body.Read(recv_body)
-		fmt.Println(string(recv_body[0:n]))
-
 		getsninfo_data, err := ioutil.ReadFile("./getsninfo.json")
 		if err != nil {
 			fmt.Print(err)
@@ -333,4 +332,49 @@ func main() {
 
 	r.Run(":" + server_config.ListenPort)
 
+}
+
+// loggingMiddleware 记录请求方法、路径、请求体与响应体
+func loggingMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		// 读取并还原请求体
+		var requestBodyBytes []byte
+		if c.Request.Body != nil {
+			b, _ := ioutil.ReadAll(c.Request.Body)
+			requestBodyBytes = b
+			c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(b))
+		}
+
+		// 包装 ResponseWriter 以捕获响应体
+		blw := &bodyLogWriter{ResponseWriter: c.Writer, body: bytes.NewBuffer(nil)}
+		c.Writer = blw
+
+		// 执行后续处理
+		c.Next()
+
+		// 打印日志
+		fmt.Println("[REQUEST]", c.Request.Method, c.Request.URL.Path)
+		if len(requestBodyBytes) > 0 {
+			fmt.Println(string(requestBodyBytes))
+		}
+		fmt.Println("[RESPONSE]", c.Writer.Status())
+		if blw.body.Len() > 0 {
+			fmt.Println(blw.body.String())
+		}
+	}
+}
+
+type bodyLogWriter struct {
+	gin.ResponseWriter
+	body *bytes.Buffer
+}
+
+func (w *bodyLogWriter) Write(b []byte) (int, error) {
+	w.body.Write(b)
+	return w.ResponseWriter.Write(b)
+}
+
+func (w *bodyLogWriter) WriteString(s string) (int, error) {
+	w.body.WriteString(s)
+	return w.ResponseWriter.WriteString(s)
 }
