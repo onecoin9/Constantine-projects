@@ -28,6 +28,7 @@ type ServerConfig struct {
 	SendProgInfoUrl     string `yaml:"SendProgInfoUrl"`
 	SendProgResultUrl   string `yaml:"SendProgResultUrl"`
 	SendReortUrl        string `yaml:"SendReportUrl"`
+	GetSnInfoUrl        string `yaml:"GetSnInfoUrl"`
 	SOAPListenPort      string `yaml:"SOAPListenPort"`
 	SOAPUrl             string `yaml:"SOAPUrl"`
 	SOAPAction          string `yaml:"SOAPAction"`
@@ -80,6 +81,10 @@ func main() {
 	}
 	if server_config.SOAPListenPort == "" {
 		fmt.Println("没有找到SoapListenPort，请使用最新的配置文件config.yaml")
+		return
+	}
+	if server_config.GetSnInfoUrl == "" {
+		fmt.Println("没有找到GetSnInfoUrl，请使用最新的配置文件config.yaml")
 		return
 	}
 	fmt.Println(server_config.SOAPListenPort)
@@ -275,6 +280,24 @@ func main() {
 			fmt.Print(err)
 		}
 		c.Writer.WriteString(string(success_data))
+	})
+	r.POST(server_config.GetSnInfoUrl, func(c *gin.Context) {
+		recv_body := make([]byte, 2048)
+		n, _ := c.Request.Body.Read(recv_body)
+		fmt.Println(string(recv_body[0:n]))
+
+		getsninfo_data, err := ioutil.ReadFile("./getsninfo.json")
+		if err != nil {
+			fmt.Print(err)
+		}
+		c.Writer.WriteString(string(getsninfo_data))
+	})
+	r.GET(server_config.GetSnInfoUrl, func(c *gin.Context) {
+		getsninfo_data, err := ioutil.ReadFile("./getsninfo.json")
+		if err != nil {
+			fmt.Print(err)
+		}
+		c.Writer.WriteString(string(getsninfo_data))
 	})
 	go func() {
 		soapPath := server_config.SOAPUrl

@@ -9,6 +9,7 @@ SendProgInfoUrl: /mes/sendproginfo
 SendProgResultUrl: /mes/sendprogresult
 SendOpeCallUrl: /mes/sendopecall
 SendReortUrl: 	/mes/sendreort
+GetSnInfoUrl: /mes/getsninfo
 SOAPListenPort: 	8088
 SOAPUrl: 	/mes/soap.asmx
 SOAPAction: SendResult
