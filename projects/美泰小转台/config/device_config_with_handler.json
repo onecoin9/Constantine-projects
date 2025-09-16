@@ -1,0 +1,388 @@
+{
+    "devices": [
+        {
+            "communicationConfig": {
+                "channelType": "serial",
+                "parameters": {
+                    "baudRate": "1382400",
+                    "dataBits": "8",
+                    "flowControl": "0",
+                    "parity": "0",
+                    "portIndex": 0,
+                    "portName": "COM4",
+                    "stopBits": "1"
+                }
+            },
+            "deviceConfig": {
+                "description": "测试板#1"
+            },
+            "deviceId": "testboard-01",
+            "deviceType": "TestBoard",
+            "enabled": true
+        },
+        {
+            "communicationConfig": {
+            },
+            "deviceConfig": {
+                "description": "通用外部程序执行器"
+            },
+            "deviceId": "process_runner",
+            "deviceType": "Process",
+            "enabled": true
+        },
+        {
+            "communicationConfig": {
+                "channelType": "internal",
+                "note": "Handler设备使用内部TCP通信，不需要外部通道配置"
+            },
+            "deviceConfig": {
+                "bindAddress": "127.0.0.1",
+                "cmd3TaskPath": "C:\\TestTask\\turntable_test.tsk",
+                "description": "自动化处理设备",
+                "enableHeartbeat": false,
+                "heartbeatIntervalMs": 5000,
+                "protocolType": "SProtocol",
+                "siteConfiguration": {
+                    "globalSocketSettings": {
+                        "autoEnableDetection": true,
+                        "defaultSocketCount": 16,
+                        "maxSocketsPerSite": 16,
+                        "pdu63Support": true,
+                        "socketTypes": [
+                            "8",
+                            "16",
+                            "64"
+                        ]
+                    },
+                    "sites": [
+                        {
+                            "autoAlias": "Auto01",
+                            "chipEnable": "0x00",
+                            "chipReady": false,
+                            "description": "主站点1 - 8 Socket",
+                            "ip": "192.168.71.200",
+                            "siteAlias": "Site01",
+                            "siteEnvInit": true,
+                            "siteIndex": 1,
+                            "siteSN": "SN001",
+                            "socketCount": 16,
+                            "socketEnable": "0x000F",
+                            "socketReady": "0x00"
+                        },
+                        {
+                            "autoAlias": "Auto02",
+                            "chipEnable": "0x00",
+                            "chipReady": false,
+                            "description": "主站点2 - 8 Socket",
+                            "ip": "192.168.11.102",
+                            "siteAlias": "Site02",
+                            "siteEnvInit": true,
+                            "siteIndex": 2,
+                            "siteSN": "SN002",
+                            "socketCount": 16,
+                            "socketEnable": "0x0000",
+                            "socketReady": "0x00"
+                        },
+                        {
+                            "autoAlias": "Auto03",
+                            "chipEnable": "0x00",
+                            "chipReady": false,
+                            "description": "主站点3 - 16 Socket",
+                            "ip": "192.168.11.103",
+                            "siteAlias": "Site03",
+                            "siteEnvInit": true,
+                            "siteIndex": 3,
+                            "siteSN": "SN003",
+                            "socketCount": 16,
+                            "socketEnable": "0x0000",
+                            "socketReady": "0x00"
+                        },
+                        {
+                            "autoAlias": "Auto04",
+                            "chipEnable": "0x00",
+                            "chipReady": false,
+                            "description": "主站点4 - 16 Socket",
+                            "ip": "192.168.11.104",
+                            "siteAlias": "Site04",
+                            "siteEnvInit": true,
+                            "siteIndex": 4,
+                            "siteSN": "SN004",
+                            "socketCount": 16,
+                            "socketEnable": "0x0000",
+                            "socketReady": "0x00"
+                        },
+                        {
+                            "autoAlias": "Auto05",
+                            "chipEnable": "0x00",
+                            "chipReady": false,
+                            "description": "主站点5 - 16 Socket",
+                            "ip": "192.168.11.105",
+                            "siteAlias": "Site05",
+                            "siteEnvInit": true,
+                            "siteIndex": 5,
+                            "siteSN": "SN005",
+                            "socketCount": 16,
+                            "socketEnable": "0x0000",
+                            "socketReady": "0x00"
+                        },
+                        {
+                            "autoAlias": "Auto06",
+                            "chipEnable": "0x00",
+                            "chipReady": false,
+                            "description": "主站点6 - 16 Socket",
+                            "ip": "192.168.11.106",
+                            "siteAlias": "Site06",
+                            "siteEnvInit": true,
+                            "siteIndex": 6,
+                            "siteSN": "SN006",
+                            "socketCount": 16,
+                            "socketEnable": "0x0000",
+                            "socketReady": "0x00"
+                        },
+                        {
+                            "autoAlias": "Auto07",
+                            "chipEnable": "0x00",
+                            "chipReady": false,
+                            "description": "主站点7 - 16 Socket",
+                            "ip": "192.168.11.107",
+                            "siteAlias": "Site07",
+                            "siteEnvInit": true,
+                            "siteIndex": 7,
+                            "siteSN": "SN007",
+                            "socketCount": 16,
+                            "socketEnable": "0x0000",
+                            "socketReady": "0x00"
+                        },
+                        {
+                            "autoAlias": "Auto08",
+                            "chipEnable": "0x00",
+                            "chipReady": false,
+                            "description": "主站点8 - 16 Socket",
+                            "ip": "192.168.11.108",
+                            "siteAlias": "Site08",
+                            "siteEnvInit": true,
+                            "siteIndex": 8,
+                            "siteSN": "SN008",
+                            "socketCount": 16,
+                            "socketEnable": "0x0000",
+                            "socketReady": "0x00"
+                        },
+                        {
+                            "autoAlias": "Auto09",
+                            "chipEnable": "0x00",
+                            "chipReady": false,
+                            "description": "特殊站点9 - 转台测试站点 (4 Socket)",
+                            "ip": "",
+                            "siteAlias": "Site09",
+                            "siteEnvInit": true,
+                            "siteIndex": 9,
+                            "siteSN": "TURN009",
+                            "socketCount": 16,
+                            "socketEnable": "0x000F",
+                            "socketReady": "0x00"
+                        }
+                    ],
+                    "sitesAutoMap": [
+                        {
+                            "siteAlias": "Site01",
+                            "siteIndex": 1
+                        },
+                        {
+                            "siteAlias": "Site02",
+                            "siteIndex": 2
+                        },
+                        {
+                            "siteAlias": "Site03",
+                            "siteIndex": 3
+                        },
+                        {
+                            "siteAlias": "Site04",
+                            "siteIndex": 4
+                        },
+                        {
+                            "siteAlias": "Site05",
+                            "siteIndex": 5
+                        },
+                        {
+                            "siteAlias": "Site06",
+                            "siteIndex": 6
+                        },
+                        {
+                            "siteAlias": "Site07",
+                            "siteIndex": 7
+                        },
+                        {
+                            "siteAlias": "Site08",
+                            "siteIndex": 8
+                        },
+                        {
+                            "siteAlias": "Site09",
+                            "siteIndex": 9
+                        }
+                    ]
+                },
+                "tcpConfig": {
+                    "clientPort": 64100,
+                    "cmd3Port": 1000,
+                    "ipAddress": "127.0.0.1",
+                    "serverPort": 64101
+                },
+                "timeout": 5000
+            },
+            "deviceId": "handler-01",
+            "deviceType": "Handler",
+            "enabled": true
+        },
+        {
+            "communicationConfig": {
+                "channelType": "internal",
+                "note": "BurnDevice使用内部TCP连接，不需要外部通道配置"
+            },
+            "deviceConfig": {
+                "aprogPath": "C:/JWL/Tester/xt422/AIPE/Build/Aprog.exe",
+                "connectionType": "longConnection",
+                "description": "JSON-RPC烧录设备客户端 (长连接模式)",
+                "name": "烧录设备",
+                "reconnectInterval": 3000,
+                "requestTimeout": 30000,
+                "serverHost": "127.0.0.1",
+                "serverPort": 22345,
+                "timeout": 5000
+            },
+            "deviceId": "burn-device-01",
+            "deviceType": "Burn",
+            "enabled": true
+        }
+    ],
+    "globalSettings": {
+        "autoInitOnStartup": true
+    },
+    "steps": [
+        {
+            "config": {
+                "activationParams": {
+                    "chipType": "A300",
+                    "parameters": [
+                        {
+                            "lowerLimit": 5.5,
+                            "name": "工作电流ICC",
+                            "note": "ICC电流制作参数",
+                            "passValue": "",
+                            "refValue": "",
+                            "testBit": "",
+                            "type": "电流",
+                            "unit": "mA",
+                            "upperLimit": 7
+                        },
+                        {
+                            "lowerLimit": 0.9,
+                            "name": "嵌套环直流电压",
+                            "note": "嵌套法进成电压范围",
+                            "passValue": "",
+                            "refValue": "",
+                            "testBit": "38",
+                            "type": "电压",
+                            "unit": "V",
+                            "upperLimit": 1.7
+                        },
+                        {
+                            "lowerLimit": 1.3,
+                            "name": "嵌套环直流电压...",
+                            "note": "调整存在设定，通过目标值",
+                            "passValue": "",
+                            "refValue": "",
+                            "testBit": "34",
+                            "type": "电压",
+                            "unit": "V",
+                            "upperLimit": 1.4
+                        },
+                        {
+                            "lowerLimit": 1.2,
+                            "name": "驱动直流电压",
+                            "note": "驱动电压范围",
+                            "passValue": "",
+                            "refValue": "",
+                            "testBit": "38",
+                            "type": "电压",
+                            "unit": "V",
+                            "upperLimit": 1.6
+                        },
+                        {
+                            "lowerLimit": 0,
+                            "name": "驱动直流电压...",
+                            "note": "1ms内蜂鸣值范围",
+                            "passValue": "",
+                            "refValue": "",
+                            "testBit": "",
+                            "type": "电压",
+                            "unit": "mV",
+                            "upperLimit": 300
+                        },
+                        {
+                            "lowerLimit": 150000,
+                            "name": "周期脉冲电压",
+                            "note": "交流电压频率及通过值",
+                            "passValue": "",
+                            "refValue": "",
+                            "testBit": "38",
+                            "type": "频率",
+                            "unit": "Hz",
+                            "upperLimit": 155000
+                        },
+                        {
+                            "lowerLimit": 150000,
+                            "name": "周期脉冲电压调幅",
+                            "note": "调整存在设定，通过目标频率",
+                            "passValue": "",
+                            "refValue": "",
+                            "testBit": "43",
+                            "type": "频率",
+                            "unit": "Hz",
+                            "upperLimit": 155000
+                        },
+                        {
+                            "lowerLimit": 0.9,
+                            "name": "正弦交流电压均值",
+                            "note": "正弦波电压均值范围",
+                            "passValue": "",
+                            "refValue": "",
+                            "testBit": "38",
+                            "type": "电压",
+                            "unit": "V",
+                            "upperLimit": 1.1
+                        },
+                        {
+                            "lowerLimit": 0.8,
+                            "name": "正弦交流电压...",
+                            "note": "正弦波电压峰值范围",
+                            "passValue": "",
+                            "refValue": "",
+                            "testBit": "",
+                            "type": "电压",
+                            "unit": "V",
+                            "upperLimit": 1.2
+                        },
+                        {
+                            "lowerLimit": 19000,
+                            "name": "正弦交流电压频率",
+                            "note": "驱动频率范围",
+                            "passValue": "",
+                            "refValue": "",
+                            "testBit": "",
+                            "type": "频率",
+                            "unit": "Hz",
+                            "upperLimit": 23000
+                        }
+                    ]
+                },
+                "batchNumber": "20250818_0953",
+                "cmd3TaskPath": "C:/JWL/1.tsk",
+                "productionQuantity": 20,
+                "taskFileName": "C:/JWL/Tester/xt422/AIPE/Build/task/a300.actask"
+            },
+            "id": "global_config",
+            "name": "全局配置参数",
+            "type": "GlobalConfig"
+        }
+    ]
+}

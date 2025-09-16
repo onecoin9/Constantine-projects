@@ -1,0 +1,31 @@
+{
+    "name": "turntable_test_safe",
+    "description": "安全的转台测试：确保采集总是能停止",
+    "steps": [
+        {
+            "id": "init_pdu63",
+            "name": "步骤1: 发送PDU63初始化",
+            "type": "DeviceCommand",
+            "config": {
+                "deviceId": "handler-01",
+                "command": "tellDevReady",
+                "args": {},
+                "storeResultIn": "pdu63Result"
+            }
+        },
+        {
+            "id": "send_cmd3",
+            "name": "步骤2: 发送CMD3任务",
+            "type": "DeviceCommand",
+            "config": {
+                "deviceId": "handler-01",
+                "command": "loadTask",
+                "args": {
+                    "productionQuantity": "${device.handler-01.productionQuantity}",
+                    "taskPath": "${device.handler-01.cmd3TaskPath}"
+                },
+                "storeResultIn": "cmd3Result"
+            }
+        }
+    ]
+} 

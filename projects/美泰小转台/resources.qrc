@@ -1,0 +1,86 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+    <qresource prefix="/resources">
+        <!-- 主要应用程序图标 -->
+        <file>icons/Acroview.ico</file>
+        <file>icons/Acroview.png</file>
+        
+        <!-- 原有图标保持兼容 -->
+        <file>icons/app_icon.ico</file>
+        <!-- <file>icons/app_icon.png</file> -->
+        
+        <!-- 界面控制图标 -->
+        <file>icons/startG.png</file>
+        <file>icons/pauseY.png</file>
+        <!-- <file>icons/stopR.png</file> -->
+        
+        <!-- 专业控制图标 -->
+        <file>icons/playBlack.png</file>
+        <file>icons/playGray.png</file>
+        <file>icons/playWhite.png</file>
+        <file>icons/pauseBlack.png</file>
+        <file>icons/pauseGray.png</file>
+        <file>icons/pauseWhite.png</file>
+        
+        <!-- 设置图标 -->
+        <file>icons/settingBlack.png</file>
+        <file>icons/settingGray.png</file>
+        <file>icons/settingWhite.png</file>
+        
+        <!-- 人员图标 -->
+        <file>icons/peopleBlack.png</file>
+        <file>icons/peopleGray.png</file>
+        <file>icons/peopleWhite.png</file>
+        
+        <!-- 数据图标 -->
+        <file>icons/dataBlack.png</file>
+        <file>icons/dataGray.png</file>
+        <file>icons/dataWhite.png</file>
+        
+        <!-- 报警图标 -->
+        <file>icons/alarmBlack.png</file>
+        <file>icons/alarmGray.png</file>
+        <file>icons/alarmWhite.png</file>
+        
+        <!-- 视觉图标 -->
+        <file>icons/eyeOpen.png</file>
+        <file>icons/eyeClose.png</file>
+        
+        <!-- 方向图标 -->
+        <file>icons/upTwo.png</file>
+        <file>icons/downTwo.png</file>
+        <file>icons/doubleUp.png</file>
+        <file>icons/doubleDown.png</file>
+        
+        <!-- 导出图标 -->
+        <file>icons/exp.png</file>
+        
+        <!-- 设备控制图标 -->
+        <!-- <file>icons/device.png</file> -->
+        <!-- <file>icons/handler.png</file> -->
+        <!-- <file>icons/testboard.png</file> -->
+        
+        <!-- 状态图标 -->
+        <!-- <file>icons/success.png</file> -->
+        <!-- <file>icons/error.png</file> -->
+        <!-- <file>icons/warning.png</file> -->
+        <!-- <file>icons/info.png</file> -->
+        
+        <!-- 工具栏图标 -->
+        <!-- <file>icons/play.png</file> -->
+        <!-- <file>icons/pause.png</file> -->
+        <!-- <file>icons/stop.png</file> -->
+        <!-- <file>icons/settings.png</file> -->
+        <!-- <file>icons/simulation.png</file> -->
+        
+        <!-- 菜单图标 -->
+        <!-- <file>icons/open.png</file> -->
+        <!-- <file>icons/save.png</file> -->
+        <!-- <file>icons/exit.png</file> -->
+        <!-- <file>icons/control.png</file> -->
+        <!-- <file>icons/about.png</file> -->
+    </qresource>
+    <qresource prefix="/styles">
+        <file alias="style.qss">styles/style.qss</file>
+    </qresource>
+</RCC> 

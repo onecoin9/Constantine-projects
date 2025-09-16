@@ -1,0 +1,80 @@
+{
+	"globalSettings": {
+       "autoInitOnStartup": true
+     },
+    "devices": [
+        {
+            "deviceId": "testboard-01",
+            "deviceType": "TestBoard",
+            "enabled": true,
+            "communicationConfig": {
+                "channelType": "serial",
+                "parameters": {
+                    "portName": "COM4",
+                    "portIndex": 0,
+                    "baudRate": "1382400",
+                    "dataBits": "8",
+                    "parity": "0",
+                    "stopBits": "1",
+                    "flowControl": "0"
+                }
+            },
+            "deviceConfig": {
+                "description": "测试板#1"
+            }
+        },
+        {
+            "deviceId": "process_runner",
+            "deviceType": "Process",
+            "enabled": true,
+            "communicationConfig": {},
+            "deviceConfig": {
+                "description": "通用外部程序执行器"
+            }
+        },
+        {
+            "deviceId": "handler-01",
+            "deviceType": "Handler",
+            "enabled": true,
+            "communicationConfig": {
+                "channelType": "internal",
+                "note": "Handler设备使用内部TCP通信，不需要外部通道配置"
+            },
+            "deviceConfig": {
+                "protocolType": "SProtocol",
+                "tcpConfig": {
+                    "serverPort": 64101,
+                    "clientPort": 64100,
+                    "cmd3Port": 1000,
+                    "ipAddress": "127.0.0.1"
+                },
+                "timeout": 5000,
+                "bindAddress": "127.0.0.1",
+                "description": "自动化处理设备",
+                "enableHeartbeat": false,
+                "heartbeatIntervalMs": 5000,
+                "cmd3TaskPath": "C:\\TestTask\\turntable_test.tsk"
+            }
+        },
+        {
+            "deviceId": "burn-device-01",
+            "deviceType": "Burn",
+            "enabled": true,
+            "communicationConfig": {
+                "channelType": "internal",
+                "note": "BurnDevice使用内部TCP连接，不需要外部通道配置"
+            },
+            "deviceConfig": {
+                "serverHost": "127.0.0.1",
+                "serverPort": 12345,
+                "name": "烧录设备",
+                "description": "JSON-RPC烧录设备客户端 (长连接模式)",
+                "connectionType": "longConnection",
+                "timeout": 5000,
+                "requestTimeout": 30000,
+                "reconnectInterval": 3000,
+                "aprogPath": "C:/JWL/Tester/xt422/AIPE/Build/Aprog.exe"
+            }
+        }
+    ]
+}

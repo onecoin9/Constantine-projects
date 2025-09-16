@@ -1,0 +1,678 @@
+{
+    "name": "turntable_test_safe",
+    "description": "安全的转台测试：确保采集总是能停止",
+    "steps": [
+        {
+            "id": "power_on_duts",
+            "name": "步骤5: 给所有DUT上电",
+            "type": "DeviceCommand",
+            "config": {
+                "deviceId": "testboard-01",
+                "command": "controlDutPower",
+                "args": {
+                    "enable": true,
+                    "dutEnable": 255
+                }
+            }
+        },
+        {
+            "id": "power_on_delay",
+            "name": "步骤6: 上电后延时",
+            "type": "Delay",
+            "config": {
+                "delayMs": 1000
+            }
+        },
+        {
+            "id": "axis_test_with_safety",
+            "name": "步骤7: 三轴完整测试（带安全保护）",
+            "type": "Switch",
+            "config": {
+                "source": "${context.timestamp}",
+                "cases": [
+                    {
+                        "default": true,
+                        "steps": [
+                            {
+                                "id": "pitch_static_start",
+                                "name": "Pitch轴静止采集开始",
+                                "type": "DeviceCommand",
+                                "config": {
+                                    "deviceId": "testboard-01",
+                                    "command": "startTest",
+                                    "args": {
+                                        "dutActive": 33023,
+                                        "binFileName": "Pitch_0deg_static"
+                                    }
+                                }
+                            },
+                            {
+                                "id": "pitch_static_delay",
+                                "name": "Pitch轴静止采集12秒",
+                                "type": "Delay",
+                                "config": {
+                                    "delayMs": 12000
+                                }
+                            },
+                            {
+                                "id": "pitch_static_stop",
+                                "name": "Pitch轴静止采集停止",
+                                "type": "DeviceCommand",
+                                "config": {
+                                    "deviceId": "testboard-01",
+                                    "command": "stopTest",
+                                    "args": {}
+                                }
+                            },
+                            {
+                                "id": "pitch_90_start",
+                                "name": "Pitch轴180度采集开始",
+                                "type": "DeviceCommand",
+                                "config": {
+                                    "deviceId": "testboard-01",
+                                    "command": "startTest",
+                                    "args": {
+                                        "dutActive": 33023,
+                                        "binFileName": "Pitch_180deg_move"
+                                    }
+                                }
+                            },
+                            {
+                                "id": "pitch_180_move",
+                                "name": "Pitch轴移动到180度",
+                                "type": "DeviceCommand",
+                                "config": {
+                                    "deviceId": "handler-01",
+                                    "command": "sendAxisMove",
+                                    "args": {
+                                        "axisSelect": "Axis_Pitch",
+                                        "siteIdx": 9,
+                                        "targetAngle": 180
+                                    }
+                                }
+                            },
+                            {
+                                "id": "wait_pitch_180",
+                                "name": "等待Pitch轴移动到180度",
+                                "type": "WaitForSignal",
+                                "config": {
+                                    "signal": "axisMovementCompleted",
+                                    "condition": "${data.axisSelect} == 'Axis_Pitch' && ${data.currentAngle} == 180",
+                                    "timeout": 20000
+                                }
+                            },
+                            {
+                                "id": "pitch_180_stop",
+                                "name": "Pitch轴180度采集停止",
+                                "type": "DeviceCommand",
+                                "config": {
+                                    "deviceId": "testboard-01",
+                                    "command": "stopTest",
+                                    "args": {}
+                                }
+                            },
+                            {
+                                "id": "collection_gap_1",
+                                "name": "采集间隔1",
+                                "type": "Delay",
+                                "config": {
+                                    "delayMs": 1000
+                                }
+                            },
+                            {
+                                "id": "pitch_180static_start",
+                                "name": "Pitch轴180度静止采集开始",
+                                "type": "DeviceCommand",
+                                "config": {
+                                    "deviceId": "testboard-01",
+                                    "command": "startTest",
+                                    "args": {
+                                        "dutActive": 33023,
+                                        "binFileName": "Pitch_180deg_static"
+                                    }
+                                }
+                            },    
+							{
+                                "id": "pitch_static_delay",
+                                "name": "Pitch轴静止采集12秒",
+                                "type": "Delay",
+                                "config": {
+                                    "delayMs": 12000
+                                }
+                            },
+                            {
+                                "id": "pitch_180static_stop",
+                                "name": "Pitch轴180度静止采集停止",
+                                "type": "DeviceCommand",
+                                "config": {
+                                    "deviceId": "testboard-01",
+                                    "command": "stopTest",
+                                    "args": {}
+                                }
+                            },
+                            {
+                                "id": "pitch_0_return_start",
+                                "name": "Pitch轴回到0度采集开始",
+                                "type": "DeviceCommand",
+                                "config": {
+                                    "deviceId": "testboard-01",
+                                    "command": "startTest",
+                                    "args": {
+                                        "dutActive": 33023,
+                                        "binFileName": "Pitch_0deg_return"
+                                    }
+                                }
+                            },
+                            {
+                                "id": "pitch_0_return_move",
+                                "name": "Pitch轴回到0度",
+                                "type": "DeviceCommand",
+                                "config": {
+                                    "deviceId": "handler-01",
+                                    "command": "sendAxisMove",
+                                    "args": {
+                                        "axisSelect": "Axis_Pitch",
+                                        "siteIdx": 9,
+                                        "targetAngle": 0
+                                    }
+                                }
+                            },
+                            {
+                                "id": "wait_pitch_0_return",
+                                "name": "等待Pitch轴回到0度",
+                                "type": "WaitForSignal",
+                                "config": {
+                                    "signal": "axisMovementCompleted",
+                                    "condition": "${data.axisSelect} == 'Axis_Pitch' && ${data.currentAngle} == 0",
+                                    "timeout": 20000
+                                }
+                            },
+                            {
+                                "id": "pitch_0_return_stop",
+                                "name": "Pitch轴回到0度采集停止",
+                                "type": "DeviceCommand",
+                                "config": {
+                                    "deviceId": "testboard-01",
+                                    "command": "stopTest",
+                                    "args": {}
+                                }
+                            }, 
+							{
+                                "id": "pitch_90_move_2",
+                                "name": "Pitch轴转到90度",
+                                "type": "DeviceCommand",
+                                "config": {
+                                    "deviceId": "handler-01",
+                                    "command": "sendAxisMove",
+                                    "args": {
+                                        "axisSelect": "Axis_Pitch",
+                                        "siteIdx": 9,
+                                        "targetAngle": 90
+                                    }
+                                }
+                            },
+                            {
+                                "id": "wait_pitch_90_move",
+                                "name": "等待Pitch轴转到90度",
+                                "type": "WaitForSignal",
+                                "config": {
+                                    "signal": "axisMovementCompleted",
+                                    "condition": "${data.axisSelect} == 'Axis_Pitch' && ${data.currentAngle} == 90",
+                                    "timeout": 20000
+                                }
+                            },
+                            {
+                                "id": "pitch90_yaw0_static_start",
+                                "name": "pitch90_Yaw0静止采集开始",
+                                "type": "DeviceCommand",
+                                "config": {
+                                    "deviceId": "testboard-01",
+                                    "command": "startTest",
+                                    "args": {
+                                        "dutActive": 33023,
+                                        "binFileName": "pitch90_Yaw_0deg_static"
+                                    }
+                                }
+                            },
+                            {
+                                "id": "pitch90_yaw0_static_delay",
+                                "name": "pitch90_Yaw0静止采集12秒",
+                                "type": "Delay",
+                                "config": {
+                                    "delayMs": 12000
+                                }
+                            },
+                            {
+                                "id": "pitch90_yaw0_static_stop",
+                                "name": "pitch90_Yaw0静止采集停止",
+                                "type": "DeviceCommand",
+                                "config": {
+                                    "deviceId": "testboard-01",
+                                    "command": "stopTest",
+                                    "args": {}
+                                }
+                            },
+                            {
+                                "id": "pitch90_yaw_180_start",
+                                "name": "pitch90_Yaw轴180度采集开始",
+                                "type": "DeviceCommand",
+                                "config": {
+                                    "deviceId": "testboard-01",
+                                    "command": "startTest",
+                                    "args": {
+                                        "dutActive": 33023,
+                                        "binFileName": "pitch90_Yaw_180deg_move"
+                                    }
+                                }
+                            },
+                            {
+                                "id": "pitch90_yaw_180_move",
+                                "name": "pitch90_Yaw轴移动到180度",
+                                "type": "DeviceCommand",
+                                "config": {
+                                    "deviceId": "handler-01",
+                                    "command": "sendAxisMove",
+                                    "args": {
+                                        "axisSelect": "Axis_Yaw",
+                                        "siteIdx": 9,
+                                        "targetAngle": 180
+                                    }
+                                }
+                            },
+                            {
+                                "id": "pitch90_wait_yaw_180",
+                                "name": "pitch90_等待Yaw轴移动到180度",
+                                "type": "WaitForSignal",
+                                "config": {
+                                    "signal": "axisMovementCompleted",
+                                    "condition": "${data.axisSelect} == 'Axis_Yaw' && ${data.currentAngle} == 180",
+                                    "timeout": 20000
+                                }
+                            },
+                            {
+                                "id": "pitch90_yaw_180_stop",
+                                "name": "pitch90_Yaw轴180度采集停止",
+                                "type": "DeviceCommand",
+                                "config": {
+                                    "deviceId": "testboard-01",
+                                    "command": "stopTest",
+                                    "args": {}
+                                }
+                            },
+                            {
+                                "id": "collection_gap_10",
+                                "name": "采集间隔10",
+                                "type": "Delay",
+                                "config": {
+                                    "delayMs": 1000
+                                }
+                            },
+							{
+                                "id": "pitch90_yaw180_static_start",
+                                "name": "pitch90_yaw180静止采集开始",
+                                "type": "DeviceCommand",
+                                "config": {
+                                    "deviceId": "testboard-01",
+                                    "command": "startTest",
+                                    "args": {
+                                        "dutActive": 33023,
+                                        "binFileName": "pitch90_Yaw_180deg_static"
+                                    }
+                                }
+                            },
+                            {
+                                "id": "pitch90_yaw180_static_delay",
+                                "name": "pitch90_yaw180静止采集12秒",
+                                "type": "Delay",
+                                "config": {
+                                    "delayMs": 12000
+                                }
+                            },
+                            {
+                                "id": "pitch90_yaw180_static_stop",
+                                "name": "pitch90_yaw180静止采集停止",
+                                "type": "DeviceCommand",
+                                "config": {
+                                    "deviceId": "testboard-01",
+                                    "command": "stopTest",
+                                    "args": {}
+                                }
+                            },
+                            {
+                                "id": "pitch90_yaw180_yaw_0_return_start",
+                                "name": "pitch90_yaw180_Yaw轴回到0度采集开始",
+                                "type": "DeviceCommand",
+                                "config": {
+                                    "deviceId": "testboard-01",
+                                    "command": "startTest",
+                                    "args": {
+                                        "dutActive": 33023,
+                                        "binFileName": "pitch90_yaw180_Yaw_0deg_return"
+                                    }
+                                }
+                            },
+                            {
+                                "id": "pitch90_yaw180_yaw_0_return_move",
+                                "name": "pitch90_yaw180_Yaw轴回到0度",
+                                "type": "DeviceCommand",
+                                "config": {
+                                    "deviceId": "handler-01",
+                                    "command": "sendAxisMove",
+                                    "args": {
+                                        "axisSelect": "Axis_Yaw",
+                                        "siteIdx": 9,
+                                        "targetAngle": 0
+                                    }
+                                }
+                            },
+                            {
+                                "id": "pitch90_yaw180_wait_yaw_0_return",
+                                "name": "pitch90_yaw180_等待Yaw轴回到0度",
+                                "type": "WaitForSignal",
+                                "config": {
+                                    "signal": "axisMovementCompleted",
+                                    "condition": "${data.axisSelect} == 'Axis_Yaw' && ${data.currentAngle} == 0",
+                                    "timeout": 20000
+                                }
+                            },
+                            {
+                                "id": "pitch90_yaw180_yaw_0_return_stop",
+                                "name": "pitch90_yaw180_Yaw轴回到0度采集停止",
+                                "type": "DeviceCommand",
+                                "config": {
+                                    "deviceId": "testboard-01",
+                                    "command": "stopTest",
+                                    "args": {}
+                                }
+                            },
+							{
+                                "id": "pitch90_yaw90_move_2",
+                                "name": "Pitch90_yaw轴转到90度",
+                                "type": "DeviceCommand",
+                                "config": {
+                                    "deviceId": "handler-01",
+                                    "command": "sendAxisMove",
+                                    "args": {
+                                        "axisSelect": "Axis_Yaw",
+                                        "siteIdx": 9,
+                                        "targetAngle": 90
+                                    }
+                                }
+                            },
+                            {
+                                "id": "pitch90_wait_yaw_90_move",
+                                "name": "pitch90_等待yaw轴转到90度",
+                                "type": "WaitForSignal",
+                                "config": {
+                                    "signal": "axisMovementCompleted",
+                                    "condition": "${data.axisSelect} == 'Axis_Yaw' && ${data.currentAngle} == 90",
+                                    "timeout": 20000
+                                }
+                            },
+							{
+                                "id": "pitch90_yaw90_static_start",
+                                "name": "pitch90_yaw90静止采集开始",
+                                "type": "DeviceCommand",
+                                "config": {
+                                    "deviceId": "testboard-01",
+                                    "command": "startTest",
+                                    "args": {
+                                        "dutActive": 33023,
+                                        "binFileName": "pitch90_Yaw_90deg_static"
+                                    }
+                                }
+                            },
+                            {
+                                "id": "pitch90_yaw90_static_delay",
+                                "name": "pitch90_yaw90静止采集12秒",
+                                "type": "Delay",
+                                "config": {
+                                    "delayMs": 12000
+                                }
+                            },
+                            {
+                                "id": "pitch90_yaw90_static_stop",
+                                "name": "pitch90_yaw90静止采集停止",
+                                "type": "DeviceCommand",
+                                "config": {
+                                    "deviceId": "testboard-01",
+                                    "command": "stopTest",
+                                    "args": {}
+                                }
+                            },
+							{
+                                "id": "pitch_N90_yaw90_start",
+                                "name": "Pitch轴负90度采集开始",
+                                "type": "DeviceCommand",
+                                "config": {
+                                    "deviceId": "testboard-01",
+                                    "command": "startTest",
+                                    "args": {
+                                        "dutActive": 33023,
+                                        "binFileName": "pitch_N90_yaw90_move"
+                                    }
+                                }
+                            },
+                            {
+                                "id": "pitch_N90_yaw90_move",
+                                "name": "Pitch轴移动到负90度",
+                                "type": "DeviceCommand",
+                                "config": {
+                                    "deviceId": "handler-01",
+                                    "command": "sendAxisMove",
+                                    "args": {
+                                        "axisSelect": "Axis_Pitch",
+                                        "siteIdx": 9,
+                                        "targetAngle": -90
+                                    }
+                                }
+                            },
+                            {
+                                "id": "wait_pitch_N90_yaw90",
+                                "name": "等待Pitch轴移动到负90度",
+                                "type": "WaitForSignal",
+                                "config": {
+                                    "signal": "axisMovementCompleted",
+                                    "condition": "${data.axisSelect} == 'Axis_Pitch' && ${data.currentAngle} == -90",
+                                    "timeout": 20000
+                                }
+                            },
+                            {
+                                "id": "pitch_N90_yaw90_stop",
+                                "name": "pitch_N90_yaw90采集停止",
+                                "type": "DeviceCommand",
+                                "config": {
+                                    "deviceId": "testboard-01",
+                                    "command": "stopTest",
+                                    "args": {}
+                                }
+                            },
+                            {
+                                "id": "collection_gap_pitch_N90_yaw90",
+                                "name": "采集间隔1",
+                                "type": "Delay",
+                                "config": {
+                                    "delayMs": 1000
+                                }
+                            },
+							{
+                                "id": "pitchN90_yaw90_static_start",
+                                "name": "pitch负90_yaw90静止采集开始",
+                                "type": "DeviceCommand",
+                                "config": {
+                                    "deviceId": "testboard-01",
+                                    "command": "startTest",
+                                    "args": {
+                                        "dutActive": 33023,
+                                        "binFileName": "pitchN90_Yaw_90deg_static"
+                                    }
+                                }
+                            },
+                            {
+                                "id": "pitchN90_yaw90_static_delay",
+                                "name": "pitch负90_yaw90静止采集12秒",
+                                "type": "Delay",
+                                "config": {
+                                    "delayMs": 12000
+                                }
+                            },
+                            {
+                                "id": "pitchN90_yaw90_static_stop",
+                                "name": "pitch负90_yaw90静止采集停止",
+                                "type": "DeviceCommand",
+                                "config": {
+                                    "deviceId": "testboard-01",
+                                    "command": "stopTest",
+                                    "args": {}
+                                }
+                            },
+							{
+                                "id": "pitch_P90_yaw90_start",
+                                "name": "pitch_正90_yaw90采集开始",
+                                "type": "DeviceCommand",
+                                "config": {
+                                    "deviceId": "testboard-01",
+                                    "command": "startTest",
+                                    "args": {
+                                        "dutActive": 33023,
+                                        "binFileName": "pitch_P90_yaw90_move"
+                                    }
+                                }
+                            },
+                            {
+                                "id": "pitch_P90_yaw90_move",
+                                "name": "yaw90_Pitch轴移动到正90度",
+                                "type": "DeviceCommand",
+                                "config": {
+                                    "deviceId": "handler-01",
+                                    "command": "sendAxisMove",
+                                    "args": {
+                                        "axisSelect": "Axis_Pitch",
+                                        "siteIdx": 9,
+                                        "targetAngle": 90
+                                    }
+                                }
+                            },
+                            {
+                                "id": "wait_pitch_P90_yaw90",
+                                "name": "等待Pitch轴移动到正90度",
+                                "type": "WaitForSignal",
+                                "config": {
+                                    "signal": "axisMovementCompleted",
+                                    "condition": "${data.axisSelect} == 'Axis_Pitch' && ${data.currentAngle} == 90",
+                                    "timeout": 20000
+                                }
+                            },
+                            {
+                                "id": "pitch_P90_yaw90_stop",
+                                "name": "pitch_P90_yaw90采集停止",
+                                "type": "DeviceCommand",
+                                "config": {
+                                    "deviceId": "testboard-01",
+                                    "command": "stopTest",
+                                    "args": {}
+                                }
+                            },
+							{
+                                "id": "pitch_0_yaw90_return",
+                                "name": "pitch_0_yaw90_pitch轴回0",
+                                "type": "DeviceCommand",
+                                "config": {
+                                    "deviceId": "handler-01",
+                                    "command": "sendAxisMove",
+                                    "args": {
+                                        "axisSelect": "Axis_Pitch",
+                                        "siteIdx": 9,
+                                        "targetAngle": 0
+                                    }
+                                }
+                            },
+                            {
+                                "id": "wait_pitch_0_yaw90_return",
+                                "name": "等待pitch_0_yaw90_pitch轴回0",
+                                "type": "WaitForSignal",
+                                "config": {
+                                    "signal": "axisMovementCompleted",
+                                    "condition": "${data.axisSelect} == 'Axis_Pitch' && ${data.currentAngle} == 0",
+                                    "timeout": 20000
+                                }
+                            },
+							{
+                                "id": "pitch_0_yaw0_return",
+                                "name": "pitch_0_yaw0_yaw轴回0",
+                                "type": "DeviceCommand",
+                                "config": {
+                                    "deviceId": "handler-01",
+                                    "command": "sendAxisMove",
+                                    "args": {
+                                        "axisSelect": "Axis_Yaw",
+                                        "siteIdx": 9,
+                                        "targetAngle": 0
+                                    }
+                                }
+                            },
+                            {
+                                "id": "wait_pitch_0_yaw0_return",
+                                "name": "等待pitch_0_yaw0_pitch轴回0",
+                                "type": "WaitForSignal",
+                                "config": {
+                                    "signal": "axisMovementCompleted",
+                                    "condition": "${data.axisSelect} == 'Axis_Yaw' && ${data.currentAngle} == 0",
+                                    "timeout": 20000
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": "ensure_test_stopped",
+            "name": "步骤8: 确保测试已停止",
+            "type": "DeviceCommand",
+            "config": {
+                "deviceId": "testboard-01",
+                "command": "stopTest",
+                "args": {}
+            }
+        },
+        {
+            "id": "process_bin_files",
+            "name": "步骤8.5: 处理Bin文件生成TXT",
+            "type": "ProcessBinFile",
+            "config": {
+                "sourceDirectory": "cache",
+                "outputDirectory": "output"
+            }
+        },
+        {
+            "id": "final_archive",
+            "name": "设置参数并归档结果",
+            "type": "PostProcess",
+            "config": {
+                "setParameters": {
+                    "chipType": "270"
+                },
+                "archive": {
+                    "sourceDirectory": "output",
+                    "archiveRoot": "C:/TestArchive",
+                    "archiveBy": "chipType",
+                    "operation": "move"
+                }
+            }
+        },
+        {
+            "id": "send_turntable_result",
+            "name": "步骤9: 发送转台站点测试结果",
+            "type": "DeviceCommand",
+            "config": {
+                "deviceId": "handler-01",
+                "command": "setDoneSite",
+                "args": {
+                    "siteIdx": 9,
+                    "result": "1111111100000000"
+                }
+            }
+        }
+    ]
+} 
