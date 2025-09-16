@@ -24,7 +24,11 @@ namespace Application
  *     - archiveRoot: 指定归档操作的根目录。
  *     - archiveBy: 指定用于创建第一级子目录的参数名（例如 "chipType"），
  *       该参数的值会从工作流上下文中获取。
+ *     - testType: 测试类型（例如 "calibration"），用于创建测试类型-站点ID文件夹。
+ *     - siteId: 站点ID（例如 "B01"），与testType组合创建文件夹。
  *     - operation: "copy" 或 "move"，决定是复制还是剪切文件。
+ *     
+ * 文件夹结构: archiveRoot/chipType/timestamp/testType-siteId/文件名文件夹/文件名
  *
  * 完整JSON配置示例:
  * {
@@ -40,7 +44,9 @@ namespace Application
  *       "sourceDirectory": "output",
  *       "archiveRoot": "D:/TestArchive",
  *       "archiveBy": "chipType",
- *       "operation": "copy"
+ *       "testType": "calibration",
+ *       "siteId": "B01",
+ *       "operation": "move"
  *     }
  *   }
  * }
@@ -102,34 +108,75 @@ bool PostProcessStep::execute(std::shared_ptr<WorkflowContext> context)
              return true;
         }
 
-        // 创建目标路径: archiveRoot/chipType/timestamp
+        // 获取testType和siteId参数
+        QString testType = archiveConfig.value("testType").toString("test");
+        QString siteId = archiveConfig.value("siteId").toString("A01");
+        
+        // 创建目标路径: archiveRoot/chipType/timestamp/testType-siteId
         QString timestampDirName = QDateTime::currentDateTime().toString("yyyyMMdd_HH_mm_ss");
-        QDir finalDestDir(QString("%1/%2/%3").arg(archiveRoot).arg(archiveByValue).arg(timestampDirName));
+        QString testTypeSiteDir = QString("%1-%2").arg(testType).arg(siteId);
+        QDir baseDestDir(QString("%1/%2/%3/%4").arg(archiveRoot).arg(archiveByValue).arg(timestampDirName).arg(testTypeSiteDir));
 
-        if (!finalDestDir.mkpath(".")) {
+        if (!baseDestDir.mkpath(".")) {
             m_status = IWorkflowStep::StepStatus::Failed;
             emit statusChanged(m_status);
-            emit errorOccurred(QString("归档失败: 无法创建目标目录 '%1'。").arg(finalDestDir.absolutePath()));
+            emit errorOccurred(QString("归档失败: 无法创建目标目录 '%1'。").arg(baseDestDir.absolutePath()));
             return false;
         }
 
         bool success = true;
         if (operation.toLower() == "move") {
-            QFileInfoList entries = sourceDir.entryInfoList(QDir::NoDotAndDotDot | QDir::Dirs | QDir::Files);
+            QFileInfoList entries = sourceDir.entryInfoList(QDir::NoDotAndDotDot | QDir::Files);
             for(const QFileInfo& entry : entries) {
-                QString newPath = finalDestDir.filePath(entry.fileName());
-                if (!QFile::rename(entry.absoluteFilePath(), newPath)) {
-                    success = false;
-                    emit errorOccurred(QString("移动失败: 从 '%1' 到 '%2'").arg(entry.absoluteFilePath()).arg(newPath));
-                    break;
+                if (entry.isFile()) {
+                    // 为每个文件创建对应的文件夹
+                    QString fileName = entry.baseName(); // 去掉扩展名
+                    QDir fileDestDir(baseDestDir.filePath(fileName));
+                    
+                    if (!fileDestDir.mkpath(".")) {
+                        success = false;
+                        emit errorOccurred(QString("创建文件夹失败: '%1'").arg(fileDestDir.absolutePath()));
+                        break;
+                    }
+                    
+                    QString newPath = fileDestDir.filePath(entry.fileName());
+                    if (!QFile::rename(entry.absoluteFilePath(), newPath)) {
+                        success = false;
+                        emit errorOccurred(QString("移动失败: 从 '%1' 到 '%2'").arg(entry.absoluteFilePath()).arg(newPath));
+                        break;
+                    }
+                    
+                    LOG_MODULE_INFO("PostProcessStep", QString("文件归档: '%1' -> '%2'").arg(entry.fileName()).arg(newPath).toStdString());
                 }
             }
         } else { // copy
-            success = copyDirectory(sourceDir, finalDestDir, true);
+            QFileInfoList entries = sourceDir.entryInfoList(QDir::NoDotAndDotDot | QDir::Files);
+            for(const QFileInfo& entry : entries) {
+                if (entry.isFile()) {
+                    // 为每个文件创建对应的文件夹
+                    QString fileName = entry.baseName(); // 去掉扩展名
+                    QDir fileDestDir(baseDestDir.filePath(fileName));
+                    
+                    if (!fileDestDir.mkpath(".")) {
+                        success = false;
+                        emit errorOccurred(QString("创建文件夹失败: '%1'").arg(fileDestDir.absolutePath()));
+                        break;
+                    }
+                    
+                    QString newPath = fileDestDir.filePath(entry.fileName());
+                    if (!QFile::copy(entry.absoluteFilePath(), newPath)) {
+                        success = false;
+                        emit errorOccurred(QString("复制失败: 从 '%1' 到 '%2'").arg(entry.absoluteFilePath()).arg(newPath));
+                        break;
+                    }
+                    
+                    LOG_MODULE_INFO("PostProcessStep", QString("文件归档: '%1' -> '%2'").arg(entry.fileName()).arg(newPath).toStdString());
+                }
+            }
         }
 
         if(success) {
-             LOG_MODULE_INFO("PostProcessStep", QString("成功归档到 '%1'").arg(finalDestDir.absolutePath()).toStdString());
+             LOG_MODULE_INFO("PostProcessStep", QString("成功归档到 '%1'").arg(baseDestDir.absolutePath()).toStdString());
         } else {
              m_status = IWorkflowStep::StepStatus::Failed;
              emit statusChanged(m_status);
