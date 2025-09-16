@@ -7,27 +7,6 @@
 
 namespace Application {
 
-/**
- * @brief RunProcessStep
- * 运行外部可执行程序（exe），并根据标准输出/错误输出或退出码判定成功与否。
- *
- * 配置示例：
- * {
- *   "id": "run_chip_test",
- *   "type": "RunProcess",
- *   "name": "运行ChipTest_all并判定结果",
- *   "config": {
- *     "executable": "C:/Users/pc/Downloads/turnable/ChipTest_all.exe",
- *     "args": ["${global.archiveBaseDir}"],
- *     "workingDirectory": "C:/Users/pc/Downloads/turnable",
- *     "timeoutMs": 600000,
- *     "successPatterns": ["OK"],
- *     "failurePatterns": ["FAILED"],
- *     "expectedExitCode": 0,
- *     "exitCodeAsSuccess": false
- *   }
- * }
- */
 class RunProcessStep : public IWorkflowStep {
     Q_OBJECT
 public:

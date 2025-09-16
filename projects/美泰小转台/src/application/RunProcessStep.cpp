@@ -51,12 +51,11 @@ bool RunProcessStep::execute(std::shared_ptr<WorkflowContext> context) {
     const QJsonObject cfg = m_config.value("config").toObject();
     const QString executable = cfg.value("executable").toString();
     const QString workingDirectory = cfg.value("workingDirectory").toString();
-    const int timeoutMs = cfg.value("timeoutMs").toInt(600000); // 默认10分钟
+    const int timeoutMs = cfg.value("timeoutMs").toInt(600000);
     const bool exitCodeAsSuccess = cfg.value("exitCodeAsSuccess").toBool(false);
     const int expectedExitCode = cfg.value("expectedExitCode").toInt(0);
     const Qt::CaseSensitivity cs = cfg.value("caseSensitive").toBool(false) ? Qt::CaseSensitive : Qt::CaseInsensitive;
 
-    // 处理参数：支持从全局变量与上下文取值
     QStringList args;
     if (cfg.value("args").isArray()) {
         const auto arr = cfg.value("args").toArray();
@@ -115,7 +114,6 @@ bool RunProcessStep::execute(std::shared_ptr<WorkflowContext> context) {
         LOG_MODULE_WARNING("RunProcessStep", QString("stderr: %1").arg(stdErr).toStdString());
     }
 
-    // 判定规则：优先按输出关键字判定，否则按退出码判定
     const QStringList successPatterns = cfg.value("successPatterns").toVariant().toStringList();
     const QStringList failurePatterns = cfg.value("failurePatterns").toVariant().toStringList();
 
@@ -129,7 +127,6 @@ bool RunProcessStep::execute(std::shared_ptr<WorkflowContext> context) {
             ok = (exitCode == expectedExitCode);
         }
     } else {
-        // 未配置关键字时，按退出码或默认0为成功
         ok = exitCodeAsSuccess ? (exitCode == expectedExitCode) : (exitCode == 0);
     }
 
