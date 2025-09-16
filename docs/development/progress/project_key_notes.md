@@ -2,7 +2,7 @@
 
 > 说明：此文档用于记录各个子项目的关键性备注、风险、决策点与后续任务，方便快速查看与协作。
 >
-> 路径：`docs/progress/project_key_notes.md`
+> 路径：`docs/development/progress/project_key_notes.md`
 
 ---
 
@@ -19,10 +19,6 @@
 ## multiAprog
 
 > 说明：此处仅记录关键性注意点与踩坑，便于快速查阅。
-
-### 多语言支持与资源管理（来自 multiLanguage.md 的要点归纳）
-
-- 项目架构要点
 
 ### 多语言支持与资源管理（来自 multiLanguage.md 的要点归纳）
 
