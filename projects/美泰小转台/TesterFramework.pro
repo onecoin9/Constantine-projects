@@ -61,6 +61,7 @@ SOURCES += $$PWD/src/main.cpp \
            $$PWD/src/application/WaitForSignalStep.cpp \
            $$PWD/src/application/WorkflowContext.cpp \
            $$PWD/src/application/WorkflowUtils.cpp \
+           $$PWD/src/application/RunProcessStep.cpp \
            $$PWD/src/ui/BurnControlWidget.cpp \
            $$PWD/src/ui/DeviceManagerDialog.cpp \
            $$PWD/src/ui/DutMonitorWidget.cpp \
@@ -112,6 +113,7 @@ HEADERS += $$PWD/include/core/CoreEngine.h \
            $$PWD/include/application/WaitForSignalStep.h \
            $$PWD/include/application/WorkflowContext.h \
            $$PWD/include/application/WorkflowUtils.h \
+           $$PWD/include/application/RunProcessStep.h \
            $$PWD/include/ui/BurnControlWidget.h \
            $$PWD/include/ui/DeviceManagerDialog.h \
            $$PWD/include/ui/DutMonitorWidget.h \

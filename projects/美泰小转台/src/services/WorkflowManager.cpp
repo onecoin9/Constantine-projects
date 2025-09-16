@@ -13,6 +13,7 @@
 #include "application/SubWorkflowStep.h"
 #include "application/ProcessBinFileStep.h"
 #include "application/PostProcessStep.h"
+#include "application/RunProcessStep.h"
 #include "application/GlobalConfigStep.h"
 #include "core/Logger.h"
 
@@ -338,6 +339,8 @@ std::shared_ptr<Application::IWorkflowStep> WorkflowManager::createStep(const QJ
         step = std::make_shared<Application::ProcessBinFileStep>(stepConfig);
     } else if (stepType == "PostProcess") {
         step = std::make_shared<Application::PostProcessStep>(stepConfig);
+    } else if (stepType == "RunProcess") {
+        step = std::make_shared<Application::RunProcessStep>(stepConfig);
     } else if (stepType == "GlobalConfig") {
         step = std::make_shared<Application::GlobalConfigStep>(stepConfig);
     } else {
