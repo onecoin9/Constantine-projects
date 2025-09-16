@@ -230,6 +230,7 @@
     <ClCompile Include="src\application\ParseJsonFileStep.cpp" />
     <ClCompile Include="src\application\PostProcessStep.cpp" />
     <ClCompile Include="src\application\ProcessBinFileStep.cpp" />
+    <ClCompile Include="src\application\RunProcessStep.cpp" />
     <ClCompile Include="src\domain\ProcessDevice.cpp" />
     <ClCompile Include="src\ui\RecipeConfigDialog.cpp" />
     <ClCompile Include="src\domain\protocols\SProtocol.cpp" />
@@ -508,6 +509,14 @@
     </QtMoc>
     <ClInclude Include="include\application\ParseJsonFileStep.h" />
     <QtMoc Include="include\application\PostProcessStep.h">
+      <Define Condition="'$(Configuration)|$(Platform)'=='Release|x64'">UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;USE_SPDLOG;NDEBUG;QT_NO_DEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;QT_SERIALPORT_LIB;QT_NETWORK_LIB;QT_CONCURRENT_LIB;QT_CORE_LIB</Define>
+      <CompilerFlavor Condition="'$(Configuration)|$(Platform)'=='Release|x64'">msvc</CompilerFlavor>
+      <Include Condition="'$(Configuration)|$(Platform)'=='Release|x64'">./build/moc/moc_predefs.h</Include>
+      <Define Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;USE_SPDLOG;QT_WIDGETS_LIB;QT_GUI_LIB;QT_SERIALPORT_LIB;QT_NETWORK_LIB;QT_CONCURRENT_LIB;QT_CORE_LIB</Define>
+      <CompilerFlavor Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">msvc</CompilerFlavor>
+      <Include Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">./build/moc/moc_predefs.h</Include>
+    </QtMoc>
+    <QtMoc Include="include\application\RunProcessStep.h">
       <Define Condition="'$(Configuration)|$(Platform)'=='Release|x64'">UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;USE_SPDLOG;NDEBUG;QT_NO_DEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;QT_SERIALPORT_LIB;QT_NETWORK_LIB;QT_CONCURRENT_LIB;QT_CORE_LIB</Define>
       <CompilerFlavor Condition="'$(Configuration)|$(Platform)'=='Release|x64'">msvc</CompilerFlavor>
       <Include Condition="'$(Configuration)|$(Platform)'=='Release|x64'">./build/moc/moc_predefs.h</Include>
