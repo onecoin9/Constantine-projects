@@ -664,6 +664,19 @@
             }
         },
         {
+            "id": "run_chip_test",
+            "name": "步骤8.8: 调用ChipTest并判定",
+            "type": "RunProcess",
+            "config": {
+                "executable": "C:/Users/pc/Downloads/turnable/ChipTest_all.exe",
+                "args": ["${global.archiveBaseDir}"],
+                "workingDirectory": "C:/Users/pc/Downloads/turnable",
+                "timeoutMs": 600000,
+                "successPatterns": ["OK"],
+                "failurePatterns": ["FAILED"]
+            }
+        },
+        {
             "id": "send_turntable_result",
             "name": "步骤9: 发送转台站点测试结果",
             "type": "DeviceCommand",
