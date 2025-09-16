@@ -665,7 +665,7 @@
         },
         {
             "id": "run_chip_test",
-            "name": "步骤8.8: 调用ChipTest并判定",
+            "name": "调用ChipTest并判定",
             "type": "RunProcess",
             "config": {
                 "executable": "C:/Users/pc/Downloads/turnable/ChipTest_all.exe",

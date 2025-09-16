@@ -6,6 +6,8 @@
 #include <QDir>
 #include <QProcess>
 #include <QRegularExpression>
+#include <QJsonArray>
+#include <QJsonValue>
 
 namespace Application {
 
@@ -58,8 +60,8 @@ bool RunProcessStep::execute(std::shared_ptr<WorkflowContext> context) {
 
     QStringList args;
     if (cfg.value("args").isArray()) {
-        const auto arr = cfg.value("args").toArray();
-        for (const auto& v : arr) {
+        const QJsonArray arr = cfg.value("args").toArray();
+        for (const QJsonValue& v : arr) {
             QString token = v.toString();
             if (token.contains("${global.archiveBaseDir}")) {
                 token.replace("${global.archiveBaseDir}", GlobalItem::getInstance().getString("archiveBaseDir"));
