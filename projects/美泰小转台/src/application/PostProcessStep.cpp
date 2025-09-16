@@ -124,6 +124,9 @@ bool PostProcessStep::execute(std::shared_ptr<WorkflowContext> context)
             return false;
         }
 
+        // 保存到全局变量：testType-siteId 这一层目录
+        GlobalItem::getInstance().setString("archiveBaseDir", baseDestDir.absolutePath());
+
         bool success = true;
         if (operation.toLower() == "move") {
             QFileInfoList entries = sourceDir.entryInfoList(QDir::NoDotAndDotDot | QDir::Files);
