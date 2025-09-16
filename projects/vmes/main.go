@@ -298,6 +298,21 @@ func main() {
 		}
 		c.Writer.WriteString(string(getsninfo_data))
 	})
+	// 兼容无前缀、不同大小写的别名路径 /GetSNInfo
+	r.POST("/GetSNInfo", func(c *gin.Context) {
+		getsninfo_data, err := ioutil.ReadFile("./getsninfo.json")
+		if err != nil {
+			fmt.Print(err)
+		}
+		c.Writer.WriteString(string(getsninfo_data))
+	})
+	r.GET("/GetSNInfo", func(c *gin.Context) {
+		getsninfo_data, err := ioutil.ReadFile("./getsninfo.json")
+		if err != nil {
+			fmt.Print(err)
+		}
+		c.Writer.WriteString(string(getsninfo_data))
+	})
 	go func() {
 		soapPath := server_config.SOAPUrl
 		fmt.Println("Run soap Server...", soapPath)
