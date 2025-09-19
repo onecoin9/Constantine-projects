@@ -659,7 +659,7 @@
                     "archiveBy": "chipType",
                     "testType": "calibration",
                     "siteId": "B01",
-                    "operation": "move"
+                    "operation": "copy"
                 }
             }
         },
