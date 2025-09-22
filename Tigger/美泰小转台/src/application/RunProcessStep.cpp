@@ -69,7 +69,8 @@ bool RunProcessStep::execute(std::shared_ptr<WorkflowContext> context) {
             if (token.contains("${context.archiveBaseDir}")) {
                 token.replace("${context.archiveBaseDir}", context->getData("archiveBaseDir").toString());
             }
-            args << token;
+            // 统一为平台原生分隔符，避免被被调用程序将正斜杠解析异常
+            args << QDir::toNativeSeparators(token);
         }
     }
 
@@ -80,14 +81,35 @@ bool RunProcessStep::execute(std::shared_ptr<WorkflowContext> context) {
         return false;
     }
 
+    // 启动前的存在性检查，便于快速定位问题
+    const QString programPath = QDir::toNativeSeparators(executable);
+    if (!QFileInfo::exists(programPath)) {
+        m_status = StepStatus::Failed;
+        emit statusChanged(m_status);
+        emit errorOccurred(QString("RunProcessStep: 可执行文件不存在: %1").arg(programPath));
+        return false;
+    }
+    if (!args.isEmpty()) {
+        const QString firstArg = args.first();
+        if (!firstArg.isEmpty()) {
+            QFileInfo fi(firstArg);
+            if (!fi.exists()) {
+                m_status = StepStatus::Failed;
+                emit statusChanged(m_status);
+                emit errorOccurred(QString("RunProcessStep: 参数路径不存在: %1").arg(firstArg));
+                return false;
+            }
+        }
+    }
+
     QProcess proc;
     if (!workingDirectory.isEmpty()) {
         proc.setWorkingDirectory(workingDirectory);
     }
-    proc.setProgram(executable);
+    proc.setProgram(programPath);
     proc.setArguments(args);
 
-    LOG_MODULE_INFO("RunProcessStep", QString("启动进程: %1 %2").arg(executable).arg(args.join(' ')).toStdString());
+    LOG_MODULE_INFO("RunProcessStep", QString("启动进程: %1 %2").arg(programPath).arg(args.join(' ')).toStdString());
 
     proc.start();
     if (!proc.waitForStarted(5000)) {
