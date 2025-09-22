@@ -672,8 +672,10 @@
                 "args": ["${global.archiveBaseDir}"],
                 "workingDirectory": "C:/Users/pc/Downloads/turnable",
                 "timeoutMs": 600000,
-                "successPatterns": ["OK"],
-                "failurePatterns": ["FAILED"]
+                 "successPatterns": ["OK"],
+                "failurePatterns": ["FAILED"],
+                "exitCodeAsSuccess": true,
+                "expectedExitCode": 0
             }
         },
         {

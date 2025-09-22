@@ -129,13 +129,55 @@ bool RunProcessStep::execute(std::shared_ptr<WorkflowContext> context) {
     }
 
     const int exitCode = proc.exitCode();
-    const QString stdOut = QString::fromLocal8Bit(proc.readAllStandardOutput());
-    const QString stdErr = QString::fromLocal8Bit(proc.readAllStandardError());
+    
+    // 尝试多种编码方式解决乱码问题
+    QByteArray stdOutBytes = proc.readAllStandardOutput();
+    QByteArray stdErrBytes = proc.readAllStandardError();
+    
+    QString stdOut;
+    QString stdErr;
+    
+    // 优先尝试UTF-8编码
+    stdOut = QString::fromUtf8(stdOutBytes);
+    stdErr = QString::fromUtf8(stdErrBytes);
+    
+    // 如果UTF-8解码失败或包含替换字符，尝试系统本地编码
+    if (stdOut.contains(QChar::ReplacementCharacter) || stdOutBytes.isEmpty() != stdOut.isEmpty()) {
+        stdOut = QString::fromLocal8Bit(stdOutBytes);
+    }
+    if (stdErr.contains(QChar::ReplacementCharacter) || stdErrBytes.isEmpty() != stdErr.isEmpty()) {
+        stdErr = QString::fromLocal8Bit(stdErrBytes);
+    }
+    
+    // 如果仍有问题，尝试Latin-1编码（通常不会失败）
+    if (stdOut.contains(QChar::ReplacementCharacter)) {
+        stdOut = QString::fromLatin1(stdOutBytes);
+    }
+    if (stdErr.contains(QChar::ReplacementCharacter)) {
+        stdErr = QString::fromLatin1(stdErrBytes);
+    }
 
+    // 记录基本执行信息
     LOG_MODULE_INFO("RunProcessStep", QString("退出码: %1").arg(exitCode).toStdString());
-    LOG_MODULE_INFO("RunProcessStep", QString("stdout: %1").arg(stdOut).toStdString());
+    
+    // 处理并记录标准输出（避免过长的日志）
+    if (!stdOut.isEmpty()) {
+        QString cleanedStdOut = stdOut.trimmed();
+        if (cleanedStdOut.length() > 500) {
+            cleanedStdOut = cleanedStdOut.left(500) + "... (输出已截断)";
+        }
+        LOG_MODULE_INFO("RunProcessStep", QString("stdout: %1").arg(cleanedStdOut).toStdString());
+    } else {
+        LOG_MODULE_INFO("RunProcessStep", "stdout: (无输出)");
+    }
+    
+    // 记录标准错误
     if (!stdErr.isEmpty()) {
-        LOG_MODULE_WARNING("RunProcessStep", QString("stderr: %1").arg(stdErr).toStdString());
+        QString cleanedStdErr = stdErr.trimmed();
+        if (cleanedStdErr.length() > 500) {
+            cleanedStdErr = cleanedStdErr.left(500) + "... (错误输出已截断)";
+        }
+        LOG_MODULE_WARNING("RunProcessStep", QString("stderr: %1").arg(cleanedStdErr).toStdString());
     }
 
     const QStringList successPatterns = cfg.value("successPatterns").toVariant().toStringList();
@@ -162,12 +204,24 @@ bool RunProcessStep::execute(std::shared_ptr<WorkflowContext> context) {
     if (ok) {
         m_status = StepStatus::Completed;
         emit statusChanged(m_status);
+        
+        // 记录成功日志
+        LOG_MODULE_INFO("RunProcessStep", QString("✓ 进程执行成功 - 程序: %1, 退出码: %2")
+                       .arg(QFileInfo(programPath).baseName())
+                       .arg(exitCode).toStdString());
+        
         return true;
     }
 
     m_status = StepStatus::Failed;
     emit statusChanged(m_status);
-    emit errorOccurred("RunProcessStep: 进程执行判定为失败。");
+    
+    // 记录失败日志
+    LOG_MODULE_ERROR("RunProcessStep", QString("✗ 进程执行失败 - 程序: %1, 退出码: %2")
+                    .arg(QFileInfo(programPath).baseName())
+                    .arg(exitCode).toStdString());
+    
+    emit errorOccurred(QString("RunProcessStep: 进程执行判定为失败 (退出码: %1)").arg(exitCode));
     return false;
 }
 

@@ -39,3 +39,7 @@ logs/
 # OS files
 .DS_Store
 Thumbs.db
+
+# Project archives/history
+history/
+**/history/

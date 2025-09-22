@@ -239,7 +239,7 @@
                 "note": "BurnDevice使用内部TCP连接，不需要外部通道配置"
             },
             "deviceConfig": {
-                "aprogPath": "C:/JWL/Tester/xt422/AIPE/Build/Aprog.exe",
+                "aprogPath": "C:/Users/pc/Downloads/turnable/Build/Aprog.exe",
                 "connectionType": "longConnection",
                 "description": "JSON-RPC烧录设备客户端 (长连接模式)",
                 "name": "烧录设备",
