@@ -43,3 +43,11 @@ Thumbs.db
 # Project archives/history
 history/
 **/history/
+
+# Generated artifacts
+output/
+**/output/
+cache/
+**/cache/
+uid_state.txt
+**/uid_state.txt
