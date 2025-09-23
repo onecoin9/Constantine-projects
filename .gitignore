@@ -51,3 +51,6 @@ cache/
 **/cache/
 uid_state.txt
 **/uid_state.txt
+
+# Secrets and local Codex configs
+.codex/
