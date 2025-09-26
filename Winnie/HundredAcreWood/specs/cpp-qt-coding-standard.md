@@ -4,6 +4,7 @@
 > **目标读者**：研发、Code Review、QA、运维
 > **关联文档**：`spdlog-logging-standard.md`（日志治理）、项目《发布流程》《测试策略》等
 > **导出指南**：若需提交 Word 版本，可使用仓库内 `Owl/md_to_docx.py` 脚本转换
+> **参考依据**：华为 C 语言编程规范等业界优秀实践，结合 Qt/C++17 特性改写适用条款
 
 ---
 
@@ -23,7 +24,8 @@
 12. [安全与隐私要求](#安全与隐私要求)
 13. [性能优化与资源消耗](#性能优化与资源消耗)
 14. [代码评审清单](#代码评审清单)
-15. [变更记录](#变更记录)
+15. [附录：华为 C 语言编程规范整理与示例](#附录华为-c-语言编程规范整理与示例)
+16. [变更记录](#变更记录)
 
 ---
 
@@ -38,8 +40,12 @@
 ## 项目结构与文件组织
 
 - **目录层级**：遵循 `src/`, `include/`, `tests/`, `resources/`, `docs/`, `tools/` 等标准布局。
+  - 顶层目录保持职责单一，禁止在同一目录混杂接口、实现、测试。
 - **模块划分**：以功能域拆分（如 `Device/`, `Workflow/`, `UI/`），公共组件放 `common/`、`core/`。
 - **头文件/源文件配对**：`ClassName.h/.cpp` 成对出现；接口定义放头文件，内部实现置于 `.cpp`。
+  - 头文件仅暴露对外接口，内部工具函数、临时结构体禁止放在 `.h` 中。
+  - 包含关系应“由不稳定指向稳定”：头文件尽量只依赖更通用/更稳定的模块，避免交叉依赖。
+  - 必要时使用前向声明降低耦合；禁止在头文件中 `using namespace`。
 - **CMake/Qt 项目文件**：
   - `CMakeLists.txt` 按模块拆分，使用 `target_link_libraries`、`target_compile_definitions` 维护依赖。
   - Qt `.pro` / `.pri` 文件需与 CMake 配置保持同步，避免重复或冲突。
@@ -52,14 +58,22 @@
   - 函数、方法采用 `camelCase`，动宾短语表示动作，如 `startMeasurement()`。
   - 变量：局部变量使用 `camelCase`；类成员变量以 `m_` 前缀（只在成员上使用，避免与局部变量混淆）；静态成员以 `s_` 前缀。跨线程访问的共享状态应以明显名称（如 `m_sharedState`）突出用途。
   - 常量及枚举值使用 `SCREAMING_SNAKE_CASE`。
+  - 类型/函数命名禁止使用无意义缩写（如 `tmp`, `doStuff`）；必要缩写需在注释中解释来源。
+  - 布尔变量以 `is/has/should/can` 开头；集合使用复数名词（如 `devices`）。
 - **格式化与排版**：
   - 统一使用 UTF-8（无 BOM），行尾 LF。
   - 缩进 2 或 4 空格（团队约定），禁止 Tab 混用；请使用仓库根目录的 `.clang-format` 配置（或 `tools/style/clang-format.yaml`）统一格式，提交前执行 `clang-format`/`ninja format`。
   - 每行不超过 120 列，表达式适度换行；链式调用分行对齐。
+  - 不在同一文件内混用 CRLF；提交前执行 `git diff --check` 确保无尾随空格。
+  - 块结构遵循“左对齐，右移”原则，`if/else/while` 块必须使用 `{}`，即便只有一行。
 - **注释**：
   - 使用 `//` 单行、`/* ... */` 多行，Doxygen 注释 `///` 或 `/** */` 描述公共接口。
   - 注释描述“为什么”而非“做什么”，避免陈述代码本身。
+  - 文件头注释需包含版权信息、作者/维护人、最后更新时间、用途说明。
+  - 公共 API 在头文件撰写 Doxygen 注释；重要算法、状态机在实现文件追加流程说明。
+  - 注释须与代码保持一致，删除废弃代码时同步移除对应注释。
 - **头文件防护**：采用 `#pragma once`（首选）或传统 include guard。
+  - include guard 命名遵循 `PROJECT_MODULE_FILENAME_H` 模式。
 
 ## 现代 C++ 语言特性
 
@@ -71,6 +85,9 @@
 - **constexpr/const**：常量、魔法数字使用 `constexpr` 或 `const`；函数尽可能声明 `noexcept`。
 - **[[nodiscard]] 与 std::span**：返回值影响流程的函数务必使用 `[[nodiscard]]`；处理连续缓冲区时优先使用 `std::span`/`gsl::span`，同时注明 Qt 5/6 兼容策略。
 - **结构化绑定 / if with init**：在遍历 Qt 容器、pair 返回值时可使用，注意编译器版本兼容。
+- **宏使用限制**：
+  - 禁止滥用宏定义常量或内联函数，优先使用 `constexpr`、`inline`；确需宏时全部大写并添加注释。
+  - 宏替换内容需加括号防止优先级问题；宏函数内部避免副作用。
 
 ## 内存与资源管理
 
@@ -172,6 +189,9 @@
   - 设备通讯结果可缓存，设置过期策略。
 - **异步 I/O**：串口/网口采用异步读写；UI 线程不可阻塞，必要时展示进度/加载动画。
 - **资源释放**：确保长时间运行后内存、句柄无增长；使用 `QTimer` 清理过期资源。
+- **代码清理**：
+  - 删除未使用的函数、变量、头文件包含；在提交前运行 `include-what-you-use`/`clang-tidy` 修剪死代码。
+  - 重复逻辑提炼为公共函数或模板，避免“复制粘贴”式维护。
 
 ## 代码评审清单
 
@@ -187,11 +207,224 @@
 | 测试覆盖充分 | 单元/集成测试、自动化脚本是否更新 | 漏测关键路径、测试数据过旧 | ☑/☐ 说明 |
 | 性能与资源 | 是否评估性能影响，资源释放 | 循环中动态分配、内存增长 | ☑/☐ 说明 |
 | 文档与注释 | 接口、协议、配置是否有文档更新 | 忘记更新 README/版本说明 | ☑/☐ 说明 |
+| 基础风格守则 | 命名、注释、宏、头文件等是否符合团队规范 | 缺少文件头注释、宏滥用、头文件职责混乱 | ☑/☐ 说明 |
 
 > **提示**：评审记录需提交至代码平台或质量系统，确保问题整改可追踪。
+
+## 附录：华为 C 语言编程规范整理与示例
+
+> 本附录整理自华为 C 语言编程规范精华，结合团队 C++/Qt 实际改写。所有示例均使用现代 C++ 语法，强调“清晰第一、简洁为美、风格一致”。
+
+### A.1 总体原则
+
+- **清晰性优先**：代码先写给人看，再写给机器执行；必要时牺牲少量性能换取可读性。
+- **简洁可维护**：删除死代码，提炼重复逻辑；保持函数短小，平均不超过 80 行。
+- **风格统一**：继承所在模块既有风格，必要时通过 clang-format & `.editorconfig` 自动化修正。
+
+```cpp
+// 推荐：拆分责任清晰的函数
+void WorkflowRunner::start() {
+  if (!ensurePrerequisite()) {
+    LOGE("workflow.start.failed", "missing prerequisite");
+    return;
+  }
+  launchExecution();
+}
+
+bool WorkflowRunner::ensurePrerequisite() {
+  // ... existing code ...
+  return true;
+}
+```
+
+### A.2 头文件与模块边界
+
+- 头文件仅暴露接口，任何内部实现细节移动到 `.cpp`。
+- 遵循“稳定依赖原则”：业务层引用基础层，禁止反向依赖。
+- 尽量使用前向声明，降低编译依赖；禁止在头文件引入不必要的大头文件链。
+
+```cpp
+// DeviceMonitor.h —— 只含接口声明
+#pragma once
+
+class PressureSensor;
+
+class DeviceMonitor final {
+public:
+  explicit DeviceMonitor(PressureSensor* sensor);
+  void poll();
+
+private:
+  PressureSensor* m_sensor = nullptr; // 前向声明即可
+};
+
+// DeviceMonitor.cpp —— 实现文件再包含具体头
+#include "PressureSensor.h"
+
+DeviceMonitor::DeviceMonitor(PressureSensor* sensor) : m_sensor(sensor) {}
+
+void DeviceMonitor::poll() {
+  if (!m_sensor) {
+    LOGW("device.monitor", "no sensor bound");
+    return;
+  }
+  // ... existing code ...
+}
+```
+
+### A.3 函数设计
+
+- 单一职责，函数名体现动作；避免深度嵌套，超过 3 级即应拆分。
+- 输入参数使用 `const&` 或 `std::span`，输出通过返回值或结构体；禁止通过裸指针隐式返回。
+- 严格校验参数合法性，必要时返回错误码或使用 `Expected` 类型。
+
+```cpp
+/// @brief 校验并保存压力阈值
+Expected<void, QString> PressureService::updateThreshold(double value) {
+  constexpr double kMin = 0.0;
+  constexpr double kMax = 500.0;
+
+  if (value < kMin || value > kMax) {
+    return makeUnexpected(tr("阈值超出范围 [%1, %2]").arg(kMin).arg(kMax));
+  }
+  m_threshold = value;
+  return {};
+}
+```
+
+### A.4 命名与类型定义
+
+- 变量命名清晰表达含义，禁止 `tmp`, `data1` 等模糊词。
+- 结构体、枚举命名以领域名开头：`RecipeStep`, `UserRole`；枚举值统一大写。
+- `typedef` 更倾向 `using`；多层 `using` 统一收敛至一个头文件集中维护。
+
+```cpp
+enum class RecipeStepType { Load, Measure, Verify, Unload };
+
+using Timestamp = std::chrono::system_clock::time_point;
+
+struct RecipeStep {
+  RecipeStepType type;
+  QString description;
+  Timestamp scheduledAt;
+};
+```
+
+### A.5 变量、常量与宏
+
+- 变量定义就近，初始化即赋值；禁止先声明后赋值导致未定义行为。
+- 常量使用 `constexpr` 或 `const`; 尽量使用具名常量替代魔法数字。
+- 宏仅用于编译开关或条件编译；宏体必须加括号并解释目的。
+
+```cpp
+constexpr std::chrono::milliseconds kSensorPollInterval{500};
+
+for (int retry = 0; retry < kMaxRetryCount; ++retry) {
+  if (tryConnect()) {
+    break;
+  }
+  QThread::msleep(200);
+}
+
+#ifdef ENABLE_SENSOR_SIMULATION
+  LOGI("sensor.sim", "running in simulation mode");
+#endif
+```
+
+### A.6 表达式与控制流
+
+- 避免复杂表达式；对关键逻辑拆分临时变量。
+- 条件表达式左值使用常量在前形式 `if (0 == errorCode)`，防止误写 `=`。
+- `switch` 必须列出默认分支处理；使用 `[[fallthrough]]` 明确贯穿。
+
+```cpp
+switch (mode) {
+case OperationMode::Manual:
+  return handleManual(config);
+case OperationMode::Automatic:
+  return handleAutomatic(config);
+default:
+  LOGE("workflow.mode.invalid", static_cast<int>(mode));
+  return makeUnexpected(QStringLiteral("未知工作模式"));
+}
+```
+
+### A.7 注释与文档化
+
+- 文件头注释包含用途、作者、版权、历史版本；模块内维护 `CHANGELOG`。
+- 对外接口使用 Doxygen，参数、返回值、异常情况逐条说明。
+- 对复杂状态机加入时序图或表格说明；注释需随代码更新。
+
+```cpp
+/**
+ * @file TemperatureController.h
+ * @brief 控制温区温度的公共接口，支持 PSI5 传感器
+ * @author Tester Team
+ * @date 2025-09-27
+ */
+
+/// @brief 进入指定温区并等待稳定
+/// @param zone 目标温区
+/// @param timeout 等待超时 (秒)
+/// @return true 表示稳定，false 表示超时
+bool enterZone(TemperatureZone zone, std::chrono::seconds timeout);
+```
+
+### A.8 排版与格式
+
+- 缩进统一 2 或 4 空格；花括号自立一行或与语句同行保持一致性。
+- `if/else`、`for` 等语句无论执行体是否单行都必须加花括号。
+- 保持逻辑块之间适当空行，分组相关语句。
+
+```cpp
+for (const auto& task : m_tasks) {
+  if (!task->isEnabled()) {
+    continue;
+  }
+
+  task->prepare();
+  task->execute();
+}
+```
+
+### A.9 编辑、编译与测试要求
+
+- 所有提交必须通过 clang-format、clang-tidy、静态检查；禁止警告未清除。
+- 编译开关按平台分类维护，如 `config/compiler/msvc.cmake`、`config/compiler/gcc.cmake`。
+- 单元测试覆盖率写入 CI，核心模块不低于 70%。
+
+```bash
+# 推荐：提交前检查脚本
+python tools/precommit/check_format.py
+ctest --output-on-failure
+
+# MSVC: 启用 /W4 /WX
+# GCC/Clang: 启用 -Wall -Wextra -Werror -Wpedantic
+```
+
+### A.10 常见反例速查
+
+- **反例 1：头文件实现** —— 在 `.h` 编写完整函数导致重复编译。
+- **反例 2：宏副作用** —— `#define MAX(a,b) a > b ? a : b` 遇到自增表达式出错。
+- **反例 3：隐式类型转换** —— 混用窄宽整数字段，未显式 `static_cast`。
+- **反例 4：注释过期** —— 修改代码忘记同步注释，评审时必须指出。
+
+```cpp
+// 反例：宏副作用
+#define INC_AND_GET(x) (++(x))
+int value = 0;
+int sum = INC_AND_GET(value) + INC_AND_GET(value); // 结果不可预期
+
+// 正例：使用函数
+inline int incAndGet(int& value) {
+  return ++value;
+}
+```
 
 ## 变更记录
 
 | 版本 | 日期 | 负责人 | 变更内容 |
 |------|------|--------|----------|
+| v1.2 | 2025-09-27 | Winnie 团队 | 新增华为 C 语言规范附录与示例，扩充评审参考 |
+| v1.1 | 2025-09-27 | Winnie 团队 | 补充华为 C 语言规范抽取的基础风格条款，细化命名/注释/头文件等要求 |
 | v1.0 | 2025-09-26 | Winnie 团队 | 初版，覆盖 C++/Qt 编码、评审要点 |
