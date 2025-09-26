@@ -1,7 +1,7 @@
 [
     {
         "siteSnRegex": "^TURN*",
-        "workflow": "config/recipes/turntable_test_safe2.json"
+        "workflow": "config/recipes/turntable_test_safe.json"
     },{
         "siteSnRegex": "^SN*",
         "workflow": "config/recipes/turntable_activate.json"

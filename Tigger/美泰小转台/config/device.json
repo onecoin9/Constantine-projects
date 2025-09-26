@@ -73,7 +73,7 @@
                 "timeout": 5000,
                 "requestTimeout": 30000,
                 "reconnectInterval": 3000,
-                "aprogPath": "C:/JWL/Tester/xt422/AIPE/Build/Aprog.exe"
+                "aprogPath": "C:/Users/pc/Downloads/turnable/Build/Aprog.exe"
             }
         }
     ]

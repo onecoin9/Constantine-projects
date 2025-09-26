@@ -657,13 +657,27 @@
                     "sourceDirectory": "output",
                     "archiveRoot": "C:/TestArchive",
                     "archiveBy": "chipType",
-                    "testType": "Test",
+                    "testType": "calibration",
                     "siteId": "B01",
                     "operation": "copy"
                 }
             }
         },
-        
+        {
+            "id": "run_chip_test",
+            "name": "调用ChipTest并判定",
+            "type": "RunProcess",
+            "config": {
+                "executable": "C:/Users/pc/Downloads/turnable/ChipTest_all.exe",
+                "args": ["${global.archiveBaseDir}"],
+                "workingDirectory": "C:/Users/pc/Downloads/turnable",
+                "timeoutMs": 600000,
+                 "successPatterns": ["OK"],
+                "failurePatterns": ["FAILED"],
+                "exitCodeAsSuccess": true,
+                "expectedExitCode": 0
+            }
+        },
         {
             "id": "send_turntable_result",
             "name": "步骤9: 发送转台站点测试结果",
