@@ -386,14 +386,6 @@ toolbar#TabsToolbar {
    position: static !important;
 }
 
-#navigator-toolbox:not([inFullscreen]) #TabsToolbar .titlebar-buttonbox-container {
-   visibility: visible !important;
-   display: block !important;
-   position: absolute !important;
-   top: 5px !important;
-   left: unset !important;
-   right: 5px !important;
-}
 
 #TabsToolbar .titlebar-min {
    -moz-box-ordinal-group: 0 !important;
@@ -408,13 +400,6 @@ toolbar#TabsToolbar {
    -moz-box-ordinal-group: 2 !important;
 }
 
-#navigator-toolbox[inFullscreen] #navigator-toolbox #TabsToolbar .titlebar-buttonbox-container {
-   -moz-box-ordinal-group: 1 !important;
-}
-
-#navigator-toolbox #TabsToolbar .titlebar-buttonbox-container {
-   -moz-box-ordinal-group: 1 !important;
-}
 
 @media only screen and (max-width: 670px) {
    #main-window #navigator-toolbox:not([inFullscreen]) #TabsToolbar .titlebar-buttonbox-container {
@@ -650,33 +635,18 @@ input#urlbar-input {
    border-left-style: solid !important;
 }
 
-/* 可选标题前缀触发 (🦊) */
-#main-window[titlepreface*="🦊 "] .tabbrowser-tab {
-   visibility: collapse !important;
-}
+/* 移除旧的 titlepreface (🦊) 条件布局，避免高度/按钮尺寸混乱 */
 
-#main-window[titlepreface*="🦊 "] .titlebar-button {
-   height: 40px !important;
-}
-
-#main-window[titlepreface*="🦊 "] #nav-bar {
-   margin-top: -40px;
-   margin-right: 137px;
-   box-shadow: none !important;
-}
-
-#main-window[titlepreface*="🦊 "] #titlebar-spacer,
-#main-window[titlepreface*="🦊 "] #titlebar-buttonbox-container {
-   background-color: var(--chrome-secondary-background-color);
-}
-
-#main-window[titlepreface*="🦊 "] .titlebar-color {
-   background-color: var(--toolbar-bgcolor);
+/* 防止潜在的第二套系统按钮显示：强制隐藏非我们定位的容器副本 */
+#titlebar > .titlebar-buttonbox-container:not(#navigator-toolbox .titlebar-buttonbox-container) {
+  display: none !important;
 }
 
 :root {
-   --wc-height: 20px;
+   --wc-height: 24px;          /* 原 20 -> 24，更好覆盖原生按钮 */
    --wc-left-margin: 10px;
+   --wc-btn-padding-top: 4px;  /* 容器内顶部补偿，保证垂直居中 */
+   --wc-gap: 10px;             /* 按钮间距，避免重叠 */
    --wc-red: hsl(-10, 90%, 60%);
    --wc-yellow: hsl(50, 90%, 60%);
    --wc-green: hsl(160, 90%, 40%);
@@ -698,24 +668,30 @@ input#urlbar-input {
    width: var(--wc-height) !important;
    min-width: var(--wc-height) !important;
    border-radius: 50% !important;
-   opacity: 0.7 !important;
+   opacity: 0.82 !important;
    border: none !important;
    -moz-appearance: none !important;
    appearance: none !important;
+   box-shadow: 0 0 0 1px rgba(0,0,0,.35), 0 1px 2px rgba(0,0,0,.35);
+   backdrop-filter: saturate(1.2);
 }
 
 .titlebar-button:hover {
-   transform: scale(1.1);
+   transform: scale(1.08);
    opacity: 1 !important;
    cursor: pointer;
+   box-shadow: 0 0 0 1px rgba(0,0,0,.55), 0 2px 4px rgba(0,0,0,.5);
 }
 
 .titlebar-buttonbox {
-   display: flex;
+   display: flex !important;
    margin-right: 8px;
-   gap: 8px;
    align-items: center;
+   padding-top: var(--wc-btn-padding-top);
 }
+/* 使用 margin 控制间隔，兼容 gap 可能失效的情况 */
+.titlebar-buttonbox .titlebar-button { margin-left: var(--wc-gap) !important; }
+.titlebar-buttonbox .titlebar-button:first-child { margin-left: 0 !important; }
 
 .titlebar-close {
    background: var(--wc-red) !important;
@@ -844,3 +820,62 @@ input#urlbar-input {
 
 /* 若仍存在 drag-strip 变量引用，强制其高度为 0，避免空洞 */
 :root { --drag-strip-height: 0px !important; }
+
+/* =====================================================================
+    WINDOW BUTTON CLUSTER ALIGNMENT FIX
+    目标: 解决自定义彩色圆形窗口按钮与原生区域未完全重合/看起来挤在一起的问题。
+    做法: 重新计算右侧保留宽度, 使用固定定位并为导航栏留出填充。
+    可调参数:
+         --wc-gap            按钮之间水平间距
+         --wc-right-offset   按钮群距离窗口右边缘偏移
+         --wc-top-offset     按钮群距离顶部偏移
+         --wc-cluster-width  自动计算导航栏需要预留的宽度 (可按需要微调)
+    如需再放大按钮: 调整前面定义的 --wc-height。
+    ===================================================================== */
+:root {
+   --wc-gap: 10px;
+   --wc-right-offset: 8px;
+   --wc-top-offset: 6px;
+   --wc-cluster-width: calc(var(--wc-height) * 3 + var(--wc-gap) * 2 + 16px);
+}
+
+/* 为导航栏内容右侧预留空间，避免扩展图标被窗口按钮覆盖 */
+#nav-bar { padding-right: var(--wc-cluster-width) !important; }
+
+/* 固定窗口按钮容器到右上角 */
+#navigator-toolbox:not([inFullscreen]) .titlebar-buttonbox-container {
+   position: fixed !important;
+   top: var(--wc-top-offset) !important;
+   right: var(--wc-right-offset) !important;
+   display: flex !important;
+   align-items: center !important;
+   z-index: 400 !important;
+   padding: 0 !important;
+   margin: 0 !important;
+   background: transparent !important;
+}
+
+/* 隐藏 TabsToolbar 里可能残留的原生按钮容器，避免重影 */
+toolbar#TabsToolbar .titlebar-buttonbox-container:not(:first-of-type) {
+   display: none !important;
+}
+
+/* 统一按钮间距（使用 margin 避免 gap 在某些构建中失效） */
+#navigator-toolbox .titlebar-buttonbox .titlebar-button { margin-left: var(--wc-gap) !important; }
+#navigator-toolbox .titlebar-buttonbox .titlebar-button:first-child { margin-left: 0 !important; }
+
+/* 避免按钮被拖拽区域误判为可拖拽，保持点击优先 */
+#navigator-toolbox .titlebar-buttonbox .titlebar-button { -moz-window-dragging: no-drag; }
+
+/* 如果看到仍有一层系统原生按钮描边，可尝试隐藏备用容器（视版本可能不存在） */
+#TabsToolbar .titlebar-buttonbox-container[hidden] { display: none !important; }
+
+/* 窗口最大化时微调顶部距离（Windows 最大化时顶部像素紧贴） */
+#main-window[sizemode="maximized"] #navigator-toolbox .titlebar-buttonbox-container {
+   top: calc(var(--wc-top-offset) - 2px) !important;
+}
+
+/* 适配窄宽窗口：自动减间距 */
+@media (max-width: 900px) {
+   :root { --wc-gap: 6px; --wc-cluster-width: calc(var(--wc-height) * 3 + var(--wc-gap) * 2 + 12px); }
+}
