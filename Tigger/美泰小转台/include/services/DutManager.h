@@ -160,6 +160,8 @@ public:
      */
     SiteInfo getSiteInfoByIndex(int siteIndex) const;
 
+    bool updateSiteChipStatusByIndex(int siteId, const QByteArray& chipStatus);
+
     /**
      * @brief 从站点扫描结果更新站点信息
      * @param siteData 从DeviceDiscovered通知收到的JSON对象

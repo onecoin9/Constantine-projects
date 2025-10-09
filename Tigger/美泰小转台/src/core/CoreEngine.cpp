@@ -7,6 +7,7 @@
 #include "domain/TestBoardDevice.h"
 #include "domain/BurnDevice.h"
 #include "application/WorkflowContext.h"
+#include "GlobalItem.h"
 #include <QJsonDocument>
 #include <QFile>
 #include <QTimer>
@@ -506,6 +507,18 @@ void CoreEngine::onHandlerChipPlaced(int siteIndex, uint32_t slotEn, const QStri
     // 首先立即发射chipPlaced信号，确保WaitForSignalStep能接收到
     // 这样无论路由是否成功，等待该信号的工作流都能继续执行
     emit chipPlaced(siteIndex, slotEn, siteSn);
+
+    if (siteIndex == TURNABLE_SITE_INDEX) {
+        QByteArray dataArr(MAX_SOCKET_NUM, 0x00);
+        for (int i = 0; i < MAX_SOCKET_NUM; i++) {
+            if ((slotEn & 0xFF) & (1 << i)) {
+                dataArr[i] = 1;
+            }
+        }
+        Services::DutManager::instance()->updateSiteChipStatusByIndex(TURNABLE_SITE_INDEX, dataArr);
+        LOG_MODULE_INFO("CoreEngine", QString("Update turnable site chip status:%1")
+            .arg(dataArr.toHex().constData()).toStdString());
+    }
 
     // 使用QtConcurrent::run将路由相关的处理过程移到后台线程
     QtConcurrent::run([this, siteIndex, slotEn, siteSn]() {

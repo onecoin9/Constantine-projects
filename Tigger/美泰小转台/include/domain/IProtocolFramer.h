@@ -65,6 +65,8 @@ public:
     };
     virtual Statistics getStatistics() const = 0;
 
+    virtual void popBuffer() = 0;
+
 signals:
     /**
      * @brief 当有完整的数据包准备好时发出

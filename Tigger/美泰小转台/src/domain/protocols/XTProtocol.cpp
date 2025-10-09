@@ -700,5 +700,11 @@ void XTProtocol::clearBuffer()
     }
 }
 
+void XTProtocol::popBuffer() {
+    if (m_framer) {
+        m_framer->popBuffer();
+    }
+}
+
 } // namespace Protocols
 } // namespace Domain 

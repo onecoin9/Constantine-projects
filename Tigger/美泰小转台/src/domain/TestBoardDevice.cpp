@@ -199,14 +199,15 @@ QJsonObject TestBoardDevice::executeCommand(const QString &command, const QJsonO
     else if (command.toLower() == "stoptest") {
         auto packet = m_protocol->createStartCommand(false, 0, 0);
         if(sendCommand(packet)) {
-           m_logger->stopLogging();
-           m_protocol->clearBuffer(); // 调用protocol清空其内部的framer缓冲区
-           m_isTestRunning = false;
-           m_status = IDevice::DeviceStatus::Ready;
-           emit testStateChanged(false);
-           result["success"] = true;
+            m_protocol->popBuffer();
+            m_logger->stopLogging();
+            m_protocol->clearBuffer(); // 调用protocol清空其内部的framer缓冲区
+            m_isTestRunning = false;
+            m_status = IDevice::DeviceStatus::Ready;
+            emit testStateChanged(false);
+            result["success"] = true;
         } else {
-           result["error"] = tr("发送停止命令失败");
+            result["error"] = tr("发送停止命令失败");
         }
     } 
     else if (command.toLower() == "controldutpower") {

@@ -38,6 +38,8 @@ public:
     QString formatPacketForDisplay(const QByteArray& rawPacket) override;
     QString formatSentPacketForDisplay(const QByteArray& rawPacket) override;
 
+    void popBuffer() override;
+
 private:
     // 关键修复：新增一个私有辅助函数用于格式化
     QString formatPacketDetails(uint16_t cmdId, const QByteArray& data) const;

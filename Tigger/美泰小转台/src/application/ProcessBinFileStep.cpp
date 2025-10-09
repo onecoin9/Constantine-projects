@@ -36,6 +36,12 @@ bool ProcessBinFileStep::execute(std::shared_ptr<WorkflowContext> context)
 
     QString cachePath = m_config.value("config").toObject().value("sourceDirectory").toString("cache");
     QString outputRootPath = m_config.value("config").toObject().value("outputDirectory").toString("output");
+
+    // 如果outputRootPath目录已存在，则清空目录下所有文件及文件夹
+    if (QDir(outputRootPath).exists()) {
+        QDir(outputRootPath).removeRecursively();
+    }
+    QDir(outputRootPath).mkpath(".");
     
     QDir cacheDir(cachePath);
     if (!cacheDir.exists()) {

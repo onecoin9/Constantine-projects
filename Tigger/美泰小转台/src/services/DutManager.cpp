@@ -191,7 +191,6 @@ bool DutManager::loadSiteConfiguration(const QString& siteConfigFilePath)
         return false;
     }  
     QJsonObject siteConfiguration = doc.object();
-    qDebug()<<siteConfiguration;
     
     // 添加详细的调试信息
     LOG_MODULE_INFO("DutManager", QString("JSON object keys: %1").arg(siteConfiguration.keys().join(", ")).toStdString());
@@ -433,6 +432,31 @@ DutManager::SiteInfo DutManager::getSiteInfoByIndex(int siteIndex) const
     return SiteInfo();
 }
 
+
+bool DutManager::updateSiteChipStatusByIndex(int siteId, const QByteArray& chipStatus)
+{
+    QMutexLocker locker(&m_mutex);
+
+    // 查找对应的站点
+    QString targetSiteAlias;
+    for (auto it = m_siteInfoMap.begin(); it != m_siteInfoMap.end(); ++it) {
+        if (it.value().siteIndex == siteId) {
+            targetSiteAlias = it.key();
+            break;
+        }
+    }
+
+    if (targetSiteAlias.isEmpty()) {
+        LOG_MODULE_WARNING("DutManager", QString("Site with index %1 not found").arg(siteId).toStdString());
+        return false;
+    }
+
+    SiteInfo& siteInfo = m_siteInfoMap[targetSiteAlias];
+    siteInfo.currentChipStatus = chipStatus;
+    locker.unlock();
+    return true;
+}
+
 bool DutManager::updateSiteChipStatus(const QString& ip, const QByteArray& chipStatus)
 {
     QMutexLocker locker(&m_mutex);
@@ -454,6 +478,7 @@ bool DutManager::updateSiteChipStatus(const QString& ip, const QByteArray& chipS
     SiteInfo& siteInfo = m_siteInfoMap[targetSiteAlias];
     siteInfo.currentChipStatus = chipStatus;
     locker.unlock();
+    return true;
 }
 
 bool DutManager::updateSiteChipPlacement(int siteIndex, quint64 chipMask, const QString& siteSn)

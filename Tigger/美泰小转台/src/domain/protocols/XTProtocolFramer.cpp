@@ -138,6 +138,10 @@ QByteArray XTProtocolFramer::buildPacket(uint16_t cmdId, const QByteArray& cmdDa
     return packet;
 }
 
+void XTProtocolFramer::popBuffer() {
+    processBuffer();
+}
+
 void XTProtocolFramer::processBuffer()
 {
     // 移除 while 循环，每次调用只处理一个包

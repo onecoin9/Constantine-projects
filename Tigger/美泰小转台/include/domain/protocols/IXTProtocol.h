@@ -138,6 +138,7 @@ public:
     virtual void clearBuffer() = 0;
     virtual bool parseResponse(uint16_t cmdId, const QByteArray& data) = 0;
     virtual QString getLastError() const = 0;
+    virtual void popBuffer() = 0;
 
     virtual QByteArray createStartCommand(bool start, uint16_t dutActive, uint32_t timestamp) = 0;
     virtual QByteArray createPowerControlCommand(bool enable, uint16_t dutPowerEnable) = 0;

@@ -2,6 +2,8 @@
 #include "application/WorkflowContext.h"
 #include "core/Logger.h"
 #include "GlobalItem.h"
+#include "services/DutManager.h"
+#include "QXlsx/xlsxdocument.h"
 
 #include <QDir>
 #include <QProcess>
@@ -209,7 +211,59 @@ bool RunProcessStep::execute(std::shared_ptr<WorkflowContext> context) {
         LOG_MODULE_INFO("RunProcessStep", QString("✓ 进程执行成功 - 程序: %1, 退出码: %2")
                        .arg(QFileInfo(programPath).baseName())
                        .arg(exitCode).toStdString());
+
+        // 解析生成结果，处理分选
         
+        QString resXlsxFilePath = args[0] + "\\Result\\TestResult.xlsx";
+        QXlsx::Document xlsx(resXlsxFilePath);
+        // 文件不存在
+        if (!QFile(resXlsxFilePath).exists()) {
+            LOG_MODULE_ERROR("RunProcessStep", QString("✗ Result文件夹不存在: %1").arg(resXlsxFilePath).toStdString());
+            return false;
+        }
+        
+        xlsx.selectSheet("Test-B01");
+        int rowCount = xlsx.dimension().rowCount();
+        QByteArray resultData = Services::DutManager::instance()->getSiteInfoByIndex(TURNABLE_SITE_INDEX).currentChipStatus;
+        for (int row = 2; row <= rowCount && row <= 9; ++row) {
+            int col = 3;
+            QString resultStr = xlsx.read(row, col).toString();
+            int result = resultStr.toInt();
+
+            /*
+                自动机顺序：
+                    1 2 3 4
+                    5 6 7 8
+                转台顺序：
+                    1 3 5 7
+                    2 4 6 8
+                这里需要转换
+            */
+            // 转台的2 4 6 8
+            if (row % 2 && resultData[(row - 2 - 1) / 2 + 4] == char(0x01)) {
+                if (result != 0) { // 测试结果为失败
+                    resultData[(row - 2 - 1) / 2 + 4] = 2;
+                }
+                LOG_MODULE_INFO("RunProcessStep", QString("转台分选 socket:%1, result:%2")
+                    .arg(row - 1)
+                    .arg(result).toStdString());
+            }
+            // 转台的1 3 5 7
+            if ((row % 2) == 0 && resultData[(row - 2) / 2] == char(0x01)) {
+                if (result != 0) { // 测试结果为失败
+                    resultData[(row - 2) / 2] = 2;
+                }
+                LOG_MODULE_INFO("RunProcessStep", QString("转台分选 socket:%1, result:%2")
+                    .arg(row - 1)
+                    .arg(result).toStdString());
+            }
+
+        }
+        Services::DutManager::instance()->updateSiteChipStatusByIndex(TURNABLE_SITE_INDEX, resultData);
+        LOG_MODULE_INFO("RunProcessStep", QString("转台分选结果:%1")
+            .arg(resultData.toHex().constData()).toStdString());
+
+
         return true;
     }
 

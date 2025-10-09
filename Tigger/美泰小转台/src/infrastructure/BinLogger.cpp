@@ -4,6 +4,9 @@
 #include <QDir>
 #include <QMutexLocker>
 #include <QFileInfo>
+#include <QThread>
+#include <QEventLoop>
+#include <QTimer>
 
 namespace Infrastructure {
 
@@ -68,7 +71,7 @@ bool BinLogger::startLogging(const QString &directory, const QString &customFile
 
 void BinLogger::stopLogging()
 {
-    QMutexLocker locker(&m_mutex);
+    //QMutexLocker locker(&m_mutex);
     stopLoggingInternal();
 }
 
@@ -77,8 +80,50 @@ void BinLogger::stopLoggingInternal()
     if (!m_logFile.isOpen()) {
         return;
     }
+    QDateTime endTime = QDateTime::currentDateTime();
+    qint64 diffSecs = m_startTime.secsTo(endTime);  // 秒差
 
-    m_logFile.close();
+    QEventLoop loop;
+    QTimer::singleShot(500, &loop, &QEventLoop::quit);  // 可延长到1000ms如果需要更多同步时间
+    loop.exec();  // 这会处理事件循环，允许信号/槽（如 onRawPacketReceived）继续执行
+
+    // 新增：强制将缓冲区数据写入文件
+    {
+        QMutexLocker locker(&m_mutex);
+        m_logFile.flush();
+    }
+    QThread::msleep(500);
+
+    //// 调用 Windows API 确保数据同步到磁盘
+    //#ifdef Q_OS_WIN
+    //#include <windows.h>
+    //int fd = m_logFile.handle();  // 获取 int 文件描述符
+    //if (fd != -1) {  // 有效描述符
+    //    HANDLE fileHandle = (HANDLE)_get_osfhandle(fd);  // 转换为 Windows HANDLE
+    //    if (fileHandle != INVALID_HANDLE_VALUE) {
+    //        if (::FlushFileBuffers(fileHandle)) {
+    //            LOG_MODULE_INFO("BinLogger", "FlushFileBuffers 成功，数据同步到磁盘。");
+    //        } else {
+    //            LOG_MODULE_ERROR("BinLogger", QString("FlushFileBuffers 失败: %1").arg(GetLastError()).toStdString());
+    //            // Fallback: 使用 _commit 作为备用同步
+    //            if (_commit(fd) == 0) {
+    //                LOG_MODULE_INFO("BinLogger", "_commit 成功（备用同步）。");
+    //            } else {
+    //                LOG_MODULE_ERROR("BinLogger", QString("_commit 失败: %1").arg(errno).toStdString());
+    //            }
+    //        }
+    //    } else {
+    //        LOG_MODULE_ERROR("BinLogger", "无效 HANDLE，无法调用 FlushFileBuffers。");
+    //    }
+    //} else {
+    //    LOG_MODULE_ERROR("BinLogger", "无效文件描述符 (fd = -1)，跳过同步。");
+    //}
+    //#endif
+
+    {
+        QMutexLocker locker(&m_mutex);
+        m_logFile.close();
+    }
 
     QFileInfo fileInfo(m_currentFilePath);
     QString baseName = fileInfo.baseName();
@@ -88,24 +133,22 @@ void BinLogger::stopLoggingInternal()
         customPart.chop(5); // removes "_temp"
     }
 
-    QDateTime endTime = QDateTime::currentDateTime();
-    qint64 diffSecs = m_startTime.secsTo(endTime);  // 秒差
 
 
     int binIndex = GlobalItem::getInstance().getInt("binIndex", 1);
     GlobalItem::getInstance().setInt("binIndex", binIndex + 1);
 
     QString finalFilePath = QString("%1/%4_%2_%3S.bin")
-        .arg(m_logDirectory)
-        .arg(customPart)
-        .arg(diffSecs)
-        .arg(binIndex);
+       .arg(m_logDirectory)
+       .arg(customPart)
+       .arg(diffSecs)
+       .arg(binIndex);
 
     if (QFile::rename(m_currentFilePath, finalFilePath)) {
-        LOG_MODULE_INFO("BinLogger", QString("Stopped logging. Final log file: %1").arg(finalFilePath).toStdString());
+       LOG_MODULE_INFO("BinLogger", QString("Stopped logging. Final log file: %1").arg(finalFilePath).toStdString());
     } else {
-        LOG_MODULE_ERROR("BinLogger", QString("Failed to rename log file from %1 to %2")
-            .arg(m_currentFilePath).arg(finalFilePath).toStdString());
+       LOG_MODULE_ERROR("BinLogger", QString("Failed to rename log file from %1 to %2")
+           .arg(m_currentFilePath).arg(finalFilePath).toStdString());
     }
     
     m_currentFilePath.clear();
@@ -121,8 +164,6 @@ void BinLogger::onRawPacketReceived(const QByteArray& packet)
         m_logStream.writeRawData(reinterpret_cast<const char*>(&dataSize), sizeof(qint64));
         m_logStream.writeRawData(packet.constData(), dataSize);
         
-        // 新增：强制将缓冲区数据写入文件
-        m_logFile.flush();
     }
 }
 

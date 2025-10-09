@@ -7,6 +7,9 @@
 #include <QMap>
 #include <QString>
 
+#define TURNABLE_SITE_INDEX 9
+#define MAX_SOCKET_NUM 16
+
 /**
  * @brief 全局单例类，用于存储和管理全局变量
  * 线程安全的单例实现，支持任意类型的全局变量存储

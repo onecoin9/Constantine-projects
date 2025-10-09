@@ -28,9 +28,10 @@ public:
     void clearBuffer() override;
     Statistics getStatistics() const override;
 
+    void popBuffer() override;
+
 private slots:
     void processBuffer();
-
 private:
     // 协议常量
     static constexpr uint32_t CMD_FLAG = 0x58544B5A;  // "XTKZ"
