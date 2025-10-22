@@ -18,6 +18,7 @@
 #include <QLineEdit> // <--- 新增
 #include <QAction> // <--- 新增
 #include "ui/DeviceManagerDialog.h" // 确保路径正确
+#include "ui/DatabaseWidget.h" // 添加数据库界面
 #include "services/WorkflowManager.h"
 #include "domain/IDevice.h"
 QT_BEGIN_NAMESPACE
@@ -46,6 +47,7 @@ namespace Presentation {
 class DeviceManagerDialog; // 前向声明
 class DutMonitorWidget; // 前向声明
 class SimpleLogWidget; // 前向声明
+class DatabaseWidget; // 前向声明
 
 /**
  * @brief 主窗口类
@@ -119,6 +121,7 @@ private:
     QDockWidget *m_dutMonitorDock; // DUT监控面板的dock容器
     QTableWidget *m_activeTasksTable; // 新增：显示当前活动的工作流实例
     Presentation::SimpleLogWidget *m_simpleLogWidget; // 系统日志控件
+    Presentation::DatabaseWidget *m_databaseWidget; // 数据库管理控件
     QTabWidget *m_tabWidget; // 中央tab控件
     QLabel *m_statusLabel;
     QLabel *m_deviceStatusLabel; // 新增：用于显示设备连接概览

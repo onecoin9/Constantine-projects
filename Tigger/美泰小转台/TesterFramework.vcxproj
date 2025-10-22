@@ -262,6 +262,9 @@
     <ClCompile Include="src\domain\protocols\XTProtocol.cpp" />
     <ClCompile Include="src\domain\protocols\XTProtocolFramer.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="sql\ChipTestDatabase.cpp" />
+    <ClCompile Include="src\ui\DatabaseWidget.cpp" />
+    <ClCompile Include="src\services\DatabaseService.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="include\Ag06DoCustomProtocol.h">
@@ -572,6 +575,19 @@
       <Include Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">./build/moc/moc_predefs.h</Include>
     </QtMoc>
     <ClInclude Include="include\xt_trim_param.h" />
+    <ClInclude Include="sql\ChipTestDatabase.h" />
+    <QtMoc Include="include\ui\DatabaseWidget.h">
+      <CompilerFlavor Condition="'$(Configuration)|$(Platform)'=='Release|x64'">msvc</CompilerFlavor>
+      <Include Condition="'$(Configuration)|$(Platform)'=='Release|x64'">./build/moc/moc_predefs.h</Include>
+      <CompilerFlavor Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">msvc</CompilerFlavor>
+      <Include Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">./build/moc/moc_predefs.h</Include>
+    </QtMoc>
+    <QtMoc Include="include\services\DatabaseService.h">
+      <CompilerFlavor Condition="'$(Configuration)|$(Platform)'=='Release|x64'">msvc</CompilerFlavor>
+      <Include Condition="'$(Configuration)|$(Platform)'=='Release|x64'">./build/moc/moc_predefs.h</Include>
+      <CompilerFlavor Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">msvc</CompilerFlavor>
+      <Include Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">./build/moc/moc_predefs.h</Include>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include=".\build\moc\moc_predefs.h.cbt">

@@ -3,9 +3,11 @@
 #include "services/WorkflowManager.h" // 新增
 #include "services/DeviceManager.h" // 添加 DeviceManager.h
 #include "services/DutManager.h" // 添加 DutManager.h
+#include "services/DatabaseService.h" // 添加数据库服务
 #include "application/WorkflowContext.h" // 新增
 #include "ui/DeviceManagerDialog.h" // 包含 DeviceManagerDialog.h
 #include "ui/DutMonitorWidget.h" // <-- 1. 包含新的头文件
+#include "ui/DatabaseWidget.h" // 包含数据库界面
 #include "domain/BurnDevice.h" // 添加 BurnDevice 头文件
 #include "domain/HandlerDevice.h" // 添加 HandlerDevice 头文件
 #include <QTimer> // 添加 QTimer
@@ -62,6 +64,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_isProcessRunning(false) // 初始化 m_isProcessRunning
     , m_dutMonitorWidget(nullptr) // 初始化为 nullptr
     , m_dutMonitorDock(nullptr) // 初始化为 nullptr
+    , m_databaseWidget(nullptr) // 初始化数据库控件为 nullptr
     , m_timeUpdateTimer(new QTimer(this))
     , m_settings("TesterFramework", "MainWindow")
     , m_currentBurnDevice(nullptr) // 初始化BurnDevice指针
@@ -143,6 +146,25 @@ void MainWindow::setCoreEngine(std::shared_ptr<Core::CoreEngine> engine)
         }
     } else {
         
+    }
+
+    // 初始化数据库服务
+    QString dbPath = "data/chip_test.db";
+    if (Services::DatabaseService::getInstance().initializeDatabase(dbPath)) {
+        LOG_MODULE_INFO("MainWindow", QString("数据库服务初始化成功: %1").arg(dbPath).toStdString());
+        
+        // 初始化数据库界面
+        if (m_databaseWidget) {
+            m_databaseWidget->initializeDatabase(dbPath);
+        }
+        
+        // 连接测试结果信号到数据库服务
+        if (m_coreEngine) {
+            connect(m_coreEngine.get(), &Core::CoreEngine::testResultAvailable,
+                    &Services::DatabaseService::getInstance(), &Services::DatabaseService::onTestDataAvailable);
+        }
+    } else {
+        LOG_MODULE_WARNING("MainWindow", "数据库服务初始化失败");
     }
 
     // 更新UI状态为就绪
@@ -286,6 +308,10 @@ void MainWindow::createDockWidgets()
     // 创建并添加系统日志Tab
     m_simpleLogWidget = new SimpleLogWidget(this);
     m_tabWidget->addTab(m_simpleLogWidget, "日志");
+    
+    // 创建并添加数据库管理Tab
+    m_databaseWidget = new DatabaseWidget(this);
+    m_tabWidget->addTab(m_databaseWidget, "数据库");
     
     //m_tabWidget->addTab(new QWidget(), "外设管理");
 
