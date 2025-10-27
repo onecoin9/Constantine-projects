@@ -23,6 +23,40 @@
             --danger: #ff6b6b;
             --bg-light: #f8f9fa;
             --border: #e0e0e0;
+            
+            /* 浅色主题（默认） */
+            --theme-bg-primary: white;
+            --theme-bg-secondary: #f8f9fa;
+            --theme-text-primary: #333;
+            --theme-text-secondary: #666;
+            --theme-text-tertiary: #999;
+            --theme-border: #e0e0e0;
+            --theme-sidebar-bg: white;
+            --theme-sidebar-text: #666;
+            --theme-card-bg: white;
+            --theme-card-border: #e0e0e0;
+            --theme-header-bg: white;
+            --theme-code-bg: #1e1e1e;
+            --theme-code-text: #d4d4d4;
+            --theme-gradient-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        /* 深色主题 */
+        html.dark-mode {
+            --theme-bg-primary: #1a1a1a;
+            --theme-bg-secondary: #2a2a2a;
+            --theme-text-primary: #e0e0e0;
+            --theme-text-secondary: #b0b0b0;
+            --theme-text-tertiary: #808080;
+            --theme-border: #404040;
+            --theme-sidebar-bg: #1f1f1f;
+            --theme-sidebar-text: #a0a0a0;
+            --theme-card-bg: #252525;
+            --theme-card-border: #353535;
+            --theme-header-bg: #1f1f1f;
+            --theme-code-bg: #1e1e1e;
+            --theme-code-text: #d4d4d4;
+            --theme-gradient-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
 
         * {
@@ -37,9 +71,10 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #333;
+            background: var(--theme-gradient-bg);
+            color: var(--theme-text-primary);
             line-height: 1.6;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
         /* ========== 侧栏导航 ========== */
@@ -49,11 +84,11 @@
             top: 0;
             width: 280px;
             height: 100vh;
-            background: white;
+            background: var(--theme-sidebar-bg);
             box-shadow: 2px 0 12px rgba(0,0,0,0.08);
             z-index: 100;
             overflow-y: auto;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease;
         }
 
         .sidebar.hidden {
@@ -100,12 +135,16 @@
             letter-spacing: 0.6px;
         }
 
+        html.dark-mode .nav-section-title {
+            color: #666;
+        }
+
         .nav-item {
             padding: 12px 20px;
             cursor: pointer;
             transition: all 0.2s ease;
             border-left: 3px solid transparent;
-            color: #666;
+            color: var(--theme-sidebar-text);
             font-size: 0.95em;
             display: flex;
             align-items: center;
@@ -125,11 +164,19 @@
             border-left-color: var(--primary);
         }
 
+        html.dark-mode .nav-item:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
         .nav-item.active {
             background: var(--primary-light);
             color: var(--primary);
             border-left-color: var(--primary);
             font-weight: 600;
+        }
+
+        html.dark-mode .nav-item.active {
+            background: rgba(102, 126, 234, 0.1);
         }
 
         .nav-item.active i {
@@ -158,14 +205,14 @@
         .main-content {
             margin-left: 280px;
             min-height: 100vh;
-            background: white;
-            transition: margin-left 0.3s ease;
+            background: var(--theme-bg-primary);
+            transition: margin-left 0.3s ease, background 0.3s ease;
         }
 
         /* ========== 顶部导航 ========== */
         .header {
-            background: white;
-            border-bottom: 1px solid var(--border);
+            background: var(--theme-header-bg);
+            border-bottom: 1px solid var(--theme-border);
             padding: 16px 32px;
             display: flex;
             justify-content: space-between;
@@ -174,6 +221,7 @@
             top: 0;
             z-index: 50;
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            transition: background 0.3s ease, border-color 0.3s ease;
         }
 
         .header-left {
@@ -242,7 +290,7 @@
             align-items: center;
             gap: 8px;
             font-size: 0.9em;
-            color: #999;
+            color: var(--theme-text-tertiary);
             margin-bottom: 24px;
         }
 
@@ -279,7 +327,7 @@
 
         .section-header > p {
             font-size: 1.05em;
-            color: #666;
+            color: var(--theme-text-secondary);
             border-left: 4px solid var(--primary);
             padding-left: 16px;
             line-height: 1.7;
@@ -287,11 +335,11 @@
 
         /* ========== 内容卡片 ========== */
         .content-card {
-            background: white;
+            background: var(--theme-card-bg);
             border-radius: 12px;
             padding: 32px;
             margin-bottom: 32px;
-            border: 1px solid var(--border);
+            border: 1px solid var(--theme-card-border);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             animation: fadeIn 0.5s ease;
         }
@@ -341,7 +389,7 @@
         .content-list li {
             padding: 12px 0 12px 32px;
             position: relative;
-            color: #555;
+            color: var(--theme-text-secondary);
             line-height: 1.8;
             font-size: 0.95em;
         }
@@ -363,7 +411,7 @@
         }
 
         .content-list li code {
-            background: var(--bg-light);
+            background: var(--theme-bg-secondary);
             padding: 2px 6px;
             border-radius: 4px;
             font-family: 'Monaco', 'Menlo', monospace;
@@ -379,9 +427,13 @@
             border-radius: 10px;
             margin: 24px 0;
             overflow-x: auto;
-            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-            font-size: 0.88em;
-            line-height: 1.6;
+            font-family: 'Consolas', 'Courier New', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.85em;
+            line-height: 1.8;
+            letter-spacing: 0.5px;
+            white-space: pre;
+            word-wrap: normal;
+            overflow-wrap: normal;
             border-left: 4px solid var(--primary);
             box-shadow: 0 4px 12px rgba(0,0,0,0.12);
             position: relative;
@@ -389,6 +441,10 @@
 
         .code-block code {
             color: #d4d4d4;
+            font-family: inherit;
+            font-size: inherit;
+            line-height: inherit;
+            background: transparent;
         }
 
         /* 代码块语言标签 */
@@ -397,13 +453,68 @@
             position: absolute;
             top: 10px;
             right: 12px;
-            background: var(--primary);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 4px 10px;
+            padding: 4px 12px;
             border-radius: 4px;
-            font-size: 0.75em;
-            font-weight: 600;
+            font-size: 0.7em;
+            font-weight: 700;
+            letter-spacing: 0.5px;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            z-index: 10;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        /* 滚动条美化 */
+        .code-block::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .code-block::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .code-block::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        .code-block::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* ========== 主题切换按钮 ========== */
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.3em;
+            cursor: pointer;
+            color: var(--primary);
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+        }
+
+        .theme-toggle:hover {
+            background: var(--primary-light);
+            transform: rotate(20deg);
+        }
+
+        .theme-toggle:active {
+            transform: rotate(20deg) scale(0.95);
+        }
+
+        .theme-toggle-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
         }
 
         /* ========== 高亮框 ========== */
@@ -414,6 +525,10 @@
             border-radius: 8px;
             margin: 24px 0;
             transition: all 0.3s ease;
+        }
+
+        html.dark-mode .highlight-box {
+            background: rgba(102, 126, 234, 0.1);
         }
 
         .highlight-box:hover {
@@ -427,7 +542,7 @@
 
         .highlight-box p {
             margin: 8px 0;
-            color: #555;
+            color: var(--theme-text-secondary);
         }
 
         /* ========== 网格布局 ========== */
@@ -444,6 +559,10 @@
             border-radius: 10px;
             border-left: 4px solid var(--primary);
             transition: all 0.3s ease;
+        }
+
+        html.dark-mode .grid-item {
+            background: rgba(102, 126, 234, 0.08);
         }
 
         .grid-item:hover {
@@ -468,7 +587,7 @@
         .grid-item ul {
             list-style: none;
             font-size: 0.95em;
-            color: #555;
+            color: var(--theme-text-secondary);
         }
 
         .grid-item li {
@@ -871,6 +990,34 @@
             outline: 2px solid var(--primary);
             outline-offset: 2px;
         }
+
+        /* ========== 代码复制按钮 ========== */
+        .code-copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 60px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #999;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 4px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75em;
+            transition: all 0.2s ease;
+            z-index: 9;
+        }
+
+        .code-copy-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .code-copy-btn.copied {
+            background: var(--success);
+            color: white;
+            border-color: var(--success);
+        }
     </style>
 </head>
 <body>
@@ -955,6 +1102,11 @@
                 <h1 class="header-title"><i class="fas fa-code"></i> C++/Qt 编码规范</h1>
             </div>
             <input type="text" class="search-box" id="searchBox" placeholder="搜索内容..." aria-label="搜索">
+            <button class="theme-toggle" id="themeToggle" aria-label="切换深色/浅色主题" title="切换主题">
+                <div class="theme-toggle-icon">
+                    <i class="fas fa-moon"></i>
+                </div>
+            </button>
         </header>
 
         <!-- 内容区域 -->
@@ -3124,6 +3276,58 @@ delete sensor;  // 不安全！
             }
         });
 
+        // ==================== 深色/浅色主题切换 ====================
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        
+        // 初始化主题（从 localStorage 获取或根据系统偏好）
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                html.classList.add('dark-mode');
+                updateThemeToggleIcon(true);
+            } else {
+                html.classList.remove('dark-mode');
+                updateThemeToggleIcon(false);
+            }
+        }
+        
+        // 更新主题切换按钮图标
+        function updateThemeToggleIcon(isDarkMode) {
+            const icon = themeToggle.querySelector('i');
+            if (isDarkMode) {
+                icon.className = 'fas fa-sun';
+            } else {
+                icon.className = 'fas fa-moon';
+            }
+        }
+        
+        // 切换主题
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark-mode');
+            const isDarkMode = html.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+            updateThemeToggleIcon(isDarkMode);
+        });
+        
+        // 监听系统主题变更
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            if (localStorage.getItem('theme') === null) {
+                if (e.matches) {
+                    html.classList.add('dark-mode');
+                    updateThemeToggleIcon(true);
+                } else {
+                    html.classList.remove('dark-mode');
+                    updateThemeToggleIcon(false);
+                }
+            }
+        });
+        
+        // 页面加载时初始化主题
+        initTheme();
+
         // ==================== 性能优化：懒加载 ====================
         if ('IntersectionObserver' in window) {
             const lazyElements = document.querySelectorAll('.content-card');
@@ -3139,7 +3343,42 @@ delete sensor;  // 不安全！
             lazyElements.forEach(el => imageObserver.observe(el));
         }
 
+        // ==================== 代码块处理 ====================
+        
+        // 添加复制按钮
+        function initializeCodeBlocks() {
+            document.querySelectorAll('.code-block').forEach((block, index) => {
+                // 创建复制按钮
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'code-copy-btn';
+                copyBtn.innerHTML = '<i class="fas fa-copy"></i> 复制';
+                copyBtn.setAttribute('aria-label', '复制代码');
+                
+                copyBtn.addEventListener('click', () => {
+                    const code = block.textContent;
+                    navigator.clipboard.writeText(code).then(() => {
+                        copyBtn.classList.add('copied');
+                        copyBtn.innerHTML = '<i class="fas fa-check"></i> 已复制';
+                        
+                        setTimeout(() => {
+                            copyBtn.classList.remove('copied');
+                            copyBtn.innerHTML = '<i class="fas fa-copy"></i> 复制';
+                        }, 2000);
+                    }).catch(err => {
+                        console.error('复制失败:', err);
+                    });
+                });
+                
+                block.style.position = 'relative';
+                block.appendChild(copyBtn);
+            });
+        }
+
+        // 页面加载后初始化
+        document.addEventListener('DOMContentLoaded', initializeCodeBlocks);
+
         console.log('📚 C++/Qt 编码规范 v1.0 加载完成');
+        console.log('✨ 功能：搜索、导航、代码复制已启用');
     </script>
 </body>
 </html>
