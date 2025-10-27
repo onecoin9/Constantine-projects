@@ -1,0 +1,3145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="C++/Qt 编码与评审规范 - 专业的技术文档">
+    <meta name="theme-color" content="#667eea">
+    <title>C++/Qt 编码与评审规范 v1.0</title>
+    
+    <!-- TailwindCSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #667eea;
+            --primary-dark: #764ba2;
+            --primary-light: #f0f4ff;
+            --success: #51cf66;
+            --warning: #ffd93d;
+            --danger: #ff6b6b;
+            --bg-light: #f8f9fa;
+            --border: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* ========== 侧栏导航 ========== */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: white;
+            box-shadow: 2px 0 12px rgba(0,0,0,0.08);
+            z-index: 100;
+            overflow-y: auto;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sidebar.hidden {
+            transform: translateX(-100%);
+        }
+
+        .sidebar-header {
+            padding: 24px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.4em;
+            font-weight: 700;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-header p {
+            font-size: 0.85em;
+            opacity: 0.9;
+        }
+
+        .sidebar-nav {
+            padding: 20px 0;
+        }
+
+        .nav-section {
+            margin-bottom: 10px;
+        }
+
+        .nav-section-title {
+            padding: 12px 20px;
+            font-size: 0.7em;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #999;
+            letter-spacing: 0.6px;
+        }
+
+        .nav-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+            color: #666;
+            font-size: 0.95em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-item i {
+            width: 16px;
+            text-align: center;
+            color: var(--primary);
+            opacity: 0.6;
+        }
+
+        .nav-item:hover {
+            background: var(--primary-light);
+            color: var(--primary);
+            border-left-color: var(--primary);
+        }
+
+        .nav-item.active {
+            background: var(--primary-light);
+            color: var(--primary);
+            border-left-color: var(--primary);
+            font-weight: 600;
+        }
+
+        .nav-item.active i {
+            opacity: 1;
+        }
+
+        /* 滚动条美化 */
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #d0d0d0;
+            border-radius: 3px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: #999;
+        }
+
+        /* ========== 主内容区域 ========== */
+        .main-content {
+            margin-left: 280px;
+            min-height: 100vh;
+            background: white;
+            transition: margin-left 0.3s ease;
+        }
+
+        /* ========== 顶部导航 ========== */
+        .header {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex: 1;
+        }
+
+        .toggle-sidebar-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.4em;
+            cursor: pointer;
+            color: var(--primary);
+            transition: color 0.3s ease;
+            padding: 8px;
+            border-radius: 6px;
+        }
+
+        .toggle-sidebar-btn:hover {
+            background: var(--primary-light);
+        }
+
+        .header-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-box {
+            padding: 10px 16px;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            font-size: 0.95em;
+            width: 280px;
+            transition: all 0.3s ease;
+            background: var(--bg-light);
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        .search-box::placeholder {
+            color: #999;
+        }
+
+        /* ========== 内容区域 ========== */
+        .content-wrapper {
+            padding: 40px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* ========== 面包屑导航 ========== */
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9em;
+            color: #999;
+            margin-bottom: 24px;
+        }
+
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--primary-dark);
+        }
+
+        /* ========== 章节标题 ========== */
+        .section-header {
+            margin-bottom: 40px;
+            animation: slideInUp 0.5s ease;
+        }
+
+        .section-header h1 {
+            font-size: 2.2em;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .section-header h1 i {
+            font-size: 0.95em;
+            opacity: 0.7;
+        }
+
+        .section-header > p {
+            font-size: 1.05em;
+            color: #666;
+            border-left: 4px solid var(--primary);
+            padding-left: 16px;
+            line-height: 1.7;
+        }
+
+        /* ========== 内容卡片 ========== */
+        .content-card {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 32px;
+            border: 1px solid var(--border);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .content-card:hover {
+            box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+        }
+
+        .content-card h2 {
+            font-size: 1.7em;
+            color: var(--primary);
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--primary-light);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .content-card h2 i {
+            opacity: 0.7;
+        }
+
+        .content-card h3 {
+            font-size: 1.2em;
+            color: var(--primary-dark);
+            margin-top: 28px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .content-card h3 i {
+            font-size: 0.9em;
+            color: var(--primary);
+            opacity: 0.7;
+        }
+
+        /* ========== 列表样式 ========== */
+        .content-list {
+            list-style: none;
+            margin: 16px 0;
+        }
+
+        .content-list li {
+            padding: 12px 0 12px 32px;
+            position: relative;
+            color: #555;
+            line-height: 1.8;
+            font-size: 0.95em;
+        }
+
+        .content-list li:before {
+            content: "\f105";
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 8px;
+            color: var(--primary);
+            font-size: 0.7em;
+            top: 16px;
+        }
+
+        .content-list li strong {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .content-list li code {
+            background: var(--bg-light);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9em;
+            color: #d46a6a;
+        }
+
+        /* ========== 代码块 ========== */
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 24px 0;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.88em;
+            line-height: 1.6;
+            border-left: 4px solid var(--primary);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            position: relative;
+        }
+
+        .code-block code {
+            color: #d4d4d4;
+        }
+
+        /* 代码块语言标签 */
+        .code-block.cpp:before {
+            content: "C++";
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            background: var(--primary);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.75em;
+            font-weight: 600;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        /* ========== 高亮框 ========== */
+        .highlight-box {
+            background: var(--primary-light);
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 24px 0;
+            transition: all 0.3s ease;
+        }
+
+        .highlight-box:hover {
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+        }
+
+        .highlight-box strong {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .highlight-box p {
+            margin: 8px 0;
+            color: #555;
+        }
+
+        /* ========== 网格布局 ========== */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin: 32px 0;
+        }
+
+        .grid-item {
+            background: var(--primary-light);
+            padding: 24px;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .grid-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.2);
+        }
+
+        .grid-item h4 {
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.05em;
+        }
+
+        .grid-item h4 i {
+            opacity: 0.7;
+        }
+
+        .grid-item ul {
+            list-style: none;
+            font-size: 0.95em;
+            color: #555;
+        }
+
+        .grid-item li {
+            padding: 8px 0 8px 24px;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        .grid-item li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--success);
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        /* ========== 表格 ========== */
+        .table-wrapper {
+            margin: 32px 0;
+            overflow-x: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 16px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95em;
+            letter-spacing: 0.3px;
+        }
+
+        td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+            color: #555;
+            font-size: 0.95em;
+        }
+
+        tr:hover {
+            background: var(--primary-light);
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* ========== 徽章 ========== */
+        .badge {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+        .badge:hover {
+            background: var(--primary-dark);
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .badge.success {
+            background: var(--success);
+        }
+
+        .badge.success:hover {
+            background: #40c057;
+        }
+
+        .badge.warning {
+            background: var(--warning);
+            color: #333;
+        }
+
+        .badge.warning:hover {
+            background: #ffcb15;
+        }
+
+        .badge.danger {
+            background: var(--danger);
+        }
+
+        .badge.danger:hover {
+            background: #ff5252;
+        }
+
+        /* ========== 动画 ========== */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* 延迟加载动画 */
+        .content-card {
+            opacity: 0;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .content-card:nth-child(1) { animation-delay: 0.1s; }
+        .content-card:nth-child(2) { animation-delay: 0.2s; }
+        .content-card:nth-child(3) { animation-delay: 0.3s; }
+
+        /* ========== 响应式设计 ========== */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 240px;
+            }
+
+            .main-content {
+                margin-left: 240px;
+            }
+
+            .content-wrapper {
+                padding: 32px 24px;
+            }
+
+            .grid-2 {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .search-box {
+                width: 200px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .toggle-sidebar-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .sidebar {
+                width: 280px;
+                max-width: 100%;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .content-wrapper {
+                padding: 24px 16px;
+            }
+
+            .section-header h1 {
+                font-size: 1.7em;
+                gap: 10px;
+            }
+
+            .content-card {
+                padding: 20px;
+                margin-bottom: 24px;
+            }
+
+            .content-card h2 {
+                font-size: 1.4em;
+                margin-bottom: 16px;
+            }
+
+            .grid-2 {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .search-box {
+                width: 150px;
+                font-size: 0.9em;
+            }
+
+            .header {
+                padding: 12px 16px;
+                flex-wrap: wrap;
+            }
+
+            table {
+                font-size: 0.9em;
+            }
+
+            th, td {
+                padding: 10px 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-left {
+                gap: 12px;
+            }
+
+            .header-title {
+                font-size: 1.1em;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .search-box {
+                display: none;
+            }
+
+            .content-wrapper {
+                padding: 16px 12px;
+            }
+
+            .section-header h1 {
+                font-size: 1.4em;
+            }
+
+            .content-card {
+                padding: 16px;
+                border-radius: 8px;
+            }
+
+            .content-card h2 {
+                font-size: 1.2em;
+            }
+
+            .content-card h3 {
+                font-size: 1.05em;
+            }
+
+            .grid-item {
+                padding: 16px;
+            }
+
+            .code-block {
+                padding: 16px;
+                font-size: 0.8em;
+                border-radius: 6px;
+            }
+
+            .content-list li {
+                padding-left: 28px;
+            }
+
+            table {
+                font-size: 0.85em;
+            }
+
+            th, td {
+                padding: 8px 6px;
+            }
+        }
+
+        /* ========== 打印样式 ========== */
+        @media print {
+            .sidebar,
+            .header,
+            .toggle-sidebar-btn,
+            .search-box {
+                display: none !important;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .content-wrapper {
+                max-width: 100%;
+                padding: 0;
+            }
+
+            .content-card {
+                page-break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
+                margin-bottom: 20px;
+            }
+
+            a {
+                color: var(--primary);
+            }
+        }
+
+        /* ========== 深色模式支持 ========== */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: #1a1a1a;
+            }
+
+            .sidebar {
+                background: #2a2a2a;
+                color: #e0e0e0;
+            }
+
+            .sidebar-header {
+                border-bottom: 1px solid #444;
+            }
+
+            .nav-item {
+                color: #b0b0b0;
+            }
+
+            .nav-item:hover,
+            .nav-item.active {
+                background: rgba(102, 126, 234, 0.15);
+            }
+
+            .main-content,
+            .content-card,
+            table {
+                background: #2a2a2a;
+                color: #e0e0e0;
+            }
+
+            .header {
+                background: #2a2a2a;
+                border-bottom-color: #444;
+            }
+
+            .search-box {
+                background: #3a3a3a;
+                border-color: #444;
+                color: #e0e0e0;
+            }
+
+            .search-box:focus {
+                border-color: var(--primary);
+                background: #3a3a3a;
+            }
+
+            .content-list li {
+                color: #b0b0b0;
+            }
+
+            .highlight-box {
+                background: rgba(102, 126, 234, 0.1);
+                border-left-color: var(--primary);
+            }
+
+            .grid-item {
+                background: rgba(102, 126, 234, 0.1);
+            }
+
+            td {
+                border-bottom-color: #444;
+            }
+
+            tr:hover {
+                background: rgba(102, 126, 234, 0.15);
+            }
+        }
+
+        /* ========== 辅助功能 ========== */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* 焦点可见性 */
+        a:focus-visible,
+        button:focus-visible,
+        .nav-item:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 侧栏导航 -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2><i class="fas fa-book"></i> 编码规范</h2>
+            <p>C++/Qt v1.0</p>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <div class="nav-section-title">核心原则</div>
+                <div class="nav-item active" onclick="scrollToSection('intro')">
+                    <i class="fas fa-lightbulb"></i> 快速开始
+                </div>
+                <div class="nav-item" onclick="scrollToSection('principles')">
+                    <i class="fas fa-compass"></i> 基本设计原则
+                </div>
+                <div class="nav-item" onclick="scrollToSection('structure')">
+                    <i class="fas fa-folder-tree"></i> 项目结构
+                </div>
+            </div>
+            <div class="nav-section">
+                <div class="nav-section-title">编码规范</div>
+                <div class="nav-item" onclick="scrollToSection('naming')">
+                    <i class="fas fa-tag"></i> 命名与风格
+                </div>
+                <div class="nav-item" onclick="scrollToSection('cpp-modern')">
+                    <i class="fas fa-rocket"></i> 现代 C++
+                </div>
+                <div class="nav-item" onclick="scrollToSection('memory')">
+                    <i class="fas fa-microchip"></i> 内存管理
+                </div>
+                <div class="nav-item" onclick="scrollToSection('error')">
+                    <i class="fas fa-shield-alt"></i> 错误处理
+                </div>
+            </div>
+            <div class="nav-section">
+                <div class="nav-section-title">框架与库</div>
+                <div class="nav-item" onclick="scrollToSection('qt')">
+                    <i class="fas fa-cube"></i> Qt 框架规范
+                </div>
+                <div class="nav-item" onclick="scrollToSection('threading')">
+                    <i class="fas fa-share-alt"></i> 多线程
+                </div>
+            </div>
+            <div class="nav-section">
+                <div class="nav-section-title">质量保障</div>
+                <div class="nav-item" onclick="scrollToSection('ui')">
+                    <i class="fas fa-paint-brush"></i> UI 交互
+                </div>
+                <div class="nav-item" onclick="scrollToSection('build')">
+                    <i class="fas fa-hammer"></i> 构建配置
+                </div>
+                <div class="nav-item" onclick="scrollToSection('testing')">
+                    <i class="fas fa-flask"></i> 测试
+                </div>
+            </div>
+            <div class="nav-section">
+                <div class="nav-section-title">最佳实践</div>
+                <div class="nav-item" onclick="scrollToSection('security')">
+                    <i class="fas fa-lock"></i> 安全隐私
+                </div>
+                <div class="nav-item" onclick="scrollToSection('performance')">
+                    <i class="fas fa-bolt"></i> 性能优化
+                </div>
+                <div class="nav-item" onclick="scrollToSection('checklist')">
+                    <i class="fas fa-check-circle"></i> 评审清单
+                </div>
+            </div>
+        </nav>
+    </aside>
+
+    <!-- 主内容区域 -->
+    <main class="main-content">
+        <!-- 顶部导航 -->
+        <header class="header">
+            <div class="header-left">
+                <button class="toggle-sidebar-btn" id="toggleSidebar" aria-label="切换侧栏">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 class="header-title"><i class="fas fa-code"></i> C++/Qt 编码规范</h1>
+            </div>
+            <input type="text" class="search-box" id="searchBox" placeholder="搜索内容..." aria-label="搜索">
+        </header>
+
+        <!-- 内容区域 -->
+        <div class="content-wrapper">
+            <!-- 快速开始 -->
+            <div id="intro" class="section-header">
+                <h1><i class="fas fa-rocket"></i> 快速开始</h1>
+                <p>本规范适用于所有基于 C++17+/Qt 6 的客户端、测试与自动化项目。规范包含 16 个核心章节，涵盖从基本设计原则到代码评审的完整内容。</p>
+            </div>
+
+            <!-- 核心要点卡片 -->
+            <div class="content-card">
+                <h2><i class="fas fa-star"></i> 编码规范核心要点</h2>
+                <div class="grid-2">
+                    <div class="grid-item">
+                        <h4><i class="fas fa-eye"></i> 可读性优先</h4>
+                        <p style="margin: 8px 0; color: #555; font-size: 0.95em;">代码先写给人看，再写给机器执行。为后续维护与评审提供清晰意图。</p>
+                    </div>
+                    <div class="grid-item">
+                        <h4><i class="fas fa-tasks"></i> 单一职责</h4>
+                        <p style="margin: 8px 0; color: #555; font-size: 0.95em;">模块、类、函数应聚焦于单一职责，配合 SOLID 原则进行设计。</p>
+                    </div>
+                    <div class="grid-item">
+                        <h4><i class="fas fa-rocket"></i> 现代 C++</h4>
+                        <p style="margin: 8px 0; color: #555; font-size: 0.95em;">使用 C++17 及以上特性，智能指针、RAII、强类型等现代特性。</p>
+                    </div>
+                    <div class="grid-item">
+                        <h4><i class="fas fa-flask-vial"></i> 完备测试</h4>
+                        <p style="margin: 8px 0; color: #555; font-size: 0.95em;">核心模块 > 70% 覆盖率，关键路径 > 90% 覆盖率。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 基本设计原则 -->
+            <div id="principles" class="content-card">
+                <h2><i class="fas fa-compass"></i> 基本设计原则</h2>
+                <ul class="content-list">
+                    <li><strong>可读性优先</strong> — 为后续维护与评审提供清晰意图，适度添加注释、设计描述和示例</li>
+                    <li><strong>最小惊讯原则</strong> — 遵循业界和团队约定，避免奇特或隐式行为</li>
+                    <li><strong>单一职责</strong> — 模块、类、函数应聚焦于单一职责，配合 SOLID 原则进行设计</li>
+                    <li><strong>可测试性</strong> — 编写可被单元测试、集成测试覆盖的结构；解耦硬件/I/O 依赖</li>
+                    <li><strong>跨平台一致性</strong> — Windows、Linux 需维护一致行为，避免平台条件编译带来行为差异</li>
+                </ul>
+            </div>
+
+            <!-- 项目结构 -->
+            <div id="structure" class="content-card">
+                <h2><i class="fas fa-folder-tree"></i> 项目结构与文件组织</h2>
+                <h3><i class="fas fa-layer-group"></i> 目录层级</h3>
+                <ul class="content-list">
+                    <li>遵循 <code>src/</code>, <code>include/</code>, <code>tests/</code>, <code>resources/</code>, <code>docs/</code>, <code>tools/</code> 等标准布局</li>
+                    <li>以功能域拆分模块（如 <code>Device/</code>, <code>Workflow/</code>, <code>UI/</code>），公共组件放 <code>common/</code>, <code>core/</code></li>
+                </ul>
+                <h3><i class="fas fa-file-code"></i> 头文件/源文件配对</h3>
+                <ul class="content-list">
+                    <li><code>ClassName.h/.cpp</code> 成对出现；接口定义放头文件，内部实现置于 <code>.cpp</code></li>
+                    <li>头文件仅暴露对外接口，内部工具函数、临时结构体禁止放在 <code>.h</code> 中</li>
+                    <li>必要时使用前向声明降低耦合；禁止在头文件中 <code>using namespace</code></li>
+                </ul>
+            </div>
+
+            <!-- 命名与风格 -->
+            <div id="naming" class="content-card">
+                <h2><i class="fas fa-tag"></i> 命名与代码风格</h2>
+                <h3><i class="fas fa-palette"></i> 命名约定</h3>
+                <ul class="content-list">
+                    <li><strong>类型</strong>：使用 PascalCase，如 <code>PressureController</code></li>
+                    <li><strong>函数/方法</strong>：采用 camelCase，如 <code>startMeasurement()</code></li>
+                    <li><strong>变量</strong>：局部变量 camelCase；类成员 <code>m_</code> 前缀；静态成员 <code>s_</code> 前缀</li>
+                    <li><strong>常量/枚举</strong>：使用 SCREAMING_SNAKE_CASE</li>
+                    <li><strong>布尔变量</strong>：以 <code>is/has/should/can</code> 开头</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <strong><i class="fas fa-check" style="color: var(--success);"></i> ✓ 推荐：清晰规范的命名</strong>
+                </div>
+                <div class="code-block cpp">
+// 类型定义：PascalCase
+class PressureController {
+private:
+    double m_threshold;              // 类成员：m_ 前缀
+    bool m_isInitialized;           // 布尔变量：is 前缀
+    static int s_instanceCount;     // 静态成员：s_ 前缀
+    
+public:
+    void startMeasurement();        // 函数：camelCase
+    bool validateInput(double value);
+    const auto& getThreshold() const { return m_threshold; }
+};
+
+// 常量：SCREAMING_SNAKE_CASE
+constexpr double PRESSURE_MIN = 0.0;
+constexpr double PRESSURE_MAX = 500.0;
+constexpr int MAX_RETRY_COUNT = 3;
+
+// 枚举类：使用 enum class
+enum class MeasurementState {
+    Idle,
+    Running,
+    Paused,
+    Completed
+};
+                </div>
+
+                <div class="highlight-box" style="background: #ffe0e0; border-left-color: var(--danger);">
+                    <strong><i class="fas fa-times" style="color: var(--danger);"></i> ✗ 反例：混乱的命名约定</strong>
+                </div>
+                <div class="code-block cpp">
+// 反例1：无意义缩写，名字太短
+class PC {
+private:
+    double threshold;               // ✗ 缺少 m_ 前缀
+    bool init;                      // ✗ 缺少 is/has 前缀
+    static int gInstanceCount;      // ✗ 不规范前缀
+    
+public:
+    void SMM();                     // ✗ 缩写过度，难以理解
+    bool ValidateInput(double x);   // ✗ 函数使用 PascalCase
+};
+
+// 反例2：混用命名风格
+#define MAX_SIZE 100;               // ✗ 宏定义常量（应使用 constexpr）
+int tmp_value = 0;                 // ✗ tmp 无实际意义
+double d = 3.14;                   // ✗ 单字母变量名
+bool flag = true;                  // ✗ flag 过于模糊
+enum MeasurementState {             // ✗ 使用传统枚举
+    Idle, Running, Paused
+};
+                </div>
+
+                <h3><i class="fas fa-align-left"></i> 格式化与排版</h3>
+                <ul class="content-list">
+                    <li>统一使用 UTF-8（无 BOM），行尾 LF；缩进 2 或 4 空格</li>
+                    <li>每行不超过 120 列；使用 <code>clang-format</code> 统一格式</li>
+                    <li>不在同一文件内混用 CRLF；禁止尾随空格</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <strong><i class="fas fa-check" style="color: var(--success);"></i> ✓ 推荐：规范的代码格式</strong>
+                </div>
+                <div class="code-block cpp">
+// ✓ 推荐：清晰的块结构，适度的缩进
+class DeviceMonitor {
+public:
+    explicit DeviceMonitor(const QString& deviceName)
+        : m_deviceName(deviceName)
+        , m_isConnected(false)
+        , m_pollInterval(500)
+    {
+    }
+
+    void start() {
+        if (!ensureConnection()) {
+            LOGE("monitor.start.failed", "Cannot connect to device");
+            return;
+        }
+        
+        m_timer.start(m_pollInterval);
+    }
+
+private:
+    QString m_deviceName;
+    bool m_isConnected;
+    int m_pollInterval;
+};
+                </div>
+            </div>
+
+            <!-- 现代 C++ -->
+            <div id="cpp-modern" class="content-card">
+                <h2><i class="fas fa-rocket"></i> 现代 C++ 语言特性</h2>
+                <ul class="content-list">
+                    <li><strong>标准版本</strong> — 默认 C++17 及以上，启用 <code>&lt;filesystem&gt;</code>, <code>&lt;optional&gt;</code>, <code>&lt;variant&gt;</code> 等特性</li>
+                    <li><strong>智能指针</strong> — 优先使用 <code>std::unique_ptr</code>，必要时使用 <code>std::shared_ptr</code> + <code>std::weak_ptr</code></li>
+                    <li><strong>RAII</strong> — 使用构造/析构管理资源，例如 <code>QScopedPointer</code>, <code>std::lock_guard</code></li>
+                    <li><strong>auto 使用</strong> — 仅在类型显而易见、或冗长模板类型时使用</li>
+                    <li><strong>枚举类</strong> — 使用 <code>enum class</code> 代替传统枚举</li>
+                    <li><strong>[[nodiscard]]</strong> — 返回值影响流程的函数务必使用标记</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <strong><i class="fas fa-check" style="color: var(--success);"></i> ✓ 推荐：现代 C++ 特性</strong>
+                </div>
+                <div class="code-block cpp">
+// ✓ 推荐：使用智能指针和 RAII
+#include &lt;memory&gt;
+#include &lt;optional&gt;
+
+class SensorManager {
+public:
+    // unique_ptr 用于独占所有权
+    explicit SensorManager() 
+        : m_sensor(std::make_unique&lt;PressureSensor&gt;())
+    {
+    }
+
+    // 返回值标记为 [[nodiscard]]
+    [[nodiscard]] bool initialize();
+    
+    // 返回 optional，无需异常
+    [[nodiscard]] std::optional&lt;double&gt; readValue();
+    
+private:
+    std::unique_ptr&lt;PressureSensor&gt; m_sensor;  // 自动释放
+    std::string m_config;
+};
+
+// ✓ 推荐：enum class 替代传统枚举
+enum class SensorState {
+    Offline = 0,
+    Connecting = 1,
+    Connected = 2,
+    Error = 3
+};
+
+// ✓ 推荐：std::optional 替代 bool 标志
+std::optional&lt;int&gt; parseConfiguration(const std::string& config) {
+    try {
+        // 解析逻辑...
+        return 42;
+    } catch (...) {
+        return std::nullopt;  // 无需抛出异常
+    }
+}
+
+// ✓ 推荐：使用 constexpr
+constexpr int SENSOR_POLL_INTERVAL_MS = 500;
+                </div>
+
+                <div class="highlight-box" style="background: #ffe0e0; border-left-color: var(--danger);">
+                    <strong><i class="fas fa-times" style="color: var(--danger);"></i> ✗ 反例：过时的 C++ 风格</strong>
+                </div>
+                <div class="code-block cpp">
+// ✗ 反例1：裸指针和手动释放
+class SensorManager {
+private:
+    PressureSensor* m_sensor;  // ✗ 裸指针
+public:
+    SensorManager() {
+        m_sensor = new PressureSensor();  // ✗ 手动 new
+    }
+    
+    ~SensorManager() {
+        delete m_sensor;  // ✗ 异常风险：如果构造异常导致泄漏
+    }
+};
+
+// ✗ 反例2：传统枚举和异常处理
+enum SensorState {  // ✗ 非 enum class
+    OFFLINE = 0,
+    CONNECTING = 1,
+    CONNECTED = 2,
+    ERROR = 3
+};
+
+int readValue() {  // ✗ 返回 -1 表示错误，魔法数字
+    try {
+        return getSensorValue();
+    } catch (...) {
+        return -1;  // ✗ 模糊的错误信息
+    }
+}
+
+// ✗ 反例3：auto 滥用
+auto result = getSensorData();  // ✗ 返回值类型不清晰
+for (auto item : items) {       // ✗ item 类型不明确
+    process(item);
+}
+                </div>
+            </div>
+
+            <!-- 内存管理 -->
+            <div id="memory" class="content-card">
+                <h2><i class="fas fa-microchip"></i> 内存与资源管理</h2>
+                <h3><i class="fas fa-life-ring"></i> 对象生命周期</h3>
+                <ul class="content-list">
+                    <li>Qt 对象若有父子关系，使用父指针自动管理</li>
+                    <li>避免在栈上创建大型 QObject 子类，优先使用 <code>std::unique_ptr&lt;QObject&gt;</code></li>
+                </ul>
+                <h3><i class="fas fa-box"></i> 容器选择</h3>
+                <ul class="content-list">
+                    <li>优先使用标准容器</li>
+                    <li>若需 Qt 特性可使用 <code>QVector</code>, <code>QMap</code> 等</li>
+                    <li>明确迭代器与索引安全性，避免越界、迭代器失效</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <strong><i class="fas fa-check" style="color: var(--success);"></i> ✓ 推荐：使用 Qt 父子关系和智能指针</strong>
+                </div>
+                <div class="code-block cpp">
+// ✓ 推荐：Qt 对象的父子自动管理
+class DeviceWindow : public QMainWindow {
+    Q_OBJECT
+public:
+    explicit DeviceWindow(QWidget* parent = nullptr) 
+        : QMainWindow(parent)
+    {
+        // 使用 new 创建子对象，设置 this 为父
+        auto layout = new QVBoxLayout(centralWidget());
+        auto label = new QLabel("Device Status", this);  // this 为父
+        layout->addWidget(label);  // 自动释放！
+    }
+};
+
+// ✓ 推荐：使用 unique_ptr 管理非 Qt 资源
+class SensorController {
+private:
+    std::unique_ptr&lt;PressureSensor&gt; m_sensor;  // 独占所有权
+    
+public:
+    void initialize() {
+        m_sensor = std::make_unique&lt;PressureSensor&gt;();
+        if (!m_sensor->initialize()) {
+            m_sensor.reset();  // 显式释放
+        }
+    }
+    
+    // 析构时自动清理
+    ~SensorController() = default;
+};
+
+// ✓ 推荐：容器安全迭代
+void DataProcessor::processValues() {
+    std::vector&lt;double&gt; values = {1.0, 2.0, 3.0};
+    
+    // 使用范围迭代，避免索引越界
+    for (double val : values) {
+        processValue(val);
+    }
+    
+    // 使用迭代器时谨慎修改容器
+    for (auto it = values.begin(); it != values.end(); ++it) {
+        if (*it > 2.0) {
+            it = values.erase(it);  // erase 返回下一个有效迭代器
+        }
+    }
+}
+                </div>
+
+                <div class="highlight-box" style="background: #ffe0e0; border-left-color: var(--danger);">
+                    <strong><i class="fas fa-times" style="color: var(--danger);"></i> ✗ 反例：内存泄漏和迭代器错误</strong>
+                </div>
+                <div class="code-block cpp">
+// ✗ 反例1：裸指针导致泄漏（父子关系忘记设置）
+class BadWindow : public QMainWindow {
+public:
+    BadWindow() {
+        auto label = new QLabel("Status");  // ✗ 无父对象！
+        // ✗ 窗口关闭时 label 不会释放 → 内存泄漏
+    }
+};
+
+// ✗ 反例2：错误的 unique_ptr 使用
+class SensorController {
+private:
+    std::unique_ptr&lt;PressureSensor&gt; m_sensor;
+    
+public:
+    void initialize() {
+        m_sensor = std::make_unique&lt;PressureSensor&gt;();
+        
+        // ✗ 在其他地方获取裸指针
+        PressureSensor* raw = m_sensor.get();
+        raw->start();
+        
+        // ✗ 如果这里删除了 unique_ptr...
+        m_sensor.reset();
+        // raw 现在是悬挂指针！非常危险
+        raw->getValue();  // ✗ 未定义行为
+    }
+};
+
+// ✗ 反例3：迭代期间修改容器导致迭代器失效
+void processData() {
+    std::vector&lt;double&gt; values = {1.0, 2.0, 3.0, 4.0};
+    
+    // ✗ 在迭代过程中 erase，不处理返回值
+    for (auto it = values.begin(); it != values.end(); ++it) {
+        if (*it > 2.0) {
+            values.erase(it);  // ✗ 迭代器失效，++it 的行为未定义
+        }
+    }
+    
+    // ✗ 直接使用迭代器访问已删除元素
+    for (int i = 0; i &lt; values.size(); ++i) {
+        delete values[i];  // ✗ values 是 double，无法 delete
+    }
+}
+
+// ✗ 反例4：shared_ptr 循环引用
+class Node {
+public:
+    std::shared_ptr&lt;Node&gt; next;  // 指向下一个
+    std::shared_ptr&lt;Node&gt; prev;  // ✗ 与下一个节点相互引用 → 永不释放
+};
+                </div>
+            </div>
+
+            <!-- 错误处理 -->
+            <div id="error" class="content-card">
+                <h2><i class="fas fa-shield-alt"></i> 错误处理与诊断</h2>
+                <h3><i class="fas fa-exclamation-triangle"></i> 异常策略</h3>
+                <ul class="content-list">
+                    <li>核心业务逻辑优先返回 <code>Expected&lt;T, Error&gt;</code>/<code>std::optional</code> 等显式错误模型</li>
+                    <li>Qt 信号槽或回调中避免抛出异常；如需，必须捕获并记录</li>
+                </ul>
+                <h3><i class="fas fa-code"></i> 日志与追踪</h3>
+                <ul class="content-list">
+                    <li>遵循 <code>spdlog-logging-standard.md</code>，通过统一封装宏记录上下文</li>
+                    <li><code>ERROR/FATAL</code> 级别必须包含 <code>module</code>, <code>event</code>, <code>traceId</code>, <code>error.code</code> 等关键信息</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <strong><i class="fas fa-check" style="color: var(--success);"></i> ✓ 推荐：使用 optional 和 Expected 模式</strong>
+                </div>
+                <div class="code-block cpp">
+// ✓ 推荐1：使用 std::optional 表示可选结果
+class ConfigLoader {
+public:
+    [[nodiscard]] std::optional&lt;Config&gt; loadFromFile(
+        const std::string& path) {
+        try {
+            std::ifstream file(path);
+            if (!file.is_open()) {
+                LOGE("config.load.failed", "file not found: {}", path);
+                return std::nullopt;
+            }
+            Config cfg;
+            // ... 解析逻辑 ...
+            return cfg;
+        } catch (const std::exception& e) {
+            LOGE("config.parse.error", "error: {}", e.what());
+            return std::nullopt;
+        }
+    }
+};
+
+// ✓ 推荐2：使用时检查结果
+auto config = loader.loadFromFile("config.json");
+if (config) {
+    applyConfiguration(*config);
+} else {
+    LOGW("config.apply.skipped", "using default settings");
+    applyDefaultConfig();
+}
+
+// ✓ 推荐3：在信号槽中捕获异常
+class DeviceManager : public QObject {
+    Q_OBJECT
+public slots:
+    void onReadData(const QByteArray& data) {
+        try {
+            auto parsed = parseDeviceMessage(data);
+            emit dataReceived(parsed);
+        } catch (const std::exception& e) {
+            LOGE("device.parse.error", 
+                 "module=device;event=parse;error.code=E001;msg={}", 
+                 e.what());
+            // 不抛出异常，避免信号槽链断裂
+        }
+    }
+};
+                </div>
+
+                <div class="highlight-box" style="background: #ffe0e0; border-left-color: var(--danger);">
+                    <strong><i class="fas fa-times" style="color: var(--danger);"></i> ✗ 反例：异常泄漏和静默失败</strong>
+                </div>
+                <div class="code-block cpp">
+// ✗ 反例1：在信号槽中抛出异常
+class BadDeviceManager : public QObject {
+    Q_OBJECT
+public slots:
+    void onReadData(const QByteArray& data) {
+        // ✗ 抛出异常会中断信号链！
+        throw std::runtime_error("Parse failed");
+        
+        // ✗ 下面的代码不会执行，调用者无法知道发生了什么
+        LOGI("message.received");
+    }
+};
+
+// ✗ 反例2：使用 int 返回值表示错误（容易忽视）
+int loadConfiguration() {
+    // ✗ 0 表示成功，-1 表示错误，但调用者常常忽视返回值
+    if (!file.open()) return -1;
+    if (!file.parse()) return -2;
+    return 0;  // 魔法数字，文档不清晰
+}
+
+// 调用者可能完全忽视返回值
+loadConfiguration();  // ✗ 没人检查返回值！
+
+// ✗ 反例3：静默失败而不记录日志
+std::optional&lt;Data&gt; getData() {
+    if (checkConnection()) {
+        return fetchData();
+    }
+    // ✗ 直接返回 nullopt，完全没有日志记录
+    return std::nullopt;
+}
+
+// ✗ 反例4：异常处理不完整
+void processWorkflow() {
+    try {
+        executeStep1();
+        executeStep2();
+        executeStep3();
+    } catch (...) {
+        // ✗ 什么都不做，吞掉异常
+        // 调试时无法定位问题
+    }
+}
+
+// ✗ 反例5：异常链条丢失
+try {
+    doSomething();
+} catch (const std::exception& e) {
+    // ✗ 丢弃原异常的上下文信息
+    throw std::runtime_error("Operation failed");
+}
+                </div>
+            </div>
+
+            <!-- Qt 框架 -->
+            <div id="qt" class="content-card">
+                <h2><i class="fas fa-cube"></i> Qt 框架专项规范</h2>
+                <h3><i class="fas fa-plug"></i> QObject 与信号槽</h3>
+                <ul class="content-list">
+                    <li>QObject 子类需使用 <code>Q_OBJECT</code> 宏</li>
+                    <li>新 API 使用 functor/lambda + 强类型连接，禁止旧式字符串连接</li>
+                    <li>跨线程连接需显式指定 <code>Qt::QueuedConnection</code></li>
+                </ul>
+                <h3><i class="fas fa-arrows"></i> 线程亲和性</h3>
+                <ul class="content-list">
+                    <li>UI 操作必须在主线程执行</li>
+                    <li>使用 <code>moveToThread()</code> 时仅在对象构造完成且未开始处理事件前调用</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <strong><i class="fas fa-check" style="color: var(--success);"></i> ✓ 推荐：现代 Qt 信号槽和线程用法</strong>
+                </div>
+                <div class="code-block cpp">
+// ✓ 推荐1：使用新式 functor 连接（强类型、编译检查）
+class DataProcessor : public QObject {
+    Q_OBJECT
+public:
+    void connectSignals(DeviceManager* device) {
+        // ✓ 新式：类型安全，IDE 自动补全
+        connect(device, &DeviceManager::dataReady,
+                this, &DataProcessor::onData,
+                Qt::AutoConnection);  // 自动选择连接方式
+        
+        // ✓ 使用 Lambda（避免定义多个 slot）
+        connect(device, QOverload&lt;int&gt;::of(&DeviceManager::error),
+                this, [this](int code) {
+                    LOGE("device.error", "code: {}", code);
+                    emit errorOccurred(code);
+                });
+    }
+
+private slots:
+    void onData(const QByteArray& data) {
+        // 处理数据
+    }
+
+signals:
+    void errorOccurred(int code);
+};
+
+// ✓ 推荐2：跨线程连接时显式使用 QueuedConnection
+class WorkerThread : public QObject {
+    Q_OBJECT
+public:
+    void startWork(QObject* uiObject) {
+        // ✓ 显式指定 QueuedConnection，确保 UI 线程执行
+        connect(this, &WorkerThread::resultReady,
+                uiObject, [](const QString& result) {
+                    QLabel* label = qobject_cast&lt;QLabel*&gt;(uiObject);
+                    if (label) {
+                        label->setText(result);  // 安全！
+                    }
+                }, Qt::QueuedConnection);  // 强制队列连接
+    }
+
+signals:
+    void resultReady(const QString& result);
+};
+
+// ✓ 推荐3：正确的线程亲和性管理
+class SocketWorker : public QObject {
+    Q_OBJECT
+public:
+    void moveToWorkerThread(QThread* thread) {
+        // ✓ 必须在工作线程创建前调用
+        moveToThread(thread);  // 转移到工作线程
+        
+        connect(thread, &QThread::started,
+                this, &SocketWorker::startListening);
+    }
+
+private slots:
+    void startListening() {
+        // 现在运行在 thread 中，可以创建 QSocket
+        m_socket = std::make_unique&lt;QTcpSocket&gt;();
+        connect(m_socket.get(), &QTcpSocket::readyRead,
+                this, &SocketWorker::onDataReady);
+    }
+};
+                </div>
+
+                <div class="highlight-box" style="background: #ffe0e0; border-left-color: var(--danger);">
+                    <strong><i class="fas fa-times" style="color: var(--danger);"></i> ✗ 反例：过时的信号槽写法和线程错误</strong>
+                </div>
+                <div class="code-block cpp">
+// ✗ 反例1：使用过时的字符串连接（无编译检查）
+class OldDevice : public QObject {
+    Q_OBJECT
+public:
+    void setup(QObject* receiver) {
+        // ✗ 字符串连接，编译时无法检查
+        connect(this, SIGNAL(dataReady(QByteArray)),
+                receiver, SLOT(onDataReceived(QByteArray)));
+        
+        // ✗ 即使 slot 名字写错，编译也不会失败
+        // 只有运行时才发现"No such slot"警告
+    }
+
+signals:
+    void dataReady(const QByteArray& data);
+};
+
+// ✗ 反例2：在错误的线程中操作 UI
+class BadWorker : public QObject {
+    Q_OBJECT
+public:
+    void doWork() {
+        QThread* thread = new QThread();
+        moveToThread(thread);  // ✗ 工作线程
+        thread->start();
+        
+        // 现在这个对象在 thread 中运行
+        QLabel* label = new QLabel();  // ✗ 在工作线程创建 UI！
+        label->setText("Working...");   // ✗ 线程不安全
+    }
+};
+
+// ✗ 反例3：跨线程连接时忘记指定 QueuedConnection
+void connectUIThread(DeviceManager* device, 
+                    QLabel* uiLabel) {
+    // ✗ 使用默认 AutoConnection
+    connect(device, &DeviceManager::dataReady,
+            uiLabel, [](const QString& txt) {
+                uiLabel->setText(txt);  // ✗ 可能在工作线程执行！
+            });
+    
+    // 如果 device 运行在工作线程，callback 也会在工作线程执行
+    // 修改 UI 是线程不安全的
+}
+
+// ✗ 反例4：信号连接泄漏（未解绑）
+class LeakyComponent : public QObject {
+    Q_OBJECT
+public:
+    ~LeakyComponent() {
+        // ✗ 如果在析构前未手动 disconnect，
+        // 其他对象对 signals 的连接可能指向已释放内存
+    }
+};
+
+// ✗ 反例5：moveToThread 时机错误
+void setupWorker() {
+    auto worker = new Worker();
+    auto thread = new QThread();
+    
+    connect(thread, &QThread::started,
+            worker, &Worker::doWork);
+    
+    worker->moveToThread(thread);  // ✗ 太晚了！
+    // thread 已启动，Worker 对象可能在两个线程间切换
+    
+    thread->start();  // ✗ 此时 worker 线程亲和性不确定
+}
+                </div>
+            </div>
+
+            <!-- 多线程 -->
+            <div id="threading" class="content-card">
+                <h2><i class="fas fa-share-alt"></i> 多线程与并发</h2>
+                <h3><i class="fas fa-thread"></i> 线程创建</h3>
+                <ul class="content-list">
+                    <li>优先使用 <code>QThreadPool</code>, <code>QtConcurrent</code>, <code>std::async</code></li>
+                    <li>避免裸 <code>std::thread</code>/<code>CreateThread</code></li>
+                </ul>
+                <h3><i class="fas fa-lock"></i> 同步原语</h3>
+                <ul class="content-list">
+                    <li>使用 <code>std::mutex</code>, <code>std::shared_mutex</code>, <code>QMutex</code></li>
+                    <li>搭配 RAII (<code>std::lock_guard</code>)</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <strong><i class="fas fa-check" style="color: var(--success);"></i> ✓ 推荐：使用高级线程工具和 RAII 锁</strong>
+                </div>
+                <div class="code-block cpp">
+// ✓ 推荐1：使用 QThreadPool 执行任务
+class DataAggregator : public QObject {
+    Q_OBJECT
+public:
+    void aggregateData() {
+        // ✓ 使用全局线程池，无需手动管理线程生命周期
+        QtConcurrent::run(QThreadPool::globalInstance(),
+            [this]() {
+                auto result = processLargeDataset();
+                emit resultReady(result);
+            });
+    }
+
+signals:
+    void resultReady(const QVector&lt;Data&gt;& data);
+};
+
+// ✓ 推荐2：使用 QFuture 和 QFutureWatcher 监控异步结果
+class ReportGenerator : public QObject {
+    Q_OBJECT
+private:
+    std::unique_ptr&lt;QFutureWatcher&lt;Report&gt;&gt; m_watcher;
+    
+public:
+    void generateAsync() {
+        m_watcher = std::make_unique&lt;QFutureWatcher&lt;Report&gt;&gt;();
+        
+        connect(m_watcher.get(), &QFutureWatcher&lt;Report&gt;::finished,
+                this, &ReportGenerator::onReportReady);
+        
+        // ✓ 提交任务到线程池
+        QFuture&lt;Report&gt; future = QtConcurrent::run(
+            QThreadPool::globalInstance(),
+            [this]() { return generateReport(); });
+        
+        m_watcher->setFuture(future);
+    }
+
+private slots:
+    void onReportReady() {
+        auto report = m_watcher->result();
+        displayReport(report);
+    }
+};
+
+// ✓ 推荐3：使用 RAII 锁保护共享数据
+class ThreadSafeCache {
+private:
+    mutable std::shared_mutex m_mutex;
+    std::unordered_map&lt;std::string, std::string&gt; m_data;
+    
+public:
+    std::string get(const std::string& key) const {
+        // ✓ RAII 自动释放读锁
+        std::shared_lock&lt;std::shared_mutex&gt; lock(m_mutex);
+        
+        auto it = m_data.find(key);
+        return it != m_data.end() ? it->second : "";
+    }
+    
+    void set(const std::string& key, const std::string& value) {
+        // ✓ RAII 自动释放写锁
+        std::unique_lock&lt;std::shared_mutex&gt; lock(m_mutex);
+        m_data[key] = value;
+    }
+};
+
+// ✓ 推荐4：使用原子变量做简单标志
+class WorkerThread : public QObject {
+private:
+    std::atomic&lt;bool&gt; m_shouldStop{false};
+    
+public:
+    void stop() {
+        m_shouldStop = true;  // 无需锁
+    }
+    
+    void run() {
+        while (!m_shouldStop) {
+            processOneItem();
+        }
+    }
+};
+                </div>
+
+                <div class="highlight-box" style="background: #ffe0e0; border-left-color: var(--danger);">
+                    <strong><i class="fas fa-times" style="color: var(--danger);"></i> ✗ 反例：线程管理不当和数据竞争</strong>
+                </div>
+                <div class="code-block cpp">
+// ✗ 反例1：手工管理线程（容易泄漏和竞争）
+class BadAggregator {
+private:
+    std::thread m_thread;  // ✗ 需要手工 join/detach
+    
+public:
+    void start() {
+        // ✗ 手工创建线程，容易忘记资源清理
+        m_thread = std::thread([this]() {
+            processData();
+        });
+    }
+    
+    ~BadAggregator() {
+        // ✗ 如果析构时线程未 join，程序可能崩溃
+        if (m_thread.joinable()) {
+            m_thread.join();  // ✗ 阻塞式等待，会卡主线程
+        }
+    }
+};
+
+// ✗ 反例2：数据竞争
+class BadCache {
+private:
+    std::unordered_map&lt;std::string, std::string&gt; m_data;
+    
+public:
+    void set(const std::string& key, const std::string& value) {
+        // ✗ 无锁！多线程并发访问导致数据竞争
+        m_data[key] = value;
+    }
+    
+    std::string get(const std::string& key) {
+        // ✗ 无锁！可能读到半写状态的数据
+        return m_data[key];
+    }
+};
+
+// ✗ 反例3：锁的作用域太大
+class InefficientCache {
+private:
+    std::mutex m_mutex;
+    std::unordered_map&lt;std::string, std::string&gt; m_data;
+    
+public:
+    void slowOperation() {
+        std::lock_guard&lt;std::mutex&gt; lock(m_mutex);
+        
+        // ✗ I/O 操作在持有锁的时间内执行，降低并发度
+        auto data = loadFromFile();  // 文件 I/O 很慢！
+        m_data["key"] = data;        // 只有这部分需要保护
+        
+        // ✗ 锁一直持有，其他线程被阻塞
+        writeToLog("operation done");  // 日志写入也被锁定
+    }
+};
+
+// ✗ 反例4：死锁
+class DeadlockExample {
+private:
+    std::mutex m_mutex1, m_mutex2;
+    
+public:
+    void threadA() {
+        std::lock_guard&lt;std::mutex&gt; lock1(m_mutex1);
+        // ✗ 线程 A 持有 m_mutex1，等待 m_mutex2
+        std::lock_guard&lt;std::mutex&gt; lock2(m_mutex2);
+    }
+    
+    void threadB() {
+        std::lock_guard&lt;std::mutex&gt; lock2(m_mutex2);
+        // ✗ 线程 B 持有 m_mutex2，等待 m_mutex1
+        // → 死锁！两个线程互相等待
+        std::lock_guard&lt;std::mutex&gt; lock1(m_mutex1);
+    }
+};
+
+// ✗ 反例5：在析构中调用 join（可能卡住程序）
+class BlockingThread {
+private:
+    std::thread m_thread;
+    
+public:
+    ~BlockingThread() {
+        // ✗ 如果线程中有无限循环或长操作
+        // 程序将被卡住直到线程完成
+        if (m_thread.joinable()) {
+            m_thread.join();  // 可能永远阻塞
+        }
+    }
+};
+                </div>
+            </div>
+
+            <!-- UI 交互 -->
+            <div id="ui" class="content-card">
+                <h2><i class="fas fa-paint-brush"></i> UI 与交互层规范</h2>
+                <h3><i class="fas fa-window-maximize"></i> 界面布局</h3>
+                <ul class="content-list">
+                    <li>优先使用 Qt Designer + <code>.ui</code> 或 QML 文件</li>
+                    <li>禁止在 C++ 中手写大量布局代码</li>
+                    <li>使用布局管理器确保缩放自适应</li>
+                </ul>
+                <h3><i class="fas fa-tv"></i> 高分屏适配</h3>
+                <ul class="content-list">
+                    <li>启用 <code>QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling)</code></li>
+                    <li>字体通过 <code>QFontDatabase::systemFont()</code> 获取</li>
+                    <li>在 UI 设计中使用布局而非固定像素计算</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <strong><i class="fas fa-check" style="color: var(--success);"></i> ✓ 推荐：规范的 UI 设计和布局方式</strong>
+                </div>
+                <div class="code-block cpp">
+// ✓ 推荐1：使用 Qt Designer (.ui) 文件
+// 在 Qt Designer 中设计，自动生成 ui_mainwindow.h
+// C++ 代码中只需要加载和信号连接
+
+class MainWindow : public QMainWindow {
+    Q_OBJECT
+private:
+    Ui::MainWindow ui;
+    std::unique_ptr&lt;DataModel&gt; m_model;
+    
+public:
+    explicit MainWindow(QWidget* parent = nullptr)
+        : QMainWindow(parent)
+    {
+        // ✓ UI 通过 Designer 生成
+        ui.setupUi(this);
+        
+        m_model = std::make_unique&lt;DataModel&gt;();
+        
+        // ✓ 连接信号槽（在 Designer 中或代码中）
+        connect(ui.startButton, &QPushButton::clicked,
+                this, &MainWindow::onStartButtonClicked);
+        
+        connect(ui.tableView, &QTableView::clicked,
+                this, &MainWindow::onTableItemSelected);
+    }
+
+private slots:
+    void onStartButtonClicked() {
+        m_model->start();
+        updateUI();
+    }
+};
+
+// ✓ 推荐2：使用布局管理器（自适应大小）
+class ResponsiveWindow : public QMainWindow {
+public:
+    explicit ResponsiveWindow(QWidget* parent = nullptr)
+        : QMainWindow(parent)
+    {
+        auto centralWidget = new QWidget(this);
+        auto layout = new QVBoxLayout(centralWidget);
+        
+        // ✓ 使用百分比布局
+        auto topLayout = new QHBoxLayout();
+        auto label = new QLabel("Name:");
+        auto edit = new QLineEdit();
+        
+        topLayout->addWidget(label, 1);  // 占 1 份空间
+        topLayout->addWidget(edit, 3);   // 占 3 份空间
+        
+        layout->addLayout(topLayout, 1);      // 占 1 份高度
+        layout->addStretch();                  // 弹性填充
+        
+        setCentralWidget(centralWidget);
+    }
+};
+
+// ✓ 推荐3：高分屏适配
+int main(int argc, char* argv[]) {
+    // ✓ 启用 HiDPI 缩放
+    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    
+    QApplication app(argc, argv);
+    
+    // ✓ 使用系统字体（自动适配分辨率）
+    QFont font = QFontDatabase::systemFont(QFontDatabase::GeneralFont);
+    font.setPointSize(11);
+    app.setFont(font);
+    
+    MainWindow window;
+    window.show();
+    return app.exec();
+}
+
+// ✓ 推荐4：使用样式表（而非硬编码颜色/字体）
+void applyTheme(QApplication& app) {
+    QString styleSheet = R"(
+        QLabel {
+            font-family: Arial;
+            font-size: 12pt;
+            color: #333;
+        }
+        QPushButton {
+            background-color: #667eea;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+        }
+        QPushButton:hover {
+            background-color: #764ba2;
+        }
+    )";
+    app.setStyleSheet(styleSheet);
+}
+                </div>
+
+                <div class="highlight-box" style="background: #ffe0e0; border-left-color: var(--danger);">
+                    <strong><i class="fas fa-times" style="color: var(--danger);"></i> ✗ 反例：手工布局和硬编码样式</strong>
+                </div>
+                <div class="code-block cpp">
+// ✗ 反例1：在 C++ 中手工编写大量布局代码
+class BadUIDesign : public QMainWindow {
+public:
+    BadUIDesign() {
+        auto central = new QWidget(this);
+        
+        // ✗ 手工编写所有 UI，难以维护和修改
+        auto button1 = new QPushButton("Start", central);
+        auto button2 = new QPushButton("Stop", central);
+        auto button3 = new QPushButton("Reset", central);
+        auto label = new QLabel("Status", central);
+        
+        // ✗ 硬编码位置和大小
+        button1->setGeometry(10, 10, 100, 30);
+        button2->setGeometry(120, 10, 100, 30);
+        button3->setGeometry(230, 10, 100, 30);
+        label->setGeometry(10, 50, 320, 30);
+        
+        // ✗ 硬编码颜色和字体
+        label->setStyleSheet("color: red; font-size: 14pt;");
+        button1->setStyleSheet("background-color: blue;");
+        
+        setCentralWidget(central);
+    }
+};
+
+// ✗ 反例2：固定像素计算（无法自适应高分屏）
+class FixedSizeWindow : public QMainWindow {
+public:
+    FixedSizeWindow() {
+        auto widget = new QWidget();
+        
+        // ✗ 固定 300 像素宽，在高分屏上可能太窄
+        auto button = new QPushButton("Click me");
+        button->setFixedWidth(300);
+        button->setFixedHeight(50);
+        
+        auto font = button->font();
+        font.setPointSize(12);  // ✗ 字体固定，不随系统缩放
+        button->setFont(font);
+        
+        auto layout = new QVBoxLayout(widget);
+        layout->addWidget(button);
+        layout->setContentsMargins(0, 0, 0, 0);  // ✗ 无间距
+        
+        setCentralWidget(widget);
+    }
+};
+
+// ✗ 反例3：在运行时动态修改样式（频繁创建 QApplication）
+void updateButtonColor(QPushButton* btn, const QString& color) {
+    // ✗ 字符串拼接，容易出错且不利于维护
+    btn->setStyleSheet(QString("background-color: %1;").arg(color));
+}
+
+// ✗ 反例4：未启用 HiDPI
+int main(int argc, char* argv[]) {
+    // ✗ 缺少 HiDPI 设置
+    QApplication app(argc, argv);
+    
+    // ✗ 字体大小固定，不随系统 DPI 调整
+    QFont font("Arial", 10);
+    app.setFont(font);
+    
+    MainWindow window;
+    window.show();
+    return app.exec();
+}
+
+// ✗ 反例5：混合布局和绝对位置
+class MixedLayoutWindow : public QMainWindow {
+public:
+    MixedLayoutWindow() {
+        auto widget = new QWidget();
+        auto layout = new QVBoxLayout(widget);
+        
+        auto button = new QPushButton("Click");
+        button->setGeometry(50, 50, 200, 40);  // ✗ 与布局混用！
+        
+        layout->addWidget(button);
+        setCentralWidget(widget);
+    }
+};
+                </div>
+            </div>
+
+            <!-- 构建配置 -->
+            <div id="build" class="content-card">
+                <h2><i class="fas fa-hammer"></i> 构建依赖与配置管理</h2>
+                <h3><i class="fas fa-wrench"></i> CMake 规范</h3>
+                <ul class="content-list">
+                    <li>使用 <code>FetchContent</code>/<code>find_package</code> 管理依赖</li>
+                    <li>禁止手工拷贝二进制到仓库根目录</li>
+                    <li>所有目标显式声明 <code>target_compile_features</code>, <code>target_include_directories</code></li>
+                </ul>
+                <h3><i class="fas fa-cogs"></i> Qt 工具链</h3>
+                <ul class="content-list">
+                    <li>使用 <code>qt_add_executable</code>/<code>qt_add_qml_module</code>（Qt 6）</li>
+                    <li>启用 <code>AUTOMOC/AUTORCC/AUTOUIC</code></li>
+                </ul>
+
+                <div class="highlight-box">
+                    <strong><i class="fas fa-check" style="color: var(--success);"></i> ✓ 推荐：规范的 CMake 配置</strong>
+                </div>
+                <div class="code-block cpp">
+# ✓ 推荐 CMakeLists.txt 结构
+cmake_minimum_required(VERSION 3.21)
+project(PressureController VERSION 1.0.0 LANGUAGES CXX)
+
+# ✓ 设置 C++ 标准
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# ✓ 设置自动 MOC/RCC/UIC
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
+
+# ✓ 使用 find_package 管理 Qt 依赖
+find_package(Qt6 COMPONENTS
+    Core Gui Widgets Network
+    REQUIRED
+)
+
+# ✓ 显式指定源文件和头文件
+set(PROJECT_SOURCES
+    src/main.cpp
+    src/mainwindow.cpp
+    src/mainwindow.h
+    src/device/controller.cpp
+    src/device/controller.h
+    resources/resources.qrc
+)
+
+# ✓ 使用 qt_add_executable（Qt 6）
+qt_add_executable(${PROJECT_NAME}
+    ${PROJECT_SOURCES}
+)
+
+# ✓ 链接 Qt 库
+target_link_libraries(${PROJECT_NAME}
+    Qt6::Core
+    Qt6::Gui
+    Qt6::Widgets
+    Qt6::Network
+)
+
+# ✓ 显式声明编译特性
+target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
+
+# ✓ 显式指定包含目录
+target_include_directories(${PROJECT_NAME}
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+# ✓ 启用编译警告
+if(MSVC)
+    target_compile_options(${PROJECT_NAME} PRIVATE /W4)
+else()
+    target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra)
+endif()
+
+# ✓ 使用 FetchContent 管理外部依赖
+include(FetchContent)
+FetchContent_Declare(spdlog
+    URL https://github.com/gabime/spdlog/archive/refs/tags/v1.11.0.zip
+)
+FetchContent_MakeAvailable(spdlog)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE spdlog::spdlog)
+                </div>
+
+                <div class="highlight-box" style="background: #ffe0e0; border-left-color: var(--danger);">
+                    <strong><i class="fas fa-times" style="color: var(--danger);"></i> ✗ 反例：不规范的构建配置</strong>
+                </div>
+                <div class="code-block cpp">
+# ✗ 反例1：手工管理 MOC（CMake 自动化缺失）
+cmake_minimum_required(VERSION 2.8)
+project(BadProject)
+
+# ✗ 手工调用 Qt MOC，容易遗漏文件
+qt5_wrap_cpp(MOC_FILES src/mainwindow.h)
+add_executable(app src/mainwindow.cpp ${MOC_FILES})
+
+# ✗ 缺少明确的 C++ 标准
+# ✗ 缺少包含目录
+
+# ✗ 反例2：硬编码路径（不可移植）
+# ✗ 反例：从仓库根目录直接拷贝 DLL
+file(COPY "C:\\Qt\\6.0\\bin\\Qt6Core.dll" 
+     DESTINATION "${CMAKE_BINARY_DIR}/bin")
+
+# ✗ 目标未声明编译特性
+add_executable(myapp src/main.cpp)
+target_link_libraries(myapp Qt5::Core)  # ✗ 无法验证特性
+
+# ✗ 反例3：混用 Qt4 和 Qt6 API
+qt4_wrap_cpp(MOC_FILES header.h)  # ✗ 过时
+find_package(Qt5 REQUIRED)         # ✗ 不一致
+qt_add_executable(app ...)         # ✗ Qt6 API 混用
+
+# ✗ 反例4：缺少错误处理
+find_package(SomeLibrary)          # ✗ 如果找不到怎么办？
+target_link_libraries(app ${SomeLibrary_LIBRARIES})  # ✗ 变量可能未定义
+
+# ✓ 应该是：
+find_package(SomeLibrary REQUIRED)  # 找不到直接失败
+if(SomeLibrary_FOUND)
+    target_link_libraries(app SomeLibrary::SomeLibrary)
+endif()
+                </div>
+            </div>
+
+            <!-- 测试 -->
+            <div id="testing" class="content-card">
+                <h2><i class="fas fa-flask"></i> 测试与质量保障</h2>
+                <h3><i class="fas fa-check"></i> 测试层级</h3>
+                <ul class="content-list">
+                    <li><strong>单元测试</strong> — <code>QTest</code>, <code>Catch2</code>, <code>GoogleTest</code>，覆盖核心算法和业务规则</li>
+                    <li><strong>集成测试</strong> — 模拟设备/网络交互，使用 Mock 或仿真器</li>
+                    <li><strong>UI 自动化测试</strong> — <code>squish</code>, <code>Qt Test Events</code> 用于关键场景回归</li>
+                </ul>
+                <h3><i class="fas fa-chart-pie"></i> 覆盖率目标</h3>
+                <ul class="content-list">
+                    <li>核心模块 > 70%</li>
+                    <li>关键路径（安全、计费、设备控制） > 90%</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <strong><i class="fas fa-check" style="color: var(--success);"></i> ✓ 推荐：规范的单元测试和 Mock</strong>
+                </div>
+                <div class="code-block cpp">
+// ✓ 推荐1：使用 Qt Test 框架进行单元测试
+#include &lt;QtTest&gt;
+
+class TestPressureSensor : public QObject {
+    Q_OBJECT
+
+private slots:
+    void initTestCase() {
+        // 测试前初始化
+        m_sensor = std::make_unique&lt;PressureSensor&gt;();
+    }
+
+    void cleanupTestCase() {
+        // 测试后清理
+        m_sensor.reset();
+    }
+
+    void testMeasurementRange() {
+        // ✓ 测试传感器量程
+        QVERIFY(m_sensor->initialize());
+        
+        auto value = m_sensor->readValue();
+        QVERIFY(value.has_value());
+        
+        QVERIFY_GE(*value, 0.0);      // value >= 0.0
+        QVERIFY_LE(*value, 500.0);    // value <= 500.0
+    }
+
+    void testErrorHandling() {
+        // ✓ 测试错误情况
+        auto result = m_sensor->readValue();
+        
+        if (!result) {
+            LOGI("sensor.error", "expected error");
+        }
+        QVERIFY(!result);
+    }
+
+    void testConcurrentAccess() {
+        // ✓ 测试并发访问
+        std::vector&lt;double&gt; results;
+        std::mutex resultMutex;
+        
+        auto task = [this, &results, &resultMutex]() {
+            auto val = m_sensor->readValue();
+            if (val) {
+                std::lock_guard lock(resultMutex);
+                results.push_back(*val);
+            }
+        };
+        
+        std::vector&lt;std::thread&gt; threads;
+        for (int i = 0; i &lt; 5; ++i) {
+            threads.emplace_back(task);
+        }
+        
+        for (auto& t : threads) t.join();
+        
+        QCOMPARE(results.size(), 5u);
+    }
+
+private:
+    std::unique_ptr&lt;PressureSensor&gt; m_sensor;
+};
+
+// ✓ 推荐2：使用 Mock 对象模拟依赖
+class MockDevice : public IDevice {
+public:
+    MOCK_METHOD(bool, connect, (), (override));
+    MOCK_METHOD(std::optional&lt;Data&gt;, readData, (), (const, override));
+};
+
+// ✓ 推荐3：参数化测试（多个输入用例）
+class TestCalculation : public QObject {
+    Q_OBJECT
+
+private slots:
+    void testFormula_data() {
+        QTest::addColumn&lt;double&gt;("input");
+        QTest::addColumn&lt;double&gt;("expected");
+        
+        QTest::newRow("zero")   &lt;&lt; 0.0   &lt;&lt; 1.0;
+        QTest::newRow("small")  &lt;&lt; 0.5   &lt;&lt; 1.5;
+        QTest::newRow("large")  &lt;&lt; 100.0 &lt;&lt; 101.0;
+    }
+
+    void testFormula() {
+        QFETCH(double, input);
+        QFETCH(double, expected);
+        
+        auto result = applyFormula(input);
+        QCOMPARE_LE(std::abs(result - expected), 0.0001);
+    }
+};
+                </div>
+
+                <div class="highlight-box" style="background: #ffe0e0; border-left-color: var(--danger);">
+                    <strong><i class="fas fa-times" style="color: var(--danger);"></i> ✗ 反例：测试缺陷和覆盖不足</strong>
+                </div>
+                <div class="code-block cpp">
+// ✗ 反例1：没有实际断言的"幽灵"测试
+void badTest() {
+    auto sensor = std::make_unique&lt;PressureSensor&gt;();
+    sensor->initialize();
+    
+    auto value = sensor->readValue();  // ✗ 不检查返回值
+    sensor->reset();                    // ✗ 无任何断言
+    // ✗ 测试通过，但没有验证任何东西
+}
+
+// ✗ 反例2：硬编码延迟（不稳定的异步测试）
+void flakyAsyncTest() {
+    auto data = std::make_unique&lt;AsyncData&gt;();
+    data->fetchAsync();
+    
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));  // ✗ 固定延迟
+    
+    QVERIFY(data->isReady());  // ✗ 100ms 不一定够，测试不稳定
+}
+
+// ✗ 反例3：测试间相互依赖（顺序依赖）
+class BadTestSuite : public QObject {
+    Q_OBJECT
+
+private slots:
+    void testStep1() {
+        // ✗ 全局状态
+        g_globalCounter = 0;
+    }
+
+    void testStep2() {
+        // ✗ 依赖 testStep1 运行（如果 testStep1 失败，整个套件失败）
+        QCOMPARE(g_globalCounter, 0);
+        g_globalCounter++;
+    }
+
+    void testStep3() {
+        // ✗ 依赖 testStep2 也执行
+        QCOMPARE(g_globalCounter, 1);
+    }
+};
+
+// ✗ 反例4：缺少错误情况测试
+class IncompleteTestCoverage {
+public:
+    // 只测试成功路径
+    void testSuccessCase() {
+        auto result = processData(validInput);
+        QVERIFY(result.has_value());
+        QCOMPARE(*result, expectedOutput);
+    }
+    
+    // ✗ 没有测试失败情况、边界值、异常条件
+    // ✗ 覆盖率虚高，但没有真正验证健壮性
+};
+
+// ✗ 反例5：忘记 Q_OBJECT 宏导致信号不起作用
+class BrokenSignalTest : public QObject {
+    // ✗ 缺少 Q_OBJECT 宏！
+public slots:
+    void onSignalReceived() {
+        m_received = true;
+    }
+
+public:
+    bool testSignal() {
+        auto sender = new SignalSender();
+        
+        // ✗ 因为缺少 Q_OBJECT，连接不起作用
+        connect(sender, &SignalSender::dataReady,
+                this, &BrokenSignalTest::onSignalReceived);
+        
+        sender->emitSignal();
+        
+        // ✗ 永远不会收到信号，测试失败
+        return m_received;
+    }
+
+private:
+    bool m_received = false;
+};
+                </div>
+            </div>
+
+            <!-- 安全隐私 -->
+            <div id="security" class="content-card">
+                <h2><i class="fas fa-lock"></i> 安全与隐私要求</h2>
+                <ul class="content-list">
+                    <li><strong>数据脱敏</strong> — 敏感字段遵循公司脱敏策略，与日志标准一致</li>
+                    <li><strong>凭据管理</strong> — 禁止硬编码账号、口令、密钥；通过 <code>QSettings</code> + OS 凭据库加载</li>
+                    <li><strong>输入校验</strong> — 对外部数据（TCP/串口/MES）进行严格校验，避免注入</li>
+                    <li><strong>权限控制</strong> — 界面和命令按照角色、工位权限控制；记录权限变更</li>
+                    <li><strong>依赖漏洞扫描</strong> — 定期检查第三方库版本，关注 Qt 安全公告</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <strong><i class="fas fa-check" style="color: var(--success);"></i> ✓ 推荐：安全的凭据管理和输入验证</strong>
+                </div>
+                <div class="code-block cpp">
+// ✓ 推荐1：安全的凭据存储和加载
+class SecureCredentialManager {
+public:
+    // ✓ 从系统凭据库加载（Windows Credential Manager, Keychain 等）
+    std::optional&lt;Credentials&gt; loadCredentials(const QString& service) {
+        try {
+            // ✓ 使用 OS 原生凭据存储
+            QSettings settings("HKEY_CURRENT_USER\\SOFTWARE\\MyApp\\Secrets",
+                             QSettings::NativeFormat);
+            
+            auto username = settings.value("username", "").toString();
+            auto password = settings.value("password", "").toString();
+            
+            if (username.isEmpty() || password.isEmpty()) {
+                LOGI("credential.load.failed", "no credentials found");
+                return std::nullopt;
+            }
+            
+            return Credentials{username, password};
+        } catch (const std::exception& e) {
+            LOGE("credential.load.error", "error: {}", e.what());
+            return std::nullopt;
+        }
+    }
+
+    // ✓ 安全保存凭据到系统存储
+    bool saveCredentials(const QString& service, 
+                        const Credentials& cred) {
+        try {
+            QSettings settings("HKEY_CURRENT_USER\\SOFTWARE\\MyApp\\Secrets",
+                             QSettings::NativeFormat);
+            
+            settings.setValue("username", cred.username);
+            settings.setValue("password", cred.password);
+            settings.sync();
+            
+            LOGI("credential.saved", "module=auth");
+            return true;
+        } catch (...) {
+            LOGE("credential.save.failed", "error");
+            return false;
+        }
+    }
+};
+
+// ✓ 推荐2：严格的输入验证
+class InputValidator {
+public:
+    static bool validateDeviceCommand(const QString& cmd) {
+        // ✓ 允许列表校验（Whitelist）
+        static const QStringList ALLOWED_COMMANDS = {
+            "START", "STOP", "RESET", "STATUS", "CALIBRATE"
+        };
+        
+        if (!ALLOWED_COMMANDS.contains(cmd.toUpper())) {
+            LOGW("command.invalid", "cmd: {}", cmd);
+            return false;
+        }
+        return true;
+    }
+    
+    static std::optional&lt;int&gt; parseDeviceID(const QString& id) {
+        // ✓ 严格的类型和范围检查
+        bool ok = false;
+        int deviceID = id.toInt(&ok);
+        
+        if (!ok) {
+            LOGE("device.id.invalid", "not an integer: {}", id);
+            return std::nullopt;
+        }
+        
+        // ✓ 范围检查
+        if (deviceID &lt; 1 || deviceID &gt; 9999) {
+            LOGE("device.id.out_of_range", "id: {}; min: 1; max: 9999", 
+                 deviceID);
+            return std::nullopt;
+        }
+        
+        return deviceID;
+    }
+};
+
+// ✓ 推荐3：数据脱敏
+class LoggingHelper {
+public:
+    static QString maskPassword(const QString& password) {
+        // ✓ 只记录前 2 位和后 1 位
+        if (password.length() &lt; 4) return "***";
+        
+        return password.left(2) + "***" + password.right(1);
+    }
+    
+    static QString maskEmail(const QString& email) {
+        // ✓ 脱敏电子邮件
+        int atPos = email.indexOf('@');
+        if (atPos &lt;= 0) return "***";
+        
+        QString user = email.left(2) + "***";
+        return user + email.mid(atPos);
+    }
+
+    static void logSensitiveData(const QString& password,
+                                const QString& email) {
+        // ✓ 记录脱敏后的数据
+        LOGI("user.login", "email: {}; password_first_2: {}",
+             maskEmail(email), maskPassword(password));
+    }
+};
+
+// ✓ 推荐4：权限控制
+class RoleBasedAccessControl {
+public:
+    enum class Role { Admin, Operator, Viewer };
+    
+    bool canExecuteCommand(Role role, const QString& command) {
+        // ✓ 基于角色的权限检查
+        static const std::map&lt;Role, QStringList&gt; PERMISSIONS = {
+            {Role::Admin, {"START", "STOP", "CALIBRATE", "CONFIG"}},
+            {Role::Operator, {"START", "STOP", "STATUS"}},
+            {Role::Viewer, {"STATUS"}}
+        };
+        
+        auto it = PERMISSIONS.find(role);
+        if (it == PERMISSIONS.end()) return false;
+        
+        bool allowed = it->second.contains(command.toUpper());
+        
+        // ✓ 记录权限检查（审计日志）
+        LOGI("access.control", 
+             "user: {}; role: {}; command: {}; allowed: {}",
+             m_username, roleToString(role), command, allowed);
+        
+        return allowed;
+    }
+
+private:
+    QString m_username;
+    
+    QString roleToString(Role role) {
+        switch (role) {
+        case Role::Admin: return "Admin";
+        case Role::Operator: return "Operator";
+        case Role::Viewer: return "Viewer";
+        }
+        return "Unknown";
+    }
+};
+                </div>
+
+                <div class="highlight-box" style="background: #ffe0e0; border-left-color: var(--danger);">
+                    <strong><i class="fas fa-times" style="color: var(--danger);"></i> ✗ 反例：安全漏洞</strong>
+                </div>
+                <div class="code-block cpp">
+// ✗ 反例1：硬编码凭据
+class InsecureAuth {
+private:
+    const QString ADMIN_PASSWORD = "admin123";   // ✗ 硬编码密码！
+    const QString API_KEY = "sk-1234567890";     // ✗ API 密钥暴露
+    const QString DB_PASSWORD = "rootpass123";   // ✗ 数据库密码
+    
+public:
+    bool authenticate(const QString& password) {
+        // ✗ 直接比较，容易被反向工程师破解
+        return password == ADMIN_PASSWORD;
+    }
+};
+
+// ✗ 反例2：缺少输入验证（注入攻击）
+void executeDeviceCommand(const QString& userInput) {
+    // ✗ 直接使用用户输入，可能导致命令注入
+    QString command = "device.exe " + userInput;
+    system(command.toStdString().c_str());  // ✗ 危险！
+    
+    // ✗ 攻击者可以输入："RESET; format C:"
+}
+
+// ✗ 反例3：日志中暴露敏感信息
+void loginUser(const QString& username, const QString& password) {
+    // ✗ 直接记录密码！
+    LOGI("user.login", "user: {}; pwd: {}", username, password);
+    
+    // ✗ 日志可能被任何人访问
+    LOGD("debug.info", "email: {}@company.com; api_key: {}",
+         username, getAPIKey());
+}
+
+// ✗ 反例4：没有权限检查
+void deleteAllData(const QString& username) {
+    // ✗ 没有检查用户是否有权限
+    database.deleteTable("users");
+    database.deleteTable("orders");
+    
+    LOGI("data.deleted", "by: {}", username);  // ✗ 审计日志不完整
+}
+
+// ✗ 反例5：随机数生成器不安全
+int generateSecurityToken() {
+    // ✗ 使用 rand()，不适合安全用途
+    srand(time(nullptr));
+    return rand() % 1000000;  // ✗ 可预测
+}
+
+// ✗ 反例6：缺少过期时间的令牌
+class BadTokenManager {
+public:
+    std::string generateToken() {
+        // ✗ 无过期时间
+        return "token_" + std::to_string(rand());
+    }
+    
+    bool isTokenValid(const std::string& token) {
+        // ✗ 令牌永不过期，一旦泄露就永久有效
+        return m_validTokens.count(token) &gt; 0;
+    }
+
+private:
+    std::set&lt;std::string&gt; m_validTokens;
+};
+                </div>
+            </div>
+
+            <!-- 性能优化 -->
+            <div id="performance" class="content-card">
+                <h2><i class="fas fa-bolt"></i> 性能优化与资源消耗</h2>
+                <ul class="content-list">
+                    <li><strong>性能预算</strong> — 在 PRD 或设计阶段明确 CPU、内存、时延指标</li>
+                    <li><strong>剖析工具</strong> — 使用 Perf, VTune, Visual Studio Profiler, Qt Creator Analyzer</li>
+                    <li><strong>懒加载与缓存</strong> — UI 组件惰性初始化，设备通讯结果可缓存</li>
+                    <li><strong>异步 I/O</strong> — 串口/网口采用异步读写；UI 线程不可阻塞</li>
+                    <li><strong>资源释放</strong> — 长时间运行后内存、句柄无增长；使用 <code>QTimer</code> 清理过期资源</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <strong><i class="fas fa-check" style="color: var(--success);"></i> ✓ 推荐：性能优化最佳实践</strong>
+                </div>
+                <div class="code-block cpp">
+// ✓ 推荐1：缓存和懒加载
+class CachedDataProvider {
+private:
+    std::unordered_map&lt;std::string, CachedData&gt; m_cache;
+    std::unordered_map&lt;std::string, 
+        std::chrono::high_resolution_clock::time_point&gt; m_cacheTime;
+    const auto CACHE_DURATION = std::chrono::seconds(300);
+    
+public:
+    [[nodiscard]] std::optional&lt;Data&gt; getData(const std::string& key) {
+        // ✓ 检查缓存是否有效
+        auto it = m_cache.find(key);
+        if (it != m_cache.end()) {
+            auto timeIt = m_cacheTime.find(key);
+            auto elapsed = std::chrono::high_resolution_clock::now() 
+                         - timeIt->second;
+            
+            if (elapsed &lt; CACHE_DURATION) {
+                LOGD("cache.hit", "key: {}", key);
+                return it->second;
+            }
+        }
+        
+        // ✓ 缓存过期或不存在，重新加载
+        auto data = fetchDataFromDevice(key);
+        if (data) {
+            m_cache[key] = *data;
+            m_cacheTime[key] = std::chrono::high_resolution_clock::now();
+        }
+        return data;
+    }
+};
+
+// ✓ 推荐2：异步 I/O（不阻塞 UI）
+class AsyncDeviceReader : public QObject {
+    Q_OBJECT
+private:
+    std::unique_ptr&lt;QSerialPort&gt; m_port;
+    std::unique_ptr&lt;QTimer&gt; m_readTimer;
+    
+public:
+    explicit AsyncDeviceReader(QObject* parent = nullptr)
+        : QObject(parent)
+        , m_port(std::make_unique&lt;QSerialPort&gt;())
+        , m_readTimer(std::make_unique&lt;QTimer&gt;())
+    {
+        // ✓ 使用定时器定期读取，避免阻塞
+        connect(m_readTimer.get(), &QTimer::timeout,
+                this, &AsyncDeviceReader::onReadTimeout);
+        
+        // ✓ 异步连接端口信号
+        connect(m_port.get(), &QSerialPort::readyRead,
+                this, &AsyncDeviceReader::onDataReady,
+                Qt::QueuedConnection);
+    }
+
+    void startReading(const QString& portName) {
+        if (!m_port-&gt;open(portName, QIODevice::ReadOnly)) {
+            LOGE("serial.open.failed", "port: {}", portName);
+            return;
+        }
+        
+        // ✓ 定期读取，时间间隔可配置
+        m_readTimer-&gt;start(100);  // 每 100ms 检查一次
+    }
+
+private slots:
+    void onReadTimeout() {
+        // ✓ 在 UI 线程中读取数据（通过异步 I/O）
+        if (m_port-&gt;bytesAvailable() &gt; 0) {
+            auto data = m_port-&gt;readAll();
+            processData(data);
+        }
+    }
+    
+    void onDataReady() {
+        // 数据就绪
+        LOGD("serial.data_ready");
+    }
+};
+
+// ✓ 推荐3：定期清理资源（防止内存泄漏）
+class ResourceManager : public QObject {
+    Q_OBJECT
+private:
+    std::vector&lt;std::unique_ptr&lt;Resource&gt;&gt; m_resources;
+    std::unique_ptr&lt;QTimer&gt; m_cleanupTimer;
+    
+public:
+    explicit ResourceManager(QObject* parent = nullptr)
+        : QObject(parent)
+        , m_cleanupTimer(std::make_unique&lt;QTimer&gt;())
+    {
+        connect(m_cleanupTimer.get(), &QTimer::timeout,
+                this, &ResourceManager::cleanupResources);
+        
+        // ✓ 每 60 秒清理一次过期资源
+        m_cleanupTimer-&gt;start(60000);
+    }
+
+private slots:
+    void cleanupResources() {
+        // ✓ 移除已过期的资源
+        auto now = std::chrono::high_resolution_clock::now();
+        
+        m_resources.erase(
+            std::remove_if(m_resources.begin(), m_resources.end(),
+                [now](const std::unique_ptr&lt;Resource&gt;& res) {
+                    auto elapsed = now - res-&gt;createdAt();
+                    return elapsed &gt; std::chrono::seconds(300);
+                }),
+            m_resources.end()
+        );
+        
+        LOGD("resource.cleanup", "remaining: {}", m_resources.size());
+    }
+};
+
+// ✓ 推荐4：避免 UI 线程阻塞
+class UIResponsiveness {
+public:
+    void processLargeDataset() {
+        // ✗ 错误：直接在 UI 线程处理大数据
+        // for (int i = 0; i &lt; 1000000; ++i) { 
+        //     processItem(i);  // 卡 UI！
+        // }
+        
+        // ✓ 正确：分批处理或异步处理
+        QtConcurrent::run(QThreadPool::globalInstance(),
+            [this]() {
+                for (int i = 0; i &lt; 1000000; ++i) {
+                    processItem(i);  // 在工作线程中
+                }
+                emit processingFinished();
+            });
+    }
+};
+
+// ✓ 推荐5：内存使用监控
+class MemoryMonitor : public QObject {
+    Q_OBJECT
+private:
+    std::unique_ptr&lt;QTimer&gt; m_monitorTimer;
+    size_t m_lastMemoryUsage = 0;
+    
+public:
+    explicit MemoryMonitor(QObject* parent = nullptr)
+        : QObject(parent)
+        , m_monitorTimer(std::make_unique&lt;QTimer&gt;())
+    {
+        connect(m_monitorTimer.get(), &QTimer::timeout,
+                this, &MemoryMonitor::checkMemoryUsage);
+        
+        // ✓ 每 30 秒检查一次内存使用
+        m_monitorTimer-&gt;start(30000);
+    }
+
+private slots:
+    void checkMemoryUsage() {
+        size_t currentUsage = getProcessMemoryUsage();
+        
+        if (currentUsage &gt; m_lastMemoryUsage * 1.2) {  // 增长 20%
+            LOGW("memory.growth", "current: {} MB; last: {} MB",
+                 currentUsage / 1024 / 1024, 
+                 m_lastMemoryUsage / 1024 / 1024);
+        }
+        
+        m_lastMemoryUsage = currentUsage;
+    }
+};
+                </div>
+
+                <div class="highlight-box" style="background: #ffe0e0; border-left-color: var(--danger);">
+                    <strong><i class="fas fa-times" style="color: var(--danger);"></i> ✗ 反例：性能问题</strong>
+                </div>
+                <div class="code-block cpp">
+// ✗ 反例1：在 UI 线程中进行阻塞操作
+void badSlowOperation() {
+    // ✗ 直接在 UI 线程读取大量文件
+    for (int i = 0; i &lt; 10000; ++i) {
+        auto data = readLargeFile("file_" + std::to_string(i));
+        processData(data);
+        
+        // ✗ 此时 UI 被冻结，无法响应用户交互
+    }
+}
+
+// ✗ 反例2：无限制的内存分配
+class MemoryLeak {
+private:
+    std::vector&lt;std::string&gt; m_buffer;
+    
+public:
+    void appendData(const std::string& data) {
+        // ✗ 无限追加数据，永不清理
+        m_buffer.push_back(data);
+        
+        // ✗ 长时间运行后内存持续增长
+        if (m_buffer.size() % 10000 == 0) {
+            LOGI("buffer.size", "size: {}", m_buffer.size());
+        }
+    }
+};
+
+// ✗ 反例3：每次都重新计算昂贵的结果
+class NoCache {
+public:
+    std::string getSystemInfo() {
+        // ✗ 每次都调用系统 API 获取信息
+        QString osInfo = QSysInfo::prettyProductName();
+        QString cpuInfo = QSysInfo::machineHostName();
+        
+        return (osInfo + "; " + cpuInfo).toStdString();
+    }
+    
+    void displayStatus() {
+        // ✗ 在 UI 更新循环中频繁调用（可能每帧调用）
+        for (int i = 0; i &lt; 1000; ++i) {
+            updateLabel(getSystemInfo());  // 重复调用！
+        }
+    }
+};
+
+// ✗ 反例4：同步 I/O 阻塞
+class SyncIOBlock {
+public:
+    void readDeviceData() {
+        // ✗ 同步读取，如果设备无响应，UI 永久卡住
+        QSerialPort port("/dev/ttyUSB0");
+        port.open(QIODevice::ReadOnly);
+        
+        // ✗ waitForReadyRead 是阻塞的
+        if (!port.waitForReadyRead(5000)) {
+            // ✗ 5 秒内如果无数据，UI 无响应
+            LOGE("serial.timeout");
+        }
+        
+        auto data = port.readAll();
+        processData(data);
+    }
+};
+
+// ✗ 反例5：内存泄漏
+class LeakyListener {
+private:
+    std::vector&lt;QObject*&gt; m_objects;
+    
+public:
+    void registerListener(QObject* obj) {
+        // ✓ 添加到列表
+        m_objects.push_back(obj);
+        
+        connect(obj, &QObject::destroyed,
+                this, [this, obj]() {
+                    // ✗ 析构时忘记从列表中移除
+                    // m_objects 仍然持有悬挂指针
+                });
+    }
+    
+    ~LeakyListener() {
+        // ✗ m_objects 中可能有已删除的对象指针
+    }
+};
+                </div>
+            </div>
+
+            <!-- 代码评审清单 -->
+            <div id="checklist" class="content-card">
+                <h2><i class="fas fa-check-circle"></i> 代码评审清单</h2>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>检查项</th>
+                                <th>关键问题</th>
+                                <th>典型陷阱</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>设计符合单一职责</strong></td>
+                                <td>模块边界是否清晰</td>
+                                <td>耦合过紧，隐藏全局状态</td>
+                            </tr>
+                            <tr>
+                                <td><strong>命名与风格一致</strong></td>
+                                <td>符合约定与 clang-format</td>
+                                <td>蛇形混用，行宽超限</td>
+                            </tr>
+                            <tr>
+                                <td><strong>现代 C++ 使用</strong></td>
+                                <td>智能指针、RAII 是否正确</td>
+                                <td>裸指针泄漏、共享指针环引用</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Qt 信号槽正确</strong></td>
+                                <td>强类型连接？跨线程显式声明？</td>
+                                <td>旧式字符串连接、槽未解绑</td>
+                            </tr>
+                            <tr>
+                                <td><strong>线程安全</strong></td>
+                                <td>跨线程访问是否安全</td>
+                                <td>UI 阻塞、死锁、数据竞争</td>
+                            </tr>
+                            <tr>
+                                <td><strong>错误处理完备</strong></td>
+                                <td>是否返回/传播错误码</td>
+                                <td>静默失败、异常泄露</td>
+                            </tr>
+                            <tr>
+                                <td><strong>安全与隐私</strong></td>
+                                <td>是否存在敏感信息泄露</td>
+                                <td>凭据硬编码、日志泄露</td>
+                            </tr>
+                            <tr>
+                                <td><strong>性能与资源</strong></td>
+                                <td>是否评估性能影响</td>
+                                <td>循环中动态分配、内存增长</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 编码示例 -->
+            <div class="content-card">
+                <h2><i class="fas fa-code"></i> 最佳实践示例</h2>
+                <h3><i class="fas fa-lightbulb"></i> 推荐：清晰的函数设计</h3>
+                <div class="code-block cpp">
+void WorkflowRunner::start() {
+  if (!ensurePrerequisite()) {
+    LOGE("workflow.start.failed", "missing prerequisite");
+    return;
+  }
+  launchExecution();
+}
+
+/// @brief 校验前置条件
+bool WorkflowRunner::ensurePrerequisite() {
+  // ... existing code ...
+  return true;
+}
+                </div>
+
+                <h3><i class="fas fa-thumbs-up"></i> 推荐：智能指针和 RAII</h3>
+                <div class="code-block cpp">
+// 优先使用 unique_ptr
+auto device = std::make_unique&lt;PressureSensor&gt;();
+device->start();  // 作用域结束自动清理
+
+// 若需共享所有权，使用 shared_ptr + weak_ptr
+auto controller = std::make_shared&lt;DeviceController&gt;();
+std::weak_ptr&lt;DeviceController&gt; weakRef = controller;
+                </div>
+
+                <h3><i class="fas fa-ban"></i> 避免：裸指针和手动释放</h3>
+                <div class="code-block cpp">
+// 反例：内存泄漏风险
+PressureSensor* sensor = new PressureSensor();
+sensor->start();
+// 如果这里抛出异常，下面代码无法执行
+delete sensor;  // 不安全！
+                </div>
+            </div>
+
+            <!-- 底部信息 -->
+            <div class="content-card" style="text-align: center; background: var(--primary-light);">
+                <p style="color: #666; font-size: 0.95em;">
+                    <strong>版本：</strong> v1.0 | 
+                    <strong>最后更新：</strong> 2025-09-26 | 
+                    <strong>维护团队：</strong> Winnie 
+                </p>
+                <p style="margin-top: 12px; color: #999; font-size: 0.9em;">
+                    本规范遵循华为 C 语言编程规范等业界优秀实践，结合 Qt/C++17 特性改写。
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // ==================== DOM 元素 ====================
+        const sidebar = document.getElementById('sidebar');
+        const toggleBtn = document.getElementById('toggleSidebar');
+        const searchBox = document.getElementById('searchBox');
+        const navItems = document.querySelectorAll('.nav-item');
+
+        // ==================== 侧栏切换 ====================
+        toggleBtn?.addEventListener('click', () => {
+            sidebar.classList.toggle('hidden');
+        });
+
+        // 点击内容区域时关闭侧栏（移动设备）
+        document.querySelector('.main-content')?.addEventListener('click', (e) => {
+            if (window.innerWidth < 768 && !sidebar.classList.contains('hidden')) {
+                sidebar.classList.add('hidden');
+            }
+        });
+
+        // ==================== 导航项点击处理 ====================
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                
+                // 更新活跃导航项
+                navItems.forEach(item => item.classList.remove('active'));
+                event.target.closest('.nav-item').classList.add('active');
+                
+                // 移动设备上关闭侧栏
+                if (window.innerWidth < 768) {
+                    sidebar.classList.add('hidden');
+                }
+            }
+        }
+
+        // ==================== 搜索功能 ====================
+        searchBox?.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            if (query.length === 0) {
+                // 恢复所有卡片
+                document.querySelectorAll('.content-card').forEach(card => {
+                    card.style.display = '';
+                    card.style.opacity = '1';
+                });
+                return;
+            }
+
+            document.querySelectorAll('.content-card').forEach(card => {
+                const text = card.textContent.toLowerCase();
+                if (text.includes(query)) {
+                    card.style.display = '';
+                    card.style.opacity = '1';
+                } else {
+                    card.style.display = 'none';
+                    card.style.opacity = '0';
+                }
+            });
+        });
+
+        // ==================== 平滑滚动时更新导航 ====================
+        const observerOptions = {
+            threshold: 0.3,
+            rootMargin: '0px 0px -50% 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const sectionId = entry.target.id;
+                    navItems.forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    
+                    const activeItem = Array.from(navItems).find(item => 
+                        item.textContent.includes(entry.target.querySelector('h1')?.textContent || '')
+                    );
+                    if (activeItem) {
+                        activeItem.classList.add('active');
+                    }
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('[id]').forEach(section => {
+            observer.observe(section);
+        });
+
+        // ==================== 响应式处理 ====================
+        let lastWidth = window.innerWidth;
+        window.addEventListener('resize', () => {
+            const currentWidth = window.innerWidth;
+            if ((lastWidth < 768 && currentWidth >= 768) || (lastWidth >= 768 && currentWidth < 768)) {
+                if (currentWidth >= 768) {
+                    sidebar.classList.remove('hidden');
+                }
+            }
+            lastWidth = currentWidth;
+        });
+
+        // ==================== 键盘快捷键 ====================
+        document.addEventListener('keydown', (e) => {
+            // Ctrl/Cmd + K 焦点搜索框
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                searchBox?.focus();
+            }
+            
+            // Escape 关闭侧栏
+            if (e.key === 'Escape' && window.innerWidth < 768) {
+                sidebar.classList.add('hidden');
+            }
+        });
+
+        // ==================== 性能优化：懒加载 ====================
+        if ('IntersectionObserver' in window) {
+            const lazyElements = document.querySelectorAll('.content-card');
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            });
+
+            lazyElements.forEach(el => imageObserver.observe(el));
+        }
+
+        console.log('📚 C++/Qt 编码规范 v1.0 加载完成');
+    </script>
+</body>
+</html>
