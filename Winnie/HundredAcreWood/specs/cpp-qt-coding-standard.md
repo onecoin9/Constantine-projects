@@ -97,12 +97,95 @@
         static constexpr int MAX_SENSORS = 24;  // 常量：SCREAMING_SNAKE_CASE
       };
       ```
+  - **代码示例详解**：
+    - **推荐的命名规范**：
+      ```cpp
+      // 类型定义：PascalCase
+      class PressureController {
+      private:
+        double m_threshold;              // 类成员：m_ 前缀
+        bool m_isInitialized;            // 布尔变量：is 前缀
+        static int s_instanceCount;      // 静态成员：s_ 前缀
+      
+      public:
+        void startMeasurement();         // 函数：camelCase
+        bool validateInput(double value);
+        const auto& getThreshold() const { return m_threshold; }
+      };
+      
+      // 常量：SCREAMING_SNAKE_CASE
+      constexpr double PRESSURE_MIN = 0.0;
+      constexpr double PRESSURE_MAX = 500.0;
+      constexpr int MAX_RETRY_COUNT = 3;
+      
+      // 枚举类：使用 enum class
+      enum class MeasurementState {
+        Idle,
+        Running,
+        Paused,
+        Completed
+      };
+      ```
+    
+    - **反例：混乱的命名**：
+      ```cpp
+      // ✗ 反例1：无意义缩写，名字太短
+      class PC {
+      private:
+        double threshold;               // ✗ 缺少 m_ 前缀
+        bool init;                      // ✗ 缺少 is/has 前缀
+        static int gInstanceCount;      // ✗ 不规范前缀
+      
+      public:
+        void SMM();                     // ✗ 缩写过度，难以理解
+        bool ValidateInput(double x);   // ✗ 函数使用 PascalCase
+      };
+      
+      // ✗ 反例2：混用命名风格
+      #define MAX_SIZE 100;             // ✗ 宏定义常量（应使用 constexpr）
+      int tmp_value = 0;                // ✗ tmp 无实际意义
+      double d = 3.14;                  // ✗ 单字母变量名
+      bool flag = true;                 // ✗ flag 过于模糊
+      enum MeasurementState {           // ✗ 使用传统枚举
+        Idle, Running, Paused
+      };
+      ```
 - **格式化与排版**：
   - 统一使用 UTF-8（无 BOM），行尾 LF。
   - 缩进 2 或 4 空格（团队约定），禁止 Tab 混用；请使用仓库根目录的 `.clang-format` 配置（或 `tools/style/clang-format.yaml`）统一格式，提交前执行 `clang-format`/`ninja format`。
   - 每行不超过 120 列，表达式适度换行；链式调用分行对齐。
   - 不在同一文件内混用 CRLF；提交前执行 `git diff --check` 确保无尾随空格。
-  - 块结构遵循“左对齐，右移”原则，`if/else/while` 块必须使用 `{}`，即便只有一行。
+  - 块结构遵循"左对齐，右移"原则，`if/else/while` 块必须使用 `{}`，即便只有一行。
+  - **代码排版示例**：
+    - **推荐的规范格式**：
+      ```cpp
+      // ✓ 推荐：清晰的块结构，适度的缩进
+      class DeviceMonitor {
+      public:
+        explicit DeviceMonitor(const QString& deviceName)
+          : m_deviceName(deviceName)
+          , m_isConnected(false)
+          , m_pollInterval(500)
+        {
+        }
+      
+        void start() {
+          if (!ensureConnection()) {
+            LOGE("monitor.start.failed", "Cannot connect to device");
+            return;
+          }
+      
+          m_isRunning = true;
+          QTimer::singleShot(0, this, &DeviceMonitor::poll);
+        }
+      
+      private:
+        QString m_deviceName;
+        bool m_isConnected = false;
+        bool m_isRunning = false;
+        int m_pollInterval = 500;
+      };
+      ```
 - **注释**：
   - 使用 `//` 单行、`/* ... */` 多行，Doxygen 注释 `///` 或 `/** */` 描述公共接口。
   - 注释描述“为什么”而非“做什么”，避免陈述代码本身。
@@ -219,10 +302,68 @@
   - QObject 子类需使用 `Q_OBJECT` 宏，确保元对象系统生效。
   - 新 API 使用 `functor`/`lambda` + `connect(sender, &Sender::signal, this, [=]{})` 的强类型连接；禁止旧式字符串连接。
   - 跨线程连接需显式指定 `Qt::QueuedConnection` 并确认目标线程拥有事件循环。
+  - **信号槽示例**：
+    - **推荐：使用新式 functor 连接**：
+      ```cpp
+      // ✓ 推荐：现代 Qt 信号槽
+      class DataProcessor : public QObject {
+        Q_OBJECT
+      public:
+        void connectSignals(DeviceManager* device) {
+          // 强类型连接，编译期检查
+          connect(device, &DeviceManager::dataReady,
+                  this, &DataProcessor::onData,
+                  Qt::QueuedConnection);
+        }
+      
+      private slots:
+        void onData(const QByteArray& data) {
+          // 处理数据
+        }
+      
+      signals:
+        void errorOccurred(int code);
+      };
+      ```
+    
+    - **反例：旧式字符串连接**：
+      ```cpp
+      // ✗ 反例：过时的 SIGNAL/SLOT 写法
+      class OldDevice : public QObject {
+        Q_OBJECT
+      public:
+        void setup(QObject* receiver) {
+          // ✗ 字符串连接，无编译检查，易出错
+          connect(this, SIGNAL(dataReady(QByteArray)),
+                  receiver, SLOT(onData(QByteArray)));
+        }
+      
+      signals:
+        void dataReady(const QByteArray& data);
+      };
+      ```
 - **内存父子关系**：创建 QObject 时立即传入父对象，或调用 `setParent()`；禁止在析构中手写删除子对象。
 - **线程亲和性**：
   - UI 操作必须在主线程 (`QApplication::instance()->thread()`) 执行。
   - 使用 `moveToThread()` 时，仅在对象构造完成且未开始处理事件前调用；确保目标线程启动事件循环后再触发信号，线程结束时需回到原线程释放。
+  - **跨线程通讯示例**：
+    ```cpp
+    // ✓ 推荐：正确的线程亲和性管理
+    class SocketWorker : public QObject {
+      Q_OBJECT
+    public:
+      void moveToWorkerThread(QThread* thread) {
+        QObject::moveToThread(thread);  // 必须先 moveToThread
+        connect(thread, &QThread::started,
+                this, &SocketWorker::startListening);
+      }
+    
+    private slots:
+      void startListening() {
+        // 此时已在工作线程中，可以安全使用套接字
+      }
+    };
+    ```
 - **QML / Qt Quick**：
   - C++ 暴露 QML 类型需通过 `qmlRegisterType`/`qmlRegisterSingletonType`，避免直接暴露裸指针。
   - 在 QML 中调用 C++ 接口，应使用 async/await 或信号反馈，防止阻塞 UI。
@@ -236,6 +377,103 @@
   - 明确读写锁策略，避免双向锁导致死锁；跨线程访问 UI/QObject 属性需通过信号槽或 `QMetaObject::invokeMethod`。
   - 共享状态封装为线程安全类，禁止全局可变单例。
 - **原子与无锁**：使用 `std::atomic` 管理计数器、标志位；复杂无锁结构需评审通过并配备测试。
+- **多线程最佳实践示例**：
+  - **推荐：使用线程池和 RAII 锁**：
+    ```cpp
+    // ✓ 推荐：使用高级线程工具
+    class DataAggregator : public QObject {
+      Q_OBJECT
+    public:
+      void aggregateData() {
+        // 使用 QtConcurrent 进行异步处理
+        auto future = QtConcurrent::run(this, &DataAggregator::heavyComputation);
+        m_watcher->setFuture(future);
+      }
+    
+    private slots:
+      void onResultReady() {
+        emit resultReady(m_watcher->result());
+      }
+    
+    private:
+      QVector<Data> heavyComputation() {
+        // 长时间运算，不阻塞 UI
+        return processData();
+      }
+    
+      std::unique_ptr<QFutureWatcher<QVector<Data>>> m_watcher;
+    
+    signals:
+      void resultReady(const QVector<Data>& data);
+    };
+    
+    // ✓ 推荐：使用 RAII 锁保护共享数据
+    class ThreadSafeCache {
+    private:
+      mutable std::shared_mutex m_mutex;
+      std::unordered_map<std::string, std::string> m_data;
+    
+    public:
+      std::string get(const std::string& key) const {
+        std::shared_lock<std::shared_mutex> lock(m_mutex);  // 读锁
+        auto it = m_data.find(key);
+        return it != m_data.end() ? it->second : "";
+      }
+    
+      void set(const std::string& key, const std::string& value) {
+        std::unique_lock<std::shared_mutex> lock(m_mutex);  // 写锁
+        m_data[key] = value;
+      }
+    };
+    ```
+  
+  - **反例：线程管理不当**：
+    ```cpp
+    // ✗ 反例1：手工管理线程（容易泄漏）
+    class BadAggregator {
+    private:
+      std::thread m_thread;  // ✗ 需要手工 join/detach
+    
+    public:
+      void start() {
+        m_thread = std::thread(&BadAggregator::run, this);
+      }
+    
+      ~BadAggregator() {
+        // ✗ 析构中 join 会阻塞，detach 会泄漏
+      }
+    };
+    
+    // ✗ 反例2：数据竞争
+    class BadCache {
+    private:
+      std::unordered_map<std::string, std::string> m_data;  // ✗ 无保护
+    
+    public:
+      void set(const std::string& key, const std::string& value) {
+        m_data[key] = value;  // ✗ 竞争！
+      }
+    };
+    
+    // ✗ 反例3：死锁
+    class DeadlockExample {
+    private:
+      std::mutex m_mutex1, m_mutex2;
+    
+    public:
+      void threadA() {
+        std::lock_guard<std::mutex> lock1(m_mutex1);
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        std::lock_guard<std::mutex> lock2(m_mutex2);  // ✗ 等待 lock2
+      }
+    
+      void threadB() {
+        std::lock_guard<std::mutex> lock2(m_mutex2);
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        std::lock_guard<std::mutex> lock1(m_mutex1);  // ✗ 等待 lock1，死锁！
+      }
+    };
+    ```
 
 ## UI 与交互层规范
 
