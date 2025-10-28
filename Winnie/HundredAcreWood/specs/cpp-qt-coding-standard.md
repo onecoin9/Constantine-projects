@@ -44,8 +44,28 @@
 - **模块划分**：以功能域拆分（如 `Device/`, `Workflow/`, `UI/`），公共组件放 `common/`、`core/`。
 - **头文件/源文件配对**：`ClassName.h/.cpp` 成对出现；接口定义放头文件，内部实现置于 `.cpp`。
   - 头文件仅暴露对外接口，内部工具函数、临时结构体禁止放在 `.h` 中。
-  - 包含关系应“由不稳定指向稳定”：头文件尽量只依赖更通用/更稳定的模块，避免交叉依赖。
-  - 必要时使用前向声明降低耦合；禁止在头文件中 `using namespace`。
+  - 包含关系应"由不稳定指向稳定"：头文件尽量只依赖更通用/更稳定的模块，避免交叉依赖。
+  - **前向声明**：必要时使用前向声明降低耦合，仅声明类名而不包含完整定义（用于指针/引用参数）。禁止在头文件中 `using namespace`。
+    - 前向声明适用场景：
+      ```cpp
+      // device_manager.h
+      class PressureSensor;     // ✓ 前向声明，仅告诉编译器有这个类
+      class ConfigLoader;
+      
+      class DataProcessor {
+      public:
+        void setDevice(PressureSensor* mgr);        // ✓ 指针参数，前向声明够
+        std::optional<std::string> loadConfig();    // ✓ 返回值，前向声明够
+      private:
+        PressureSensor* m_device;                   // ✓ 指针成员，前向声明够
+        // PressureSensor m_sensor;                 // ✗ 成员变量需要完整定义
+      };
+      
+      // device_processor.cpp —— 只在 .cpp 中包含完整定义
+      #include "device_manager.h"
+      #include "pressure_sensor.h"  // ✓ 在这里包含
+      ```
+    - 优势：修改 `PressureSensor` 内部 → `DataProcessor.h` 不需重新编译，降低编译依赖。
 - **CMake/Qt 项目文件**：
   - `CMakeLists.txt` 按模块拆分，使用 `target_link_libraries`、`target_compile_definitions` 维护依赖。
   - Qt `.pro` / `.pri` 文件需与 CMake 配置保持同步，避免重复或冲突。
@@ -60,6 +80,23 @@
   - 常量及枚举值使用 `SCREAMING_SNAKE_CASE`。
   - 类型/函数命名禁止使用无意义缩写（如 `tmp`, `doStuff`）；必要缩写需在注释中解释来源。
   - 布尔变量以 `is/has/should/can` 开头；集合使用复数名词（如 `devices`）。
+  - **PascalCase vs camelCase 快速参考**：
+    - **PascalCase**（首字母大写）：类、结构体、枚举名 → `class DeviceManager`, `enum class MeasurementState`
+    - **camelCase**（首字母小写）：函数、方法、变量 → `void startMeasurement()`, `int sensorCount`
+    - **SCREAMING_SNAKE_CASE**（全大写下划线）：常量 → `const int MAX_RETRY_COUNT = 3`
+    - 示例：
+      ```cpp
+      // ✓ 正确的命名
+      class TemperatureController {  // 类：PascalCase
+      public:
+        void startMonitoring();      // 函数：camelCase
+        double getCurrentTemp();     // 函数：camelCase
+      private:
+        int m_sensorId;              // 成员：camelCase + m_
+        bool m_isMonitoring;         // 布尔变量：is 前缀
+        static constexpr int MAX_SENSORS = 24;  // 常量：SCREAMING_SNAKE_CASE
+      };
+      ```
 - **格式化与排版**：
   - 统一使用 UTF-8（无 BOM），行尾 LF。
   - 缩进 2 或 4 空格（团队约定），禁止 Tab 混用；请使用仓库根目录的 `.clang-format` 配置（或 `tools/style/clang-format.yaml`）统一格式，提交前执行 `clang-format`/`ninja format`。
@@ -85,11 +122,75 @@
 - **constexpr/const**：常量、魔法数字使用 `constexpr` 或 `const`；函数尽可能声明 `noexcept`。
 - **[[nodiscard]] 与 std::span**：返回值影响流程的函数务必使用 `[[nodiscard]]`；处理连续缓冲区时优先使用 `std::span`/`gsl::span`，同时注明 Qt 5/6 兼容策略。
 - **结构化绑定 / if with init**：在遍历 Qt 容器、pair 返回值时可使用，注意编译器版本兼容。
+- **命名空间使用**：
+  - **禁止在头文件中 `using namespace`**（污染全局命名空间，导致名字冲突）
+    - ✗ 错误做法：`using namespace std;` 放在头文件
+    - ✓ 正确做法 1：头文件中显式写 `std::string`, `std::vector` 等完整名
+    - ✓ 正确做法 2：`using namespace` 仅在 `.cpp` 文件或函数作用域内
+  - 示例：
+    ```cpp
+    // processor.h —— 头文件中始终用完整名
+    #pragma once
+    #include <string>
+    #include <vector>
+    
+    class DataProcessor {
+    public:
+      void process(const std::string& data);      // ✓ 显式 std::
+      std::vector<int> getResults() const;        // ✓ 显式 std::
+    };
+    
+    // processor.cpp —— .cpp 中可以 using namespace
+    #include "processor.h"
+    using namespace std;  // ✓ 只在 .cpp 中，不污染其他文件
+    
+    void DataProcessor::process(const string& data) {  // 可以省略 std::
+      // ...
+    }
+    ```
+  - 为什么禁止：
+    - 避免名字冲突（多个库可能有 `string`、`vector` 等同名类型）
+    - 防止污染全局命名空间（使用头文件的代码意外获得库的所有符号）
+    - 提高代码清晰度（一眼看出每个符号来自哪里）
 - **宏使用限制**：
   - 禁止滥用宏定义常量或内联函数，优先使用 `constexpr`、`inline`；确需宏时全部大写并添加注释。
   - 宏替换内容需加括号防止优先级问题；宏函数内部避免副作用。
 
 ## 内存与资源管理
+
+- **RAII 原则**（Resource Acquisition Is Initialization）：
+  - **核心思想**：用对象的生命周期（构造/析构）来管理资源，确保"获取资源即初始化，销毁对象即释放资源"。
+  - **优势**：异常安全、无内存泄漏、代码清晰。
+  - **应用场景**：
+    - **文件管理**：`std::ifstream file("data.txt")` → 构造打开，析构自动关闭
+    - **内存管理**：`auto ptr = std::make_unique<Device>()` → 构造分配，析构自动释放
+    - **互斥锁**：`std::lock_guard<std::mutex> lock(mu)` → 构造加锁，析构自动解锁
+    - **Qt 对象**：`new QPushButton(parent)` → 构造创建，parent 析构时自动删除子对象
+  - 示例对比：
+    ```cpp
+    // ❌ 非 RAII（手动管理，容易泄漏）
+    void processData() {
+      FILE* file = fopen("data.txt", "r");
+      PressureSensor* sensor = new PressureSensor();
+      
+      if (error) {
+        return;  // ✗ 资源未释放！
+      }
+      
+      fclose(file);
+      delete sensor;
+    }
+    
+    // ✓ RAII（自动管理，异常安全）
+    void processData() {
+      std::ifstream file("data.txt");                    // 构造打开
+      auto sensor = std::make_unique<PressureSensor>();  // 构造创建
+      
+      if (error) {
+        throw std::runtime_error("Error");  // ✓ 资源自动释放
+      }
+    }  // ← 自动释放资源
+    ```
 
 - **对象生命周期**：
   - Qt 对象若有父子关系，使用父指针自动管理；无父对象时使用智能指针。
