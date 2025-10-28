@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="日志记录与治理标准（spdlog） - 专业的技术文档">
+    <meta name="theme-color" content="#667eea">
+    <title>spdlog 日志记录与治理标准 v1.1</title>
+    
+    <!-- TailwindCSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #667eea;
+            --primary-dark: #764ba2;
+            --primary-light: #f0f4ff;
+            --success: #51cf66;
+            --warning: #ffd93d;
+            --danger: #ff6b6b;
+            --bg-light: #f8f9fa;
+            --border: #e0e0e0;
+            
+            /* 浅色主题（默认） */
+            --theme-bg-primary: white;
+            --theme-bg-secondary: #f8f9fa;
+            --theme-text-primary: #333;
+            --theme-text-secondary: #666;
+            --theme-text-tertiary: #999;
+            --theme-border: #e0e0e0;
+            --theme-sidebar-bg: white;
+            --theme-sidebar-text: #666;
+            --theme-card-bg: white;
+            --theme-card-border: #e0e0e0;
+            --theme-header-bg: white;
+            --theme-code-bg: #1e1e1e;
+            --theme-code-text: #d4d4d4;
+            --theme-gradient-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        /* 深色主题 */
+        html.dark-mode {
+            --theme-bg-primary: #1a1a1a;
+            --theme-bg-secondary: #2a2a2a;
+            --theme-text-primary: #e0e0e0;
+            --theme-text-secondary: #b0b0b0;
+            --theme-text-tertiary: #808080;
+            --theme-border: #404040;
+            --theme-sidebar-bg: #1f1f1f;
+            --theme-sidebar-text: #a0a0a0;
+            --theme-card-bg: #252525;
+            --theme-card-border: #353535;
+            --theme-header-bg: #1f1f1f;
+            --theme-code-bg: #1e1e1e;
+            --theme-code-text: #d4d4d4;
+            --theme-gradient-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--theme-gradient-bg);
+            color: var(--theme-text-primary);
+            line-height: 1.6;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        /* ========== 侧栏导航 ========== */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: var(--theme-sidebar-bg);
+            box-shadow: 2px 0 12px rgba(0,0,0,0.08);
+            z-index: 100;
+            overflow-y: auto;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease;
+        }
+
+        .sidebar.hidden {
+            transform: translateX(-100%);
+        }
+
+        .sidebar-header {
+            padding: 24px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.4em;
+            font-weight: 700;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-header p {
+            font-size: 0.85em;
+            opacity: 0.9;
+        }
+
+        .sidebar-nav {
+            padding: 20px 0;
+        }
+
+        .nav-section {
+            margin-bottom: 10px;
+        }
+
+        .nav-section-title {
+            padding: 12px 20px;
+            font-size: 0.7em;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #999;
+            letter-spacing: 0.6px;
+        }
+
+        html.dark-mode .nav-section-title {
+            color: #666;
+        }
+
+        .nav-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+            color: var(--theme-sidebar-text);
+            font-size: 0.95em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-item i {
+            width: 16px;
+            text-align: center;
+            color: var(--primary);
+            opacity: 0.6;
+        }
+
+        .nav-item:hover {
+            background: var(--primary-light);
+            color: var(--primary);
+            border-left-color: var(--primary);
+        }
+
+        html.dark-mode .nav-item:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .nav-item.active {
+            background: var(--primary-light);
+            color: var(--primary);
+            border-left-color: var(--primary);
+            font-weight: 600;
+        }
+
+        html.dark-mode .nav-item.active {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .nav-item.active i {
+            opacity: 1;
+        }
+
+        /* 滚动条美化 */
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #d0d0d0;
+            border-radius: 3px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: #999;
+        }
+
+        /* ========== 主内容区域 ========== */
+        .main-content {
+            margin-left: 280px;
+            min-height: 100vh;
+            background: var(--theme-bg-primary);
+            transition: margin-left 0.3s ease, background 0.3s ease;
+        }
+
+        /* ========== 顶部导航 ========== */
+        .header {
+            background: var(--theme-header-bg);
+            border-bottom: 1px solid var(--theme-border);
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex: 1;
+        }
+
+        .toggle-sidebar-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.4em;
+            cursor: pointer;
+            color: var(--primary);
+            transition: color 0.3s ease;
+            padding: 8px;
+            border-radius: 6px;
+        }
+
+        .toggle-sidebar-btn:hover {
+            background: var(--primary-light);
+        }
+
+        .header-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-box {
+            padding: 10px 16px;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            font-size: 0.95em;
+            width: 280px;
+            transition: all 0.3s ease;
+            background: var(--bg-light);
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        .search-box::placeholder {
+            color: #999;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* ========== 内容区域 ========== */
+        .content-wrapper {
+            padding: 40px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* ========== 面包屑导航 ========== */
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9em;
+            color: var(--theme-text-tertiary);
+            margin-bottom: 24px;
+        }
+
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--primary-dark);
+        }
+
+        /* ========== 章节标题 ========== */
+        .section-header {
+            margin-bottom: 40px;
+            animation: slideInUp 0.5s ease;
+        }
+
+        .section-header h1 {
+            font-size: 2.2em;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .section-header h1 i {
+            font-size: 0.95em;
+            opacity: 0.7;
+        }
+
+        .section-header > p {
+            font-size: 1.05em;
+            color: var(--theme-text-secondary);
+            border-left: 4px solid var(--primary);
+            padding-left: 16px;
+            line-height: 1.7;
+        }
+
+        /* ========== 内容卡片 ========== */
+        .content-card {
+            background: var(--theme-card-bg);
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 32px;
+            border: 1px solid var(--theme-card-border);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .content-card:hover {
+            box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+        }
+
+        .content-card h2 {
+            font-size: 1.7em;
+            color: var(--primary);
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--primary-light);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .content-card h2 i {
+            opacity: 0.7;
+        }
+
+        .content-card h3 {
+            font-size: 1.2em;
+            color: var(--primary-dark);
+            margin-top: 28px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .content-card h3 i {
+            font-size: 0.9em;
+            color: var(--primary);
+            opacity: 0.7;
+        }
+
+        /* ========== 列表样式 ========== */
+        .content-list {
+            list-style: none;
+            margin: 16px 0;
+        }
+
+        .content-list li {
+            padding: 12px 0 12px 32px;
+            position: relative;
+            color: var(--theme-text-secondary);
+            line-height: 1.8;
+            font-size: 0.95em;
+        }
+
+        .content-list li:before {
+            content: "\f105";
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 8px;
+            color: var(--primary);
+            font-size: 0.7em;
+            top: 16px;
+        }
+
+        .content-list li strong {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .content-list li code {
+            background: var(--theme-bg-secondary);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9em;
+            color: #d46a6a;
+        }
+
+        /* ========== 表格 ========== */
+        .content-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--theme-card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .content-table thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .content-table th, .content-table td {
+            padding: 16px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--theme-card-border);
+        }
+
+        .content-table tbody tr:hover {
+            background: var(--theme-bg-secondary);
+        }
+
+        .content-table code {
+            background: var(--theme-bg-secondary);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.9em;
+            color: #d46a6a;
+        }
+
+        /* ========== 代码块 ========== */
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 24px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Courier New', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.85em;
+            line-height: 1.8;
+            letter-spacing: 0.5px;
+            white-space: pre;
+            word-wrap: normal;
+            overflow-wrap: normal;
+            border-left: 4px solid var(--primary);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            position: relative;
+        }
+
+        .code-block code {
+            color: #d4d4d4;
+            font-family: inherit;
+            font-size: inherit;
+            line-height: inherit;
+            background: transparent;
+        }
+
+        /* 代码块语言标签 */
+        .code-block.cpp:before {
+            content: "C++";
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.7em;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            z-index: 10;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .code-block.json:before {
+            content: "JSON";
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.7em;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            z-index: 10;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .code-block.bash:before {
+            content: "Bash";
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.7em;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            z-index: 10;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        /* 滚动条美化 */
+        .code-block::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .code-block::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .code-block::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        .code-block::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* ========== 主题切换按钮 ========== */
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.3em;
+            cursor: pointer;
+            color: var(--primary);
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+        }
+
+        .theme-toggle:hover {
+            background: var(--primary-light);
+            transform: scale(1.05);
+        }
+
+        html.dark-mode .theme-toggle:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .theme-toggle:active {
+            transform: scale(0.95);
+        }
+
+        .theme-toggle-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ========== 打开 C++/Qt 标准按钮 ========== */
+        .nav-to-cpp {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 0.95em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .nav-to-cpp:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .nav-to-cpp:active {
+            transform: translateY(0);
+        }
+
+        .nav-to-cpp i {
+            font-size: 1.1em;
+        }
+
+        /* ========== 动画 ========== */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ========== 响应式 ========== */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 250px;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .sidebar.hidden {
+                transform: translateX(-100%);
+            }
+
+            .toggle-sidebar-btn {
+                display: block;
+            }
+
+            .content-wrapper {
+                padding: 20px;
+            }
+
+            .header {
+                padding: 12px 16px;
+            }
+
+            .search-box {
+                width: auto;
+                flex: 1;
+                max-width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 侧栏导航 -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2><i class="fas fa-server"></i> spdlog 标准</h2>
+            <p>日志记录与治理规范 v1.1</p>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <div class="nav-section-title">快速导航</div>
+                <div class="nav-item active" data-section="intro"><i class="fas fa-rocket"></i> 快速开始</div>
+                <div class="nav-item" data-section="principles"><i class="fas fa-lightbulb"></i> 目标与原则</div>
+                <div class="nav-item" data-section="levels"><i class="fas fa-layer-group"></i> 日志级别</div>
+                <div class="nav-item" data-section="schema"><i class="fas fa-database"></i> 字段字典</div>
+                <div class="nav-item" data-section="sampling"><i class="fas fa-filter"></i> 采样与限速</div>
+            </div>
+            <div class="nav-section">
+                <div class="nav-section-title">高级用法</div>
+                <div class="nav-item" data-section="sensitive"><i class="fas fa-shield"></i> 敏感信息</div>
+                <div class="nav-item" data-section="rotation"><i class="fas fa-sync"></i> 轮转策略</div>
+                <div class="nav-item" data-section="implementation"><i class="fas fa-code"></i> C++ 实施</div>
+                <div class="nav-item" data-section="review"><i class="fas fa-clipboard-check"></i> 评审清单</div>
+            </div>
+            <div class="nav-section">
+                <div class="nav-section-title">文档</div>
+                <div class="nav-item" data-section="changelog"><i class="fas fa-history"></i> 变更记录</div>
+                <div class="nav-item" data-section="examples"><i class="fas fa-book"></i> 常用事件</div>
+            </div>
+        </nav>
+    </aside>
+
+    <!-- 主内容区域 -->
+    <main class="main-content">
+        <!-- 顶部导航 -->
+        <header class="header">
+            <div class="header-left">
+                <button class="toggle-sidebar-btn" id="toggleSidebar" aria-label="切换侧栏">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 class="header-title"><i class="fas fa-server"></i> spdlog 日志标准</h1>
+            </div>
+            <input type="text" class="search-box" id="searchBox" placeholder="搜索内容..." aria-label="搜索">
+            <div class="header-right">
+                <button class="nav-to-cpp" id="navToCppQt" title="打开 C++/Qt 编码规范">
+                    <i class="fas fa-arrow-right"></i> C++/Qt
+                </button>
+                <button class="theme-toggle" id="themeToggle" aria-label="切换深色/浅色主题" title="切换主题">
+                    <div class="theme-toggle-icon">
+                        <i class="fas fa-moon"></i>
+                    </div>
+                </button>
+            </div>
+        </header>
+
+        <!-- 内容区域 -->
+        <div class="content-wrapper">
+            <!-- 快速开始 -->
+            <div id="intro" class="section-header">
+                <h1><i class="fas fa-rocket"></i> 快速开始</h1>
+                <p>本规范定义了所有基于 C++/Qt 项目的日志记录、治理与观测标准。使用 spdlog 框架，规范涵盖日志级别、字段设计、采样限速、敏感信息保护、轮转保留、以及 C++/Qt/Windows 平台落地指南。</p>
+            </div>
+
+            <!-- 目标与原则 -->
+            <div id="principles" class="content-card">
+                <h2><i class="fas fa-lightbulb"></i> 1. 目标与原则</h2>
+                <ul class="content-list">
+                    <li><strong>必要性优先</strong>：仅记录对定位、监控、审计或业务分析有价值的信息</li>
+                    <li><strong>结构化优先</strong>：输出 JSON 或标准键值对，便于机器解析与聚合</li>
+                    <li><strong>分级精准</strong>：不同级别面向不同受众和场景，避免滥用高级别</li>
+                    <li><strong>安全合规</strong>：不记录敏感信息；默认启用脱敏；符合公司与法规要求</li>
+                    <li><strong>上下文完整</strong>：单条日志即可关联到具体运行实例与业务对象</li>
+                </ul>
+            </div>
+
+            <!-- 日志级别 -->
+            <div id="levels" class="content-card">
+                <h2><i class="fas fa-layer-group"></i> 2. 日志级别与环境策略</h2>
+                <h3><i class="fas fa-table"></i> 2.1 级别定义</h3>
+                <table class="content-table">
+                    <thead>
+                        <tr>
+                            <th>级别</th>
+                            <th>用途</th>
+                            <th>适用场景</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>TRACE</strong></td>
+                            <td>极细颗粒诊断</td>
+                            <td>仅限本地或临时排障</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DEBUG</strong></td>
+                            <td>开发调试信息</td>
+                            <td>不影响业务理解</td>
+                        </tr>
+                        <tr>
+                            <td><strong>INFO</strong></td>
+                            <td>关键业务里程碑</td>
+                            <td>状态变更、外部交互摘要</td>
+                        </tr>
+                        <tr>
+                            <td><strong>WARN</strong></td>
+                            <td>可恢复异常</td>
+                            <td>降级、生僻但非致命情况</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ERROR</strong></td>
+                            <td>功能失败</td>
+                            <td>对结果产生影响，需人工关注</td>
+                        </tr>
+                        <tr>
+                            <td><strong>FATAL</strong></td>
+                            <td>无法继续运行</td>
+                            <td>进程需退出或立即告警</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3><i class="fas fa-cog"></i> 2.2 环境默认阈值</h3>
+                <ul class="content-list">
+                    <li><strong>Dev</strong>：DEBUG</li>
+                    <li><strong>QA</strong>：INFO</li>
+                    <li><strong>Prod</strong>：WARN</li>
+                </ul>
+
+                <h3><i class="fas fa-exclamation-circle"></i> 2.3 强制规则</h3>
+                <ul class="content-list">
+                    <li>Prod 禁用 DEBUG/TRACE（除非临时白名单且带过期时间）</li>
+                    <li>ERROR/FATAL 永不采样且必须包含错误详情</li>
+                </ul>
+            </div>
+
+            <!-- 字段词典 -->
+            <div id="schema" class="content-card">
+                <h2><i class="fas fa-database"></i> 3. 字段词典（Schema）</h2>
+                <p style="margin-bottom: 24px; color: var(--theme-text-secondary);">所有日志建议采用 JSON 单行输出，字段命名统一小驼峰。</p>
+
+                <h3><i class="fas fa-list"></i> 3.1 基础字段</h3>
+                <table class="content-table">
+                    <thead>
+                        <tr>
+                            <th>字段</th>
+                            <th>类型</th>
+                            <th>必填</th>
+                            <th>说明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>ts</code></td>
+                            <td>String</td>
+                            <td>✓</td>
+                            <td>UTC ISO8601 时间戳，例如 2025-09-22T03:10:12.345Z</td>
+                        </tr>
+                        <tr>
+                            <td><code>level</code></td>
+                            <td>String</td>
+                            <td>✓</td>
+                            <td>日志级别（TRACE/DEBUG/INFO/WARN/ERROR/FATAL）</td>
+                        </tr>
+                        <tr>
+                            <td><code>module</code></td>
+                            <td>String</td>
+                            <td>✓</td>
+                            <td>模块名（如 Device.Pressure, Workflow.Runner）</td>
+                        </tr>
+                        <tr>
+                            <td><code>event</code></td>
+                            <td>String</td>
+                            <td>✓</td>
+                            <td>事件名（动宾短语，层级用点号）</td>
+                        </tr>
+                        <tr>
+                            <td><code>app</code></td>
+                            <td>String</td>
+                            <td>✓</td>
+                            <td>应用名（TesterFramework 等）</td>
+                        </tr>
+                        <tr>
+                            <td><code>version</code></td>
+                            <td>String</td>
+                            <td>✓</td>
+                            <td>应用版本（语义化版本或构建号）</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3><i class="fas fa-link"></i> 3.2 关联与上下文字段</h3>
+                <table class="content-table">
+                    <thead>
+                        <tr>
+                            <th>字段</th>
+                            <th>类型</th>
+                            <th>说明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>traceId</code></td>
+                            <td>String</td>
+                            <td>链路追踪 ID</td>
+                        </tr>
+                        <tr>
+                            <td><code>runId</code></td>
+                            <td>String</td>
+                            <td>本次执行批次/流程 ID</td>
+                        </tr>
+                        <tr>
+                            <td><code>stationId</code></td>
+                            <td>String</td>
+                            <td>工位标识</td>
+                        </tr>
+                        <tr>
+                            <td><code>dutSn</code></td>
+                            <td>String</td>
+                            <td>DUT 序列号</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3><i class="fas fa-code"></i> 3.3 JSON 示例</h3>
+                <p style="margin: 16px 0; color: var(--theme-text-secondary);">成功示例：</p>
+
+                <pre class="code-block json">{
+  "ts": "2025-09-22T03:10:12Z",
+  "level": "INFO",
+  "module": "Print",
+  "event": "Label.Print.Start",
+  "runId": "r-20250922-001",
+  "stationId": "B01",
+  "cmd": "1 2 3",
+  "dutSn": "SN123",
+  "traceId": "c6b..."
+}</pre>
+
+                <p style="margin: 16px 0; color: var(--theme-text-secondary);">失败示例：</p>
+
+                <pre class="code-block json">{
+  "ts": "2025-09-22T03:10:15Z",
+  "level": "ERROR",
+  "module": "Print",
+  "event": "Label.Print.Failed",
+  "runId": "r-20250922-001",
+  "error": {
+    "code": "ENOENT",
+    "desc": "文件或目录不存在"
+  },
+  "dutSn": "SN123",
+  "traceId": "c6b..."
+}</pre>
+            </div>
+
+            <!-- 采样与限速 -->
+            <div id="sampling" class="content-card">
+                <h2><i class="fas fa-filter"></i> 4. 采样与限速</h2>
+                <h3><i class="fas fa-random"></i> 4.1 采样策略</h3>
+                <p style="margin: 16px 0; color: var(--theme-text-secondary);">仅针对高频成功/状态类事件，错误类事件不采样。配置示例：</p>
+
+                <pre class="code-block json">{
+  "sampling": {
+    "default": {
+      "dev": 10,
+      "qa": 50,
+      "prod": 100,
+      "key": ["module", "event", "stationId"]
+    },
+    "overrides": {
+      "Workflow.Run.Done": {"prod": 10},
+      "UI.Tab.Switch": {"qa": 20, "prod": 50}
+    }
+  }
+}</pre>
+
+                <h3><i class="fas fa-tachometer-alt"></i> 4.2 限速策略</h3>
+                <p style="margin: 16px 0; color: var(--theme-text-secondary);">使用令牌桶/滑窗算法，示例配置：同 module+event 每实例 100 条/分钟。</p>
+            </div>
+
+            <!-- 敏感信息 -->
+            <div id="sensitive" class="content-card">
+                <h2><i class="fas fa-shield"></i> 5. 敏感信息治理</h2>
+                <h3><i class="fas fa-ban"></i> 5.1 黑名单字段</h3>
+                <p style="margin: 16px 0; color: var(--theme-text-secondary);">避免记录以下敏感字段：</p>
+                <ul class="content-list">
+                    <li><strong>认证相关</strong>：password, passwd, token, secret, apiKey, privateKey</li>
+                    <li><strong>用户信息</strong>：cardNo, ftpUser, ftpPass</li>
+                    <li><strong>位置信息</strong>：精确位置信息</li>
+                </ul>
+
+                <h3><i class="fas fa-eye-slash"></i> 5.2 脱敏规则</h3>
+                <ul class="content-list">
+                    <li><strong>标识类信息</strong>：只显示后 4 位，其余以 * 替代</li>
+                    <li><strong>路径/命令</strong>：去除凭据部分（如 URL 凭据段）</li>
+                </ul>
+            </div>
+
+            <!-- 轮转策略 -->
+            <div id="rotation" class="content-card">
+                <h2><i class="fas fa-sync"></i> 6. 写入、轮转与保留策略</h2>
+                <h3><i class="fas fa-save"></i> 6.1 写入策略</h3>
+                <ul class="content-list">
+                    <li><strong>异步写入</strong>：使用 spdlog 异步 logger，固定大小队列</li>
+                    <li><strong>线程安全</strong>：跨线程共享 sink 时使用 *_mt 版本</li>
+                </ul>
+
+                <h3><i class="fas fa-rotate-right"></i> 6.2 轮转策略</h3>
+                <ul class="content-list">
+                    <li><strong>双重轮转</strong>：按大小（例：50MB）+ 按日</li>
+                    <li><strong>保留策略</strong>：Prod 建议 15~30 天</li>
+                    <li><strong>压缩归档</strong>：归档压缩为 .gz，落盘目录统一 logs/</li>
+                </ul>
+
+                <h3><i class="fas fa-clock"></i> 6.3 时钟策略</h3>
+                <ul class="content-list">
+                    <li><strong>时间记录</strong>：统一记录 UTC</li>
+                    <li><strong>时长计算</strong>：用单调时钟（避免系统时钟跳变）</li>
+                </ul>
+            </div>
+
+            <!-- C++ 实施 -->
+            <div id="implementation" class="content-card">
+                <h2><i class="fas fa-code"></i> 7. C++/Qt/spdlog 落地规范</h2>
+                <h3><i class="fas fa-cogs"></i> 7.1 CMake 配置</h3>
+
+                <pre class="code-block cpp">find_package(spdlog CONFIG REQUIRED)
+
+add_executable(app main.cpp)
+target_link_libraries(app PRIVATE spdlog::spdlog)
+
+# Release 裁剪编译期日志（仅编译到 INFO 及以上）
+target_compile_definitions(app PRIVATE SPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_INFO)</pre>
+
+                <h3><i class="fas fa-rocket"></i> 7.2 初始化模板</h3>
+
+                <pre class="code-block cpp">#include <spdlog/spdlog.h>
+#include <spdlog/sinks/stdout_color_sinks.h>
+#include <spdlog/sinks/rotating_file_sink.h>
+#include <spdlog/async.h>
+#include <filesystem>
+
+namespace logging {
+  inline void setup(const std::string& app = "app",
+                    const std::string& version = "0.0.0",
+                    const std::string& log_dir = "logs") {
+    // 线程池（队列 8192，1 个工作线程）
+    spdlog::init_thread_pool(8192, 1);
+    
+    std::filesystem::create_directories(log_dir);
+    
+    auto console = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
+    auto rotating = std::make_shared<spdlog::sinks::rotating_file_sink_mt>(
+        log_dir + "/app.log", 10 * 1024 * 1024, 5, true);
+    
+    auto dist = std::make_shared<spdlog::sinks::dist_sink_mt>();
+    dist->add_sink(console);
+    dist->add_sink(rotating);
+    
+    auto logger = std::make_shared<spdlog::async_logger>(
+        "core", dist, spdlog::thread_pool(),
+        spdlog::async_overflow_policy::overrun_oldest);
+    spdlog::set_default_logger(logger);
+    
+    spdlog::set_pattern("%Y-%m-%dT%H:%M:%S.%eZ | %^%l%$ | %t | %n | %v");
+    spdlog::set_level(spdlog::level::info);
+    spdlog::flush_on(spdlog::level::err);
+    
+    SPDLOG_INFO("app={} version={} logging initialized", app, version);
+  }
+}
+
+// 使用方式：在程序入口调用
+// logging::setup("TesterFramework", APP_VERSION);</pre>
+
+                <h3><i class="fas fa-pencil"></i> 7.3 基础宏</h3>
+
+                <pre class="code-block cpp">#define LOGT(...) SPDLOG_TRACE(__VA_ARGS__)
+#define LOGD(...) SPDLOG_DEBUG(__VA_ARGS__)
+#define LOGI(...) SPDLOG_INFO(__VA_ARGS__)
+#define LOGW(...) SPDLOG_WARN(__VA_ARGS__)
+#define LOGE(...) SPDLOG_ERROR(__VA_ARGS__)
+#define LOGF(...) SPDLOG_CRITICAL(__VA_ARGS__)</pre>
+
+                <h3><i class="fas fa-json"></i> 7.4 结构化（JSON）输出</h3>
+
+                <pre class="code-block cpp">#include <nlohmann/json.hpp>
+
+inline void log_json(spdlog::level::level_enum lvl,
+                     std::string module,
+                     std::string event,
+                     nlohmann::json fields) {
+  using nlohmann::json;
+  json j;
+  j["level"]  = spdlog::level::to_string_view(lvl);
+  j["module"] = std::move(module);
+  j["event"]  = std::move(event);
+  
+  // 合并业务字段
+  for (auto it = fields.begin(); it != fields.end(); ++it) {
+    j[it.key()] = it.value();
+  }
+  
+  SPDLOG_LOGGER_CALL(spdlog::default_logger_raw(), lvl, "{}", j.dump());
+}
+
+// 用法示例
+// log_json(spdlog::level::info, "Print", "Label.Print.Start",
+//          { {"runId","r-20250922-001"}, {"stationId","B01"} });</pre>
+            </div>
+
+            <!-- 评审清单 -->
+            <div id="review" class="content-card">
+                <h2><i class="fas fa-clipboard-check"></i> 8. 评审清单（PR Gate）</h2>
+                <table class="content-table">
+                    <thead>
+                        <tr>
+                            <th>检查项</th>
+                            <th>要求</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>级别</strong></td>
+                            <td>是否合理使用 INFO/WARN/ERROR，Prod 是否可能产生高频 DEBUG</td>
+                        </tr>
+                        <tr>
+                            <td><strong>字段</strong></td>
+                            <td>是否包含 runId/traceId/stationId/dutSn 等必要上下文</td>
+                        </tr>
+                        <tr>
+                            <td><strong>敏感</strong></td>
+                            <td>是否可能输出敏感信息，脱敏是否到位</td>
+                        </tr>
+                        <tr>
+                            <td><strong>结构</strong></td>
+                            <td>是否为 JSON 单行，可被解析</td>
+                        </tr>
+                        <tr>
+                            <td><strong>性能</strong></td>
+                            <td>是否考虑采样/限速；是否使用统一封装</td>
+                        </tr>
+                        <tr>
+                            <td><strong>运维</strong></td>
+                            <td>日志量是否可控；轮转/保留是否遵循标准</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 变更记录 -->
+            <div id="changelog" class="content-card">
+                <h2><i class="fas fa-history"></i> 变更记录</h2>
+                <table class="content-table">
+                    <thead>
+                        <tr>
+                            <th>版本</th>
+                            <th>日期</th>
+                            <th>变更内容</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>v1.1</strong></td>
+                            <td>2025-09-26</td>
+                            <td>引入官方 Wiki 推荐实践：UTC 输出、采样配置示例、目录创建与评审清单</td>
+                        </tr>
+                        <tr>
+                            <td><strong>v1.0</strong></td>
+                            <td>2025-09-22</td>
+                            <td>初版，覆盖等级/字段/采样/脱敏/轮转与 spdlog 落地建议</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 常用事件 -->
+            <div id="examples" class="content-card">
+                <h2><i class="fas fa-book"></i> 10. 常用事件命名建议</h2>
+                <table class="content-table">
+                    <thead>
+                        <tr>
+                            <th>模块</th>
+                            <th>事件命名</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Workflow</strong></td>
+                            <td>Workflow.Load.Start/Done/Failed, Workflow.Run.Start/Done/Failed</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Device</strong></td>
+                            <td>Device.Conn.Open/Closed/Failed, Device.Cmd.Send/Recv/Timeout</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Measurement</strong></td>
+                            <td>Meas.Temp.Read, Meas.Press.Read, OutOfRange</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Recipe</strong></td>
+                            <td>Recipe.Open/Save/Apply/Invalid</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MES</strong></td>
+                            <td>MES.Upload.Start/Done/Failed/Retry</td>
+                        </tr>
+                        <tr>
+                            <td><strong>UI</strong></td>
+                            <td>UI.Tab.Switch, Crash.Prevented</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // ==================== DOM 选择器 ====================
+        const html = document.documentElement;
+        const sidebar = document.getElementById('sidebar');
+        const toggleSidebar = document.getElementById('toggleSidebar');
+        const themeToggle = document.getElementById('themeToggle');
+        const navItems = document.querySelectorAll('.nav-item');
+        const searchBox = document.getElementById('searchBox');
+        const navToCppQt = document.getElementById('navToCppQt');
+
+        // ==================== 侧栏切换 ====================
+        toggleSidebar.addEventListener('click', () => {
+            sidebar.classList.toggle('hidden');
+        });
+
+        // ==================== 导航切换 ====================
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                navItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+                const sectionId = item.getAttribute('data-section');
+                const section = document.getElementById(sectionId);
+                if (section) {
+                    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    setTimeout(() => sidebar.classList.add('hidden'), 300);
+                }
+            });
+        });
+
+        // ==================== 打开 C++/Qt 规范 ====================
+        navToCppQt.addEventListener('click', () => {
+            window.open('cpp-qt-coding-standard-new.html', '_blank');
+        });
+
+        // ==================== 搜索功能 ====================
+        searchBox.addEventListener('keyup', (e) => {
+            const keyword = e.target.value.toLowerCase();
+            if (!keyword) return;
+            
+            const cards = document.querySelectorAll('.content-card, .section-header');
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                if (text.includes(keyword)) {
+                    card.style.opacity = '1';
+                } else {
+                    card.style.opacity = '0.3';
+                }
+            });
+        });
+
+        searchBox.addEventListener('blur', () => {
+            document.querySelectorAll('.content-card, .section-header').forEach(card => {
+                card.style.opacity = '1';
+            });
+        });
+
+        // ==================== 主题切换 ====================
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            if (savedTheme === 'dark' || (savedTheme === null && prefersDark)) {
+                html.classList.add('dark-mode');
+            }
+            
+            updateThemeToggleIcon(html.classList.contains('dark-mode'));
+        }
+
+        function updateThemeToggleIcon(isDark) {
+            const icon = themeToggle.querySelector('i');
+            if (isDark) {
+                icon.className = 'fas fa-sun';
+            } else {
+                icon.className = 'fas fa-moon';
+            }
+        }
+        
+        // 切换主题
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark-mode');
+            const isDarkMode = html.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+            updateThemeToggleIcon(isDarkMode);
+        });
+
+        // 页面加载时初始化主题
+        initTheme();
+
+        // ==================== 代码块处理 ====================
+        function initializeCodeBlocks() {
+            document.querySelectorAll('.code-block').forEach((block, index) => {
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'code-copy-btn';
+                copyBtn.innerHTML = '<i class="fas fa-copy"></i> 复制';
+                copyBtn.setAttribute('aria-label', '复制代码');
+                copyBtn.style.cssText = `
+                    position: absolute;
+                    top: 10px;
+                    right: 50px;
+                    background: #667eea;
+                    color: white;
+                    border: none;
+                    padding: 6px 12px;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    font-size: 0.8em;
+                    transition: all 0.3s ease;
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+                    z-index: 5;
+                `;
+                
+                copyBtn.addEventListener('click', () => {
+                    const code = block.textContent;
+                    navigator.clipboard.writeText(code).then(() => {
+                        copyBtn.style.background = '#51cf66';
+                        copyBtn.innerHTML = '<i class="fas fa-check"></i> 已复制';
+                        
+                        setTimeout(() => {
+                            copyBtn.style.background = '#667eea';
+                            copyBtn.innerHTML = '<i class="fas fa-copy"></i> 复制';
+                        }, 2000);
+                    }).catch(err => {
+                        console.error('复制失败:', err);
+                    });
+                });
+                
+                block.style.position = 'relative';
+                block.appendChild(copyBtn);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', initializeCodeBlocks);
+
+        console.log('📚 spdlog 日志标准 v1.1 加载完成');
+        console.log('✨ 功能：搜索、导航、代码复制已启用');
+    </script>
+</body>
+</html>

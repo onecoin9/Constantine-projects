@@ -483,6 +483,36 @@
             background: rgba(255, 255, 255, 0.2);
         }
 
+        /* ========== 打开 spdlog 按钮 ========== */
+        .nav-to-spdlog {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 0.95em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .nav-to-spdlog:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .nav-to-spdlog:active {
+            transform: translateY(0);
+        }
+
+        .nav-to-spdlog i {
+            font-size: 1.1em;
+        }
+
         /* ========== 主题切换按钮 ========== */
         .theme-toggle {
             background: none;
@@ -1102,11 +1132,16 @@
                 <h1 class="header-title"><i class="fas fa-code"></i> C++/Qt 编码规范</h1>
             </div>
             <input type="text" class="search-box" id="searchBox" placeholder="搜索内容..." aria-label="搜索">
-            <button class="theme-toggle" id="themeToggle" aria-label="切换深色/浅色主题" title="切换主题">
-                <div class="theme-toggle-icon">
-                    <i class="fas fa-moon"></i>
-                </div>
-            </button>
+            <div class="header-right" style="display: flex; align-items: center; gap: 12px;">
+                <button class="nav-to-spdlog" id="navToSpdlog" title="打开 spdlog 日志标准">
+                    <i class="fas fa-arrow-right"></i> spdlog
+                </button>
+                <button class="theme-toggle" id="themeToggle" aria-label="切换深色/浅色主题" title="切换主题">
+                    <div class="theme-toggle-icon">
+                        <i class="fas fa-moon"></i>
+                    </div>
+                </button>
+            </div>
         </header>
 
         <!-- 内容区域 -->
@@ -3151,9 +3186,7 @@ delete sensor;  // 不安全！
             <!-- 底部信息 -->
             <div class="content-card" style="text-align: center; background: var(--primary-light);">
                 <p style="color: #666; font-size: 0.95em;">
-                    <strong>版本：</strong> v1.0 | 
-                    <strong>最后更新：</strong> 2025-09-26 | 
-                    <strong>维护团队：</strong> Winnie 
+                    <strong>版本：</strong> v1.0
                 </p>
                 <p style="margin-top: 12px; color: #999; font-size: 0.9em;">
                     本规范遵循华为 C 语言编程规范等业界优秀实践，结合 Qt/C++17 特性改写。
@@ -3311,6 +3344,14 @@ delete sensor;  // 不安全！
             localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
             updateThemeToggleIcon(isDarkMode);
         });
+
+        // ==================== 打开 spdlog 文档 ====================
+        const navToSpdlog = document.getElementById('navToSpdlog');
+        if (navToSpdlog) {
+            navToSpdlog.addEventListener('click', () => {
+                window.open('spdlog-logging-standard-new.html', '_blank');
+            });
+        }
         
         // 监听系统主题变更
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
