@@ -94,8 +94,7 @@ def rand_temp_bytes() -> bytes:
         temps.append(c)
         arr += struct.pack('<H', raw)
     
-    # 显示生成的温度值
-    print(f"  生成的16站温度: {[f'{t:.1f}℃' for t in temps]}")
+    # 只有在需要时才显示生成的温度值（通过全局变量控制）
     return bytes(arr)
 
 def rand_speed_bytes() -> bytes:
@@ -140,12 +139,14 @@ def rand_pogo_pin_bytes() -> bytes:
         arr += struct.pack('<H', val)
     return bytes(arr)
 
-def process(cmd_id: int, cmd_data: bytes, zone_id: int = 1) -> bytes:
+def process(cmd_id: int, cmd_data: bytes, zone_id: int = 1, show_parsed_data: bool = True) -> bytes:
     """处理命令，支持多温区"""
     zone_state = zone_states.get(zone_id, zone_states[1])
     
     if cmd_id == 0x01:               # 查询温度
         data = b'\x01' + rand_temp_bytes()
+        if show_parsed_data:
+            print(f"[Zone {zone_id}] 生成随机温度数据用于查询响应")
         return build_pkt(cmd_id, data)
 
     elif cmd_id == 0x02:             # 查询转速
@@ -159,16 +160,19 @@ def process(cmd_id: int, cmd_data: bytes, zone_id: int = 1) -> bytes:
             # 更新第一个通道的目标温度
             if len(zone_state["target_temps"]) > 0:
                 zone_state["target_temps"][0] = temp_celsius
-            print(f"[Zone {zone_id}] 收到设置温度指令: {temp_celsius:.1f}℃ (原始值: {temp_raw})")
+            if show_parsed_data:
+                print(f"[Zone {zone_id}] 收到设置温度指令: {temp_celsius:.1f}℃ (原始值: {temp_raw})")
         elif cmd_id == 0x04 and len(cmd_data) >= 2:  # 设置转速
             speed_raw = struct.unpack('<H', cmd_data[:2])[0]
             if len(zone_state["fan_speeds"]) > 0:
                 zone_state["fan_speeds"][0] = speed_raw
-            print(f"[Zone {zone_id}] 收到设置转速指令: {speed_raw} RPM")
+            if show_parsed_data:
+                print(f"[Zone {zone_id}] 收到设置转速指令: {speed_raw} RPM")
         elif cmd_id == 0x05 and len(cmd_data) >= 1:  # 启停控制
             enable_state = cmd_data[0]
             zone_state["enabled"] = bool(enable_state)
-            print(f"[Zone {zone_id}] 收到启停控制指令: {'启动' if enable_state else '停止'}")
+            if show_parsed_data:
+                print(f"[Zone {zone_id}] 收到启停控制指令: {'启动' if enable_state else '停止'}")
         return build_pkt(cmd_id, b'\x01')   # 1=成功
 
     elif cmd_id == 0x06:             # 设置 PID
@@ -193,8 +197,9 @@ def process(cmd_id: int, cmd_data: bytes, zone_id: int = 1) -> bytes:
                 if i < len(zone_state["target_temps"]):
                     zone_state["target_temps"][i] = temps[i]
             # 显示设置的温度值
-            temp_str = ", ".join([f"站点{i+1}:{t:.1f}℃" for i, t in enumerate(temps)])
-            print(f"[Zone {zone_id}] 设置16站目标温度: {temp_str}")
+            if show_parsed_data:
+                temp_str = ", ".join([f"站点{i+1}:{t:.1f}℃" for i, t in enumerate(temps)])
+                print(f"[Zone {zone_id}] 设置16站目标温度: {temp_str}")
         return build_pkt(cmd_id, b'\x01')
 
     elif cmd_id == 0x0C:             # 查询 16 站当前温度
@@ -304,7 +309,7 @@ def recv_exact(conn, length):
         data += chunk
     return data
 
-def handle_client(conn, addr, zone_id: int = 1):
+def handle_client(conn, addr, zone_id: int = 1, show_parsed_data: bool = True):
     zone_config = ZONE_CONFIGS.get(zone_id, ZONE_CONFIGS[1])
     print(f'client {addr} connected to {zone_config["name"]} (Zone {zone_id})')
     try:
@@ -347,13 +352,13 @@ def handle_client(conn, addr, zone_id: int = 1):
             print(f"[Zone {zone_id}] 收到数据: {full_packet.hex()}")
 
             # 处理命令并生成响应
-            rsp = process(cmd_id, payload, zone_id)
+            rsp = process(cmd_id, payload, zone_id, show_parsed_data)
             
             # 打印回复的数据与命令描述
             print(f"[Zone {zone_id}] 回复数据 ({cmd_desc}响应): {rsp.hex()}")
             
             # 如果是查询温度命令，解析并显示温度值
-            if cmd_id == 0x01 and len(rsp) >= 42:  # 协议头8字节 + 状态1字节 + 温度32字节 + CRC1字节
+            if show_parsed_data and cmd_id == 0x01 and len(rsp) >= 42:  # 协议头8字节 + 状态1字节 + 温度32字节 + CRC1字节
                 temp_data = rsp[9:41]  # 提取温度数据部分 (16站 * 2字节 = 32字节)
                 temperatures = parse_temperature_data(temp_data)
                 temp_str = ", ".join([f"站点{i+1}:{t:.1f}℃" for i, t in enumerate(temperatures)])
@@ -370,7 +375,7 @@ def handle_client(conn, addr, zone_id: int = 1):
         conn.close()
         print(f'[Zone {zone_id}] client {addr} closed')
 
-def start_zone_server(zone_id: int):
+def start_zone_server(zone_id: int, show_parsed_data: bool = True):
     """启动单个温区的TCP服务器"""
     zone_config = ZONE_CONFIGS[zone_id]
     port = zone_config["port"]
@@ -384,11 +389,11 @@ def start_zone_server(zone_id: int):
         while True:
             try:
                 c, a = s.accept()
-                threading.Thread(target=handle_client, args=(c, a, zone_id), daemon=True).start()
+                threading.Thread(target=handle_client, args=(c, a, zone_id, show_parsed_data), daemon=True).start()
             except Exception as e:
                 print(f'[Zone {zone_id}] Accept error:', e)
 
-def main(port: int = None):
+def main(port: int = None, show_parsed_data: bool = True):
     """主函数：启动所有温区服务器或单个服务器"""
     if port is not None:
         # 兼容模式：单端口服务器
@@ -399,10 +404,14 @@ def main(port: int = None):
             print(f'Temp-Ctrl mock server listening on 127.0.0.1:{port}')
             while True:
                 c, a = s.accept()
-                threading.Thread(target=handle_client, args=(c, a, 1), daemon=True).start()
+                threading.Thread(target=handle_client, args=(c, a, 1, show_parsed_data), daemon=True).start()
     else:
         # 多温区模式：为每个温区启动独立的服务器
         print("Starting multi-zone temperature control servers...")
+        if show_parsed_data:
+            print("数据解析显示: 启用")
+        else:
+            print("数据解析显示: 禁用")
         print("Zone configurations:")
         for zone_id, config in ZONE_CONFIGS.items():
             print(f"  Zone {zone_id}: {config['name']} on port {config['port']}")
@@ -410,7 +419,7 @@ def main(port: int = None):
         # 为每个温区创建独立的服务器线程
         server_threads = []
         for zone_id in ZONE_CONFIGS.keys():
-            thread = threading.Thread(target=start_zone_server, args=(zone_id,), daemon=True)
+            thread = threading.Thread(target=start_zone_server, args=(zone_id, show_parsed_data), daemon=True)
             thread.start()
             server_threads.append(thread)
         
@@ -426,9 +435,12 @@ def main(port: int = None):
 if __name__ == '__main__':
     ap = argparse.ArgumentParser(description='Temperature Controller Mock Server')
     ap.add_argument('-p', '--port', type=int, default=None, help='listen port (default: multi-zone mode)')
+    ap.add_argument('--no-parse', action='store_true', help='disable parsed data display (only show raw hex data)')
     args = ap.parse_args()
     
+    show_parsed_data = not args.no_parse  # 默认显示解析数据，除非使用 --no-parse
+    
     if args.port:
-        main(args.port)
+        main(args.port, show_parsed_data)
     else:
-        main()
+        main(show_parsed_data=show_parsed_data)

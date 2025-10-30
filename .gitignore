@@ -39,6 +39,7 @@ logs/
 # OS files
 .DS_Store
 Thumbs.db
+*.lnk
 
 # Project archives/history
 history/
