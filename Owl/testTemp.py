@@ -156,7 +156,7 @@ def process(cmd_id: int, cmd_data: bytes, zone_id: int = 1, show_parsed_data: bo
     elif cmd_id in (0x03, 0x04, 0x05):  # 设温 / 设转速 / 启停
         if cmd_id == 0x03 and len(cmd_data) >= 2:  # 设置温度
             temp_raw = struct.unpack('<H', cmd_data[:2])[0]
-            temp_celsius = (temp_raw - 400) / 10.0  # 协议公式转换
+            temp_celsius = (temp_raw - 2000) / 10.0  # 协议公式转换: (原始值 - 2000) / 10
             # 更新第一个通道的目标温度
             if len(zone_state["target_temps"]) > 0:
                 zone_state["target_temps"][0] = temp_celsius
@@ -190,7 +190,7 @@ def process(cmd_id: int, cmd_data: bytes, zone_id: int = 1, show_parsed_data: bo
             temps = []
             for i in range(16):
                 temp_raw = struct.unpack('<H', cmd_data[i*2:(i+1)*2])[0]
-                temp_celsius = (temp_raw - 400) / 10.0  # 协议公式转换
+                temp_celsius = (temp_raw - 2000) / 10.0  # 协议公式转换
                 temps.append(temp_celsius)
             # 更新前9个通道的目标温度（对应当前温区）
             for i in range(min(9, len(temps))):
