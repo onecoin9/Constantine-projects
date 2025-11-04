@@ -25,13 +25,13 @@ import threading
 FTP_SERVERS = [
     {
         "host": "127.0.0.1",
-        "port": 21,
+        "port": 2001,
         "directory": r"D:\testFtp1",
         "name": "FTP服务器1"
     },
     {
         "host": "127.0.0.2",
-        "port": 22,
+        "port": 2001,
         "directory": r"D:\testFtp2",
         "name": "FTP服务器2"
     }
