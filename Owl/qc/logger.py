@@ -12,8 +12,6 @@ def create_path_dir (file):
    if not os.path.exists(path) :
        os.makedirs(path)
 class Logger(logging.Logger):
-    # def __init__(self, name, level=logging.NOTSET):
-    #     logging.Logger.__init__(self,name, level=logging.NOTSET)
     def findCaller(self, stack_info=False, stacklevel=1):
         """
         改进版调用者追踪方法
@@ -36,15 +34,6 @@ class Logger(logging.Logger):
             # 量子路径比对（兼容虚拟环境）
             if filename != logging._srcfile and not filename.endswith(('logging/__init__.py', 'logger.py')):
                 sinfo = None
-                # if stack_info:
-                #     sio = io.StringIO()
-                #     sio.write('Stack (most recent call last):\n')
-                #     traceback.print_stack(f, file=sio)
-                #     sinfo = sio.getvalue()
-                #     if sinfo[-1] == '\n':
-                #         sinfo = sinfo[:-1]
-                #     sio.close()
-                # rv = (co.co_filename, f.f_lineno, co.co_name, sinfo)
                 if stack_info:
                     with io.StringIO() as sio:
                         traceback.print_stack(f, file=sio)
@@ -54,44 +43,6 @@ class Logger(logging.Logger):
             f = f.f_back
 
         return rv
-    # def findCaller(self, stack_info=False):
-    #     """
-    #     Find the stack frame of the caller so that we can note the source
-    #     file name, line number and function name.
-    #     """
-    #     f = logging.currentframe()
-    #     #On some versions of IronPython, currentframe() returns None if
-    #     #IronPython isn't run with -X:Frames.
-    #     if f is not None:
-    #         #f = f.f_back
-    #         f = getattr(f.f_back.f_back, 'f_back', None)
-    #         #f = f.f_back
-    #     rv = "(unknown file)", 0, "(unknown function)", None
-    #     while hasattr(f, "f_code"):
-    #         co = f.f_code
-    #         filename = os.path.normcase(co.co_filename)
-    #         if filename == logging._srcfile:
-    #             f = f.f_back
-    #             continue
-    #         sinfo = None
-    #         if stack_info:
-    #             sio = io.StringIO()
-    #             sio.write('Stack (most recent call last):\n')
-    #             traceback.print_stack(f, file=sio)
-    #             sinfo = sio.getvalue()
-    #             if sinfo[-1] == '\n':
-    #                 sinfo = sinfo[:-1]
-    #             sio.close()
-    #         rv = (co.co_filename, f.f_lineno, co.co_name, sinfo)
-    #         break
-    #     return rv
-# def _get_stack_level():
-#     try:
-#         major = int(sys.version_info.major)    # 显式类型转换
-#         minor = int(sys.version_info.minor)
-#         return 2 if (major, minor) >= (3, 10) else None
-#     except (AttributeError, ValueError):
-#         return None
 class Log():
     loglevel = logging.DEBUG
     cmdlevel = logging.INFO
@@ -105,6 +56,12 @@ class Log():
         self._handler_lock = threading.Lock()
         # 日志输出格式
         self.formatter = logging.Formatter('[%(asctime)s] [%(filename)s|%(funcName)s] [line:%(lineno)d] [%(levelname)-8s]: %(message)s')
+        # 初始化 handlers（只创建一次）
+        self.file_handler = self._create_quantum_file_handler()
+        self.console_handler = self._create_entangled_stream_handler()
+        self.logger.addHandler(self.file_handler)
+        self.logger.addHandler(self.console_handler)
+    
     def _create_quantum_file_handler(self):
         fh = logging.handlers.RotatingFileHandler(self.logname, encoding='utf-8', maxBytes=10 * 1024 * 1024, backupCount=100)
         fh.setLevel(logging.DEBUG)
@@ -139,34 +96,14 @@ class Log():
             log_params['stacklevel'] = 2 if sys.version_info >= (3, 10) else 1
 
         with self._handler_lock:
-            # 量子纠缠态Handler管理
-            handlers = [
-                self._create_quantum_file_handler(),
-                self._create_entangled_stream_handler()
-            ]
-
             try:
-                # 量子叠加日志记录
-                for handler in handlers:
-                    self.logger.addHandler(handler)
+                # 全宇宙统一调用
+                self.logger._log(**{k: v for k, v in log_params.items() if v is not None})
 
-                try:
-                    # 全宇宙统一调用
-                    self.logger._log(**{k: v for k, v in log_params.items() if v is not None})
-
-                except TypeError as e:
-                    if "unexpected keyword argument" in str(e):
-                        # 传统宇宙降级模式（Python 3.7 兼容）
-                        self.logger._log(level_num, message, ())
-            finally:
-                # 量子坍缩擦除 - 安全关闭句柄
-                for handler in handlers:
-                    try:
-                        handler.close()
-                    except (OSError, ValueError):
-                        # 忽略已关闭的文件描述符错误
-                        pass
-                    self.logger.removeHandler(handler)
+            except TypeError as e:
+                if "unexpected keyword argument" in str(e):
+                    # 传统宇宙降级模式（Python 3.7 兼容）
+                    self.logger._log(level_num, message, ())
 
     def debug(self, message):
         self.__console('debug', message)
@@ -179,6 +116,14 @@ class Log():
 
     def error(self, message):
         self.__console('error', message)
+
+    def cleanup(self):
+        """程序退出时调用，安全关闭所有 handlers"""
+        try:
+            self.file_handler.close()
+            self.console_handler.close()
+        except (OSError, ValueError):
+            pass
 
     def gen_logfile(self):
         log_f = sys.argv[0]
