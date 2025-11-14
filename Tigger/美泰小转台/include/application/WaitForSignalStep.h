@@ -32,6 +32,10 @@ class WaitForSignalStep : public IWorkflowStep {
 public:
     WaitForSignalStep(const QJsonObject &config, QObject *parent = nullptr);
     ~WaitForSignalStep() override;
+    
+    // 禁用拷贝构造和赋值操作，防止浅拷贝问题
+    WaitForSignalStep(const WaitForSignalStep&) = delete;
+    WaitForSignalStep& operator=(const WaitForSignalStep&) = delete;
 
     bool execute(std::shared_ptr<WorkflowContext> context) override;
     QString getName() const override;

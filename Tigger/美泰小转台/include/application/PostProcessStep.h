@@ -10,6 +10,10 @@ class WorkflowContext;
 
 class PostProcessStep : public IWorkflowStep
 {
+public:
+    // 禁用拷贝构造和赋值操作，防止浅拷贝问题
+    PostProcessStep(const PostProcessStep&) = delete;
+    PostProcessStep& operator=(const PostProcessStep&) = delete;
     Q_OBJECT
 
 public:

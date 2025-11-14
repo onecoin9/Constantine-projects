@@ -9,6 +9,8 @@
 #include "xt_trim_param.h"
 #include <QMap>
 #include <functional>
+#include <QSemaphore>
+#include <QMutex>
 
 /**
  * Ag06DoCustomProtocol
@@ -31,10 +33,12 @@ public:
 
 public slots:
     // 统一对外接口
-    void executeCommand(const QJsonObject& params);
+    bool executeCommand(const QJsonObject& params);
 
     // 原有接口保留
-    void sendUid(const QString& ip, quint32 sktEn);
+    bool sendUid(const QString& ip, quint32 sktEn);
+    bool getUid(const QString& ip, quint32 sktEn);
+
     void sendTrimFromJson(const QString& trimJsonText, const QString& ip, quint32 sktEn);
     void sendTrim(const xt_trim_t& trim, const QString& ip, quint32 sktEn);
     void onNotification(const QString& method, const QJsonObject& params);
@@ -47,8 +51,12 @@ signals:
     void logUploaded(const QString& uid, const QString& content);
 
 private:
+
+    QMap<QString, QMutex*> doCustomMutex;
+    QMap<QString, QSemaphore*> m_doCustomSemaphore;
+
     QPointer<JsonRpcClient> m_client;
-    using CommandCallback = std::function<void(const QJsonObject&)>;
+    using CommandCallback = std::function<bool(const QJsonObject&)>;
     QMap<QString, CommandCallback> m_commandCallbacks;
     
     void registerCallbacks();
@@ -63,10 +71,14 @@ private:
 
     // 解析
     bool tryExtractBinaryFromParams(const QJsonObject& params, QByteArray& outBinary) const;
-    void parseIncomingPacket(const QByteArray& packet);
+    void parseIncomingPacket(const QJsonObject& params, const QByteArray& packet);
 
     // JSON -> 结构体
     bool parseTrimFromJsonObject(const QJsonObject& obj, xt_trim_t& out) const;
+
+
+    // 该类在仅在docustom时调用，为工作流线程中的局部变量
+    QString mDevIp;
 };
 
 #endif // AG06_DOCUSTOM_PROTOCOL_H

@@ -21,6 +21,9 @@ namespace Application {
  */
 class ParseJsonFileStep : public IWorkflowStep {
 public:
+    // 禁用拷贝构造和赋值操作，防止浅拷贝问题
+    ParseJsonFileStep(const ParseJsonFileStep&) = delete;
+    ParseJsonFileStep& operator=(const ParseJsonFileStep&) = delete;
     ParseJsonFileStep(const QJsonObject &config, QObject *parent = nullptr);
     ~ParseJsonFileStep() override;
 

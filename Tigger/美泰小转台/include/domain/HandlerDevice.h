@@ -114,6 +114,7 @@ signals:
     
     // 产品信息信号
     void productInfoReceived(const QJsonArray& rotateInfo);
+    void scanInfoReceived(const QByteArray& enableData);
 
 private slots:
     // 处理来自S协议的信号

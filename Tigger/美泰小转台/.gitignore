@@ -134,6 +134,10 @@ exe/*.exe
 ehthumbs.db
 Thumbs.db
 
+# 图片和文档文件（二进制文件不应提交到 git）
+*.bmp
+*.rtf
+
 # 项目特定忽略
 # 如果某些配置文件包含敏感信息，可以在这里添加
 # config/production.json

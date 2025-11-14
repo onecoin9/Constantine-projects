@@ -10,6 +10,10 @@ namespace Application {
 class SubWorkflowStep : public IWorkflowStep {
     Q_OBJECT
 public:
+    // 禁用拷贝构造和赋值操作，防止浅拷贝问题
+    SubWorkflowStep(const SubWorkflowStep&) = delete;
+    SubWorkflowStep& operator=(const SubWorkflowStep&) = delete;
+public:
     explicit SubWorkflowStep(const QJsonObject &config, QObject *parent = nullptr);
     ~SubWorkflowStep() override;
 

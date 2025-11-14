@@ -59,6 +59,7 @@ private:
     std::shared_ptr<Domain::IDevice> createHandlerDevice(const QJsonObject &config);
     std::shared_ptr<Domain::IDevice> createAsyncProcessDevice(const QJsonObject &config, Domain::AsyncProcessDevice::ProcessType type);
     std::shared_ptr<Domain::IDevice> createBurnDevice(const QJsonObject& config);
+    std::shared_ptr<Domain::IDevice> createMesDevice(const QJsonObject& config);
     
     QMap<QString, std::shared_ptr<Domain::IDevice>> m_devices;
     DutManager* m_dutManager = nullptr;  // 修改为指针类型

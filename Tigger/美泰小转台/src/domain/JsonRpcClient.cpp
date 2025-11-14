@@ -215,7 +215,7 @@ void JsonRpcClient::processReceivedData()
 void JsonRpcClient::processJsonRpcMessage(const QJsonObject& message)
 {
     LOG_MODULE_DEBUG("JsonRpcClient", QString("收到服务器消息: %1").arg(QString::fromUtf8(QJsonDocument(message).toJson(QJsonDocument::Compact))).toStdString());
-    
+
     // 检查是否是通知消息（没有ID的消息）
     if (!message.contains("id")) {
         // 这是一个通知

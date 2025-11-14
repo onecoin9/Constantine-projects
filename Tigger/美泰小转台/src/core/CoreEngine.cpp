@@ -454,6 +454,8 @@ void CoreEngine::connectAllDeviceSignals()
                 LOG_MODULE_INFO("CoreEngine", QString("Test result for site %1: %2")
                                .arg(siteIndex).arg(hasSuccess ? "SUCCESS" : "FAIL").toStdString());
             });
+            connect(handler.get(), &Domain::HandlerDevice::scanInfoReceived, this, &CoreEngine::onHandlerScanInfo);
+
         } else if (auto testBoard = std::dynamic_pointer_cast<Domain::TestBoardDevice>(device)) {
             LOG_MODULE_INFO("CoreEngine", QString("Connecting to TestBoardDevice '%1' signals...").arg(deviceId).toStdString());
             // 断开旧连接，防止重复
@@ -491,6 +493,61 @@ void CoreEngine::connectAllDeviceSignals()
                     });
         }
     }
+}
+
+
+void CoreEngine::onHandlerScanInfo(const QByteArray& codeInfoByteArray) {
+
+    LOG_MODULE_INFO("CoreEngine", QString("Event from Handler: scan IC info: %1")
+        .arg(codeInfoByteArray.constData()).toStdString());
+
+
+    QtConcurrent::run([this, codeInfoByteArray]() {
+        // 使用路由器决定启动工作流（可选功能）
+        auto routeOpt = Services::SiteWorkflowRouter::instance().match("SCANSORTING");
+        if (!routeOpt) {
+            LOG_MODULE_INFO("CoreEngine", QString("No workflow route matched for SCANSORTING(using direct workflow control)").toStdString());
+            return; // 路由失败不影响信号发射，工作流通过WaitForSignalStep直接控制
+        }
+        // 保存codeInfoByteArray
+        auto context = std::make_shared<Application::WorkflowContext>();
+        context->setData("icCodeInfo", codeInfoByteArray);
+
+        LOG_MODULE_INFO("CoreEngine", QString("Starting route-based workflow SCANSORTING").toStdString());
+        QString workflowToStart = routeOpt->workflow;
+
+        if (!m_workflowManager->getLoadedWorkflows().contains(workflowToStart)) {
+            QFile file(workflowToStart);
+            if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+                LOG_MODULE_INFO("CoreEngine", QString("无法打开工作流文件: %1").arg(workflowToStart).toStdString());
+                return;
+            }
+
+            QJsonDocument doc = QJsonDocument::fromJson(file.readAll());
+            file.close();
+
+            if (doc.isNull() || !doc.isObject()) {
+                LOG_MODULE_INFO("CoreEngine", QString("工作流文件格式错误: %1").arg(workflowToStart).toStdString());
+                return;
+            }
+
+            if (!m_workflowManager->loadWorkflow(workflowToStart, doc.object())) {
+                LOG_MODULE_INFO("CoreEngine", QString("加载工作流模板失败: %1").arg(workflowToStart).toStdString());
+                return;
+            }
+        }
+
+
+        QString instanceId = m_workflowManager->startWorkflow(workflowToStart, context);
+        if (instanceId.isEmpty()) {
+            LOG_MODULE_ERROR("CoreEngine", QString("Failed to start workflow for SCANSORTING.").toStdString());
+        }
+        else {
+            LOG_MODULE_INFO("CoreEngine", QString("Route-based workflow instance '%1' started.").arg(instanceId).toStdString());
+        }
+        });
+
+
 }
 
 void CoreEngine::onHandlerChipPlaced(int siteIndex, uint32_t slotEn, const QString& siteSn)

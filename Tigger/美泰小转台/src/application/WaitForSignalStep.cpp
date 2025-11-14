@@ -467,10 +467,10 @@ bool WaitForSignalStep::execute(std::shared_ptr<WorkflowContext> context)
         conn = connect(g_coreEngine.get(), &Core::CoreEngine::doJobCompleted,
             this, [this, condition, context](const QJsonObject& result) {
                 QString strIp = result.value("strIp").toString();
-                LOG_MODULE_INFO("WaitForSignalStep", QString("doJobCompleted result json:%1, siteIp:%2").arg(QString(QJsonDocument(result).toJson(QJsonDocument::Compact))).arg(context->getData("siteIp").toString()).toStdString());
                 if (strIp == context->getData("siteIp").toString()) {
                     QMutexLocker locker(m_mutex);
                     if (!m_signalReceived) {
+                        LOG_MODULE_INFO("WaitForSignalStep", QString("doJobCompleted result json:%1, siteIp:%2").arg(QString(QJsonDocument(result).toJson(QJsonDocument::Compact))).arg(context->getData("siteIp").toString()).toStdString());
                         m_success = true;
                         QString storeResultIn = m_config["config"].toObject().value("storeResultIn").toString();
                         if(!storeResultIn.isEmpty()){

@@ -19,6 +19,10 @@ namespace Application {
  */
 class GlobalConfigStep : public IWorkflowStep
 {
+public:
+    // 禁用拷贝构造和赋值操作，防止浅拷贝问题
+    GlobalConfigStep(const GlobalConfigStep&) = delete;
+    GlobalConfigStep& operator=(const GlobalConfigStep&) = delete;
     Q_OBJECT
 
 public:

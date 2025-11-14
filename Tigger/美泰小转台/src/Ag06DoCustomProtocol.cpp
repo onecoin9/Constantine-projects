@@ -1,6 +1,7 @@
 #include "Ag06DoCustomProtocol.h"
 #include "DutManager.h"
 #include "mtuidgenerator.h"
+#include "core/Logger.h"
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QDataStream>
@@ -8,8 +9,12 @@
 #include <cstring>
 #include <QMap>
 #include <functional>
-
+#include <QEventLoop>
+#include <QCoreApplication>
+#include <QThread>
+#include <QtMath>
 static constexpr quint8 CMD_ID_UID = 0x10;
+static constexpr quint8 CMD_ID_GETUID = 0x11;
 static constexpr quint8 CMD_ID_TRIM = 0x11;
 static constexpr quint8 CMD_ID_LOG_UPLOAD = 0x12;
 
@@ -32,7 +37,7 @@ void Ag06DoCustomProtocol::setClient(JsonRpcClient* client)
     }
 }
 
-void Ag06DoCustomProtocol::sendUid(const QString& ip, quint32 sktEn)
+bool Ag06DoCustomProtocol::sendUid(const QString& ip, quint32 sktEn)
 {
     // 遍历sktEn比特位，如果为1，则发送uid
     for (int i = 0; i < sizeof(sktEn) * 8; i++) {
@@ -45,6 +50,70 @@ void Ag06DoCustomProtocol::sendUid(const QString& ip, quint32 sktEn)
             sendBinaryPacket(packet, ip, 1 << i);
         }
     }
+    return true;
+}
+bool Ag06DoCustomProtocol::getUid(const QString& ip, quint32 sktEn)
+{
+    int sktNum =0;
+    for (int i = 0; i < sizeof(sktEn) * 8; i++) {
+        if (sktEn & (1 << i)) {
+            sktNum++;
+        }
+    }
+
+    emit info(QString("开始获取%1UID").arg(ip));
+    doCustomMutex[ip + "getUid"] = new QMutex();
+    doCustomMutex[ip + "getUid"]->lock();
+    m_doCustomSemaphore[ip + "getUid"] = new QSemaphore(sktNum);
+    m_doCustomSemaphore[ip + "getUid"]->acquire(sktNum);
+    doCustomMutex[ip + "getUid"]->unlock();
+    // 遍历sktEn比特位，如果为1，则获取uid
+    for (int i = 0; i < sizeof(sktEn) * 8; i++) {
+        if (sktEn & (1 << i)) {
+            QByteArray payload(1, i % 2);
+            QByteArray packet = buildPacket(CMD_ID_GETUID, payload);
+            emit requestBuilt(CMD_ID_GETUID, payload, packet);
+            sendBinaryPacket(packet, ip, 1 << i);
+        }
+    }
+
+    LOG_MODULE_INFO("BurnDevice", QString("Get %1 uid, skt num = %3").arg(ip).arg(sktNum).toStdString());
+    // 等待所有uid获取成功
+    QTimer timer;
+    timer.setSingleShot(true);
+    QEventLoop loop;
+    bool timeout = false;
+    QObject::connect(&timer, &QTimer::timeout, [&]() {
+        timeout = true;
+        loop.quit();
+        });
+    timer.start(10000); // 10秒超时
+    // 异步等待信号
+    while (!timeout && m_doCustomSemaphore[ip + "getUid"]->available() < sktNum) {
+        QCoreApplication::processEvents(); // 处理事件循环
+        QThread::msleep(10); // 短暂休眠
+    }
+    if (timeout) {
+        // 获取uid超时
+        delete m_doCustomSemaphore[ip + "getUid"];
+        m_doCustomSemaphore.remove(ip + "getUid");
+        delete doCustomMutex[ip + "getUid"];
+        doCustomMutex.remove(ip + "getUid");
+        emit error(QString("获取%1UID超时").arg(ip));
+        return false;
+    }
+
+
+    doCustomMutex[ip + "getUid"]->lock();
+    m_doCustomSemaphore[ip + "getUid"]->release(sktNum);
+    delete m_doCustomSemaphore[ip + "getUid"];
+    m_doCustomSemaphore.remove(ip + "getUid");
+    doCustomMutex[ip + "getUid"]->unlock();
+
+    delete doCustomMutex[ip + "getUid"];
+    doCustomMutex.remove(ip + "getUid");
+    return true;
+
 }
 
 void Ag06DoCustomProtocol::sendTrimFromJson(const QString& trimJsonText, const QString& ip, quint32 sktEn)
@@ -75,17 +144,20 @@ void Ag06DoCustomProtocol::sendTrim(const xt_trim_t& trim, const QString& ip, qu
 
 void Ag06DoCustomProtocol::onNotification(const QString& method, const QJsonObject& params)
 {
-    // 只关心服务端主动推送的 setDoCustomRet
-    if (method != "setDoCustomRet") return;
+    // 过滤其他工作流线程收到的信息
+    if (params.value("ip").toString() != mDevIp) {
+        return;
+    }
 
-    emit info(QString("收到 setDoCustomRet 通知"));
+
+    LOG_MODULE_INFO("Ag06DoCustomProtocol", "收到 setDocustomResult 通知");
+    // 只关心服务端主动推送的 setDoCustomRet
+    if (method != "setDocustomResult") return;
 
     QByteArray binaryData;
     if (!tryExtractBinaryFromParams(params, binaryData)) return;
 
-    emit info(QString("二进制数据长度: %1").arg(binaryData.size()));
-
-    parseIncomingPacket(binaryData);
+    parseIncomingPacket(params, binaryData);
 }
 
 QByteArray Ag06DoCustomProtocol::buildPacket(quint8 cmdId, const QByteArray& payloadLE) const
@@ -144,19 +216,14 @@ bool Ag06DoCustomProtocol::tryExtractBinaryFromParams(const QJsonObject& params,
 {
     // setDoCustomRet 通知的格式：
     // {
-    //   "result": {
-    //     "data": {
-    //       "results": [ ... 字节数组或字符串 ... ]
-    //     }
-    //   }
+    //   "data": [ ... 字节数组或字符串 ... ]
+    //   "result": true
+    //   "ip": ""
+    //   "bpuid": ""
     // }
 
-    auto result = params.value("result").toObject();
-    auto data = result.value("data").toObject();
-    auto results = data.value("results");
-
-    if (results.isArray()) {
-        QJsonArray arr = results.toArray();
+    if (params["data"].isArray()) {
+        QJsonArray arr = params["data"].toArray();
         outBinary.clear();
         for (const auto& val : arr) {
             if (val.isDouble()) {
@@ -168,16 +235,17 @@ bool Ag06DoCustomProtocol::tryExtractBinaryFromParams(const QJsonObject& params,
         }
         return !outBinary.isEmpty();
     }
-    else if (results.isString()) {
-        QString str = results.toString();
+    else if (params["data"].isString()) {
+        QString str = params["data"].toString();
         outBinary = str.toUtf8();
         return !outBinary.isEmpty();
     }
     return false;
 }
 
-void Ag06DoCustomProtocol::parseIncomingPacket(const QByteArray& packet)
+void Ag06DoCustomProtocol::parseIncomingPacket(const QJsonObject& params, const QByteArray& packet)
 {
+
     if (packet.size() < 3) {
         // 兜底：尝试裸 ASCII 日志格式：UID(8) ':' log '\0'
         if (packet.size() >= 10 && packet.size() < 1024) {
@@ -237,14 +305,37 @@ void Ag06DoCustomProtocol::parseIncomingPacket(const QByteArray& packet)
         } else {
             emit error(QString("0x12 日志数据格式错误，长度=%1").arg(payload.size()));
         }
-    } else if (cmd == CMD_ID_UID) {
-        emit info(QString("收到 0x10 响应（UID），长度=%1").arg(payload.size()));
+    } 
+    else if (cmd == CMD_ID_UID) {
         emit responseParsed(cmd, QJsonObject{{"payload_hex", QString::fromLatin1(payload.toHex())}});
-    } else if (cmd == CMD_ID_TRIM) {
-        emit info(QString("收到 0x11 响应（Trim），长度=%1").arg(payload.size()));
+    }
+    else if (cmd == CMD_ID_GETUID) {
         emit responseParsed(cmd, QJsonObject{{"payload_hex", QString::fromLatin1(payload.toHex())}});
-    } else {
-        emit info(QString("未知命令 ID: 0x%1").arg(cmd, 2, 16, QChar('0')));
+
+        // 接收到uid处理
+        QString ip = params.value("ip").toString();
+        uint16_t bpuid = (uint16_t)params.value("bpuid").toInt();
+        uint16_t sktid = payload[0];
+        uint16_t sktnum = qPow(2, bpuid * 2 + sktid);
+        auto siteInfo = Services::DutManager::instance()->getSiteInfoByIp(ip);
+        siteInfo.uidMap[sktnum] = payload.mid(1);
+        Services::DutManager::instance()->updateSiteInfoByIp(ip, siteInfo);
+
+        doCustomMutex[ip + "getUid"]->lock();
+
+        LOG_MODULE_INFO("HandlerDevice", QString("收到 0x11 响应（GETUID），sktnum=%1，bpuid=%2").arg(sktnum).arg(bpuid).toStdString());
+        if (m_doCustomSemaphore.find(ip + "getUid") != m_doCustomSemaphore.end()) {
+            m_doCustomSemaphore[ip + "getUid"]->release(1);
+            LOG_MODULE_INFO("HandlerDevice", QString("%1 getuid release 1").arg(ip).toStdString());
+        }
+        doCustomMutex[ip + "getUid"]->unlock();
+    } 
+    //else if (cmd == CMD_ID_TRIM) {
+    //    emit info(QString("收到 0x11 响应（Trim），长度=%1").arg(payload.size()));
+    //    emit responseParsed(cmd, QJsonObject{{"payload_hex", QString::fromLatin1(payload.toHex())}});
+    //} 
+    else {
+        LOG_MODULE_INFO("HandlerDevice", QString("未知命令 ID: 0x%1").arg(cmd, 2, 16, QChar('0')).toStdString());
     }
 }
 
@@ -348,14 +439,18 @@ bool Ag06DoCustomProtocol::parseTrimFromJsonObject(const QJsonObject& obj, xt_tr
 void Ag06DoCustomProtocol::registerCallbacks()
 {
     // 注册所有支持的命令回调
-    m_commandCallbacks["sendUid"] = [this](const QJsonObject& params) {
-        sendUid(params["strIp"].toString(), params["sktEn"].toInt());
+    m_commandCallbacks["sendUid"] = [this](const QJsonObject& params) -> bool {
+        return sendUid(params["strIp"].toString(), params["sktEn"].toInt());
     };
 
+    m_commandCallbacks["getUid"] = [this](const QJsonObject& params) -> bool {
+        return getUid(params["strIp"].toString(), params["sktEn"].toInt());
+
+    };
 }
 
 // 统一对外接口
-void Ag06DoCustomProtocol::executeCommand(const QJsonObject& params)
+bool Ag06DoCustomProtocol::executeCommand(const QJsonObject& params)
 {
     if (m_commandCallbacks.isEmpty()) {
         registerCallbacks();
@@ -364,9 +459,10 @@ void Ag06DoCustomProtocol::executeCommand(const QJsonObject& params)
     QString command = params.value("command").toString();
     if (!m_commandCallbacks.contains(command)) {
         emit error(QString("未知命令: %1").arg(command));
-        return;
+        return false;
     }
     
+    mDevIp = params["strIp"].toString();
     // 调用对应命令的回调函数
-    m_commandCallbacks[command](params);
+    return m_commandCallbacks[command](params);
 }

@@ -11,6 +11,9 @@ namespace Application {
 
 class SwitchStep : public IWorkflowStep {
 public:
+    // 禁用拷贝构造和赋值操作，防止浅拷贝问题
+    SwitchStep(const SwitchStep&) = delete;
+    SwitchStep& operator=(const SwitchStep&) = delete;
     SwitchStep(const QJsonObject &config, QObject *parent = nullptr);
     ~SwitchStep() override;
 

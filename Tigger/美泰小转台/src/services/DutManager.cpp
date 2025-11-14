@@ -9,6 +9,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include "core/Logger.h"
+#include "GlobalItem.h"
 
 namespace Services {
 // 初始化静态成员
@@ -432,6 +433,27 @@ DutManager::SiteInfo DutManager::getSiteInfoByIndex(int siteIndex) const
     return SiteInfo();
 }
 
+DutManager::SiteInfo DutManager::getSiteInfoByIp(const QString& ip) const
+{
+    QMutexLocker locker(&m_mutex);
+    for (const auto& siteInfo : m_siteInfoMap) {
+        if (siteInfo.ip == ip) {
+            return siteInfo;
+        }
+    }
+    return SiteInfo();
+}
+bool DutManager::updateSiteInfoByIp(const QString& ip, const DutManager::SiteInfo& siteInfo) {
+
+    QMutexLocker locker(&m_mutex);
+    for (auto it = m_siteInfoMap.begin(); it != m_siteInfoMap.end(); it++) {
+        if (it.value().ip == ip) {
+            it.value() = siteInfo;
+            return true;
+        }
+    }
+    return false;
+}
 
 bool DutManager::updateSiteChipStatusByIndex(int siteId, const QByteArray& chipStatus)
 {
@@ -503,7 +525,16 @@ bool DutManager::updateSiteChipPlacement(int siteIndex, quint64 chipMask, const 
     siteInfo.hasChips = (chipMask != 0);
     siteInfo.currentChipMask = chipMask;
     siteInfo.lastPlacementTime = QDateTime::currentDateTime();
-    
+    siteInfo.uidMap.clear();
+
+    QByteArray dataArr(MAX_SOCKET_NUM, 0x00);
+    for (int i = 0; i < MAX_SOCKET_NUM; i++) {
+        if ((chipMask & 0xFF) & (1 << i)) {
+            dataArr[i] = 2;
+        }
+    }
+    siteInfo.currentChipStatus = dataArr;
+
     if (!siteSn.isEmpty() && siteInfo.siteSN != siteSn) {
         siteInfo.siteSN = siteSn;
     }

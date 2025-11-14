@@ -9,6 +9,9 @@ namespace Application {
 
 class DeviceCommandStep : public IWorkflowStep {
 public:
+    // 禁用拷贝构造和赋值操作，防止浅拷贝问题
+    DeviceCommandStep(const DeviceCommandStep&) = delete;
+    DeviceCommandStep& operator=(const DeviceCommandStep&) = delete;
     DeviceCommandStep(const QJsonObject &config, QObject *parent = nullptr);
     ~DeviceCommandStep() override;
 

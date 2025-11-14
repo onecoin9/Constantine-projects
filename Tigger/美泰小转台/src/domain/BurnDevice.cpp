@@ -118,6 +118,7 @@ bool BurnDevice::isConnected() const
 
 QJsonObject BurnDevice::executeCommand(const QString &command, const QJsonObject &params)
 {
+    QMutexLocker cmdLocker(&m_cmdMutex);
     if (!isConnected()){
         QString error = QString("Burn device is not connected");
         LOG_MODULE_WARNING("BurnDevice", error.toStdString());
@@ -189,7 +190,10 @@ QJsonObject BurnDevice::executeCommand(const QString &command, const QJsonObject
         else if (command.compare("DoCustom", Qt::CaseInsensitive) == 0) {
             Ag06DoCustomProtocol protocol;
             protocol.setClient(m_jsonRpcClient);
-            protocol.executeCommand(params);
+            if (!protocol.executeCommand(params)) {
+                LOG_MODULE_ERROR("BurnDevice", QString("Execute command %1 failed.").arg(command).toStdString());
+                return { {"success", false}, {"error", QString("Execute command %1 failed.").arg(command)} };
+            }
         }
         else if (command.compare("DoJob", Qt::CaseInsensitive) == 0) {
             QString ip = params.value("strIp").toString();
@@ -711,7 +715,7 @@ void BurnDevice::handleNotification(const QString &method, const QJsonObject &pa
         }
         Services::DutManager::instance()->updateSiteChipStatus(ip, resArray);
 
-        LOG_MODULE_INFO("BurnDevice", QString("setDoJobResult - updateSiteChipStatus:").append(resArray.toHex()).toStdString());
+        LOG_MODULE_INFO("BurnDevice", QString("ip:%1 setDoJobResult - updateSiteChipStatus:").arg(ip).append(resArray.toHex()).toStdString());
 
         bool success = (resStr.compare("Passed", Qt::CaseInsensitive) == 0 || resStr == "OK" || resStr == "Success");
         Q_UNUSED(success); // Variable used for potential future logic

@@ -129,8 +129,25 @@ QString WorkflowManager::startWorkflow(const QString &workflowId, std::shared_pt
         return QString();
     }
     
-    // 从模板创建一个新的实例
+    // 从模板创建一个新的实例（深拷贝步骤）
     WorkflowInstance instance = m_loadedWorkflows[workflowId];
+    instance.instanceId.clear(); // 清除模板ID，将生成新ID
+    
+    // 深拷贝步骤列表，避免共享步骤对象
+    QList<std::shared_ptr<Application::IWorkflowStep>> copiedSteps;
+    for (const auto& step : instance.steps) {
+        if (step) {
+            // 重新创建步骤对象，使用原始配置
+            auto newStep = createStep(step->getConfiguration());
+            if (newStep) {
+                copiedSteps.append(newStep);
+            } else {
+                LOG_MODULE_ERROR("WorkflowManager", QString("深拷贝步骤失败：无法重新创建步骤 '%1'").arg(step->getName()).toStdString());
+                return QString();
+            }
+        }
+    }
+    instance.steps = copiedSteps;
 
     // 如果未提供上下文，则创建一个新的
     if (!context) {
@@ -147,7 +164,8 @@ QString WorkflowManager::startWorkflow(const QString &workflowId, std::shared_pt
     // 生成一个人类可读且唯一的实例ID
     QString dutId = context->getData("dutId").toString();
     QString baseName = dutId.isEmpty() ? workflowId : QString("%1_on_%2").arg(workflowId).arg(dutId);
-    instance.instanceId = QString("%1_%2").arg(baseName).arg(QDateTime::currentMSecsSinceEpoch());
+    QString siteSn = context->getData("siteSn").toString();
+    instance.instanceId = QString("%1_%2_%3").arg(baseName).arg(QDateTime::currentMSecsSinceEpoch()).arg(siteSn);
 
     if (m_runningInstances.contains(instance.instanceId)) {
         LOG_MODULE_ERROR("WorkflowManager", QString("启动工作流失败：实例ID '%1' 已存在。").arg(instance.instanceId).toStdString());
@@ -177,8 +195,26 @@ bool WorkflowManager::executeWorkflowSync(const QString &workflowId, std::shared
         return false;
     }
 
-    // 从模板创建一个临时实例用于本次同步执行
+    // 从模板创建一个临时实例用于本次同步执行（深拷贝步骤）
     WorkflowInstance instance = m_loadedWorkflows[workflowId];
+    instance.instanceId.clear(); // 清除模板ID
+    
+    // 深拷贝步骤列表，避免共享步骤对象
+    QList<std::shared_ptr<Application::IWorkflowStep>> copiedSteps;
+    for (const auto& step : instance.steps) {
+        if (step) {
+            // 重新创建步骤对象，使用原始配置
+            auto newStep = createStep(step->getConfiguration());
+            if (newStep) {
+                copiedSteps.append(newStep);
+            } else {
+                LOG_MODULE_ERROR("WorkflowManager", QString("深拷贝步骤失败：无法重新创建步骤 '%1'").arg(step->getName()).toStdString());
+                return false;
+            }
+        }
+    }
+    instance.steps = copiedSteps;
+    
     instance.context = context;
     instance.status = WorkflowStatus::Running;
     instance.currentStepIndex = 0;

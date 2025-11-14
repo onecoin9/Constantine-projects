@@ -14,6 +14,9 @@ class WorkflowContext;
  */
 class DelayStep : public IWorkflowStep {
 public:
+    // 禁用拷贝构造和赋值操作，防止浅拷贝问题
+    DelayStep(const DelayStep&) = delete;
+    DelayStep& operator=(const DelayStep&) = delete;
     explicit DelayStep(const QJsonObject &config, QObject *parent = nullptr);
     ~DelayStep() override;
 

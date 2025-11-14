@@ -12,6 +12,10 @@ class RunProcessStep : public IWorkflowStep {
 public:
     explicit RunProcessStep(const QJsonObject& config, QObject* parent = nullptr);
     ~RunProcessStep() override;
+    
+    // 禁用拷贝构造和赋值操作，防止浅拷贝问题
+    RunProcessStep(const RunProcessStep&) = delete;
+    RunProcessStep& operator=(const RunProcessStep&) = delete;
 
     // IWorkflowStep
     QString getName() const override;

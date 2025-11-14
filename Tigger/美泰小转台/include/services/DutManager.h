@@ -138,6 +138,7 @@ public:
         quint64 currentChipMask = 0;    // 当前芯片位置掩码
         QDateTime lastPlacementTime;    // 最后放置芯片的时间
         QString currentWorkflowId;      // 当前正在执行的工作流
+        QMap<uint16_t, QByteArray> uidMap;
         int successCount = 0;           // 成功计数
         int failCount = 0;              // 失败计数
         QByteArray currentChipStatus;
@@ -159,6 +160,9 @@ public:
      * @return 站点信息，如果未找到返回空的SiteInfo
      */
     SiteInfo getSiteInfoByIndex(int siteIndex) const;
+    SiteInfo getSiteInfoByIp(const QString& ip) const;
+
+    bool updateSiteInfoByIp(const QString& ip, const SiteInfo& siteInfo);
 
     bool updateSiteChipStatusByIndex(int siteId, const QByteArray& chipStatus);
 

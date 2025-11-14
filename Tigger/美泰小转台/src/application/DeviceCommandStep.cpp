@@ -81,12 +81,12 @@ bool DeviceCommandStep::execute(std::shared_ptr<WorkflowContext> context) {
         .arg(command).arg(deviceId).arg(QString(QJsonDocument(resolvedArgs).toJson(QJsonDocument::Compact))).toStdString());
 
     //// 部分参数需要实时获取软件数据，无法从工作流文件中获取，暂时放这处理
-    if ((command == "doJob" && config.value("args").toObject()["command"].toString() == "Program")
-        || (command == "doCustom" && config.value("args").toObject()["command"].toString() == "sendUid")) {
+    //if ((command == "doJob" && config.value("args").toObject()["command"].toString() == "Program")
+    //    || (command == "doCustom")) {
         // 获取ip及stkEn
         resolvedArgs["strIp"] = context->getData("siteIp").toString();
         resolvedArgs["sktEn"] = context->getData("dutMask").toInt();
-    }
+    //}
         
     QJsonObject result = device->executeCommand(command, resolvedArgs);
     m_result = result;

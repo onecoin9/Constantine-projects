@@ -479,6 +479,9 @@ bool SProtocol::tryParsePduCommand(const QByteArray& data)
             case PDU_TELLSITEEN:
                 handleTellSiteEn(pduData);
                 break;
+            case PDU_TELLSCANINFO:
+                handleTellScanInfo(pduData);
+                break;
             default:
                 LOG_MODULE_WARNING("SProtocol", QString("Unknown PDU command: 0x%1").arg(pdu, 2, 16, QChar('0')).toStdString());
                 break;
@@ -621,6 +624,16 @@ void SProtocol::handleTellSiteEn(const QByteArray& data)
     // 发送ACK
     sendAck(PDU_TELLSITEEN);
 }
+
+
+void SProtocol::handleTellScanInfo(const QByteArray& data) {
+
+    LOG_MODULE_INFO("SProtocol", QString("Received Scan info (0xE9): DataLen=%1")
+        .arg(data.size()).toStdString());
+
+    emit scanInfoReceived(data);
+}
+
 
 // JSON业务处理方法实现
 

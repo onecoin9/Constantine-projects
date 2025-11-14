@@ -64,6 +64,8 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/include/domain/protocols
     ${CMAKE_CURRENT_SOURCE_DIR}/include/application
     ${CMAKE_CURRENT_SOURCE_DIR}/include/ui
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/uid
+    ${CMAKE_CURRENT_SOURCE_DIR}/depend/include
     ${CMAKE_CURRENT_SOURCE_DIR}/third_party/spdlog/include
 )
 

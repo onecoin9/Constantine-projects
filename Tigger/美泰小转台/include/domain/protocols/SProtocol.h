@@ -45,6 +45,8 @@ public:
     bool sendJsonResponse(const QJsonObject& response) override;
     bool sendPduResponse(uint16_t pflag, uint8_t pdu, const QByteArray& data) override;
 
+    // 响应发送辅助方法
+    void sendAck(uint8_t pdu, uint8_t errorCode = 0);             // 发送ACK响应
 private slots:
     // 服务器通道事件处理
     void onServerDataReceived(const QByteArray& data);
@@ -66,6 +68,7 @@ private:
     void handleQueryICStatus(const QByteArray& data);              // 处理0xE8
     void handleQueryRemaining(const QByteArray& data);             // 处理0xE5
     void handleTellSiteEn(const QByteArray& data);                 // 处理0xE4
+    void handleTellScanInfo(const QByteArray& data);               // 处理0xE9
     
     // JSON业务处理方法
     void handleAxisMoveResponse(const QJsonObject& response);      // 处理AxisMove响应
@@ -73,8 +76,6 @@ private:
     void handleAxisMoveComplete(const QJsonObject& command);       // 处理AxisMoveComplete
     void handleProductInfo(const QJsonObject& command);            // 处理ProductInfo指令
     
-    // 响应发送辅助方法
-    void sendAck(uint8_t pdu, uint8_t errorCode = 0);             // 发送ACK响应
     
     // 调试日志辅助方法
     QString formatFrameData(const QByteArray& data);              // 格式化帧数据为十六进制字符串

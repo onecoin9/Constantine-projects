@@ -87,6 +87,7 @@ private slots:
 private:
     // 配置属性（线程安全访问）
     mutable QMutex m_configMutex;
+    QMutex m_cmdMutex;
     QJsonObject m_config;
     QString m_serverHost;
     quint16 m_serverPort;

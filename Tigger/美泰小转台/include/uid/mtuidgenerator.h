@@ -35,6 +35,9 @@ private:
     // 单例实例和互斥锁
     static std::mutex instanceMutex_;
     static MTUIDGenerator* instance_;
+
+    static std::string sLastUID;
+    static QDate sLastDate;
     
     std::shared_ptr<ITimeProvider> timeProvider_;
     std::mutex dataMutex_; // 保护数据访问的互斥锁

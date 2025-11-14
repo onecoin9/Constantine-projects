@@ -29,6 +29,9 @@ namespace Application {
  */
 class ConditionalStep : public IWorkflowStep {
 public:
+    // 禁用拷贝构造和赋值操作，防止浅拷贝问题
+    ConditionalStep(const ConditionalStep&) = delete;
+    ConditionalStep& operator=(const ConditionalStep&) = delete;
     ConditionalStep(const QJsonObject &config, QObject *parent = nullptr);
     ~ConditionalStep() override;
 

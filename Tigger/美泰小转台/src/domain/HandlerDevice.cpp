@@ -2,6 +2,7 @@
 #include "domain/protocols/SProtocol.h"
 #include "core/Logger.h"
 #include "services/DutManager.h" // 包含DutManager头文件
+#include "GlobalItem.h"
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
@@ -390,7 +391,12 @@ QJsonObject HandlerDevice::executeCommand(const QString &command, const QJsonObj
                 LOG_MODULE_WARNING("HandlerDevice", "Heartbeat send failed, link is unhealthy.");
             }
             return {{"success", success}};
-        } else {
+        }
+        else if (command == "setDoneScanSorting") {
+            LOG_MODULE_INFO("HandlerDevice", "Send scan sorting result");
+            m_sProtocol->sendAck(Domain::Protocols::ISProtocol::PDU_TELLSCANINFO, GlobalItem::getInstance().getValue("scanMesResult").toInt());
+        }
+        else {
             LOG_MODULE_WARNING("HandlerDevice", QString("Unknown command: %1").arg(command).toStdString());
             return {{"success", false}, {"error", QString("Unknown command: %1").arg(command)}};
         }
@@ -506,6 +512,9 @@ void HandlerDevice::connectSignals()
     
     connect(m_sProtocol.get(), &Protocols::ISProtocol::siteEnableReceived,
             this, &HandlerDevice::onSiteEnableReceived);
+
+    connect(m_sProtocol.get(), &Protocols::ISProtocol::scanInfoReceived,
+        this, &HandlerDevice::scanInfoReceived);
     
     // 连接轴移动JSON业务信号
     connect(m_sProtocol.get(), &Protocols::ISProtocol::axisMovementRequested,
@@ -591,7 +600,12 @@ void HandlerDevice::onChipPlacementReceived(int siteIdx, const QByteArray& chipD
     if (!chipData.isEmpty() && static_cast<uint8_t>(chipData[0]) == 0x0F) {
         slotEn = 0x0F; // Socket 1-4有芯片
     }
-    
+
+    // 初始化芯片状态均为失败
+    QByteArray tmpByteArray = chipData;
+    tmpByteArray.replace(0x01, 0x02);
+    Services::DutManager::instance()->updateSiteChipStatusByIndex(siteIdx, chipData);
+
     // 根据站点配置获取站点SN
     QString siteSn;
     QJsonObject siteConfig = m_configuration.value("siteConfiguration").toObject();
@@ -637,6 +651,8 @@ void HandlerDevice::onSiteEnableReceived(const QByteArray& enableData)
     
     emit debugMessage(QString("收到站点使能配置: %1").arg(QString(enableData.toHex(' ').toUpper())));
 }
+
+
 
 void HandlerDevice::onAxisMovementRequested(const QString& axisSelect, int siteIdx, int targetAngle)
 {

@@ -49,7 +49,8 @@ public:
         PDU_TELLCHIPSEN = 0xE6,      // 告诉芯片放置情况
         PDU_QUERYICSTATUS = 0xE8,    // 请求接触检查
         PDU_QUERYREMAINING = 0xE5,   // 请求残料检查
-        PDU_TELLSITEEN = 0xE4        // 告知站点使能
+        PDU_TELLSITEEN = 0xE4,       // 告知站点使能
+        PDU_TELLSCANINFO = 0xE9      // 告知芯片扫码信息
     };
     
     // 初始化和配置
@@ -81,6 +82,7 @@ signals:
     void icStatusCheckRequested(int siteIdx, const QByteArray& checkData);    // 收到0xE8
     void remainingCheckRequested(int siteIdx, const QByteArray& checkData);   // 收到0xE5
     void siteEnableReceived(const QByteArray& enableData);                    // 收到0xE4
+    void scanInfoReceived(const QByteArray& enableData);                      // 收到0xE9
     
     // 轴移动JSON业务信号
     void axisMovementRequested(const QString& axisSelect, int siteIdx, int targetAngle);   // 收到AxisMove

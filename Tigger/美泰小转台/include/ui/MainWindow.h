@@ -19,6 +19,7 @@
 #include <QAction> // <--- 新增
 #include "ui/DeviceManagerDialog.h" // 确保路径正确
 #include "ui/DatabaseWidget.h" // 添加数据库界面
+#include "ui/ChipQueryWidget.h"
 #include "services/WorkflowManager.h"
 #include "domain/IDevice.h"
 QT_BEGIN_NAMESPACE
@@ -118,6 +119,7 @@ private:
     
     // UI组件
     DutMonitorWidget *m_dutMonitorWidget; // <-- 现在是核心组件
+    ChipQueryWidget* m_chipQueryWidget;
     QDockWidget *m_dutMonitorDock; // DUT监控面板的dock容器
     QTableWidget *m_activeTasksTable; // 新增：显示当前活动的工作流实例
     Presentation::SimpleLogWidget *m_simpleLogWidget; // 系统日志控件

@@ -10,6 +10,7 @@
 #include "ui/DatabaseWidget.h" // 包含数据库界面
 #include "domain/BurnDevice.h" // 添加 BurnDevice 头文件
 #include "domain/HandlerDevice.h" // 添加 HandlerDevice 头文件
+#include "GlobalItem.h"
 #include <QTimer> // 添加 QTimer
 #include "core/Logger.h"
 #include "ui/LogConfigDialog.h"
@@ -299,6 +300,9 @@ void MainWindow::createDockWidgets()
     m_dutMonitorWidget = new DutMonitorWidget(this);
     m_tabWidget->addTab(m_dutMonitorWidget, "控制面板");
 
+    m_chipQueryWidget = new ChipQueryWidget(this);
+    m_tabWidget->addTab(m_chipQueryWidget, "芯片查询");
+
     // 添加其他占位符Tab
     //m_tabWidget->addTab(new QWidget(), "控制面板");
     //m_tabWidget->addTab(new QWidget(), "数据统计");
@@ -497,6 +501,9 @@ void MainWindow::onSelectRecipe()
             LOG_MODULE_INFO("MainWindow", QString("  - 参数1: %1").arg(configParams["param1"].toString()).toStdString());
             LOG_MODULE_INFO("MainWindow", QString("  - 参数2: %1").arg(configParams["param2"].toString()).toStdString());
             LOG_MODULE_INFO("MainWindow", QString("  - 参数3: %1").arg(configParams["param3"].toString()).toStdString());
+
+
+            GlobalItem::getInstance().setValue("batchNumber", configParams["batchNumber"].toString());
 
             //QMessageBox::information(this, tr("配置成功"), 
             //    tr("配方配置已更新并保存到文件。\n下次启动工作流时将使用新的配置参数。"));

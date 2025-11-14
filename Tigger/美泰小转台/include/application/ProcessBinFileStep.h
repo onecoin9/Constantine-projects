@@ -10,6 +10,10 @@ class WorkflowContext;
 
 class ProcessBinFileStep : public IWorkflowStep
 {
+public:
+    // 禁用拷贝构造和赋值操作，防止浅拷贝问题
+    ProcessBinFileStep(const ProcessBinFileStep&) = delete;
+    ProcessBinFileStep& operator=(const ProcessBinFileStep&) = delete;
     Q_OBJECT
 
 public:

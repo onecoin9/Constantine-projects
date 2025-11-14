@@ -163,7 +163,7 @@ private slots:
     void onDutStateChanged(const QString& dutId, int newState);
     void onHandlerChipPlaced(int siteIndex, uint32_t slotEn, const QString& siteSn);
     void onHandlerAxisMovementCompleted(const QString& axisSelect, int siteIdx, int currentAngle, int result, const QString& errMsg);
-
+    void onHandlerScanInfo(const QByteArray& codeInfoByteArray);
 private:
     bool initializeServices();
     //加载device.json,site.json,后续扩展

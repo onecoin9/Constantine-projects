@@ -4,6 +4,7 @@
 #include "domain/HandlerDevice.h"
 #include "domain/ProcessDevice.h"
 #include "domain/BurnDevice.h"
+#include "domain/MesDevice.h"
 #include "domain/IProtocolFramer.h"
 #include "domain/protocols/IXTProtocol.h"
 #include "protocols/XTProtocolFramer.h"
@@ -247,6 +248,8 @@ std::shared_ptr<Domain::IDevice> DeviceManager::createDevice(const QJsonObject &
         return createAsyncProcessDevice(deviceConfig["deviceConfig"].toObject(), Domain::AsyncProcessDevice::Calibration);
     } else if (deviceType == "Burn") {
         return createBurnDevice(deviceConfig["deviceConfig"].toObject());
+    } else if (deviceType == "MES") {
+        return createMesDevice(deviceConfig["deviceConfig"].toObject());
     } else {
         LOG_MODULE_WARNING("DeviceManager", QString("Unknown device type '%1' in configuration.").arg(deviceType).toStdString());
         return nullptr;
@@ -480,6 +483,14 @@ std::shared_ptr<Domain::IDevice> DeviceManager::createBurnDevice(const QJsonObje
     
     device->setConfiguration(burnConfig);
     
+    return device;
+}
+
+
+std::shared_ptr<Domain::IDevice> DeviceManager::createMesDevice(const QJsonObject& config) {
+
+    auto device = std::make_shared<Domain::MesDevice>();
+
     return device;
 }
 

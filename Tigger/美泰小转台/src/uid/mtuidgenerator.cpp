@@ -9,6 +9,10 @@
 
 // 初始化静态成员
 std::mutex MTUIDGenerator::instanceMutex_;
+std::string MTUIDGenerator::sLastUID = "";
+QDate MTUIDGenerator::sLastDate = QDate::currentDate();
+
+
 MTUIDGenerator* MTUIDGenerator::instance_ = nullptr;
 
 // 获取单例实例的静态方法
@@ -67,6 +71,13 @@ uint16_t MTUIDGenerator::extractSerialFromUID(const std::string& uidStr) const {
 }
 
 bool MTUIDGenerator::loadState(std::string& lastUID, QDate& lastDate) {
+
+    if (sLastUID != "") {
+        lastUID = sLastUID;
+        lastDate = sLastDate;
+        return true;
+    }
+
     QFile file(persistenceFilename_);
     if (!file.exists() || !file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         return false;
@@ -78,20 +89,25 @@ bool MTUIDGenerator::loadState(std::string& lastUID, QDate& lastDate) {
     QString uidStr = in.readLine();
     file.close();
 
-    lastDate = QDate::fromString(dateStr, "yyyy-MM-dd");
     if (!lastDate.isValid()) {
         qWarning() << "持久化文件中日期格式无效:" << dateStr;
         return false;
     }
-    lastUID = uidStr.toStdString();
     if (lastUID.empty() || lastUID.length() != 8) { // 基本的UID格式检查
         qWarning() << "持久化文件中UID格式无效:" << uidStr;
         return false;
     }
+    sLastDate = QDate::fromString(dateStr, "yyyy-MM-dd");
+    sLastUID = uidStr.toStdString();
+    lastUID = sLastUID;
+    lastDate = sLastDate;
     return true;
 }
 
 void MTUIDGenerator::saveState(const std::string& currentUID, const QDate& currentDate) {
+    
+    sLastUID = currentUID;
+    sLastDate = currentDate;
     QFile file(persistenceFilename_);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate)) {
         qWarning() << "无法打开持久化文件进行写入:" << persistenceFilename_ << file.errorString();
@@ -100,6 +116,8 @@ void MTUIDGenerator::saveState(const std::string& currentUID, const QDate& curre
     QTextStream out(&file);
     out << currentDate.toString("yyyy-MM-dd") << "\n";
     out << QString::fromStdString(currentUID) << "\n";
+    out.flush();
+    file.flush();
     file.close();
 }
 
