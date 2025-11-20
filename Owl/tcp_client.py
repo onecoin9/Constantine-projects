@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-TCP 客户端 - 与远程设备通信
+TCP 客户端 - 压力设备通信工具
+支持四种压力设备命令操作
 """
 
 import socket
@@ -96,29 +97,31 @@ def send_command(ip, port, command, wait_response=False, timeout=5):
 
 def show_menu():
     """显示命令菜单"""
-    print("\n" + "=" * 60)
-    print("TCP 客户端 - 设备通信工具")
-    print("=" * 60)
-    print("\n请选择要发送的指令:")
-    print("  1 - OUTP 1")
-    print("  2 - SOUR (自定义数字)")
-    print("  3 - SENS?")
-    print("  4 - OUTP 0")
-    print("  5 - SENS:PRES:RANG\"71.00bara\"")
-    print("  6 - SOUR:PRES:RANG\"71.00bara\"")
-    print("  0 - 退出程序")
-    print("=" * 60)
+    print("\n" + "=" * 70)
+    print("TCP 客户端 - 压力设备通信工具")
+    print("=" * 70)
+    print("\n请选择要执行的操作:")
+    print("\n【预设命令】")
+    print("  1 - 设置目标压力 (SOURce[0]:PRESSure:LEVel:IMMediate:AMPLitude)")
+    print("      需要输入压力值 <number>")
+    print("\n  2 - 查询目标压力 (SOURce[0]:PRESSure:LEVel:IMMediate:AMPLitude?)")
+    print("\n  3 - 设置排空状态 (SOURce[0]:PRESSure:LEVel:IMMediate:AMPLitude:VENT)")
+    print("      需要输入排空值 <number>")
+    print("\n  4 - 查询排空状态 (SOURce[0]:PRESSure:LEVel:IMMediate:AMPLitude:VENT?)")
+    print("\n【自定义命令】")
+    print("  5 - 发送自定义指令")
+    print("      可以输入任意自定义命令字符串")
+    print("\n  0 - 退出程序")
+    print("=" * 70)
 
 
 def get_command(choice):
     """根据选择返回对应的命令和是否需要回复"""
     commands = {
-        '1': ('OUTP 1', False),
-        '2': None,  # 需要特殊处理
-        '3': ('SENS?', True),
-        '4': ('OUTP 0', False),
-        '5': ('SENS:PRES:RANG"71.00bara"', True),
-        '6': ('SOUR:PRES:RANG"71.00bara"', False)
+        '1': None,  # 需要特殊处理 - 设置压力
+        '2': ('SOURce[0]:PRESSure:LEVel:IMMediate:AMPLitude?', True),  # 查询压力
+        '3': None,  # 需要特殊处理 - 设置排空
+        '4': ('SOURce[0]:PRESSure:LEVel:IMMediate:AMPLitude:VENT?', True)  # 查询排空
     }
     return commands.get(choice)
 
@@ -128,65 +131,102 @@ if __name__ == "__main__":
     TARGET_IP = "192.16.11.125"
     TARGET_PORT = 8000
     
-    print("\n" + "=" * 60)
-    print("设备通信工具 - 交互式菜单")
-    print("=" * 60)
+    print("\n" + "=" * 70)
+    print("压力设备通信工具 - 交互式菜单")
+    print("=" * 70)
     print(f"目标 IP: {TARGET_IP}")
     print(f"目标端口: {TARGET_PORT}")
-    print("=" * 60)
+    print("=" * 70)
     
     try:
         while True:
             show_menu()
             
-            user_input = input("\n请输入选项 (0-6): ").strip()
+            user_input = input("\n请输入选项 (0-5): ").strip()
             
             if user_input == '0':
                 print("[*] 退出程序")
                 break
             
-            if user_input not in ['1', '2', '3', '4', '5', '6']:
+            if user_input not in ['1', '2', '3', '4', '5']:
                 print("[!] 无效的选项，请重新输入")
                 continue
             
-            # 特殊处理 SOUR 命令
-            if user_input == '2':
+            # 处理各个选项
+            if user_input == '1':
+                # 设置目标压力
                 try:
-                    custom_value = input("请输入 SOUR 命令的数字: ").strip()
-                    if not custom_value:
+                    pressure_value = input("\n请输入目标压力值 <number>: ").strip()
+                    if not pressure_value:
                         print("[!] 输入不能为空，请重新输入")
                         continue
-                    command = f"SOUR {custom_value}"
+                    command = f"SOURce[0]:PRESSure:LEVel:IMMediate:AMPLitude {pressure_value}"
                     wait_response = False
                 except ValueError:
                     print("[!] 输入无效，请重新输入")
                     continue
-            else:
-                result = get_command(user_input)
+            
+            elif user_input == '2':
+                # 查询目标压力
+                result = get_command('2')
                 if result is None:
                     print("[!] 无法获取命令")
                     continue
                 command, wait_response = result
             
-            print(f"\n[*] 选择的命令: {command}")
+            elif user_input == '3':
+                # 设置排空状态
+                try:
+                    vent_value = input("\n请输入排空状态值 <number>: ").strip()
+                    if not vent_value:
+                        print("[!] 输入不能为空，请重新输入")
+                        continue
+                    command = f"SOURce[0]:PRESSure:LEVel:IMMediate:AMPLitude:VENT {vent_value}"
+                    wait_response = False
+                except ValueError:
+                    print("[!] 输入无效，请重新输入")
+                    continue
+            
+            elif user_input == '4':
+                # 查询排空状态
+                result = get_command('4')
+                if result is None:
+                    print("[!] 无法获取命令")
+                    continue
+                command, wait_response = result
+            
+            elif user_input == '5':
+                # 自定义指令
+                print("\n【自定义指令输入】")
+                command = input("请输入要发送的指令字符串: ").strip()
+                if not command:
+                    print("[!] 指令不能为空，请重新输入")
+                    continue
+                
+                wait_response_input = input("是否等待返回数据? (y/n，默认 n): ").strip().lower()
+                wait_response = wait_response_input in ['y', 'yes']
+            
+            print(f"\n[*] 执行的命令: {command}")
+            if user_input == '5':
+                print(f"[*] 等待回复: {'是' if wait_response else '否'}")
             
             # 发送命令
             response = send_command(TARGET_IP, TARGET_PORT, command, wait_response=wait_response)
             
             if wait_response and response:
-                print(f"\n最终返回数据:")
-                print(f"类型: {type(response)}")
-                print(f"内容: {repr(response)}")
+                print(f"\n【返回数据】:")
+                print(f"  类型: {type(response).__name__}")
+                print(f"  内容: {repr(response)}")
             elif wait_response and not response:
                 print("\n[!] 未收到返回数据")
             else:
-                print("\n[✓] 命令已发送")
+                print("\n[✓] 命令已成功发送")
             
-            print("\n" + "-" * 60)
+            print("\n" + "-" * 70)
             input("按 Enter 键继续...")
     
     except KeyboardInterrupt:
-        print("\n\n[*] 程序被中断")
+        print("\n\n[*] 程序被用户中断")
     except Exception as e:
         print(f"\n[✗] 程序出现异常: {e}")
         import traceback
