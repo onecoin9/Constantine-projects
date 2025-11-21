@@ -47,6 +47,8 @@ const CustomizationRule = [
     "DOMAIN-SUFFIX,mcdn.bilivideo.com,REJECT",
     "DOMAIN-SUFFIX,mcdn.bilivideo.cn,REJECT",
     "DOMAIN-SUFFIX,szbdyd.com,REJECT",
+    "DOMAIN-SUFFIX,elysia.h-e.top,DIRECT",
+    "DOMAIN-KEYWORD,elysia,DIRECT",
 ];
 
 // ===================================================================================
@@ -281,28 +283,29 @@ function getNodeNames(allProxyNames, regionKeys = []) {
 }
 
 /**
- * 创建 Smart 代理组
+ * 创建 Smart 代理组 (降级为 url-test 兼容模式)
  */
 function createSmartGroup(name, proxies, icon, policyPriority = '') {
-    if (!SMART_CONFIG.enabled || !proxies || proxies.length === 0) {
+    if (!proxies || proxies.length === 0) {
         return null;
     }
     
+    // 使用 url-test 类型替代 smart，确保兼容性
     return {
         name: name,
-        type: 'smart',
-        'policy-priority': policyPriority,
-        'use-lightgbm': SMART_CONFIG.useLightGBM,
-        'collect-data': SMART_CONFIG.collectData,
-        strategy: SMART_CONFIG.strategy,
+        type: 'url-test',
+        tolerance: 50,
+        interval: 300,
+        lazy: true,
         proxies: proxies,
         icon: icon,
+        url: 'https://www.google.com/generate_204',
         ...groupBaseOption
     };
 }
 
 /**
- * 转换现有代理组为 Smart 类型
+ * 转换现有代理组为兼容模式 (移除 Smart 特定配置)
  */
 function convertToSmartGroups(config) {
     if (!SMART_CONFIG.convertExistingGroups || !config['proxy-groups']) {
@@ -317,28 +320,28 @@ function convertToSmartGroups(config) {
         if (group && group.type) {
             const groupType = group.type.toLowerCase();
             if (groupType === 'url-test' || groupType === 'load-balance') {
-                console.log('[Mihomo Smart] Converting group:', group.name, 'from', group.type, 'to smart');
+                console.log('[Mihomo Smart] Converting group:', group.name, 'from', group.type, 'to url-test');
                 
                 const originalName = group.name;
-                group.type = 'smart';
+                group.type = 'url-test';
                 
-                // 添加后缀标识
+                // 移除后缀标识
                 if (!group.name.includes('(Smart)')) {
-                    group.name = group.name + ' (Smart)';
+                    group.name = group.name;
                     nameMapping.set(originalName, group.name);
                 }
                 
-                // 配置 Smart 参数
-                group['policy-priority'] = group['policy-priority'] || '';
-                group['use-lightgbm'] = SMART_CONFIG.useLightGBM;
-                group['collect-data'] = SMART_CONFIG.collectData;
-                group.strategy = SMART_CONFIG.strategy;
+                // 设置标准配置
+                group.tolerance = 50;
+                group.interval = 300;
+                group.lazy = true;
+                group.url = 'https://www.google.com/generate_204';
                 
-                // 移除旧配置
-                delete group.url;
-                delete group.interval;
-                delete group.tolerance;
-                delete group.lazy;
+                // 移除所有 Smart 特定配置
+                delete group['policy-priority'];
+                delete group['use-lightgbm'];
+                delete group['collect-data'];
+                delete group.strategy;
                 delete group['expected-status'];
                 
                 converted = true;
@@ -404,8 +407,8 @@ function main(config) {
         // 设置 Smart 内核配置
         if (SMART_CONFIG.enabled) {
             if (!config.profile) config.profile = {};
-            config.profile['smart-collector-size'] = SMART_CONFIG.profileCollectorSize;
-            console.log('[Mihomo Smart] Smart kernel enabled with collector size:', SMART_CONFIG.profileCollectorSize);
+            // Smart 配置已移除，使用传统模式
+            console.log('[Mihomo Smart] Using traditional url-test mode for compatibility');
         }
 
         // 转换现有代理组
