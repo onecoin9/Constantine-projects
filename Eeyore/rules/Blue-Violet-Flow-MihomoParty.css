@@ -1,0 +1,582 @@
+/* Mihomo Party 蓝紫流光主题 */
+/* 基于 HeroUI 框架的二次元风格主题 */
+
+/* ============================================ */
+/* 浮动图标控制 */
+/* ============================================ */
+.floating-icon {
+    display: none !important;
+}
+
+/* ============================================ */
+/* 状态背景图片配置 */
+/* ============================================ */
+
+/* 默认状态背景 */
+.floating-thumb.bg-default {
+    animation: none !important;
+    background-size: contain !important;
+    background-color: transparent !important;
+    background-image: url('https://i.postimg.cc/wMpwFMcX/illust-107335180-20231015-190436.png') !important;
+}
+
+/* 系统代理开启状态 */
+.floating-thumb.bg-primary {
+    animation: none !important;
+    background-size: contain !important;
+    background-color: transparent !important;
+    background-image: url('https://i.postimg.cc/wMpwFMcX/illust-107335180-20231015-190436.png') !important;
+}
+
+/* 虚拟网卡开启状态 */
+.floating-thumb.bg-secondary {
+    animation: none !important;
+    background-size: contain !important;
+    background-color: transparent !important;
+    background-image: url('https://i.postimg.cc/wMpwFMcX/illust-107335180-20231015-190436.png') !important;
+}
+
+/* ============================================ */
+/* 主题颜色配置 */
+/* ============================================ */
+
+/* 浅色主题 */
+.light,
+[data-theme="light"] {
+    /* 主题色 - 蓝紫色调 */
+    --heroui-primary: 250 60% 65% !important;
+    --custom-content1-opacity: 0.7 !important;
+    --custom-content2-opacity: 0.8 !important;
+    /* 背景图片 */
+    --custom-background-image: url('https://i.postimg.cc/wMpwFMcX/illust-107335180-20231015-190436.png');
+}
+
+/* 深色主题 */
+.dark,
+[data-theme="dark"] {
+    /* 主题色 - 蓝紫色调 */
+    --heroui-primary: 250 60% 55% !important;
+    --custom-content1-opacity: 0.8 !important;
+    --custom-content2-opacity: 0.7 !important;
+    /* 背景图片 */
+    --custom-background-image: url('https://i.postimg.cc/wMpwFMcX/illust-107335180-20231015-190436.png');
+}
+
+/* ============================================ */
+/* 全局背景配置 */
+/* ============================================ */
+html {
+    --heroui-background: none !important;
+    background: transparent !important;
+    background-image: var(--custom-background-image) !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-attachment: fixed !important;
+}
+
+body {
+    background: transparent !important;
+}
+
+/* ============================================ */
+/* 透明度控制 - 蓝紫色调 */
+/* ============================================ */
+
+.bg-default {
+    background-color: rgba(15, 8, 35, 0.75) !important;
+    opacity: var(--custom-content1-opacity) !important;
+    border: 1px solid rgba(90, 70, 200, 0.3) !important;
+}
+
+.bg-default-100 {
+    background-color: rgba(20, 10, 45, 0.7) !important;
+    opacity: var(--custom-content1-opacity) !important;
+}
+
+.bg-default-200 {
+    background-color: rgba(25, 12, 55, 0.65) !important;
+    opacity: var(--custom-content1-opacity) !important;
+}
+
+.bg-content1 {
+    background-color: rgba(15, 8, 35, 0.8) !important;
+    opacity: var(--custom-content1-opacity) !important;
+    border: 1px solid rgba(90, 70, 200, 0.35) !important;
+}
+
+.bg-content2 {
+    background-color: rgba(20, 10, 45, 0.75) !important;
+    opacity: var(--custom-content2-opacity) !important;
+    border: 1px solid rgba(90, 70, 200, 0.3) !important;
+}
+
+.bg-primary {
+    background-color: hsl(var(--heroui-primary)) !important;
+    opacity: var(--custom-content1-opacity) !important;
+}
+
+.bg-primary\/30 {
+    background-color: hsl(var(--heroui-primary) / 0.3) !important;
+    opacity: var(--custom-content1-opacity) !important;
+}
+
+.bg-secondary\/30 {
+    background-color: hsl(var(--heroui-secondary) / 0.3) !important;
+    opacity: var(--custom-content1-opacity) !important;
+}
+
+/* ============================================ */
+/* 毛玻璃效果 */
+/* ============================================ */
+.main .sticky {
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+}
+
+/* 卡片毛玻璃效果 */
+[class*="card"],
+[class*="panel"],
+[class*="modal"] {
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+}
+
+/* ============================================ */
+/* 流光动画效果 - 蓝紫色 */
+/* ============================================ */
+
+/* 悬停流光动画 */
+@keyframes blueVioletFlow {
+    0% {
+        background-position: -200% center;
+    }
+    100% {
+        background-position: 200% center;
+    }
+}
+
+/* 按钮悬停流光 */
+button:hover,
+.btn:hover,
+[role="button"]:hover {
+    position: relative;
+    overflow: hidden;
+}
+
+button:hover::before,
+.btn:hover::before,
+[role="button"]:hover::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(100, 70, 220, 0.3),
+        rgba(140, 110, 255, 0.5),
+        rgba(100, 70, 220, 0.3),
+        transparent
+    );
+    animation: blueVioletFlow 1.5s ease-in-out;
+    pointer-events: none;
+}
+
+/* ============================================ */
+/* 选中状态发光效果 */
+/* ============================================ */
+
+/* 选中项目发光动画 */
+@keyframes blueVioletGlow {
+    0%, 100% {
+        box-shadow: 
+            0 0 20px rgba(140, 110, 255, 0.6),
+            0 0 35px rgba(120, 90, 240, 0.3);
+    }
+    50% {
+        box-shadow: 
+            0 0 30px rgba(160, 130, 255, 0.8),
+            0 0 50px rgba(140, 110, 255, 0.5);
+    }
+}
+
+[aria-selected="true"],
+[data-selected="true"],
+.selected {
+    border: 2px solid rgba(180, 160, 255, 0.9) !important;
+    animation: blueVioletGlow 2s infinite ease-in-out !important;
+    background-color: rgba(35, 20, 80, 0.7) !important;
+}
+
+/* ============================================ */
+/* 滚动条样式 - 蓝紫色 */
+/* ============================================ */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(10, 5, 25, 0.3);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(90, 70, 200, 0.6);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(140, 110, 255, 0.9) !important;
+    box-shadow: 0 0 10px rgba(100, 70, 220, 0.6);
+}
+
+/* ============================================ */
+/* 文字颜色 - 蓝紫色调 */
+/* ============================================ */
+h1, h2, h3, h4, h5, h6,
+.text-primary {
+    color: rgba(230, 220, 255, 0.95) !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.text-secondary,
+p, span {
+    color: rgba(210, 200, 240, 0.9) !important;
+}
+
+/* ============================================ */
+/* 输入框样式 */
+/* ============================================ */
+input,
+textarea,
+select {
+    background: rgba(15, 8, 35, 0.6) !important;
+    border: 1px solid rgba(90, 70, 200, 0.4) !important;
+    color: rgba(240, 230, 255, 0.9) !important;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: rgba(140, 110, 255, 0.9) !important;
+    box-shadow: 
+        0 0 15px rgba(100, 70, 220, 0.5),
+        inset 0 0 8px rgba(140, 110, 255, 0.2) !important;
+    background: rgba(22, 11, 55, 0.7) !important;
+}
+
+/* ============================================ */
+/* 按钮样式 - 蓝紫色 */
+/* ============================================ */
+button,
+.btn,
+[role="button"] {
+    background: rgba(25, 12, 60, 0.7) !important;
+    border: 1px solid rgba(90, 70, 200, 0.5) !important;
+    color: rgba(240, 230, 255, 0.95) !important;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+button:hover,
+.btn:hover,
+[role="button"]:hover {
+    background: rgba(35, 18, 80, 0.85) !important;
+    border-color: rgba(140, 110, 255, 0.9) !important;
+    transform: translateY(-2px);
+    box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.3),
+        0 0 15px rgba(100, 70, 220, 0.5) !important;
+}
+
+/* ============================================ */
+/* 开关组件样式 */
+/* ============================================ */
+[role="switch"] {
+    position: relative;
+}
+
+/* 开关轨道 */
+[role="switch"][aria-checked="false"] {
+    background: rgba(60, 40, 120, 0.5) !important;
+}
+
+[role="switch"][aria-checked="true"] {
+    background: rgba(140, 110, 255, 0.8) !important;
+    box-shadow: 
+        0 0 12px rgba(120, 90, 240, 0.6),
+        inset 0 0 5px rgba(160, 130, 255, 0.3) !important;
+}
+
+/* ============================================ */
+/* 表格样式 */
+/* ============================================ */
+table {
+    background: rgba(10, 5, 25, 0.3) !important;
+    border-color: rgba(70, 50, 160, 0.3) !important;
+}
+
+tr:hover {
+    background: rgba(22, 12, 55, 0.5) !important;
+    box-shadow: 0 0 10px rgba(100, 70, 220, 0.3) !important;
+}
+
+td, th {
+    border-color: rgba(70, 50, 160, 0.25) !important;
+    color: rgba(220, 210, 245, 0.9) !important;
+}
+
+/* ============================================ */
+/* 特殊效果 */
+/* ============================================ */
+
+/* 速度显示发光效果 */
+[class*="speed"],
+[class*="download"],
+[class*="upload"] {
+    color: rgba(180, 160, 255, 0.95) !important;
+    font-weight: 600;
+    text-shadow: 0 0 8px rgba(100, 70, 220, 0.6);
+}
+
+/* 加载动画 */
+@keyframes blueVioletPulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.6;
+    }
+}
+
+[class*="loading"],
+[class*="pending"] {
+    animation: blueVioletPulse 1.5s infinite;
+}
+
+/* ============================================ */
+/* 工具提示样式 */
+/* ============================================ */
+[role="tooltip"],
+.tooltip {
+    background: rgba(25, 15, 60, 0.95) !important;
+    border: 1px solid rgba(120, 90, 240, 0.6) !important;
+    box-shadow: 
+        0 4px 15px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(100, 70, 220, 0.3) !important;
+    backdrop-filter: blur(8px) !important;
+}
+
+/* ============================================ */
+/* 通知/提示框样式 */
+/* ============================================ */
+[role="alert"],
+.notification,
+.toast {
+    background: rgba(20, 10, 50, 0.9) !important;
+    border: 1px solid rgba(120, 90, 240, 0.5) !important;
+    box-shadow: 
+        0 6px 20px rgba(0, 0, 0, 0.4),
+        0 0 25px rgba(100, 70, 220, 0.4) !important;
+    backdrop-filter: blur(12px) !important;
+}
+
+/* ============================================ */
+/* 模态框/对话框样式 */
+/* ============================================ */
+[role="dialog"],
+.modal,
+.dialog {
+    background: rgba(15, 8, 35, 0.95) !important;
+    border: 2px solid rgba(120, 90, 240, 0.6) !important;
+    box-shadow: 
+        0 10px 40px rgba(0, 0, 0, 0.6),
+        0 0 60px rgba(100, 70, 220, 0.3) !important;
+    backdrop-filter: blur(15px) !important;
+}
+
+/* ============================================ */
+/* 下拉菜单样式 */
+/* ============================================ */
+[role="menu"],
+.dropdown,
+.menu {
+    background: rgba(18, 9, 45, 0.95) !important;
+    border: 1px solid rgba(100, 70, 220, 0.5) !important;
+    box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.5),
+        0 0 30px rgba(100, 70, 220, 0.2) !important;
+    backdrop-filter: blur(10px) !important;
+}
+
+[role="menuitem"]:hover {
+    background: rgba(35, 20, 80, 0.7) !important;
+    border-left: 3px solid rgba(160, 130, 255, 0.9) !important;
+}
+
+/* ============================================ */
+/* 标签页样式 */
+/* ============================================ */
+[role="tab"] {
+    background: rgba(20, 10, 50, 0.5) !important;
+    border: 1px solid rgba(80, 60, 180, 0.4) !important;
+    color: rgba(200, 180, 240, 0.9) !important;
+    transition: all 0.3s ease;
+}
+
+[role="tab"][aria-selected="true"] {
+    background: rgba(35, 20, 80, 0.8) !important;
+    border-color: rgba(160, 130, 255, 0.9) !important;
+    box-shadow: 
+        0 0 15px rgba(120, 90, 240, 0.6),
+        inset 0 -3px 0 rgba(180, 160, 255, 0.9) !important;
+    color: rgba(230, 220, 255, 1) !important;
+}
+
+/* ============================================ */
+/* 进度条样式 */
+/* ============================================ */
+progress,
+[role="progressbar"] {
+    background: rgba(40, 25, 90, 0.5) !important;
+    border: 1px solid rgba(80, 60, 180, 0.4) !important;
+}
+
+progress::-webkit-progress-bar {
+    background: rgba(40, 25, 90, 0.5) !important;
+}
+
+progress::-webkit-progress-value {
+    background: linear-gradient(
+        90deg,
+        rgba(100, 70, 220, 0.8),
+        rgba(140, 110, 255, 0.9),
+        rgba(160, 130, 255, 0.8)
+    ) !important;
+    box-shadow: 0 0 10px rgba(120, 90, 240, 0.6) !important;
+}
+
+/* ============================================ */
+/* 复选框和单选按钮样式 */
+/* ============================================ */
+[type="checkbox"],
+[type="radio"] {
+    accent-color: rgba(140, 110, 255, 0.9) !important;
+}
+
+/* ============================================ */
+/* 链接样式 */
+/* ============================================ */
+a {
+    color: rgba(160, 130, 255, 0.95) !important;
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    color: rgba(200, 180, 255, 1) !important;
+    text-shadow: 0 0 10px rgba(140, 110, 255, 0.7);
+}
+
+/* ============================================ */
+/* 分隔线样式 */
+/* ============================================ */
+hr,
+.divider {
+    border-color: rgba(90, 70, 200, 0.3) !important;
+    box-shadow: 0 1px 3px rgba(100, 70, 220, 0.2);
+}
+
+/* ============================================ */
+/* 徽章样式 */
+/* ============================================ */
+.badge,
+[class*="badge"] {
+    background: rgba(120, 90, 240, 0.8) !important;
+    box-shadow: 0 0 8px rgba(100, 70, 220, 0.5);
+}
+
+/* ============================================ */
+/* 窗口控制按钮优化 (最小化/最大化/关闭) */
+/* ============================================ */
+
+/* 窗口控制按钮容器 */
+[class*="window-controls"],
+[class*="title-bar"] button,
+.titlebar button,
+header button[class*="close"],
+header button[class*="minimize"],
+header button[class*="maximize"] {
+    background: rgba(30, 15, 70, 0.8) !important;
+    border: 1px solid rgba(120, 90, 240, 0.6) !important;
+    color: rgba(240, 230, 255, 1) !important;
+    backdrop-filter: blur(8px) !important;
+    transition: all 0.2s ease !important;
+}
+
+/* 窗口控制按钮悬停效果 */
+[class*="window-controls"] button:hover,
+[class*="title-bar"] button:hover,
+.titlebar button:hover,
+header button[class*="close"]:hover,
+header button[class*="minimize"]:hover,
+header button[class*="maximize"]:hover {
+    background: rgba(45, 25, 95, 0.95) !important;
+    border-color: rgba(160, 130, 255, 0.9) !important;
+    color: rgba(255, 255, 255, 1) !important;
+    box-shadow: 
+        0 0 15px rgba(120, 90, 240, 0.7),
+        0 0 25px rgba(140, 110, 255, 0.4) !important;
+    transform: scale(1.05) !important;
+}
+
+/* 关闭按钮特殊样式 */
+header button[class*="close"]:hover,
+[class*="window-controls"] button[class*="close"]:hover,
+.titlebar button:last-child:hover {
+    background: rgba(180, 40, 80, 0.9) !important;
+    border-color: rgba(255, 100, 150, 0.9) !important;
+    box-shadow: 
+        0 0 15px rgba(220, 60, 100, 0.7),
+        0 0 25px rgba(255, 80, 130, 0.4) !important;
+}
+
+/* 确保按钮图标/文字清晰可见 */
+[class*="window-controls"] svg,
+[class*="title-bar"] svg,
+.titlebar svg,
+header button svg {
+    color: rgba(240, 230, 255, 1) !important;
+    filter: drop-shadow(0 0 3px rgba(160, 130, 255, 0.8)) !important;
+}
+
+[class*="window-controls"] button:hover svg,
+[class*="title-bar"] button:hover svg,
+.titlebar button:hover svg,
+header button:hover svg {
+    color: rgba(255, 255, 255, 1) !important;
+    filter: drop-shadow(0 0 5px rgba(200, 180, 255, 1)) !important;
+}
+
+/* ============================================ */
+/* 响应式优化 */
+/* ============================================ */
+@media (max-width: 768px) {
+    html {
+        background-attachment: scroll !important;
+    }
+    
+    .bg-default,
+    .bg-content1,
+    .bg-content2 {
+        opacity: 0.95 !important;
+    }
+}
