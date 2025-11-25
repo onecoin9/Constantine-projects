@@ -41,14 +41,15 @@ const EXCLUDED_KEYWORDS = [
 // 3. 自定义规则配置
 // ===================================================================================
 const CustomizationRule = [
+    // 直连规则（优先级最高）
+    "DOMAIN,elysia.h-e.top,DIRECT",
+    "DOMAIN-KEYWORD,elysia,DIRECT",
     "DOMAIN-SUFFIX,jetbrains.ai,节点选择",
     "PROCESS-NAME,tailscaled,DIRECT",
     "PROCESS-NAME,tailscaled.exe,DIRECT",
     "DOMAIN-SUFFIX,mcdn.bilivideo.com,REJECT",
     "DOMAIN-SUFFIX,mcdn.bilivideo.cn,REJECT",
     "DOMAIN-SUFFIX,szbdyd.com,REJECT",
-    "DOMAIN-SUFFIX,elysia.h-e.top,DIRECT",
-    "DOMAIN-KEYWORD,elysia,DIRECT",
 ];
 
 // ===================================================================================
