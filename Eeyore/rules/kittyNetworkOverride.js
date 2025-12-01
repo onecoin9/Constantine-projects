@@ -135,18 +135,42 @@ function main(config) {
     .map(p => p.name)
     .filter(name => !infoNodes.includes(name));
 
-  // 按地区分组
-  const usProxies = realProxies.filter(name => name.includes('🇺🇸') || name.includes('America'));
-  const sgProxies = realProxies.filter(name => name.includes('🇸🇬') || name.includes('Singapore'));
-  const jpProxies = realProxies.filter(name => name.includes('🇯🇵') || name.includes('Japan'));
-  const hkProxies = realProxies.filter(name => name.includes('🇭🇰') || name.includes('Hong Kong'));
-  const twProxies = realProxies.filter(name => name.includes('🇹🇼') || name.includes('Taiwan'));
-  const krProxies = realProxies.filter(name => name.includes('🇰🇷') || name.includes('Korea'));
-  const euProxies = realProxies.filter(name => 
-    name.includes('🇳🇱') || name.includes('Netherlands') ||
-    name.includes('🇬🇧') || name.includes('United Kingdom') ||
-    name.includes('🇩🇪') || name.includes('Deutschland')
-  );
+  const regionGroups = [
+    { label: '🇭🇰 香港节点', keywords: ['香港', 'hong kong', 'hk'] },
+    { label: '🇺🇸 美国节点', keywords: ['美国', 'america', 'us', 'united states'] },
+    { label: '🇸🇬 狮城节点', keywords: ['新加坡', 'singapore'] },
+    { label: '🇯🇵 日本节点', keywords: ['日本', 'japan'] },
+    { label: '🇹🇼 台湾节点', keywords: ['台湾', 'taiwan'] },
+    { label: '🇰🇷 韩国节点', keywords: ['韩国', 'korea'] },
+    { label: '🇪🇺 欧洲节点', keywords: ['英国', 'uk', 'gb', 'england', 'netherlands', '德国', 'deutschland', 'germany', 'france', 'europe'] }
+  ];
+
+  const groupedProxies = regionGroups.reduce((acc, group) => {
+    acc[group.label] = [];
+    return acc;
+  }, {});
+
+  const findGroup = (name) => {
+    const lowerName = name.toLowerCase();
+    return regionGroups.find(group =>
+      group.keywords.some(keyword => lowerName.includes(keyword))
+    );
+  };
+
+  realProxies.forEach(name => {
+    const matched = findGroup(name);
+    if (matched) {
+      groupedProxies[matched.label].push(name);
+    }
+  });
+
+  const usProxies = groupedProxies['🇺🇸 美国节点'];
+  const sgProxies = groupedProxies['🇸🇬 狮城节点'];
+  const jpProxies = groupedProxies['🇯🇵 日本节点'];
+  const hkProxies = groupedProxies['🇭🇰 香港节点'];
+  const twProxies = groupedProxies['🇹🇼 台湾节点'];
+  const krProxies = groupedProxies['🇰🇷 韩国节点'];
+  const euProxies = groupedProxies['🇪🇺 欧洲节点'];
 
   // 重新定义代理组
   config['proxy-groups'] = [
