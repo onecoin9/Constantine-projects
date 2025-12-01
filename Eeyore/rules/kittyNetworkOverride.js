@@ -136,13 +136,13 @@ function main(config) {
     .filter(name => !infoNodes.includes(name));
 
   const regionGroups = [
-    { label: '🇭🇰 香港节点', keywords: ['香港', 'hong kong', 'hk'] },
-    { label: '🇺🇸 美国节点', keywords: ['美国', 'america', 'us', 'united states'] },
-    { label: '🇸🇬 狮城节点', keywords: ['新加坡', 'singapore'] },
-    { label: '🇯🇵 日本节点', keywords: ['日本', 'japan'] },
-    { label: '🇹🇼 台湾节点', keywords: ['台湾', 'taiwan'] },
-    { label: '🇰🇷 韩国节点', keywords: ['韩国', 'korea'] },
-    { label: '🇪🇺 欧洲节点', keywords: ['英国', 'uk', 'gb', 'england', 'netherlands', '德国', 'deutschland', 'germany', 'france', 'europe'] }
+    { label: '🇭🇰 香港节点', keywords: ['香港', 'hong kong', 'hk', '🇭🇰', 'hongkong'] },
+    { label: '🇺🇸 美国节点', keywords: ['美国', 'america', 'us', 'united states', '🇺🇸'] },
+    { label: '🇸🇬 狮城节点', keywords: ['新加坡', 'singapore', '🇸🇬'] },
+    { label: '🇯🇵 日本节点', keywords: ['日本', 'japan', '🇯🇵'] },
+    { label: '🇹🇼 台湾节点', keywords: ['台湾', 'taiwan', '🇹🇼'] },
+    { label: '🇰🇷 韩国节点', keywords: ['韩国', 'korea', '🇰🇷'] },
+    { label: '🇪🇺 欧洲节点', keywords: ['英国', 'uk', 'gb', 'england', 'netherlands', '德国', 'deutschland', 'germany', 'france', 'europe', '🇪🇺'] }
   ];
 
   const groupedProxies = regionGroups.reduce((acc, group) => {
@@ -153,7 +153,8 @@ function main(config) {
   const findGroup = (name) => {
     const lowerName = name.toLowerCase();
     return regionGroups.find(group =>
-      group.keywords.some(keyword => lowerName.includes(keyword))
+      group.keywords.some(keyword => lowerName.includes(keyword)) ||
+      name.includes(group.label.slice(0, 2)) // fallback match by emoji flag
     );
   };
 
