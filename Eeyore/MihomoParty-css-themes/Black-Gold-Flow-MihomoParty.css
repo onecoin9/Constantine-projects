@@ -239,15 +239,34 @@ button:hover::before,
 /* ============================================ */
 /* 文字颜色 - 金色调 */
 /* ============================================ */
+body,
 h1, h2, h3, h4, h5, h6,
-.text-primary {
-    color: rgba(255, 235, 200, 0.95) !important;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
+.text-primary,
+p, span {
+    color: rgba(255, 215, 100, 1) !important;
+    text-shadow: 0 0 8px rgba(255, 200, 80, 0.7), 0 2px 6px rgba(0, 0, 0, 0.95) !important;
+    text-rendering: optimizeLegibility;
+    font-weight: 600;
+}
+
+label,
+button,
+input,
+textarea {
+    color: rgba(255, 230, 160, 0.99) !important;
+    text-shadow: 0 0 6px rgba(255, 200, 80, 0.6), 0 1px 3px rgba(0, 0, 0, 0.9) !important;
+    text-rendering: optimizeLegibility;
+}
+
+a {
+    color: rgba(255, 220, 120, 1) !important;
+    text-shadow: 0 0 6px rgba(255, 200, 80, 0.5), 0 1px 3px rgba(0, 0, 0, 0.85) !important;
 }
 
 .text-secondary,
-p, span {
-    color: rgba(240, 220, 190, 0.9) !important;
+.text-muted {
+    color: rgba(255, 220, 140, 0.98) !important;
+    text-shadow: 0 0 6px rgba(255, 200, 80, 0.5), 0 1px 3px rgba(0, 0, 0, 0.9) !important;
 }
 
 /* ============================================ */
@@ -256,11 +275,12 @@ p, span {
 input,
 textarea,
 select {
-    background: rgba(12, 10, 6, 0.5) !important;
-    border: 1px solid rgba(200, 160, 80, 0.35) !important;
-    color: rgba(255, 235, 200, 0.9) !important;
+    background: rgba(12, 10, 6, 0.6) !important;
+    border: 1px solid rgba(200, 160, 80, 0.5) !important;
+    color: rgba(255, 245, 230, 0.98) !important;
     border-radius: 6px;
     transition: all 0.3s ease;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8) !important;
 }
 
 input:focus,
@@ -279,13 +299,15 @@ select:focus {
 button,
 .btn,
 [role="button"] {
-    background: rgba(20, 16, 10, 0.6) !important;
-    border: 1px solid rgba(200, 160, 80, 0.45) !important;
-    color: rgba(255, 235, 200, 0.95) !important;
+    background: rgba(20, 16, 10, 0.7) !important;
+    border: 1px solid rgba(200, 160, 80, 0.6) !important;
+    color: rgba(255, 245, 230, 0.98) !important;
     border-radius: 6px;
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.85) !important;
+    font-weight: 500;
 }
 
 button:hover,
@@ -354,8 +376,9 @@ tr:hover::before {
 }
 
 td, th {
-    border-color: rgba(150, 120, 60, 0.2) !important;
-    color: rgba(240, 220, 190, 0.9) !important;
+    border-color: rgba(150, 120, 60, 0.3) !important;
+    color: rgba(255, 215, 100, 0.98) !important;
+    text-shadow: 0 0 6px rgba(255, 200, 80, 0.5), 0 1px 2px rgba(0, 0, 0, 0.8) !important;
     position: relative;
     z-index: 1;
 }
@@ -474,19 +497,21 @@ td, th {
 /* 标签页样式 */
 /* ============================================ */
 [role="tab"] {
-    background: rgba(18, 15, 10, 0.45) !important;
-    border: 1px solid rgba(150, 120, 60, 0.35) !important;
-    color: rgba(230, 210, 180, 0.9) !important;
+    background: rgba(18, 15, 10, 0.55) !important;
+    border: 1px solid rgba(150, 120, 60, 0.45) !important;
+    color: rgba(240, 220, 200, 0.95) !important;
     transition: all 0.3s ease;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8) !important;
 }
 
 [role="tab"][aria-selected="true"] {
-    background: rgba(30, 24, 15, 0.75) !important;
-    border-color: rgba(255, 200, 80, 0.9) !important;
+    background: rgba(30, 24, 15, 0.85) !important;
+    border-color: rgba(255, 200, 80, 0.95) !important;
     box-shadow: 
-        0 0 15px rgba(255, 215, 100, 0.6),
-        inset 0 -3px 0 rgba(255, 215, 100, 0.9) !important;
-    color: rgba(255, 235, 200, 1) !important;
+        0 0 15px rgba(255, 215, 100, 0.7),
+        inset 0 -3px 0 rgba(255, 215, 100, 0.95) !important;
+    color: rgba(255, 245, 230, 1) !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9) !important;
 }
 
 /* ============================================ */

@@ -114,6 +114,9 @@ function main(config) {
       'mcdn.bilivideo.cn',
       '+.media.dssott.com',
       '+.pvp.net'
+      ,
+      'u-tools.cn',
+      '*.u-tools.cn'
     ]
   };
 
@@ -192,6 +195,11 @@ function main(config) {
       name: '🎯 全球直连',
       type: 'select',
       proxies: ['DIRECT', '🚀 节点选择']
+    },
+    {
+      name: '🔓 U-Tools 直连',
+      type: 'select',
+      proxies: ['DIRECT']
     },
     {
       name: '🛑 广告拦截',
@@ -368,6 +376,7 @@ function main(config) {
     // 国内直连
     'GEOSITE,cn,🎯 全球直连',
     'GEOIP,CN,🎯 全球直连',
+    'DOMAIN,u-tools.cn,🔓 U-Tools 直连',
     
     // 最终规则
     'MATCH,🐟 漏网之鱼'
