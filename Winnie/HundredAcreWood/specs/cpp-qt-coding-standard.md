@@ -3,7 +3,7 @@
 > **适用范围**：Winnie/Tigger 等基于 C++17+/Qt 6 的客户端、测试与自动化项目
 > **目标读者**：研发、Code Review、QA、运维
 > **关联文档**：`spdlog-logging-standard.md`（日志治理）、项目《发布流程》《测试策略》等
-> **导出指南**：若需提交 Word 版本，可使用仓库内 `Owl/md_to_docx.py` 脚本转换
+> **导出指南**：若需提交 Word 版本，可使用仓库内 `Owl/scripts/md_to_docx.py` 脚本转换
 > **参考依据**：华为 C 语言编程规范等业界优秀实践，结合 Qt/C++17 特性改写适用条款
 
 ---

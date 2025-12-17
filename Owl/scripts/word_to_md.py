@@ -156,11 +156,13 @@ if __name__ == "__main__":
         converter = WordToMarkdownConverter()
         
         # 查找JSON-RPC文档
-        jsonrpc_doc = "tools/PLT_RD_COG-APS软件JsonRPC接口文档.docx"
+        owl_dir = Path(__file__).resolve().parents[1]
+        jsonrpc_doc = owl_dir / "docs" / "PLT_RD_COG-APS软件JsonRPC接口文档.docx"
         
-        if os.path.exists(jsonrpc_doc):
+        if jsonrpc_doc.exists():
             try:
-                output = converter.convert_single(jsonrpc_doc, "docs/api/JsonRPC_API.md")
+                output_md = owl_dir / "docs" / "api" / "JsonRPC_API.md"
+                output = converter.convert_single(jsonrpc_doc, output_md)
                 print(f"[OK] JSON-RPC文档转换完成: {output}")
             except Exception as e:
                 print(f"[ERROR] 转换失败: {e}")
