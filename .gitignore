@@ -55,3 +55,12 @@ uid_state.txt
 
 # Secrets and local Codex configs
 .codex/
+
+# Python artifacts
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+**/.pytest_cache/
