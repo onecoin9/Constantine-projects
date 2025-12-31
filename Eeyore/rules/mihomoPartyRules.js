@@ -44,6 +44,7 @@ const CustomizationRule = [
     // 直连规则（优先级最高）
     "DOMAIN,elysia.h-e.top,DIRECT",
     "DOMAIN-KEYWORD,elysia,DIRECT",
+    "DOMAIN-KEYWORD,kiro,自动选择",
     "DOMAIN-SUFFIX,jetbrains.ai,节点选择",
     "PROCESS-NAME,tailscaled,DIRECT",
     "PROCESS-NAME,tailscaled.exe,DIRECT",
@@ -234,11 +235,12 @@ const staticRules = {
     bottom: [
         "RULE-SET,proxy,节点选择",
         "RULE-SET,gfw,节点选择",
+        "DOMAIN-SUFFIX,cn,DIRECT",
         "RULE-SET,direct,DIRECT,no-resolve",
         "RULE-SET,lancidr,DIRECT,no-resolve",
-        "RULE-SET,cncidr,DIRECT,no-resolve",
+        "RULE-SET,cncidr,DIRECT",
         "GEOIP,LAN,DIRECT,no-resolve",
-        "GEOIP,CN,DIRECT,no-resolve",
+        "GEOIP,CN,DIRECT",
         "MATCH,漏网之鱼"
     ]
 };

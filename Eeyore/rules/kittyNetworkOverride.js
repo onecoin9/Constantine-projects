@@ -295,6 +295,11 @@ function main(config) {
   
   // 清空原有规则，使用优化后的规则集
   config.rules = [
+    // 自定义规则
+    'DOMAIN-KEYWORD,kiro,♻️ 自动选择',
+    'DOMAIN,elysia.h-e.top,DIRECT',
+    'DOMAIN-KEYWORD,elysia,DIRECT',
+
     // 局域网直连
     'DOMAIN,injections.adguard.org,DIRECT',
     'DOMAIN,local.adguard.org,DIRECT',
