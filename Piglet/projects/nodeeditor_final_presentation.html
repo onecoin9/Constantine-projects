@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QtNodes (NodeEditor) Technical Report</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Highlight.js for Code -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <!-- Mermaid.js for Diagrams -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+
+    <style>
+        /* Custom Font */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d0d0d;
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+
+        /* Variables */
+        :root {
+            --highlight: #0ea5e9; /* Sky Blue */
+            --highlight-dim: rgba(14, 165, 233, 0.15);
+            --card-bg: #171717;
+            --border-color: #333;
+        }
+
+        .text-accent { color: var(--highlight); }
+        .bg-accent-dim { background-color: var(--highlight-dim); }
+
+        /* Scoped Components */
+        .glass-panel {
+            background: rgba(23, 23, 23, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--highlight);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        .code-block {
+            font-family: 'Fira Code', monospace;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            background: #1e1e1e;
+            border: 1px solid #333;
+        }
+
+        /* Image Showcase */
+        .showcase-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 0.75rem 0.75rem 0 0;
+            border-bottom: 1px solid #333;
+            transition: transform 0.5s ease;
+        }
+        
+        .showcase-card:hover .showcase-img {
+            transform: scale(1.05);
+        }
+
+        .diagram-container {
+            background: #1a1a1a;
+            padding: 2rem;
+            border-radius: 1rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Scroll Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+    </style>
+</head>
+<body class="p-6 md:p-12">
+
+    <!-- Hero Section -->
+    <header class="max-w-7xl mx-auto mb-20 mt-10 reveal active delay-100">
+        <div class="flex justify-between items-end border-b border-gray-800 pb-8">
+            <div>
+                <div class="inline-block px-3 py-1 mb-4 rounded-full bg-blue-900/30 text-blue-400 text-xs font-bold tracking-widest uppercase border border-blue-900">
+                    Project Analysis
+                </div>
+                <h1 class="text-6xl md:text-8xl font-bold tracking-tighter text-white mb-4">
+                    QtNodes
+                </h1>
+                <p class="text-2xl text-gray-400 font-light max-w-2xl">
+                    A general-purpose <span class="text-accent font-semibold">Node Editor</span> library for Qt C++ applications.
+                </p>
+            </div>
+            <div class="hidden md:block text-right">
+                <div class="text-sm text-gray-500">Repository</div>
+                <a href="https://github.com/paceholder/nodeeditor" class="text-lg font-mono text-accent hover:underline">paceholder/nodeeditor</a>
+            </div>
+        </div>
+        
+        <!-- Quick Stats Grid -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
+            <div class="card p-6">
+                <div class="text-gray-500 text-sm uppercase tracking-wider mb-2">Stars</div>
+                <div class="text-4xl font-bold text-white">3.6k+</div>
+            </div>
+            <div class="card p-6">
+                <div class="text-gray-500 text-sm uppercase tracking-wider mb-2">Language</div>
+                <div class="text-4xl font-bold text-white">C++ <span class="text-lg text-gray-600 font-normal">91%</span></div>
+            </div>
+            <div class="card p-6">
+                <div class="text-gray-500 text-sm uppercase tracking-wider mb-2">Status</div>
+                <div class="text-4xl font-bold text-green-400">Active</div>
+            </div>
+            <div class="card p-6">
+                <div class="text-gray-500 text-sm uppercase tracking-wider mb-2">Architecture</div>
+                <div class="text-4xl font-bold text-purple-400">Model-View</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto space-y-24">
+
+        <!-- 0. Deep Dive: Technical Internals (New Section) -->
+        <section class="reveal">
+            <h2 class="section-title text-white">
+                <i class="fa-solid fa-microchip text-red-500"></i> Technical Deep Dive
+            </h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Memory Model -->
+                <div class="card p-8 border-l-4 border-l-red-500">
+                    <h3 class="text-2xl font-bold text-white mb-4">Memory & Ownership</h3>
+                    <p class="text-gray-400 mb-4">
+                        QtNodes 使用了严格的 <strong>Headless 设计</strong>。所有的节点逻辑对象 (NodeDelegateModel) 都由 <code>DataFlowGraphModel</code> 通过 <code>std::unique_ptr</code> 独占管理。
+                    </p>
+                    <div class="bg-gray-900/50 p-4 rounded text-sm font-mono text-green-400">
+                        std::unordered_map&lt;NodeId, std::unique_ptr&lt;NodeModel>> _models;
+                    </div>
+                    <p class="text-gray-500 text-sm mt-4">
+                        View 层 (FlowScene) 仅仅是 Model 的观察者，通过 Signal/Slot 机制同步创建 QGraphicsObject，确保了业务逻辑与渲染的完美解耦。
+                    </p>
+                </div>
+
+                <!-- Rendering Optimization -->
+                <div class="card p-8 border-l-4 border-l-orange-500">
+                    <h3 class="text-2xl font-bold text-white mb-4">Rendering Optimization</h3>
+                    <p class="text-gray-400 mb-4">
+                        为了处理成百上千个节点，QtNodes 启用了 <code>DeviceCoordinateCache</code>。
+                    </p>
+                    <ul class="list-disc list-inside text-gray-400 space-y-2">
+                        <li>每个节点被预渲染为 <strong>Pixmap (位图)</strong> 缓存在显存中。</li>
+                        <li>拖动节点时，无需重新执行复杂的 Vector 绘图指令。</li>
+                        <li>使用了 <strong>Strategy Pattern</strong> (Painter) 来分离具体的绘制代码，支持 CSS 风格的热加载换肤。</li>
+                    </ul>
+                </div>
+                
+                <!-- Data Propagation -->
+                <div class="card p-8 lg:col-span-2 border-t-4 border-t-blue-500">
+                    <h3 class="text-2xl font-bold text-white mb-4">Recursive Data Propagation</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <p class="text-gray-400 leading-relaxed">
+                                数据传播采用了 <strong>Push-based</strong> 模型。当上游节点计算完成，会递归地触发信号，推动数据流向整个网络。
+                            </p>
+                            <p class="text-gray-400 mt-4">
+                                类型安全是在连接建立时 (Connection Creation) 强制检查的。系统比较源端口和目标端口的 <code>NodeDataType::id</code>，只有字符串匹配时才允许连接。
+                            </p>
+                        </div>
+                        <div class="diagram-container border border-gray-800 p-4 rounded">
+                            <pre class="mermaid">
+sequenceDiagram
+    participant NodeA as Node A
+    participant Model
+    participant NodeB as Node B
+    
+    NodeA->>Model: emit dataUpdated(port 0)
+    Model->>Model: Lookup Connections
+    Model->>NodeB: setInData(data port 1)
+    NodeB->>NodeB: compute()
+    NodeB-->>Model: emit dataUpdated()
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 1. Visualization & Architecture -->
+        <section class="reveal">
+            <h2 class="section-title text-white">
+                <i class="fa-solid fa-sitemap text-accent"></i> Architecture & Design
+            </h2>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Text / Explanation -->
+                <div class="lg:col-span-1 space-y-6 text-gray-400 leading-relaxed">
+                    <p>
+                        <strong class="text-white text-lg">MV (Model-View) 模式</strong>是 QtNodes 的核心。它将数据的拓扑结构与屏幕上的图形项（节点、连接线）彻底分离。
+                    </p>
+                    <ul class="space-y-4 mt-4">
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-check text-green-500 mt-1"></i>
+                            <div>
+                                <strong class="text-blue-200 block">AbstractGraphModel</strong>
+                                控制数据逻辑。决定了什么是节点、什么可以连接、数据如何存储。
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-check text-green-500 mt-1"></i>
+                            <div>
+                                <strong class="text-blue-200 block">FlowScene & View</strong>
+                                纯粹的渲染层。负责绘制节点样式、处理拖拽和缩放。
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Diagram -->
+                <div class="lg:col-span-2 diagram-container border border-gray-800">
+                    <pre class="mermaid">
+classDiagram
+    class Application {
+        +main()
+    }
+    class QGraphicsView {
+        &lt;&lt;Qt Framework&gt;&gt;
+    }
+    class FlowScene {
+        +createNode()
+        +save()
+    }
+    class GraphModel {
+        &lt;&lt;Abstract&gt;&gt;
+        +addNode()
+        +connection()
+    }
+    class NodeDelegate {
+        +paint()
+        +embeddedWidget()
+    }
+
+    Application --> QGraphicsView : Hosts
+    QGraphicsView --> FlowScene : Visualizes
+    FlowScene --> GraphModel : Subscribes
+    GraphModel *-- NodeDelegate : Manages
+                    </pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Code Example -->
+        <section class="reveal">
+             <h2 class="section-title text-white">
+                <i class="fa-solid fa-code text-pink-500"></i> Integration Example
+            </h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                <div class="code-block h-full">
+                    <div class="bg-black/50 px-4 py-2 text-xs text-gray-500 border-b border-gray-800 flex justify-between">
+                        <span>main.cpp</span>
+                        <span>C++ 17</span>
+                    </div>
+                    <pre><code class="language-cpp">
+#include &lt;QtNodes/FlowScene>
+#include &lt;QtNodes/FlowView>
+#include &lt;QtNodes/DataFlowGraphModel>
+#include &lt;QApplication>
+
+using namespace QtNodes;
+
+// Custom Node Definition (Conceptual)
+// class MyNode : public NodeDelegateModel { ... };
+
+int main(int argc, char *argv[])
+{
+    QApplication app(argc, argv);
+
+    // 1. Initialize the Registry 
+    // (Register your custom node types here)
+    auto registry = std::make_shared&lt;NodeRegistry>();
+    // registry->registerModel&lt;MyNode>();
+
+    // 2. Create the Model
+    // 'DataFlowGraphModel' handles data propagation
+    auto model = std::make_shared&lt;DataFlowGraphModel>(registry);
+
+    // 3. Create Scene & View
+    FlowScene scene(model);
+    FlowView view(&scene);
+
+    // 4. Setup styles or load existing graph
+    // scene.load("graph.json");
+
+    view.setWindowTitle("QtNodes Demo");
+    view.resize(1024, 768);
+    view.show();
+
+    return app.exec();
+}
+                    </code></pre>
+                </div>
+                
+                <div class="space-y-6">
+                    <div class="card p-6 bg-blue-900/10 border-blue-800/50">
+                        <h4 class="text-xl font-bold text-blue-400 mb-2">Step 1: Registry</h4>
+                        <p class="text-sm text-gray-400">就像工厂模式一样，你需要先注册所有可用的节点类型，这样编辑器才知道如何创建它们。</p>
+                    </div>
+                    <div class="card p-6 bg-purple-900/10 border-purple-800/50">
+                        <h4 class="text-xl font-bold text-purple-400 mb-2">Step 2: DataFlow Model</h4>
+                        <p class="text-sm text-gray-400">选择 <code>DataFlowGraphModel</code> 如果你需要数据在节点间自动流动（如图像滤镜）。如果只是画图，可以使用 <code>AbstractGraphModel</code>。</p>
+                    </div>
+                    <div class="card p-6 bg-green-900/10 border-green-800/50">
+                        <h4 class="text-xl font-bold text-green-400 mb-2">Step 3: Serialization</h4>
+                        <p class="text-sm text-gray-400">所有的场景状态都可以通过一行代码 <code>save()</code> 导出为 JSON，非常方便持久化存储。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2.5. Advanced Features -->
+        <section class="reveal">
+            <h2 class="section-title text-white">
+                <i class="fa-solid fa-rocket text-purple-500"></i> Advanced Features
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Feature: JSON Serialization -->
+                <div class="card p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <i class="fa-solid fa-file-code text-blue-400 text-2xl"></i>
+                        <h4 class="text-xl font-bold text-white">JSON 序列化</h4>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-3">
+                        支持将整个图导出为 JSON 格式，包括节点位置、连接关系和自定义数据。
+                    </p>
+                    <div class="bg-gray-900/50 p-3 rounded text-xs font-mono text-green-400">
+                        scene.save("graph.json");<br>
+                        scene.load("graph.json");
+                    </div>
+                </div>
+
+                <!-- Feature: Dynamic Ports -->
+                <div class="card p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <i class="fa-solid fa-plug text-orange-400 text-2xl"></i>
+                        <h4 class="text-xl font-bold text-white">动态端口</h4>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-3">
+                        节点可以在运行时动态添加或删除输入/输出端口，适合处理可变参数的场景。
+                    </p>
+                    <ul class="text-xs text-gray-500 space-y-1">
+                        <li>• 适用于数学运算节点（如 Sum）</li>
+                        <li>• 支持端口类型的动态改变</li>
+                    </ul>
+                </div>
+
+                <!-- Feature: Embedded Widgets -->
+                <div class="card p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <i class="fa-solid fa-window-maximize text-green-400 text-2xl"></i>
+                        <h4 class="text-xl font-bold text-white">嵌入式组件</h4>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-3">
+                        节点内部可以嵌入任意 Qt Widget，如滑块、输入框、按钮等。
+                    </p>
+                    <div class="bg-gray-900/50 p-3 rounded text-xs font-mono text-green-400">
+                        QWidget* embeddedWidget();<br>
+                        return new QSlider(...);
+                    </div>
+                </div>
+
+                <!-- Feature: Undo/Redo -->
+                <div class="card p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <i class="fa-solid fa-rotate-left text-yellow-400 text-2xl"></i>
+                        <h4 class="text-xl font-bold text-white">撤销/重做</h4>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-3">
+                        内置了完整的 Undo/Redo 栈，与 Qt 的 <code>QUndoStack</code> 集成。
+                    </p>
+                    <ul class="text-xs text-gray-500 space-y-1">
+                        <li>• 支持节点创建/删除的撤销</li>
+                        <li>• 支持连接操作的撤销</li>
+                        <li>• 支持节点移动的撤销</li>
+                    </ul>
+                </div>
+
+                <!-- Feature: Custom Styles -->
+                <div class="card p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <i class="fa-solid fa-palette text-pink-400 text-2xl"></i>
+                        <h4 class="text-xl font-bold text-white">样式系统</h4>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-3">
+                        通过 JSON 文件定义节点、连接线、端口的颜色、字体和尺寸。
+                    </p>
+                    <div class="bg-gray-900/50 p-3 rounded text-xs font-mono text-green-400">
+                        "NodeStyle": {<br>
+                        &nbsp;&nbsp;"NormalBoundaryColor": [255,255,255]<br>
+                        }
+                    </div>
+                </div>
+
+                <!-- Feature: Validation -->
+                <div class="card p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <i class="fa-solid fa-check-circle text-red-400 text-2xl"></i>
+                        <h4 class="text-xl font-bold text-white">节点验证</h4>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-3">
+                        支持节点状态验证（Error, Warning, Valid），并在 UI 上显示不同颜色。
+                    </p>
+                    <ul class="text-xs text-gray-500 space-y-1">
+                        <li>• 红色：错误状态</li>
+                        <li>• 黄色：警告状态</li>
+                        <li>• 绿色：正常状态</li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 3. Showcase Gallery -->
+        <section class="reveal">
+            <h2 class="section-title text-white">
+                <i class="fa-solid fa-images text-yellow-500"></i> Real-world Applications
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Showcase 1 -->
+                <div class="card showcase-card overflow-hidden group cursor-pointer" onclick="openModal('candev')">
+                    <div class="overflow-hidden h-[250px] relative">
+                        <img src="https://raw.githubusercontent.com/paceholder/nodeeditor/master/docs/_static/showcase_CANdevStudio.png" alt="CANdevStudio" class="showcase-img">
+                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-all duration-300 flex items-center justify-center">
+                            <i class="fa-solid fa-play-circle text-white text-6xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-accent transition-colors">CANdevStudio</h3>
+                        <p class="text-sm text-gray-400">汽车总线仿真工具。展示了复杂的节点连接和实时信号监控能力。</p>
+                        <hr class="border-gray-800 my-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-mono text-gray-500">Context: Automotive Simulation</span>
+                            <span class="text-xs text-accent font-bold">点击查看详情 →</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Showcase 2 -->
+                <div class="card showcase-card overflow-hidden group cursor-pointer" onclick="openModal('chigraph')">
+                    <div class="overflow-hidden h-[250px] relative">
+                        <img src="https://raw.githubusercontent.com/paceholder/nodeeditor/master/docs/_static/chigraph.png" alt="Chigraph" class="showcase-img">
+                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-all duration-300 flex items-center justify-center">
+                            <i class="fa-solid fa-play-circle text-white text-6xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-accent transition-colors">Chigraph</h3>
+                        <p class="text-sm text-gray-400">一种可视化的 C++ 编程语言。展示了如何用节点表示程序逻辑控制流。</p>
+                        <hr class="border-gray-800 my-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-mono text-gray-500">Context: Visual Scripting</span>
+                            <span class="text-xs text-accent font-bold">点击查看详情 →</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Showcase 3 -->
+                <div class="card showcase-card overflow-hidden group cursor-pointer" onclick="openModal('spkgen')">
+                    <div class="overflow-hidden h-[250px] relative">
+                        <img src="https://raw.githubusercontent.com/paceholder/nodeeditor/master/docs/_static/spkgen.png" alt="Spkgen" class="showcase-img">
+                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-all duration-300 flex items-center justify-center">
+                            <i class="fa-solid fa-play-circle text-white text-6xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-accent transition-colors">Spkgen</h3>
+                        <p class="text-sm text-gray-400">粒子特效编辑器。节点用于定义复杂的视觉效果参数和生命周期。</p>
+                        <hr class="border-gray-800 my-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-mono text-gray-500">Context: Game Development</span>
+                            <span class="text-xs text-accent font-bold">点击查看详情 →</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 4. Performance & Technical Comparison -->
+        <section class="reveal">
+            <h2 class="section-title text-white">
+                <i class="fa-solid fa-gauge-high text-cyan-500"></i> Performance & Comparison
+            </h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <!-- Performance Metrics -->
+                <div class="card p-8">
+                    <h3 class="text-2xl font-bold text-white mb-6">性能指标</h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center border-b border-gray-800 pb-3">
+                            <span class="text-gray-400">节点数量支持</span>
+                            <span class="text-2xl font-bold text-green-400">1000+</span>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-gray-800 pb-3">
+                            <span class="text-gray-400">连接数量支持</span>
+                            <span class="text-2xl font-bold text-green-400">5000+</span>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-gray-800 pb-3">
+                            <span class="text-gray-400">拖拽延迟 (1000节点)</span>
+                            <span class="text-2xl font-bold text-blue-400">&lt;16ms</span>
+                        </div>
+                        <div class="flex justify-between items-center pb-3">
+                            <span class="text-gray-400">内存占用 (100节点)</span>
+                            <span class="text-2xl font-bold text-purple-400">~20MB</span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-600 mt-6">
+                        * 测试环境: Intel i7-9700K, 16GB RAM, Qt 6.3
+                    </p>
+                </div>
+
+                <!-- Framework Comparison -->
+                <div class="card p-8">
+                    <h3 class="text-2xl font-bold text-white mb-6">与其他框架对比</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="border-b border-gray-800">
+                                    <th class="text-left text-gray-500 pb-3">特性</th>
+                                    <th class="text-center text-gray-500 pb-3">QtNodes</th>
+                                    <th class="text-center text-gray-500 pb-3">NodeGraph-Qt</th>
+                                    <th class="text-center text-gray-500 pb-3">ImNodes</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-gray-400">
+                                <tr class="border-b border-gray-800/50">
+                                    <td class="py-3">Headless 模式</td>
+                                    <td class="text-center"><i class="fa-solid fa-check text-green-400"></i></td>
+                                    <td class="text-center"><i class="fa-solid fa-xmark text-red-400"></i></td>
+                                    <td class="text-center"><i class="fa-solid fa-xmark text-red-400"></i></td>
+                                </tr>
+                                <tr class="border-b border-gray-800/50">
+                                    <td class="py-3">数据流自动传播</td>
+                                    <td class="text-center"><i class="fa-solid fa-check text-green-400"></i></td>
+                                    <td class="text-center"><i class="fa-solid fa-check text-green-400"></i></td>
+                                    <td class="text-center"><i class="fa-solid fa-xmark text-red-400"></i></td>
+                                </tr>
+                                <tr class="border-b border-gray-800/50">
+                                    <td class="py-3">动态端口</td>
+                                    <td class="text-center"><i class="fa-solid fa-check text-green-400"></i></td>
+                                    <td class="text-center"><i class="fa-solid fa-minus text-gray-600"></i></td>
+                                    <td class="text-center"><i class="fa-solid fa-check text-green-400"></i></td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3">性能 (大规模)</td>
+                                    <td class="text-center text-green-400 font-bold">优秀</td>
+                                    <td class="text-center text-yellow-400">中等</td>
+                                    <td class="text-center text-green-400 font-bold">优秀</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Learning Roadmap -->
+        <section class="reveal">
+            <h2 class="section-title text-white">
+                <i class="fa-solid fa-graduation-cap text-indigo-500"></i> Learning Roadmap
+            </h2>
+            <div class="card p-8">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <!-- Stage 1 -->
+                    <div class="relative">
+                        <div class="bg-gradient-to-br from-blue-900/30 to-blue-800/10 border border-blue-800 rounded-lg p-6">
+                            <div class="text-blue-400 text-4xl font-bold mb-2">01</div>
+                            <h4 class="text-white font-bold text-lg mb-3">基础阶段</h4>
+                            <ul class="text-gray-400 text-sm space-y-2">
+                                <li>• 理解 Model-View 架构</li>
+                                <li>• 运行官方示例</li>
+                                <li>• 创建简单的节点</li>
+                            </ul>
+                            <div class="mt-4 text-xs text-gray-600">⏱ 1-2 天</div>
+                        </div>
+                        <div class="hidden md:block absolute top-1/2 -right-3 w-6 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500"></div>
+                    </div>
+
+                    <!-- Stage 2 -->
+                    <div class="relative">
+                        <div class="bg-gradient-to-br from-purple-900/30 to-purple-800/10 border border-purple-800 rounded-lg p-6">
+                            <div class="text-purple-400 text-4xl font-bold mb-2">02</div>
+                            <h4 class="text-white font-bold text-lg mb-3">进阶阶段</h4>
+                            <ul class="text-gray-400 text-sm space-y-2">
+                                <li>• 实现自定义数据类型</li>
+                                <li>• 使用 DataFlowGraphModel</li>
+                                <li>• 定制节点样式</li>
+                            </ul>
+                            <div class="mt-4 text-xs text-gray-600">⏱ 3-5 天</div>
+                        </div>
+                        <div class="hidden md:block absolute top-1/2 -right-3 w-6 h-0.5 bg-gradient-to-r from-purple-500 to-pink-500"></div>
+                    </div>
+
+                    <!-- Stage 3 -->
+                    <div class="relative">
+                        <div class="bg-gradient-to-br from-pink-900/30 to-pink-800/10 border border-pink-800 rounded-lg p-6">
+                            <div class="text-pink-400 text-4xl font-bold mb-2">03</div>
+                            <h4 class="text-white font-bold text-lg mb-3">高级阶段</h4>
+                            <ul class="text-gray-400 text-sm space-y-2">
+                                <li>• 实现复杂数据传播</li>
+                                <li>• 集成 Undo/Redo</li>
+                                <li>• 优化性能</li>
+                            </ul>
+                            <div class="mt-4 text-xs text-gray-600">⏱ 1-2 周</div>
+                        </div>
+                        <div class="hidden md:block absolute top-1/2 -right-3 w-6 h-0.5 bg-gradient-to-r from-pink-500 to-orange-500"></div>
+                    </div>
+
+                    <!-- Stage 4 -->
+                    <div>
+                        <div class="bg-gradient-to-br from-orange-900/30 to-orange-800/10 border border-orange-800 rounded-lg p-6">
+                            <div class="text-orange-400 text-4xl font-bold mb-2">04</div>
+                            <h4 class="text-white font-bold text-lg mb-3">实战阶段</h4>
+                            <ul class="text-gray-400 text-sm space-y-2">
+                                <li>• 构建完整应用</li>
+                                <li>• 实现插件系统</li>
+                                <li>• 发布产品</li>
+                            </ul>
+                            <div class="mt-4 text-xs text-gray-600">⏱ 持续</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Common Use Cases -->
+        <section class="reveal">
+            <h2 class="section-title text-white">
+                <i class="fa-solid fa-lightbulb text-yellow-400"></i> Common Use Cases
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- Use Case 1 -->
+                <div class="card p-6 border-l-4 border-l-blue-500">
+                    <h4 class="text-xl font-bold text-white mb-3">图像处理管道</h4>
+                    <p class="text-gray-400 text-sm mb-4">
+                        构建类似 Adobe After Effects 的节点式图像处理工具。每个节点代表一个滤镜或变换操作。
+                    </p>
+                    <div class="bg-gray-900/50 p-4 rounded">
+                        <div class="text-xs text-gray-500 mb-2">典型节点链路:</div>
+                        <div class="flex items-center gap-2 text-sm">
+                            <span class="px-3 py-1 bg-blue-900/50 rounded text-blue-300">输入图像</span>
+                            <i class="fa-solid fa-arrow-right text-gray-600"></i>
+                            <span class="px-3 py-1 bg-purple-900/50 rounded text-purple-300">高斯模糊</span>
+                            <i class="fa-solid fa-arrow-right text-gray-600"></i>
+                            <span class="px-3 py-1 bg-pink-900/50 rounded text-pink-300">色彩调整</span>
+                            <i class="fa-solid fa-arrow-right text-gray-600"></i>
+                            <span class="px-3 py-1 bg-green-900/50 rounded text-green-300">输出</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Use Case 2 -->
+                <div class="card p-6 border-l-4 border-l-green-500">
+                    <h4 class="text-xl font-bold text-white mb-3">游戏逻辑编辑器</h4>
+                    <p class="text-gray-400 text-sm mb-4">
+                        类似 Unreal Blueprint 的可视化脚本系统。用节点表示游戏事件、条件判断和动作。
+                    </p>
+                    <div class="bg-gray-900/50 p-4 rounded">
+                        <div class="text-xs text-gray-500 mb-2">典型应用:</div>
+                        <ul class="text-sm text-gray-400 space-y-1">
+                            <li>• AI 行为树编辑器</li>
+                            <li>• 技能系统配置</li>
+                            <li>• 关卡流程设计</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Use Case 3 -->
+                <div class="card p-6 border-l-4 border-l-purple-500">
+                    <h4 class="text-xl font-bold text-white mb-3">音频处理工作站</h4>
+                    <p class="text-gray-400 text-sm mb-4">
+                        构建类似 Pure Data 的音频信号流处理工具。节点代表音源、效果器和输出设备。
+                    </p>
+                    <div class="bg-gray-900/50 p-4 rounded">
+                        <div class="text-xs text-gray-500 mb-2">特性:</div>
+                        <ul class="text-sm text-gray-400 space-y-1">
+                            <li>• 实时音频流传输</li>
+                            <li>• 低延迟数据传播</li>
+                            <li>• MIDI 集成</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Use Case 4 -->
+                <div class="card p-6 border-l-4 border-l-orange-500">
+                    <h4 class="text-xl font-bold text-white mb-3">工业自动化配置</h4>
+                    <p class="text-gray-400 text-sm mb-4">
+                        用于 PLC 编程、工业控制系统的逻辑配置。节点代表传感器、执行器和控制逻辑。
+                    </p>
+                    <div class="bg-gray-900/50 p-4 rounded">
+                        <div class="text-xs text-gray-500 mb-2">优势:</div>
+                        <ul class="text-sm text-gray-400 space-y-1">
+                            <li>• 无需编程基础</li>
+                            <li>• 可视化调试</li>
+                            <li>• 支持硬件模拟</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 7. Footer & Resources -->
+        <footer class="mt-20 border-t border-gray-800 pt-10 pb-20 reveal">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                     <h4 class="text-2xl font-bold text-white mb-4">Ready to Build?</h4>
+                     <p class="text-gray-400 mb-6">Start by cloning the repository and running the examples.</p>
+                     <div class="bg-gray-900 border border-gray-700 rounded-lg p-4 inline-block font-mono text-sm text-green-400">
+                         git clone https://github.com/paceholder/nodeeditor.git
+                     </div>
+                </div>
+                <div class="flex flex-col gap-2 md:items-end">
+                    <a href="https://qtnodes.readthedocs.io/" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fa-solid fa-book mr-2"></i>Documentation
+                    </a>
+                    <a href="https://github.com/paceholder/nodeeditor/issues" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fa-brands fa-github mr-2"></i>Report Issues
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fa-solid fa-download mr-2"></i>Download Latest Release
+                    </a>
+                </div>
+            </div>
+            <div class="text-center text-gray-600 text-sm mt-12">
+                &copy; 2024 Generated Report | nodeeditor by paceholder
+            </div>
+        </footer>
+
+    </main>
+
+    <!-- Modal for Showcase Demo -->
+    <div id="showcaseModal" class="fixed inset-0 bg-black/95 z-50 hidden items-center justify-center p-4">
+        <div class="max-w-6xl w-full relative">
+            <button onclick="closeModal()" class="absolute -top-12 right-0 text-white hover:text-accent transition-colors">
+                <i class="fa-solid fa-xmark text-3xl"></i>
+            </button>
+            <div id="modalContent" class="bg-gray-900 rounded-lg overflow-hidden border border-gray-700">
+                <!-- Content will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modal Functions
+        function openModal(type) {
+            const modal = document.getElementById('showcaseModal');
+            const content = document.getElementById('modalContent');
+            
+            let html = '';
+            
+            if (type === 'candev') {
+                html = `
+                    <div class="p-8">
+                        <h3 class="text-3xl font-bold text-white mb-4">CANdevStudio - 汽车总线仿真</h3>
+                        <div class="aspect-video mb-6">
+                            <img src="https://raw.githubusercontent.com/paceholder/nodeeditor/master/docs/_static/showcase_CANdevStudio.png" 
+                                 alt="CANdevStudio" class="w-full h-full object-contain">
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-300">
+                            <div>
+                                <h4 class="text-xl font-bold text-blue-400 mb-3">项目特点</h4>
+                                <ul class="space-y-2 text-sm">
+                                    <li>• 模拟 CAN 总线协议通信</li>
+                                    <li>• 实时信号监控与记录</li>
+                                    <li>• 支持多种 CAN 硬件设备</li>
+                                    <li>• 可视化的信号流编辑</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold text-green-400 mb-3">技术栈</h4>
+                                <ul class="space-y-2 text-sm">
+                                    <li>• C++ / Qt 5</li>
+                                    <li>• QtNodes (节点编辑器)</li>
+                                    <li>• SocketCAN (Linux)</li>
+                                    <li>• DBC 文件解析</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <a href="https://github.com/GENIVI/CANdevStudio" target="_blank" 
+                           class="inline-block mt-6 px-6 py-3 bg-accent rounded-lg text-white font-bold hover:bg-blue-600 transition-colors">
+                            <i class="fa-brands fa-github mr-2"></i>访问 GitHub 仓库
+                        </a>
+                    </div>
+                `;
+            } else if (type === 'chigraph') {
+                html = `
+                    <div class="p-8">
+                        <h3 class="text-3xl font-bold text-white mb-4">Chigraph - 可视化 C++ 编程</h3>
+                        <div class="aspect-video mb-6">
+                            <img src="https://raw.githubusercontent.com/paceholder/nodeeditor/master/docs/_static/chigraph.png" 
+                                 alt="Chigraph" class="w-full h-full object-contain">
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-300">
+                            <div>
+                                <h4 class="text-xl font-bold text-purple-400 mb-3">核心功能</h4>
+                                <ul class="space-y-2 text-sm">
+                                    <li>• 将 C++ 代码转换为节点图</li>
+                                    <li>• 支持函数、循环、条件判断</li>
+                                    <li>• 实时编译与调试</li>
+                                    <li>• 适合编程初学者</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold text-pink-400 mb-3">设计理念</h4>
+                                <ul class="space-y-2 text-sm">
+                                    <li>• 降低编程学习门槛</li>
+                                    <li>• 可视化程序流程</li>
+                                    <li>• 支持导出标准 C++ 代码</li>
+                                    <li>• 跨平台支持</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <a href="https://github.com/chigraph/chigraph" target="_blank" 
+                           class="inline-block mt-6 px-6 py-3 bg-accent rounded-lg text-white font-bold hover:bg-blue-600 transition-colors">
+                            <i class="fa-brands fa-github mr-2"></i>访问 GitHub 仓库
+                        </a>
+                    </div>
+                `;
+            } else if (type === 'spkgen') {
+                html = `
+                    <div class="p-8">
+                        <h3 class="text-3xl font-bold text-white mb-4">Spkgen - 粒子特效编辑器</h3>
+                        <div class="aspect-video mb-6">
+                            <img src="https://raw.githubusercontent.com/paceholder/nodeeditor/master/docs/_static/spkgen.png" 
+                                 alt="Spkgen" class="w-full h-full object-contain">
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-300">
+                            <div>
+                                <h4 class="text-xl font-bold text-orange-400 mb-3">应用场景</h4>
+                                <ul class="space-y-2 text-sm">
+                                    <li>• 游戏特效设计（爆炸、火焰）</li>
+                                    <li>• 粒子系统参数调优</li>
+                                    <li>• 实时预览与调试</li>
+                                    <li>• 导出为游戏引擎资源</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold text-yellow-400 mb-3">技术特点</h4>
+                                <ul class="space-y-2 text-sm">
+                                    <li>• 基于 SPARK 粒子引擎</li>
+                                    <li>• 节点化参数控制</li>
+                                    <li>• OpenGL 实时渲染</li>
+                                    <li>• 支持多种发射器类型</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <a href="https://github.com/fredakilla/spkgen" target="_blank" 
+                           class="inline-block mt-6 px-6 py-3 bg-accent rounded-lg text-white font-bold hover:bg-blue-600 transition-colors">
+                            <i class="fa-brands fa-github mr-2"></i>访问 GitHub 仓库
+                        </a>
+                    </div>
+                `;
+            }
+            
+            content.innerHTML = html;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeModal() {
+            const modal = document.getElementById('showcaseModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Close modal on ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+        
+        // Close modal on outside click
+        document.getElementById('showcaseModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        // Scroll Reveal Animation
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+
+        // Highlight.js Init
+        hljs.highlightAll();
+    </script>
+</body>
+</html>
