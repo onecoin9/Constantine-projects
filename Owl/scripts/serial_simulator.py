@@ -14,6 +14,7 @@ import threading
 import time
 import sys
 import logging
+import re
 
 # 配置日志
 logging.basicConfig(
@@ -144,29 +145,50 @@ class SerialSimulator:
     
     def _process_buffer(self, buffer):
         """处理接收缓冲区中的数据"""
-        # 转换缓冲区为小写进行匹配
-        buffer_lower = buffer.lower()
+        # 使用正则表达式查找完整指令 <<...>>
+        # re.DOTALL 允许 . 匹配换行符（虽然串口指令一般都在一行）
+        pattern = re.compile(b'<<(.*?)>>', re.DOTALL)
         
-        # 基础命令定义（小写）
-        base_commands = {
-            b'<<start>>': b'<<INITIALOK>>',
-            b'<<next>>': b'<<ERRCODE:00,00,01,00,00,00,00,00>>'
-        }
-        
-        for command, response in base_commands.items():
-            if command in buffer_lower:
-                logger.info(f"串口 {self.port} 收到命令: {command.decode('utf-8', errors='ignore')}")
-                self._send_response(response)
+        while True:
+            match = pattern.search(buffer)
+            if not match:
+                break
                 
-                # 找到原始缓冲区中对应的位置并移除
-                # 先找到小写版本的位置
-                pos = buffer_lower.find(command)
-                if pos != -1:
-                    # 从原始缓冲区中移除对应位置的数据
-                    buffer = buffer[:pos] + buffer[pos + len(command):]
-                    # 同时更新小写版本
-                    buffer_lower = buffer_lower[:pos] + buffer_lower[pos + len(command):]
-        
+            full_command = match.group(0)
+            # 提取括号内的内容并去除前后空白
+            content = match.group(1).strip()
+            content_lower = content.lower()
+            
+            logger.info(f"串口 {self.port} 收到命令: {full_command.decode('utf-8', errors='ignore')}")
+            
+            # 从缓冲区中移除该指令
+            start_pos = match.start()
+            end_pos = match.end()
+            buffer = buffer[:start_pos] + buffer[end_pos:]
+            
+            # 1. 基础 START: <<start>> 或 <<START>>
+            if content_lower == b'start':
+                self._send_response(b'<<INITIALOK>>')
+                
+            # 2. 基础 NEXT: <<next>> 或 <<NEXT>>
+            elif content_lower == b'next':
+                self._send_response(b'<<ERRCODE:00,00,01,00,00,00,00,00>>')
+            
+            # 3. 带参数 START (新增): <<START;...>>
+            # 需求：不需要回复
+            elif content_lower.startswith(b'start;'):
+                logger.info(f"串口 {self.port} 收到带参数START指令，忽略不回复")
+                
+            # 4. DOWNLOAD (新增): << DOWNLOAD:PL名称>>
+            # 需求：等待2-3s 回复 << DOWNLOAD:00,00,00,00,00,00,00,00>>
+            elif content_lower.startswith(b'download:'):
+                logger.info(f"串口 {self.port} 收到DOWNLOAD指令，等待处理...")
+                # 额外延时以满足 2-3s 的要求
+                # _send_response 默认已有 self.response_delay (main中设为1s)
+                # 这里追加 1.5s，总共约 2.5s
+                time.sleep(1.5)
+                self._send_response(b'<< DOWNLOAD:00,00,00,00,00,00,00,00>>')
+                
         return buffer
     
     def _send_response(self, response):
