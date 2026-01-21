@@ -187,7 +187,7 @@ class SerialSimulator:
                 # _send_response 默认已有 self.response_delay (main中设为1s)
                 # 这里追加 1.5s，总共约 2.5s
                 time.sleep(1.5)
-                self._send_response(b'<< DOWNLOAD:00,00,00,00,00,00,00,00>>')
+                self._send_response(b'<< DOWNLOAD:01,00,01,00,01,02,01,01>>')
                 
         return buffer
     
@@ -222,7 +222,7 @@ def main():
     # 询问用户选择模式
     print("\n请选择工作模式:")
     print("1. 同端口模式 - 在接收命令的同一端口发送响应")
-    print("2. 交叉模式 - COM2接收命令，COM4发送响应；COM4接收命令，COM2发送响应")
+    print("2. 交叉模式 - 端口A接收，端口B发送响应（反之亦然）")
     
     while True:
         try:
@@ -238,23 +238,35 @@ def main():
         except KeyboardInterrupt:
             print("\n程序退出")
             return
+            
+    # 用户输入端口号
+    print("\n请输入要使用的端口号:")
+    default_port_a = "COM2"
+    default_port_b = "COM4"
     
+    port_a = input(f"请输入第一个端口号 (默认 {default_port_a}): ").strip() or default_port_a
+    port_b = input(f"请输入第二个端口号 (默认 {default_port_b}): ").strip() or default_port_b
+    
+    # 转换为大写，如 'com2' -> 'COM2'
+    port_a = port_a.upper()
+    port_b = port_b.upper()
+
     # 创建串口模拟器实例
     simulators = []
     
     if mode == "same":
         # 同端口模式
-        print("\n使用同端口模式")
+        print(f"\n使用同端口模式: {port_a} 和 {port_b} 独立工作")
         ports_config = [
-            {'port': 'COM2', 'baudrate': 9600, 'response_delay': response_delay},
-            {'port': 'COM4', 'baudrate': 9600, 'response_delay': response_delay}
+            {'port': port_a, 'baudrate': 9600, 'response_delay': response_delay},
+            {'port': port_b, 'baudrate': 9600, 'response_delay': response_delay}
         ]
     else:
         # 交叉模式
-        print("\n使用交叉模式 - COM2↔COM4")
+        print(f"\n使用交叉模式: {port_a} ↔ {port_b}")
         ports_config = [
-            {'port': 'COM2', 'baudrate': 9600, 'response_delay': response_delay, 'response_port': 'COM4'},
-            {'port': 'COM4', 'baudrate': 9600, 'response_delay': response_delay, 'response_port': 'COM2'}
+            {'port': port_a, 'baudrate': 9600, 'response_delay': response_delay, 'response_port': port_b},
+            {'port': port_b, 'baudrate': 9600, 'response_delay': response_delay, 'response_port': port_a}
         ]
     
     # 启动所有串口模拟器
