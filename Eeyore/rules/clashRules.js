@@ -23,6 +23,9 @@ const EXCLUDED_KEYWORDS = [
 
 // 如果您在此处硬编码了策略组或地区分组（如'US-手动选择'），请务必确保您的订阅中始终包含对应策略或地区。
 const CustomizationRule = [
+    // 示例：设置特定 IP 直连 (将 1.2.3.4 替换为您想要直连的 IP)
+    // "IP-CIDR,1.2.3.4/32,DIRECT,no-resolve",
+
     //"DOMAIN-SUFFIX,jetbrains.ai,US-手动选择",
     //"DOMAIN-SUFFIX,jetbrains.ai,ChatGPT",
     "DOMAIN-SUFFIX,jetbrains.ai,节点选择",
