@@ -35,7 +35,7 @@ class BuildPackager(cmd_base.CMDBase):
         # 必须的字段，如果缺失会抛出异常
         self.local_path = os.path.join(self.base_dir, proj_config['local_path'])
         self.repo_url = proj_config['repo_url']
-        self.repo_branch = proj_config.get('repo_branch', 'master')
+        self.repo_branch = proj_config.get('repo_branch', 'develop')
         self.repo_version = proj_config.get('repo_version', 'HEAD')
         
         # 可选字段
@@ -85,7 +85,12 @@ class BuildPackager(cmd_base.CMDBase):
             subprocess.run(['git', 'clean', '-fd'], cwd=self.local_path,
                           check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             
-            self.log.info("本地仓库清理完成")
+            # 3. 确保切换到正确的分支
+            self.log.info(f"切换到分支: {self.repo_branch}")
+            subprocess.run(['git', 'checkout', self.repo_branch], cwd=self.local_path,
+                          check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            
+            self.log.info("本地仓库清理及分支切换完成")
         except subprocess.CalledProcessError as e:
             self.log.warning(f"本地仓库清理失败: {e}，后续 Git 操作可能会遇到合并冲突")
 
