@@ -49,8 +49,8 @@ class SerialSimulator:
         self.command_responses = {
             b'<<start>>': b'<<INITIALOK>>',
             b'<<START>>': b'<<INITIALOK>>',
-            b'<<next>>': b'<<ERRCODE:00,00,01,00,00,00,00,00>>',
-            b'<<NEXT>>': b'<<ERRCODE:00,00,01,00,00,00,00,00>>'
+            b'<<next>>': b'<<ERRCODE:-1,0,1,2,3,4,5,6>>',
+            b'<<NEXT>>': b'<<ERRCODE:-1,0,1,2,3,4,5,6>>'
         }
     
     def connect(self):
@@ -172,7 +172,7 @@ class SerialSimulator:
                 
             # 2. 基础 NEXT: <<next>> 或 <<NEXT>>
             elif content_lower == b'next':
-                self._send_response(b'<<ERRCODE:00,00,01,00,00,00,00,00>>')
+                self._send_response(b'<<ERRCODE:-1,0,1,2,3,4,5,6>>')
             
             # 3. 带参数 START (新增): <<START;...>>
             # 需求：不需要回复
@@ -215,8 +215,9 @@ def main():
     print("=" * 60)
     print("功能说明:")
     print("1. 收到 <<start>> 或 <<START>> 后回复 <<INITIALOK>>")
-    print("2. 收到 <<next>> 或 <<NEXT>> 后回复 <<ERRCODE:00,00,01,00,00,00,00,00>>")
-    print(f"3. 响应延时: {response_delay} 秒")
+    print("2. 收到 <<next>> 或 <<NEXT>> 后回复 <<ERRCODE:-1,0,1,2,3,4,5,6>>")
+    print("3. 收到 <<DOWNLOAD:...>> 后回复 << DOWNLOAD:01,00,01,00,01,02,01,01>>")
+    print(f"4. 响应延时: {response_delay} 秒")
     print("=" * 60)
     
     # 询问用户选择模式
